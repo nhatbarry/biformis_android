@@ -37,6 +37,25 @@ namespace CaptainPinkTurd.Core.Utilities
             pendingCallbacks = null;
         }
 
+        /// <summary>
+        /// Drops any hit-stop in flight and hands the clock back to the caller.
+        /// </summary>
+        /// <remarks>
+        /// The runner survives scene changes and counts in unscaled time, so a hit-stop started just before a
+        /// level transition keeps running through it and then writes its saved time scale over whatever the
+        /// new scene set - which is how a restart could leave the game running at timeScale 0. Pending
+        /// callbacks are dropped on purpose: they act on objects in the scene that is being torn down.
+        /// </remarks>
+        public static void Abort()
+        {
+            if (runner) runner.StopAllCoroutines();
+
+            running = false;
+            remainingTime = 0f;
+            pendingCallbacks = null;
+            oldTimeScale = 1f;
+        }
+
         public static void Stop(float duration, Action onStopEnd = null)
         {
             EnsureRunner();
@@ -55,7 +74,12 @@ namespace CaptainPinkTurd.Core.Utilities
             if (running) return;
             
             running = true;
-            oldTimeScale = Time.timeScale;
+
+            // Never take a frozen clock as the value to restore. A pause popup, a game over screen or a
+            // synchronized shake may already have zeroed the time scale, and handing that back when the
+            // hit-stop ends leaves the game stopped for good - the player can still turn on the spot,
+            // because Update keeps running, but never moves again, because FixedUpdate does not.
+            oldTimeScale = Time.timeScale > 0f ? Time.timeScale : 1f;
             Time.timeScale = 0.0f;
 
             runner.StartCoroutine(WaitLoop());

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 304e45cd1aaa4c5999577451b76b105f, type: 3}
   m_Name: Player TopDown Movement Stats
   m_EditorClassIdentifier: NewAssembly::CaptainPinkTurd.TopDownController2D.PlayerTopDownMovementStats
-  walkSpeed: 7.5
-  runSpeed: 7.5
+  walkSpeed: 6.5
+  runSpeed: 8.45
   smoothMovement: 0
   smoothTime: 0.08
   canDash: 1

@@ -1,0 +1,20 @@
+{
+    "name": "MobileControlsSystem",
+    "rootNamespace": "CaptainPinkTurd.MobileControls",
+    "references": [
+        "GUID:4379980e305684f4bbea58f0a9e24506",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:30daa924d63bc3644b711b7ea432941d",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:e98deedda116a3b41bd4dc7d9a4907f0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

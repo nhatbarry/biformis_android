@@ -4,6 +4,7 @@ using UnityEngine;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
 using CaptainPinkTurd.Core.Enum;
+using CaptainPinkTurd.Core.InputPaths;
 using CaptainPinkTurd.Core.Interfaces;
 using CaptainPinkTurd.Core.Struct;
 using CaptainPinkTurd.Game.Player;
@@ -35,6 +36,8 @@ namespace CaptainPinkTurd.Game
             base.Awake();
             
             switchDimensionAction = new InputAction(type: InputActionType.Button, binding: "<Keyboard>/j");
+            // Second binding so the mobile HUD's dimension button drives the exact same action as the J key.
+            switchDimensionAction.AddBinding(MobileControlPaths.SwitchDimension);
         }
 
         private void Start()

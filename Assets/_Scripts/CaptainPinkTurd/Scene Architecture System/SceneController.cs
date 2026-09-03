@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
+using CaptainPinkTurd.Core.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -47,7 +48,10 @@ namespace CaptainPinkTurd.Scene
             }
 
             //in case the time scale is currently 0, and the scene needs to transit right away like the pause menu
-            Time.timeScale = 1; 
+            //abort first: a hit-stop still counting down would otherwise outlive the transition and restore
+            //its own saved time scale over this one, freezing the level we are about to load
+            HitStop.Abort();
+            Time.timeScale = 1;
             isBusy = true;
             return StartCoroutine(ChangeSceneRoutine(plan));
         }

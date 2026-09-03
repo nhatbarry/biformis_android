@@ -48,7 +48,14 @@ namespace CaptainPinkTurd.AnimationSystem
             bool playInReverse = false, bool isClamp = false, float speed = 1f)
         {
             if (!gameObject.activeInHierarchy || !gameObject.activeSelf) return;
-            
+
+            // Retire the timer this call is about to replace. Start() registers every timer with the static
+            // TimerManager, so one that is simply overwritten stays in that list ticking forever, and its
+            // OnTimerStop still fires later and cross-fades back to the default animation - fighting whatever
+            // is playing by then. Dispose only deregisters, so no end-callback fires for the interrupted clip.
+            timer?.Dispose();
+
+
             if (playInReverse)
             {
                 var clip = GetAnimationClip(animationHash); // You must implement this

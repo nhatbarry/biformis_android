@@ -26,6 +26,7 @@ namespace CaptainPinkTurd.RPG
         
         private bool isMoving;
         private bool canChangeDirectionState = true;
+        private int playingAnimationHash;
         
         public override int DefaultAnimationHash { get; set; }
 
@@ -41,7 +42,10 @@ namespace CaptainPinkTurd.RPG
         protected override void OnEnable()
         {
             base.OnEnable();
-            
+
+            // The Animator is rebound on enable, so nothing is playing yet whatever we last asked for.
+            playingAnimationHash = 0;
+
             OnMovementInputChangeEvent(currentMovementInput.Value);
         }
 
@@ -77,15 +81,8 @@ namespace CaptainPinkTurd.RPG
             if(!canChangeDirectionState) return;
             
             input = SnapDiagonal(input, directionMode);
-            
-            var directions = directionMode.GetDirections();
-            foreach (var dir in directions)
-            {
-                if (dir.ToVector2() != input) continue;
-                
-                playerCurrentDirectionState = dir;
-                break;
-            }
+
+            UpdateDirectionState(input);
 
             CheckForSpriteFlip();
             if (input == Vector2.zero)
@@ -95,6 +92,36 @@ namespace CaptainPinkTurd.RPG
             else
             {
                 SetPlayerWalkAnimation();
+            }
+        }
+
+        /// <summary>
+        /// Picks the facing that best matches the input.
+        /// </summary>
+        /// <remarks>
+        /// A keyboard hands us exact cardinals like (1, 0), but an analog stick hands us things like
+        /// (0.998, 0.021), which is equal to no direction at all. Comparing for equality therefore left the
+        /// character facing whichever way it happened to be facing last - walk left, then flick the stick
+        /// right, and it walked right while still facing left. Every candidate is a unit vector, so the
+        /// largest dot product is the closest direction, and an exact cardinal still picks itself.
+        /// </remarks>
+        private void UpdateDirectionState(Vector2 input)
+        {
+            if (input == Vector2.zero) return; // no input keeps whatever we were facing, as before
+
+            var directions = directionMode.GetDirections();
+            var bestDot = float.NegativeInfinity;
+
+            foreach (var dir in directions)
+            {
+                var candidate = dir.ToVector2();
+                if (candidate == Vector2.zero) continue;
+
+                var dot = Vector2.Dot(candidate, input);
+                if (dot <= bestDot) continue;
+
+                bestDot = dot;
+                playerCurrentDirectionState = dir;
             }
         }
 
@@ -110,7 +137,7 @@ namespace CaptainPinkTurd.RPG
             if (idleAnimationClips.TryGetValue(playerCurrentDirectionState, out var idleAnim))
             {
                 isMoving = false;
-                PlayAnimation(Animator.StringToHash(idleAnim.name));
+                PlayIfNotAlreadyPlaying(Animator.StringToHash(idleAnim.name));
             }
             else
             {
@@ -122,12 +149,30 @@ namespace CaptainPinkTurd.RPG
             if (walkAnimationClips.TryGetValue(playerCurrentDirectionState, out var walkAnim))
             {
                 isMoving = true;
-                PlayAnimation(Animator.StringToHash(walkAnim.name));
+                PlayIfNotAlreadyPlaying(Animator.StringToHash(walkAnim.name));
             }
             else
             {
                 Debug.LogWarning("Walk animation not found for direction: " + playerCurrentDirectionState);
             }
+        }
+
+        /// <summary>
+        /// Starts an animation only when it is not the one already running.
+        /// </summary>
+        /// <remarks>
+        /// PlayAnimation cross-fades from normalized time 0, so calling it again with the clip that is already
+        /// playing restarts it from the first frame. A keyboard hides this: Move is a Dpad composite, so the
+        /// input value only changes when a key goes down or up, and the animation is re-requested a handful of
+        /// times. An analog stick changes value every single frame it moves, which re-requested the same walk
+        /// clip every frame and pinned the character on frame one - the animation looked like it had been lost.
+        /// </remarks>
+        private void PlayIfNotAlreadyPlaying(int animationHash)
+        {
+            if (animationHash == playingAnimationHash) return;
+
+            playingAnimationHash = animationHash;
+            PlayAnimation(animationHash);
         }
     }
 }

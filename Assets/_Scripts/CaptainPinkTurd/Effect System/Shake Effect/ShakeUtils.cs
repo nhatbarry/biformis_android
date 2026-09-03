@@ -18,7 +18,9 @@ namespace CaptainPinkTurd.EffectSystem.ShakeEffect
         {
             UnityEngine.Random.State originalState = UnityEngine.Random.state;
                 
-            float oldTimeScale = Time.timeScale;
+            // Same rule as HitStop: never save a clock that is already stopped, or the restore below hands
+            // back a frozen game. The shake is driven with SetUpdate(Normal, true) so it runs regardless.
+            float oldTimeScale = Time.timeScale > 0f ? Time.timeScale : 1f;
             Time.timeScale = 0;
 
             foreach (var (shakeObj, index) in shakeObjects.AsValueEnumerable().Select((shakeObj, i) => (shakeObj, i)))
@@ -33,10 +35,12 @@ namespace CaptainPinkTurd.EffectSystem.ShakeEffect
                         shakeProfile.snapping,
                         shakeProfile.fadeOut)
                     .SetUpdate(UpdateType.Normal, true)
-                    .OnComplete(() =>
+                    // OnKill rather than OnComplete: a tween killed early - the object was destroyed, the
+                    // scene unloaded - would never reach OnComplete, and the game would stay frozen forever.
+                    .OnKill(() =>
                     {
                         if (!isLast) return;
-                        
+
                         Time.timeScale = oldTimeScale;
                     });
             }
