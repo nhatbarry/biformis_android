@@ -1,4 +1,5 @@
 using System;
+using CaptainPinkTurd.Core.Enum;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -83,6 +84,25 @@ namespace CaptainPinkTurd.Core.Extensions
                 minVector = otherVectors[i];
             }
             return minVector;
+        }
+
+        public static Vector2 SnapDiagonal(this Vector2 vector2, EDirectionMode mode)
+        {
+            if (vector2.x == 0 || vector2.y == 0) return vector2;
+            
+            vector2 = vector2.With(Mathf.Sign(vector2.x), Mathf.Sign(vector2.y));
+            
+            if (mode != EDirectionMode.FourDirectional) return vector2;
+            
+            if (Random.value < 0.5f)
+            {
+                vector2.x = 0;
+            }
+            else
+            {
+                vector2.y = 0;
+            }
+            return vector2;
         }
     }
 }

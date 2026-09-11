@@ -78,7 +78,7 @@ namespace CaptainPinkTurd.Game.Enemy
             StopAllCoroutines();
 
             var source = damageData.Source;
-            if (source.TryGetComponentInHierarchy(out PlayerUnit playerUnit))
+            if (source.transform.TryGetComponentInHierarchy(out PlayerUnit playerUnit))
             {
                 playerUnit.OnDamageableKill.Raise();
             }

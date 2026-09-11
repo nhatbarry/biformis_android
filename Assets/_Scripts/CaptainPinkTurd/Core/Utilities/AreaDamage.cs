@@ -28,7 +28,7 @@ namespace CaptainPinkTurd.Core.Utilities
         private void OnTriggerEnter(Collider other)
         {
             if (!damageableLayers.Contains(other.gameObject.layer) ||
-                !other.gameObject.TryGetComponentInHierarchy(out IDamageable damageable)) return;
+                !other.TryGetComponentInHierarchy(out IDamageable damageable)) return;
             
             damageables.Add(damageable);
             StartCoroutine(DealDamage());
@@ -37,7 +37,7 @@ namespace CaptainPinkTurd.Core.Utilities
         private void OnTriggerExit(Collider other)
         {
             if (!damageableLayers.Contains(other.gameObject.layer) ||
-                !other.gameObject.TryGetComponentInHierarchy(out IDamageable damageable)) return;
+                !other.TryGetComponentInHierarchy(out IDamageable damageable)) return;
             
             damageables.Remove(damageable);
         }
@@ -45,7 +45,7 @@ namespace CaptainPinkTurd.Core.Utilities
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!damageableLayers.Contains(other.gameObject.layer) ||
-                !other.gameObject.TryGetComponentInHierarchy(out IDamageable damageable)) return;
+                !other.TryGetComponentInHierarchy(out IDamageable damageable)) return;
             
             damageables.Add(damageable);
             StartCoroutine(DealDamage());
@@ -54,7 +54,7 @@ namespace CaptainPinkTurd.Core.Utilities
         private void OnTriggerExit2D(Collider2D other)
         {
             if (!damageableLayers.Contains(other.gameObject.layer) ||
-                !other.gameObject.TryGetComponentInHierarchy(out IDamageable damageable)) return;
+                !other.TryGetComponentInHierarchy(out IDamageable damageable)) return;
             
             damageables.Remove(damageable);
         }

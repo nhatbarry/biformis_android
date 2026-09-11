@@ -53,7 +53,7 @@ namespace CaptainPinkTurd.EffectSystem.ImpactEffect
                     }
                 }
             }
-            else if (hitObject.TryGetComponentInHierarchy(out Renderer rend))
+            else if (hitObject.transform.TryGetComponentInHierarchy(out Renderer rend))
             {
                 Texture activeTexture = GetActiveTextureFromRenderer(rend, triangleIndex);
 

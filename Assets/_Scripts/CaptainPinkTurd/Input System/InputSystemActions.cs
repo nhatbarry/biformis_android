@@ -192,6 +192,15 @@ namespace CaptainPinkTurd.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Time Stop"",
+                    ""type"": ""Button"",
+                    ""id"": ""2df9414c-4797-48d6-b194-ed5096d28384"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -582,6 +591,17 @@ namespace CaptainPinkTurd.Input
                 },
                 {
                     ""name"": """",
+                    ""id"": ""61bc348c-e786-49c6-9ea4-038f8e0c10f7"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b3f66d0b-7751-423f-908b-a11c5bd95930"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -623,6 +643,17 @@ namespace CaptainPinkTurd.Input
                     ""action"": ""Confirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""345a008e-9171-41a8-b26b-c626b8766cb2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Time Stop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -643,7 +674,7 @@ namespace CaptainPinkTurd.Input
                     ""name"": ""Submit"",
                     ""type"": ""Button"",
                     ""id"": ""7607c7b6-cd76-4816-beef-bd0341cfe950"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1070,7 +1101,7 @@ namespace CaptainPinkTurd.Input
                 {
                     ""name"": """",
                     ""id"": ""9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc"",
-                    ""path"": ""*/{Submit}"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse;Gamepad;Touch;Joystick;XR"",
@@ -1447,6 +1478,7 @@ namespace CaptainPinkTurd.Input
             m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
             m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
             m_Player_Confirm = m_Player.FindAction("Confirm", throwIfNotFound: true);
+            m_Player_TimeStop = m_Player.FindAction("Time Stop", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1565,6 +1597,7 @@ namespace CaptainPinkTurd.Input
         private readonly InputAction m_Player_Previous;
         private readonly InputAction m_Player_Next;
         private readonly InputAction m_Player_Confirm;
+        private readonly InputAction m_Player_TimeStop;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -1620,6 +1653,10 @@ namespace CaptainPinkTurd.Input
             /// Provides access to the underlying input action "Player/Confirm".
             /// </summary>
             public InputAction @Confirm => m_Wrapper.m_Player_Confirm;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/TimeStop".
+            /// </summary>
+            public InputAction @TimeStop => m_Wrapper.m_Player_TimeStop;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -1679,6 +1716,9 @@ namespace CaptainPinkTurd.Input
                 @Confirm.started += instance.OnConfirm;
                 @Confirm.performed += instance.OnConfirm;
                 @Confirm.canceled += instance.OnConfirm;
+                @TimeStop.started += instance.OnTimeStop;
+                @TimeStop.performed += instance.OnTimeStop;
+                @TimeStop.canceled += instance.OnTimeStop;
             }
 
             /// <summary>
@@ -1723,6 +1763,9 @@ namespace CaptainPinkTurd.Input
                 @Confirm.started -= instance.OnConfirm;
                 @Confirm.performed -= instance.OnConfirm;
                 @Confirm.canceled -= instance.OnConfirm;
+                @TimeStop.started -= instance.OnTimeStop;
+                @TimeStop.performed -= instance.OnTimeStop;
+                @TimeStop.canceled -= instance.OnTimeStop;
             }
 
             /// <summary>
@@ -2306,6 +2349,13 @@ namespace CaptainPinkTurd.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnConfirm(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "Time Stop" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnTimeStop(InputAction.CallbackContext context);
         }
         /// <summary>
         /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

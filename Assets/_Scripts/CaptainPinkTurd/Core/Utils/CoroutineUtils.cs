@@ -40,8 +40,10 @@ namespace CaptainPinkTurd.Core.Utils
         /// <param name="waitTime">The amount of time (in seconds) to wait.</param>
         /// <param name="onAwaitComplete">The action to call upon completion.</param>
         /// <param name="cancelCondition">Optional cancellation condition. If true, stops the wait early.</param>
+        /// <param name="ignoreTimeScale"></param>
         /// <returns>An IEnumerator to be used in a coroutine.</returns>
-        public static IEnumerator WaitForSeconds(float waitTime, Action onAwaitComplete, Func<bool> cancelCondition = null)
+        public static IEnumerator WaitForSeconds(float waitTime, Action onAwaitComplete, 
+            Func<bool> cancelCondition = null, bool ignoreTimeScale = false)
         {
             float elapsedTime = 0f;
             
@@ -52,7 +54,7 @@ namespace CaptainPinkTurd.Core.Utils
                     yield break;
                 }
         
-                elapsedTime += Time.deltaTime;
+                elapsedTime += ignoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
                 yield return null;
             }
             

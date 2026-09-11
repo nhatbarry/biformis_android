@@ -1,52 +1,66 @@
+using CaptainPinkTurd.Core.DesignPattern.SOAP.Variables;
+using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Core.Interfaces;
+using CaptainPinkTurd.Core.Utilities;
 using CaptainPinkTurd.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace CaptainPinkTurd.Interaction
 {
-    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Ray2DDetector))]
     public class InteractionDetector2D : MonoBehaviour
     {
+        [SerializeField] private Vector2VariableSO playerInput;
+        
+        private Ray2DDetector rayDetector;
         private IInteractable closestInteractable;
-        private InputSystemActions playerInputs;
-        private Collider2D coll;
+        private Vector2 currentFaceDirection = Vector2.down;
 
         private void Awake()
         {
-            playerInputs = new InputSystemActions();
-            
-            coll = GetComponent<Collider2D>();
-            coll.isTrigger = true;
+            rayDetector = GetComponent<Ray2DDetector>();
         }
         private void OnEnable()
         {
-            playerInputs.Enable();
-            playerInputs.Player.Interact.performed += OnInteract;
-        }
-        private void OnDisable()
-        {
-            playerInputs.Player.Interact.performed -= OnInteract;
-            playerInputs.Disable();
-        }
-        private void OnInteract(InputAction.CallbackContext context)
-        {
-            closestInteractable?.Interact();
+            //use started instead of performed to prevent overlapping with DialogueManager when end dialogue 
+            InputManager.Instance.InputSystemActions.Player.Interact.started += OnInteract; 
+            
+            playerInput.OnValueChanged += OnPlayerInput;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnDisable()
         {
-            if(other.TryGetComponent(out IInteractable interactable) && interactable.CanInteract)
-            {
-                closestInteractable = interactable;
-            }
+            playerInput.OnValueChanged -= OnPlayerInput;
+
+            if (!InputManager.HasInstance) return;
+            
+            InputManager.Instance.InputSystemActions.Player.Interact.started -= OnInteract;
         }
-        private void OnTriggerExit2D(Collider2D other)
+
+        private void OnInteract(InputAction.CallbackContext context)
         {
-            if (other.TryGetComponent(out IInteractable interactable) && interactable == closestInteractable)
-            {
-                closestInteractable = null;
-            }
+            if (!CheckForInteractable()) return;
+            
+            closestInteractable?.Interact();
+        }
+        private void OnPlayerInput(Vector2 input)
+        {
+            if (input == Vector2.zero) return;
+            
+            currentFaceDirection = input;
+        }
+        private bool CheckForInteractable()
+        {
+            var hit = rayDetector.GetRaycastHit2D(currentFaceDirection);
+            
+            if (!hit || !hit.transform.TryGetComponentInHierarchy(out IInteractable interactable) 
+                || !interactable.CanInteract) return false;
+            
+            interactable.OnTriggerRangeEnter();
+            closestInteractable = interactable;
+
+            return true;
         }
     }
 }

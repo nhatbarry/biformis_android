@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using CaptainPinkTurd.Core;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
+using CaptainPinkTurd.Core.Utils;
 using CaptainPinkTurd.Input;
 using Ink.Runtime;
 using UnityEngine;
@@ -17,15 +19,17 @@ namespace CaptainPinkTurd.InkDialogue
         [Header("Dialogue Events")]
         [SerializeField] private VoidEvent onDialogueStart;
         [SerializeField] private VoidEvent onDialogueEnd;
-            
-        private InkExternalFunctions inkExternalFunctions;
+        
         private InkDialogueVariables inkDialogueVariables;
         private Story story;
-        private InputSystemActions playerInput;
         private Animator layoutAnimator;
 
         private string currentSpeaker = "Default";
         private int currentChoiceIndex = -1;
+        
+        //very specific guard that prevent when interact input from InteractionDetector2D trigger
+        //the EnterDialogue method first before the interact input over here trigger the Continue method after
+        private bool firstFrameDialogueGuard; 
 
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
@@ -33,6 +37,7 @@ namespace CaptainPinkTurd.InkDialogue
         
         public GameEvent OnDialogueStart { get; private set; } 
         public GameEvent OnDialogueEnd { get; private set; } 
+        public GameEvent<int> OnChoiceChosen { get; private set; } 
         public GameEvent<DialogueInfo> OnDisplayDialogue { get; private set; } 
         
         public bool DialogueIsPlaying { get; private set; }
@@ -44,21 +49,19 @@ namespace CaptainPinkTurd.InkDialogue
             //layoutAnimator = dialoguePanel.GetComponent<Animator>();
             
             story = new Story(inkJson.text);
-            inkExternalFunctions = new InkExternalFunctions();
             inkDialogueVariables = new InkDialogueVariables(story);
             
-            playerInput = new InputSystemActions();
             DialogueIsPlaying = false;
 
             OnDialogueStart = new GameEvent();
             OnDisplayDialogue = new GameEvent<DialogueInfo>();
             OnDialogueEnd = new GameEvent();
+            OnChoiceChosen = new GameEvent<int>();
         }
 
         private void OnEnable()
         {
-            playerInput.Enable();
-            playerInput.Player.Confirm.performed += ContinueOrExitStory;
+            InputManager.Instance.InputSystemActions.Player.Interact.performed += ContinueOrExitStory;
             
             OnDialogueStart.Subscribe(onDialogueStart.Raise);
             OnDialogueEnd.Subscribe(onDialogueEnd.Raise);
@@ -66,23 +69,33 @@ namespace CaptainPinkTurd.InkDialogue
 
         private void OnDisable()
         {
-            playerInput.Disable();
-            playerInput.Player.Confirm.performed -= ContinueOrExitStory;
-            
             OnDialogueStart.Unsubscribe(onDialogueStart.Raise);
             OnDialogueEnd.Unsubscribe(onDialogueEnd.Raise);
+            
+            if (!InputManager.HasInstance) return;
+            InputManager.Instance.InputSystemActions.Player.Interact.performed -= ContinueOrExitStory;
         }
 
-        public void EnterDialogue(string knotName)
+        public void OnGameOverEvent()
         {
-            if (DialogueIsPlaying) return;
-            
+            Story dummyStory = new Story(inkJson.text);
+    
+            foreach (string varName in dummyStory.variablesState)
+            {
+                var defaultValue = dummyStory.variablesState[varName];
+                // Assign this back to your Persistent Unity Global Dictionary
+                story.variablesState[varName] = defaultValue; 
+            }
+        }
+
+        public void EnterDialogue(string knotName, bool resetCallstack = true, params object[] arguments)
+        {
             DialogueIsPlaying = true;
             OnDialogueStart.Raise();
 
             if (!knotName.Equals(""))
             {
-                story.ChoosePathString(knotName);
+                story.ChoosePathString(knotName, resetCallstack, arguments);
             }
             else
             {
@@ -97,9 +110,15 @@ namespace CaptainPinkTurd.InkDialogue
             inkDialogueVariables.SyncVariablesAndStartListening(story);
             
             ContinueOrExitStory(default);
+            
+            firstFrameDialogueGuard = true;
+            StartCoroutine(CoroutineUtils.WaitForNextFrames(() =>
+            {
+                firstFrameDialogueGuard = false;
+            }));
         }
 
-        private void ExitDialogue()
+        public void ExitDialogue()
         {
             DialogueIsPlaying = false;
             inkDialogueVariables.StopListening(story);
@@ -111,6 +130,8 @@ namespace CaptainPinkTurd.InkDialogue
         //follow the same structure as the guy who made this system
         private void ContinueOrExitStory(InputAction.CallbackContext ctx)
         {
+            if (!DialogueIsPlaying || firstFrameDialogueGuard) return;
+            
             if (DialogueIsTyping)
             {
                 OnDisplayDialogue.Raise(new DialogueInfo());
@@ -119,6 +140,7 @@ namespace CaptainPinkTurd.InkDialogue
             
             if (story.currentChoices.Count > 0 && currentChoiceIndex != -1)
             {
+                OnChoiceChosen.Raise(currentChoiceIndex);
                 story.ChooseChoiceIndex(currentChoiceIndex);
                 currentChoiceIndex = -1;
             }
@@ -154,7 +176,19 @@ namespace CaptainPinkTurd.InkDialogue
         }
 
         public void UpdateChoiceIndex(int index) => currentChoiceIndex = index;
-        public void UpdateInkDialogueVariable(string name, Ink.Runtime.Object value) => inkDialogueVariables.UpdateVariableState(name, value);
+        public void UpdateInkDialogueVariable(string name, object value)
+        {
+            Ink.Runtime.Object inkValue = value switch
+            {
+                int i => new IntValue(i),
+                float f => new FloatValue(f),
+                bool b => new BoolValue(b),
+                string s => new StringValue(s),
+                _ => throw new ArgumentException($"Unsupported Ink variable type: {value?.GetType()}")
+            };
+
+            inkDialogueVariables.UpdateVariableToStory(story, name, inkValue);
+        }
         private bool IsLineBlank(string dialogueLine) => dialogueLine.Trim().Equals("") || dialogueLine.Trim().Equals("\n");
         
         private void HandleTags(List<string> tags)
@@ -190,5 +224,23 @@ namespace CaptainPinkTurd.InkDialogue
                 }
             }
         }
+
+        #region External Functions Bind
+
+        //Subscribe these to OnDialogueStart and OnDialogueEnd so it could be used externally as well
+        public void BindFunction(string functionName, Action action)
+        {
+            story.BindExternalFunction(functionName, action);
+        }
+        public void BindFunction<T>(string functionName, Action<T> action)
+        {
+            story.BindExternalFunction(functionName, action);
+        }
+        public void UnbindFunction(string functionName)
+        {
+            story.UnbindExternalFunction(functionName);
+        }
+
+        #endregion
     }
 }

@@ -185,7 +185,7 @@ namespace CaptainPinkTurd.BulletHell
             if (damageSource) return;
             
             damageSource = damageData.Source;
-            if(damageData.Source.TryGetComponentInHierarchy(out IDamageable damageable))
+            if(damageData.Source.transform.TryGetComponentInHierarchy(out IDamageable damageable))
             {
                 var knockbackDir = (damageData.Source.transform.position - transform.position).normalized;
                 damageable.WithKnockback(knockbackDir * knockbackForce, 0);

@@ -188,10 +188,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1987441235}
   - {fileID: 1971228405}
   - {fileID: 900201529}
   - {fileID: 1025353196}
+  - {fileID: 896861832}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &510839909
@@ -421,6 +421,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688484984}
   m_CullTransparentMesh: 1
+--- !u!1 &896861830
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 896861832}
+  - component: {fileID: 896861831}
+  m_Layer: 0
+  m_Name: Input Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &896861831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896861830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca596f90d5ed497696759524ec655f83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: InputSystem::CaptainPinkTurd.Input.InputManager
+--- !u!4 &896861832
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896861830}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 357816807}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &900201528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1440,85 +1484,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 357816807}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1987441233
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1987441235}
-  - component: {fileID: 1987441234}
-  - component: {fileID: 1987441236}
-  m_Layer: 0
-  m_Name: Level Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1987441234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987441233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6ff0ee7d1314e4aa248e16d0c43b020, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: SceneArchitectureSystem::CaptainPinkTurd.Scene.Manager.LevelManager
-  isTutorialLevel: 0
-  isLastTutorialLevel: 0
-  nextTutorialLevel: 0
-  levelData: {fileID: 11400000, guid: f8a9d702de3e91f4da7f1472c2aaadb0, type: 2}
-  onRestart: {fileID: 0}
-  levelTheme: {fileID: 0}
---- !u!4 &1987441235
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987441233}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 357816807}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1987441236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1987441233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb243ffb9c8644f0b92a742bb85ecf5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.DesignPattern.SOAP.Events.VoidEventListener
-  gameEvent: {fileID: 11400000, guid: 4e49de43fae1ac24b99b0b17a68fbdaf, type: 2}
-  response:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1987441234}
-        m_TargetAssemblyTypeName: CaptainPinkTurd.Scene.Manager.LevelManager, SceneArchitectureSystem
-        m_MethodName: NextLevel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &2049209388
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,9 +1528,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59816a59dbfe4bdf8d2ae5e1267ec1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: InkDialogueSystem::CaptainPinkTurd.InkDialogue.AutoDialogueTrigger
-  knotName: choiceKnot
+  knotName: Main
   delay: 0.2
-  triggerOnce: 1
+  triggerOnce: 0
 --- !u!224 &2116455117 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1871278243697937591, guid: 9210de2698e3a3e4fba732727167e51f, type: 3}
@@ -1663,6 +1628,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Choice
       objectReference: {fileID: 0}
+    - target: {fileID: 6119064346613164198, guid: 9210de2698e3a3e4fba732727167e51f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - target: {fileID: 6119064346613164198, guid: 9210de2698e3a3e4fba732727167e51f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

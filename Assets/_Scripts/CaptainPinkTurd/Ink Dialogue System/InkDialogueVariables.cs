@@ -16,7 +16,7 @@ namespace CaptainPinkTurd.InkDialogue
             {
                 var value = story.variablesState.GetVariableWithName(name);
                 variables.Add(name, value);
-                Debug.Log("Initialized global dialogue variable: " + name + " = " + value);
+                //Debug.Log("Initialized global dialogue variable: " + name + " = " + value);
             }
         }
 
@@ -24,21 +24,30 @@ namespace CaptainPinkTurd.InkDialogue
         {
             // it's important that SyncVariablesToStory is before assigning the listener!
             SyncVariablesToStory(story);
-            story.variablesState.variableChangedEvent += UpdateVariableState;
+            story.variablesState.variableChangedEvent += UpdateVariableFromStory;
         }
 
         public void StopListening(Story story)
         {
-            story.variablesState.variableChangedEvent -= UpdateVariableState;
+            story.variablesState.variableChangedEvent -= UpdateVariableFromStory;
         }
 
-        public void UpdateVariableState(string name, Ink.Runtime.Object value)
+        private void UpdateVariableFromStory(string name, Ink.Runtime.Object value)
         {
             // only maintain variables that were initialized from the globals ink file
             if (!variables.ContainsKey(name)) return; 
             
             variables[name] = value;
-            Debug.Log("Updated dialogue variable: " + name + " = " + value);
+            //Debug.Log("Updated dialogue variable: " + name + " = " + value);
+        }
+
+        internal void UpdateVariableToStory(Story story, string name, Ink.Runtime.Object value)
+        {
+            // only maintain variables that were initialized from the globals ink file
+            if (!variables.ContainsKey(name)) return; 
+            
+            variables[name] = value;
+            SyncVariablesToStory(story);
         }
 
         private void SyncVariablesToStory(Story story)

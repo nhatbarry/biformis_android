@@ -5,7 +5,6 @@ using CaptainPinkTurd.UI.LayoutUI;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ZLinq;
 
@@ -21,6 +20,8 @@ namespace CaptainPinkTurd.InkDialogue
         [SerializeField] private LayoutGroupController choiceGroup;
         [SerializeField] private List<GameObject> objectsHiddenWhileTyping;
 
+        private readonly Dictionary<int, DialogueChoiceButton> currentChoiceButtons = new();
+
         private void Awake()
         {
             DialogueFinished();
@@ -33,6 +34,7 @@ namespace CaptainPinkTurd.InkDialogue
                 DialogueManager.Instance.OnDialogueStart.Subscribe(DialogueStarted);
                 DialogueManager.Instance.OnDialogueEnd.Subscribe(DialogueFinished);
                 DialogueManager.Instance.OnDisplayDialogue.Subscribe(DisplayDialogue);
+                DialogueManager.Instance.OnChoiceChosen.Subscribe(SubmitChoiceByIndex);
             }));
         }
 
@@ -43,6 +45,7 @@ namespace CaptainPinkTurd.InkDialogue
             DialogueManager.Instance.OnDialogueStart.Unsubscribe(DialogueStarted);
             DialogueManager.Instance.OnDialogueEnd.Unsubscribe(DialogueFinished);
             DialogueManager.Instance.OnDisplayDialogue.Unsubscribe(DisplayDialogue);
+            DialogueManager.Instance.OnChoiceChosen.Unsubscribe(SubmitChoiceByIndex);
         }
 
         private void DialogueStarted()
@@ -58,6 +61,7 @@ namespace CaptainPinkTurd.InkDialogue
         {
             dialogueText.text = "";
             choiceGroup.RemoveAllLayoutElements();
+            currentChoiceButtons.Clear();
             graphicRaycaster.enabled = true;
         }
         private void DisplayDialogue(DialogueInfo dialogueInfo)
@@ -80,6 +84,7 @@ namespace CaptainPinkTurd.InkDialogue
         private void DisplayChoices(List<Choice> dialogueChoices)
         {
             graphicRaycaster.enabled = false;
+            currentChoiceButtons.Clear();
             
             choiceGroup.AddLayoutElements(dialogueChoices.Count);
             var choiceButtons = choiceGroup.CurrentLayoutElements.AsValueEnumerable().Reverse().ToArray();
@@ -93,14 +98,14 @@ namespace CaptainPinkTurd.InkDialogue
                     
                     choiceButton.Button.onClick.RemoveAllListeners();
                     choiceButton.Button.onClick.AddListener(choiceGroup.RemoveAllLayoutElements);
+                    choiceButton.Button.onClick.AddListener((choiceButton.PlaySubmitSfx));
                     
                     choiceButton.SetChoiceText(choice.text);
                     choiceButton.SetChoiceIndex(choiceIndex);
+                    currentChoiceButtons[choiceIndex] = choiceButton;
 
                     if (choiceIndex == 0)
                     {
-                        //Player/Confirm and UI/Submit may share the Space key; selecting now would let this same keypress
-                        //immediately fire UI/Submit on this button and wipe the choices we just created. Wait a frame so that press expires first.
                         StartCoroutine(CoroutineUtils.WaitForNextFrames(() =>
                         {
                             choiceButton.SelectButton();
@@ -116,6 +121,17 @@ namespace CaptainPinkTurd.InkDialogue
                 index++;
             }
         }
+        private void SubmitChoiceByIndex(int choiceIndex)
+        {
+            if (!currentChoiceButtons.TryGetValue(choiceIndex, out var choiceButton))
+            {
+                Debug.LogError($"No choice button found for index {choiceIndex}.");
+                return;
+            }
+
+            choiceButton.Button.onClick.Invoke();
+        }
+
         private void SetHiddenObjectsActive(bool active)
         {
             foreach (GameObject go in objectsHiddenWhileTyping)

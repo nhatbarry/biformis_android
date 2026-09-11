@@ -4,5 +4,7 @@ namespace CaptainPinkTurd.Core.Interfaces
     {
         bool CanInteract { get; }
         void Interact();
+        void OnTriggerRangeEnter();
+        void OnTriggerRangeExit();
     }
 }

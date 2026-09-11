@@ -101,7 +101,7 @@ namespace CaptainPinkTurd.Game
         }
         private void CheckIfPlayerIsCrushed()
         {
-            if (!player || !player.TryGetComponentInHierarchy(out IDamageable damageable)) return;
+            if (!player || !player.transform.TryGetComponentInHierarchy(out IDamageable damageable)) return;
             
             SoundManager.Instance.CreateSoundBuilder().WithPosition(rb.position).WithRandomPitch().Play(crushSfx);
             damageable.TakeDamage(new SDamageData(damageable.MaxHealth, gameObject));
@@ -120,7 +120,7 @@ namespace CaptainPinkTurd.Game
         {
             base.OnCollisionStay2D(other);
             
-            if (!isMoving || !player || !player.TryGetComponentInHierarchy(out PlayerFreeMovementTopDownController2D playerController)) return;
+            if (!isMoving || !player || !player.transform.TryGetComponentInHierarchy(out PlayerFreeMovementTopDownController2D playerController)) return;
 
             Vector2 pushDir = GetMoveDirection();
             Vector2 dirToPlayer = ((Vector2)player.transform.position - rb.position).normalized;
@@ -135,7 +135,7 @@ namespace CaptainPinkTurd.Game
             base.OnTriggerStay2D(other);
             
             if (crushKillLayers.Contains(other.gameObject.layer) && 
-                other.gameObject.TryGetComponentInHierarchy(out IDamageable damageable) &&
+                other.gameObject.transform.TryGetComponentInHierarchy(out IDamageable damageable) &&
                 isMoving)
             {
                 SoundManager.Instance.CreateSoundBuilder().WithPosition(rb.position).WithRandomPitch().Play(crushSfx);

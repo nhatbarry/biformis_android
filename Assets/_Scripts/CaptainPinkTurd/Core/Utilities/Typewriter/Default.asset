@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.TypewriterAudioInfo
   speaker: Default
   typingSoundClips:
-  - {fileID: 8300000, guid: c0e6c2d604046dc4e9c3adf90bbcb4b1, type: 3}
+  - {fileID: 8300000, guid: a514d42bbc83b2c4db22d345dd9b106e, type: 3}
   minPitch: 1
   maxPitch: 1
   stopAudioSource: 1

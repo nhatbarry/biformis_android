@@ -13,7 +13,7 @@ namespace CaptainPinkTurd.TopDownControllerSystem.Modifier
             switch (target)
             {
                 case GameObject targetGo:
-                    if (targetGo.TryGetComponentInHierarchy(out PlayerFreeMovementTopDownController2D topdownController))
+                    if (targetGo.transform.TryGetComponentInHierarchy(out PlayerFreeMovementTopDownController2D topdownController))
                     {
                         Modify(topdownController);
                     }

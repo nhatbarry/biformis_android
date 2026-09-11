@@ -358,7 +358,7 @@ namespace BulletHell
                     {
                         // Put whatever hit code you want here such as damage events
                         bool damageableHit = false;
-                        if (hit && hit.collider.gameObject.TryGetComponentInHierarchy(out IDamageable damageable))
+                        if (hit && hit.collider.gameObject.transform.TryGetComponentInHierarchy(out IDamageable damageable))
                         {
                             damageableHit = true;
                             damageable.TakeDamage(new SDamageData(Damage, gameObject));

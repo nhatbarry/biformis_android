@@ -113,7 +113,7 @@ namespace CaptainPinkTurd.Game.Player
                     ObjectPoolManager.PoolType.VFX);
 
                 var source = damageData.Source;
-                if (source.TryGetComponentInHierarchy(out EnemyUnitBase enemyUnit))
+                if (source.transform.TryGetComponentInHierarchy(out EnemyUnitBase enemyUnit))
                 {
                     enemyUnit.OnDamageableKill.Raise();
                 }
@@ -130,7 +130,7 @@ namespace CaptainPinkTurd.Game.Player
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!enemyLayers.Contains(other.gameObject.layer)) return;
-            if (!other.gameObject.TryGetComponentInHierarchy(out IDamageable enemyDamageable)) return;
+            if (!other.gameObject.transform.TryGetComponentInHierarchy(out IDamageable enemyDamageable)) return;
             
             enemyDamageable.TakeDamage(new SDamageData(1, gameObject));
         }

@@ -93,11 +93,11 @@ namespace CaptainPinkTurd.Core.Utilities
                         visibleCharIndex++;
                         textUI.maxVisibleCharacters = visibleCharIndex;
 
-                        yield return new WaitForSeconds(currentSpeed);
+                        yield return new WaitForSecondsRealtime(currentSpeed);
                         break;
 
                     case TypewriterTokenType.Pause:
-                        yield return new WaitForSeconds(token.value);
+                        yield return new WaitForSecondsRealtime(token.value);
                         break;
 
                     case TypewriterTokenType.Speed:
