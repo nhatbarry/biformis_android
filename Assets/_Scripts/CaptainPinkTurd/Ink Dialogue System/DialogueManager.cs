@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CaptainPinkTurd.Core;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
+using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.Core.Utils;
 using CaptainPinkTurd.Input;
 using Ink.Runtime;
@@ -15,7 +16,9 @@ namespace CaptainPinkTurd.InkDialogue
     {
         [Header("Ink Story")]
         [SerializeField] private TextAsset inkJson;
-        
+        [Tooltip("Optional English build of the same story (same knots and variables). Used when the language is English.")]
+        [SerializeField] private TextAsset inkJsonEnglish;
+
         [Header("Dialogue Events")]
         [SerializeField] private VoidEvent onDialogueStart;
         [SerializeField] private VoidEvent onDialogueEnd;
@@ -24,7 +27,9 @@ namespace CaptainPinkTurd.InkDialogue
         private Story story;
         private Animator layoutAnimator;
 
-        private string currentSpeaker = "Default";
+        public const string DEFAULT_SPEAKER = "Default";
+
+        private string currentSpeaker = DEFAULT_SPEAKER;
         private int currentChoiceIndex = -1;
         
         //very specific guard that prevent when interact input from InteractionDetector2D trigger
@@ -38,17 +43,22 @@ namespace CaptainPinkTurd.InkDialogue
         public GameEvent OnDialogueStart { get; private set; } 
         public GameEvent OnDialogueEnd { get; private set; } 
         public GameEvent<int> OnChoiceChosen { get; private set; } 
-        public GameEvent<DialogueInfo> OnDisplayDialogue { get; private set; } 
-        
+        public GameEvent<DialogueInfo> OnDisplayDialogue { get; private set; }
+        //raised with the raw text of every tag this manager doesn't handle itself (e.g. "bg:white"), for cutscene staging
+        public GameEvent<string> OnStageTag { get; private set; }
+
         public bool DialogueIsPlaying { get; private set; }
         public bool DialogueIsTyping { get; internal set; }
+
+        private TextAsset ActiveInkJson =>
+            Localization.CurrentLanguage == ELanguage.English && inkJsonEnglish ? inkJsonEnglish : inkJson;
 
         protected override void Awake()
         {
             base.Awake();
             //layoutAnimator = dialoguePanel.GetComponent<Animator>();
-            
-            story = new Story(inkJson.text);
+
+            story = new Story(ActiveInkJson.text);
             inkDialogueVariables = new InkDialogueVariables(story);
             
             DialogueIsPlaying = false;
@@ -57,6 +67,7 @@ namespace CaptainPinkTurd.InkDialogue
             OnDisplayDialogue = new GameEvent<DialogueInfo>();
             OnDialogueEnd = new GameEvent();
             OnChoiceChosen = new GameEvent<int>();
+            OnStageTag = new GameEvent<string>();
         }
 
         private void OnEnable()
@@ -78,7 +89,7 @@ namespace CaptainPinkTurd.InkDialogue
 
         public void OnGameOverEvent()
         {
-            Story dummyStory = new Story(inkJson.text);
+            Story dummyStory = new Story(ActiveInkJson.text);
     
             foreach (string varName in dummyStory.variablesState)
             {
@@ -103,7 +114,7 @@ namespace CaptainPinkTurd.InkDialogue
             }
             
             //reset portrait, layout and speaker
-            currentSpeaker = "Default";
+            currentSpeaker = DEFAULT_SPEAKER;
             //layoutAnimator.Play("left");
             
             //start listening for variables
@@ -125,7 +136,12 @@ namespace CaptainPinkTurd.InkDialogue
             story.ResetState();
             OnDialogueEnd.Raise();
         }
-        
+
+        /// <summary>
+        /// Advances the dialogue exactly like the Interact input does. Used by tap-to-continue on touch screens.
+        /// </summary>
+        public void RequestContinue() => ContinueOrExitStory(default);
+
         //if race condition ever happens to input in the future, then you should implement an input events and context to your input assembly and
         //follow the same structure as the guy who made this system
         private void ContinueOrExitStory(InputAction.CallbackContext ctx)
@@ -148,18 +164,22 @@ namespace CaptainPinkTurd.InkDialogue
             if(story.canContinue)
             {
                 string dialogueLine = story.Continue(); //calling continue first is important in here if you want to get the correct execution order
+                //blank lines can still carry tags (e.g. a staging tag on its own line), so keep them instead of dropping them with the line
+                var tags = new List<string>(story.currentTags);
 
                 while (IsLineBlank(dialogueLine) && story.canContinue)
                 {
                     dialogueLine = story.Continue();
+                    tags.AddRange(story.currentTags);
                 }
                 if (IsLineBlank(dialogueLine) && !story.canContinue)
                 {
+                    HandleTags(tags);
                     ExitDialogue();
                 }
                 else
                 {
-                    HandleTags(story.currentTags);
+                    HandleTags(tags);
                     DialogueIsTyping = true;
                     OnDisplayDialogue.Raise(new DialogueInfo()
                     {
@@ -198,9 +218,11 @@ namespace CaptainPinkTurd.InkDialogue
             {
                 // parse the tag
                 string[] splitTag = tag.Split(':');
-                if (splitTag.Length != 2) 
+                if (splitTag.Length != 2)
                 {
-                    Debug.LogError("Tag could not be appropriately parsed: " + tag);
+                    //not a key:value tag, so it can only be meant for whoever stages the scene
+                    OnStageTag.Raise(tag.Trim());
+                    continue;
                 }
                 string tagKey = splitTag[0].Trim();
                 string tagValue = splitTag[1].Trim();
@@ -209,17 +231,16 @@ namespace CaptainPinkTurd.InkDialogue
                 switch (tagKey) 
                 {
                     case SPEAKER_TAG:
-                        currentSpeaker = tagValue;
-                        //displayNameText.text = tagValue;
+                        currentSpeaker = tagValue; //display name is resolved by DialoguePanelUI
                         break;
                     case PORTRAIT_TAG:
                         //portraitAnimator.Play(tagValue);
                         break;
                     case LAYOUT_TAG:
-                        layoutAnimator.Play(tagValue);
+                        if (layoutAnimator) layoutAnimator.Play(tagValue);
                         break;
                     default:
-                        Debug.LogWarning("Tag came in but is not currently being handled: " + tag);
+                        OnStageTag.Raise(tag.Trim());
                         break;
                 }
             }

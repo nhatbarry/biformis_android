@@ -43,7 +43,9 @@ namespace CaptainPinkTurd.SpawnSystem.Wave
         {
             //guard against the despawn event re-entering during scene unload/teardown,
             //when this GameObject is already inactive and StartCoroutine would throw
-            if (!gameObject) return;
+            //activeInHierarchy, not isActiveAndEnabled: while a scene is torn down the latter can still read true
+            //for a behaviour whose OnDisable hasn't run yet, though its hierarchy is already inactive
+            if (!enabled || !gameObject.activeInHierarchy) return;
 
             int numberToSpawn = Random.Range(minSpawnNumber, maxSpawnNumber + 1);
             StartCoroutine(proceduralSpawner.SpawnObjects(numberToSpawn));

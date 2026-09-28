@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using CaptainPinkTurd.Core.CustomDataStructure;
+using CaptainPinkTurd.Core.Extensions;
+using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.Core.Utilities;
 using CaptainPinkTurd.Core.Utils;
 using CaptainPinkTurd.UI.LayoutUI;
@@ -19,6 +22,19 @@ namespace CaptainPinkTurd.InkDialogue
         [SerializeField] private GraphicRaycaster graphicRaycaster;
         [SerializeField] private LayoutGroupController choiceGroup;
         [SerializeField] private List<GameObject> objectsHiddenWhileTyping;
+
+        [Header("Speaker Name")]
+        [Tooltip("Shows the name of whoever is speaking; its GameObject is hidden when there is no name to show. " +
+                 "Names come from the localization table key \"speaker.<#speaker tag value>\"; speakers without a key " +
+                 "show the tag value as-is, and an empty entry hides the name.")]
+        [SerializeField] private TMP_Text speakerNameText;
+
+        [Header("Speaker Portrait")]
+        [Tooltip("Hidden when the current speaker has no portrait")]
+        [SerializeField] private GameObject portraitFrame;
+        [SerializeField] private Image portraitImage;
+        [Tooltip("Key = the #speaker tag value in ink")]
+        [SerializeField] private SerializeKeyValuePair<string, Sprite>[] speakerPortraits;
 
         private readonly Dictionary<int, DialogueChoiceButton> currentChoiceButtons = new();
 
@@ -60,6 +76,7 @@ namespace CaptainPinkTurd.InkDialogue
         private void ResetPanel()
         {
             dialogueText.text = "";
+            SetSpeakerName(DialogueManager.DEFAULT_SPEAKER);
             choiceGroup.RemoveAllLayoutElements();
             currentChoiceButtons.Clear();
             graphicRaycaster.enabled = true;
@@ -73,6 +90,7 @@ namespace CaptainPinkTurd.InkDialogue
             }
 
             SetHiddenObjectsActive(false);
+            SetSpeakerName(dialogueInfo.speaker);
             typewriterText.StartTyping(dialogueInfo.speaker, dialogueInfo.line, dialogueText.alignment, () =>
             {
                 DialogueManager.Instance.DialogueIsTyping = false;
@@ -130,6 +148,29 @@ namespace CaptainPinkTurd.InkDialogue
             }
 
             choiceButton.Button.onClick.Invoke();
+        }
+
+        private void SetSpeakerName(string speaker)
+        {
+            bool noSpeaker = string.IsNullOrEmpty(speaker) || speaker == DialogueManager.DEFAULT_SPEAKER;
+
+            if (speakerNameText)
+            {
+                string displayName = noSpeaker ? "" :
+                    Localization.TryGet("speaker." + speaker, out var localizedName) ? localizedName : speaker;
+
+                speakerNameText.text = displayName;
+                speakerNameText.gameObject.SetActive(!string.IsNullOrEmpty(displayName));
+            }
+
+            if (portraitFrame)
+            {
+                Sprite portrait = null;
+                bool hasPortrait = !noSpeaker && speakerPortraits != null && speakerPortraits.TryGetValue(speaker, out portrait) && portrait;
+
+                portraitFrame.SetActive(hasPortrait);
+                if (hasPortrait && portraitImage) portraitImage.sprite = portrait;
+            }
         }
 
         private void SetHiddenObjectsActive(bool active)

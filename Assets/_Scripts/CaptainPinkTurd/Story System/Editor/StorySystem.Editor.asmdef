@@ -1,0 +1,18 @@
+{
+    "name": "StorySystem.Editor",
+    "rootNamespace": "CaptainPinkTurd.Story.Editor",
+    "references": [
+        "GUID:074b879a37c5d2a418cd677cc2231fd1"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

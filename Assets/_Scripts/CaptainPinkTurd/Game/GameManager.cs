@@ -101,10 +101,30 @@ namespace CaptainPinkTurd.Game
         private PlayerUnit playerUnit;
         private int playerCurrentHealth;
         private bool isLightDimension;
+        private bool isDimensionLocked;
+
+        public bool IsDimensionLocked => isDimensionLocked;
+
         private void DimensionSwitch(InputAction.CallbackContext obj)
         {
+            if (isDimensionLocked) return;
+
             currentDimension = currentDimension == EColor.Red ? EColor.Blue : EColor.Red;
             onDimensionChange.Raise(currentDimension);
+        }
+
+        /// <summary>
+        /// Forces the player into one dimension and ignores the switch input until UnlockDimension is called.
+        /// </summary>
+        public void LockDimension(EColor dimension)
+        {
+            isDimensionLocked = true;
+            currentDimension = dimension;
+            onDimensionChange.Raise(currentDimension);
+        }
+        public void UnlockDimension()
+        {
+            isDimensionLocked = false;
         }
 
         public void OnLevelSceneLoaded()

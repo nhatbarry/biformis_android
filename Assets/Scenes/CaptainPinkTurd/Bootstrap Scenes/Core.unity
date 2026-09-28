@@ -1312,6 +1312,7 @@ GameObject:
   - component: {fileID: 1364917746}
   - component: {fileID: 1364917748}
   - component: {fileID: 1364917747}
+  - component: {fileID: 1364917749}
   m_Layer: 5
   m_Name: Loading Text
   m_TagString: Untagged
@@ -1363,10 +1364,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Loading...
+  m_text: "\u0110ang t\u1EA3i..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b4070f2ede1e594408265b7024ec7ffd, type: 2}
-  m_sharedMaterial: {fileID: -6150652234458351597, guid: b4070f2ede1e594408265b7024ec7ffd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1443,6 +1444,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364917745}
   m_CullTransparentMesh: 1
+--- !u!114 &1364917749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364917745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b4378bdce1b2e4298e3b7ac3c63840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.Localization.LocalizedText
+  key: loading
+  touchKey: 
 --- !u!1 &1365002799
 GameObject:
   m_ObjectHideFlags: 0

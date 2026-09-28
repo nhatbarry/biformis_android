@@ -16,6 +16,8 @@ namespace CaptainPinkTurd.Game.Enemy
         [SerializeField] private float speed = 5;
         [SerializeField] private bool rotateAlongPath;
         [SerializeField][ReadOnly] private float distanceTravelled;
+        [Tooltip("Optional: follow this path. When empty, a random path in the scene is picked")]
+        [SerializeField] private PathCreator assignedPath;
         
         [Header("Spider Animation Clips")]
         [SerializeField] private SerializeKeyValuePair<EColor, AnimationClip>[] idleAnimationClips;
@@ -86,16 +88,23 @@ namespace CaptainPinkTurd.Game.Enemy
         }
         private void InitializePath()
         {
-            var paths = FindObjectsByType<PathCreator>(FindObjectsSortMode.None);
-            
-            if(paths.Length <= 0)
+            if (assignedPath)
             {
-                Debug.LogError("No path found in scene");
-                return;
+                pathCreator = assignedPath;
             }
-            
-            int randomPathIndex = Random.Range(0, paths.Length);
-            pathCreator = paths[randomPathIndex];
+            else
+            {
+                var paths = FindObjectsByType<PathCreator>(FindObjectsSortMode.None);
+                
+                if(paths.Length <= 0)
+                {
+                    Debug.LogError("No path found in scene");
+                    return;
+                }
+                
+                int randomPathIndex = Random.Range(0, paths.Length);
+                pathCreator = paths[randomPathIndex];
+            }
             
             if (pathCreator.bezierPath.IsClosed)
             {

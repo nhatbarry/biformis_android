@@ -17,6 +17,9 @@ namespace CaptainPinkTurd.Scene
         private Dictionary<string, string> loadedSceneBySlot = new();
         private bool isBusy = false;
 
+        //a busy controller ignores new transitions, so anything starting one right after another should wait on this
+        public bool IsBusy => isBusy;
+
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;

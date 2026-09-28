@@ -1,0 +1,67 @@
+# key	vi	en
+# --- Menu ---		
+menu.story	Cốt truyện	Story
+menu.endless	Vô tận	Endless
+menu.settings	Cài đặt	Settings
+menu.credits	Nhóm làm game	Credits
+menu.exit	Thoát	Exit
+menu.continue	Tiếp tục	Continue
+menu.new_story	Chơi mới	New game
+menu.back	Quay lại	Back
+menu.language	Tiếng Việt	English
+menu.level_select	Chọn màn (test)	Level select (test)
+settings.title	Cài đặt	Settings
+settings.master	Âm lượng chung	Master
+settings.music	Nhạc nền	Music
+settings.sfx	Hiệu ứng	Sound FX
+credits.title	Nhóm làm game	Credits
+# --- Popups & loading ---		
+popup.pause	Tạm dừng	Paused
+popup.game_over	Thất bại	Game Over
+popup.score	Điểm:	Score:
+popup.highscore	Kỷ lục:	Highscore:
+loading	Đang tải...	Loading...
+cutscene.skip	Bỏ qua	Skip
+# --- Dialogue speakers (empty = no name shown) ---		
+speaker.A	A	A
+speaker.B	B	B
+speaker.Villain	Phản diện	The Villain
+speaker.Teen	Thiếu niên	Teenager
+speaker.Mom	Mẹ	Mother
+speaker.Doctor	Bác sĩ	Doctor
+speaker.Box	Chiếc hộp đen	Black box
+speaker.System		
+speaker.Narrator		
+# --- Story level titles ---		
+level.1	Màn 1 · Chạy trốn	Level 1 · Escape
+level.2	Màn 2 · Kiệt sức	Level 2 · Exhausted
+level.3	Màn 3 · Giấc mơ	Level 3 · The Dream
+level.4	Màn 4 · Chỉ có A	Level 4 · Only A
+level.corridor	Hành lang	The Corridor
+level.5	Màn 5 · Sụp đổ	Level 5 · Collapse
+level.4.subtitle	A đang xâm nhập vào tâm trí B. Không thể đổi màu.	A is breaking into B's mind. You can't switch colours.
+level.5.subtitle	Thoát ra trước khi mọi thứ sụp đổ!	Get out before everything collapses!
+level.5.timer	Sụp đổ sau	Collapse in
+# --- Level 1 hints (touch = shown on phones instead) ---		
+hint.move	WASD / phím mũi tên: di chuyển	WASD / arrow keys: move
+hint.move.touch	Kéo ở nửa trái màn hình để di chuyển	Drag on the left half of the screen to move
+hint.sprint	Giữ SHIFT: chạy nhanh · Nhấn SHIFT: lướt	Hold SHIFT: sprint · Tap SHIFT: dash
+hint.sprint.touch	Giữ nút chạy: chạy nhanh · Chạm: lướt	Hold the run button: sprint · Tap: dash
+hint.switch	J: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	J: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
+hint.switch.touch	Nút đổi màu: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	Colour button: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
+hint.attack	Lao vào kẻ địch để phá huỷ chúng	Ram into enemies to destroy them
+hint.door	Hạ hết kẻ địch để mở cửa · Đi lên để vào cửa	Destroy every enemy to open the door · Walk up to go through
+# --- Ending ---		
+ending.the_end	HẾT	THE END
+# --- Story steps (level select; index = position in Story Data) ---		
+step.0	Mở đầu	Opening
+step.1	Màn 1	Level 1
+step.2	Màn 2	Level 2
+step.3	Phòng trắng	White room
+step.4	Màn 3	Level 3
+step.5	Sau Màn 3	After Level 3
+step.6	Màn 4	Level 4
+step.7	Quá khứ	The past
+step.8	Hành lang	The corridor
+step.9	Màn 5	Level 5
+step.10	Kết thúc	Ending

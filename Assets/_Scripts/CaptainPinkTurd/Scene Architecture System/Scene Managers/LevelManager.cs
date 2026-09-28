@@ -2,7 +2,10 @@ using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.Attributes;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
 using CaptainPinkTurd.Core.Enum;
+using CaptainPinkTurd.Scene.Story;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -24,6 +27,19 @@ namespace CaptainPinkTurd.Scene.Manager
         
         [SerializeField] private AudioClip levelTheme;
 
+        [Header("Story Mode")]
+        [Tooltip("Story levels advance to the next story step instead of a random level, and restart themselves on death")]
+        [SerializeField] private bool isStoryLevel;
+        [ShowIf(nameof(isStoryLevel))]
+        [SerializeField] private StoryData storyData;
+        [ShowIf(nameof(isStoryLevel))]
+        [Tooltip("Invoked when the exit is reached, before the next story step loads (e.g. a fade-out)")]
+        [SerializeField] private UnityEvent onStoryLevelComplete;
+        [ShowIf(nameof(isStoryLevel))]
+        [SerializeField] private float storyLevelCompleteDelay;
+
+        private bool isLeavingStoryLevel;
+
         private void Start()
         {
             MusicManager.Instance.Play(levelTheme, loop: true);
@@ -31,6 +47,16 @@ namespace CaptainPinkTurd.Scene.Manager
 
         public void NextLevel()
         {
+            if (isStoryLevel)
+            {
+                if (isLeavingStoryLevel) return;
+                isLeavingStoryLevel = true;
+
+                onStoryLevelComplete?.Invoke();
+                StartCoroutine(AdvanceStoryAfterDelay());
+                return;
+            }
+            
             if (isTutorialLevel && !levelData.hasDoneTutorial)
             {
                 if (isLastTutorialLevel)
@@ -61,6 +87,12 @@ namespace CaptainPinkTurd.Scene.Manager
         {
             onRestart.Raise();
 
+            if (isStoryLevel)
+            {
+                StoryFlow.ReloadCurrent(storyData);
+                return;
+            }
+
             if (isTutorialLevel)
             {
                 SceneController.Instance
@@ -83,6 +115,7 @@ namespace CaptainPinkTurd.Scene.Manager
         public void EndSession()
         {
             onRestart.Raise(); //putting this here cause the GameManager carry the player Unit hp 
+            StoryFlow.Stop();
             
             SceneController.Instance
                 .NewTransition()
@@ -92,6 +125,13 @@ namespace CaptainPinkTurd.Scene.Manager
                 .WithClearUnusedAssets()
                 .WithOverlay()
                 .Perform();
+        }
+
+        private IEnumerator AdvanceStoryAfterDelay()
+        {
+            //realtime: a hit-stop or popup may have the clock at 0 when the exit is reached
+            if (storyLevelCompleteDelay > 0f) yield return new WaitForSecondsRealtime(storyLevelCompleteDelay);
+            StoryFlow.Advance(storyData);
         }
     }
 }

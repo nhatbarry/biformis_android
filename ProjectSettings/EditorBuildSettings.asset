@@ -50,6 +50,30 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CaptainPinkTurd/Levels/Level Test 2.unity
     guid: b64b657e44ab107498501388f43cb1fc
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Story Cutscene.unity
+    guid: 3606d77b9eefedb42a7564493c6689ff
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 1.unity
+    guid: 5d95fab2b3dc8c7458d5897a8c9af140
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 2.unity
+    guid: a67716031c233d54ab148fb451b15ca9
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 3.unity
+    guid: 14b6c8748fb239840b269ff4b7b0c2cf
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 4.unity
+    guid: 8eb84e491f4e1a449863177f3f86382a
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story Corridor.unity
+    guid: 778948fcb19abfb4fa63952ea36766bb
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 5.unity
+    guid: 73b4b66abd8a4c3459711c92f2242308
+  - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Story Ending.unity
+    guid: 84097c24a2b8d5843aecf31ab0bfba97
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,0 +1,30 @@
+{
+    "name": "StorySystem",
+    "rootNamespace": "CaptainPinkTurd.Story",
+    "references": [
+        "GUID:4379980e305684f4bbea58f0a9e24506",
+        "GUID:2cd58449b9c64364cb9d02d6903e3c38",
+        "GUID:58bed0e7c5306824586d7eda03609289",
+        "GUID:30daa924d63bc3644b711b7ea432941d",
+        "GUID:43aa4c0ecf728254aa645ccc48be9e8f",
+        "GUID:68095ea3c6785fb4b8d30267c6aa893e",
+        "GUID:4e3d7ae76ace4464d8eea86502360e7f",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:beed3953cc12c494ea6788c179cd1875",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:cd2c26228baaf6a4090a2ca00964e501",
+        "GUID:72fc3dc73c8e49f4793a58fadc644119",
+        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

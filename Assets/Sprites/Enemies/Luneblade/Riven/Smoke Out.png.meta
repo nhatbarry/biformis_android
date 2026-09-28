@@ -1,0 +1,548 @@
+fileFormatVersion: 2
+guid: 6bb259dd59a593e47bd7f3468535d0b4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3516319277517845600
+    second: Smoke Out_0
+  - first:
+      213: -3139408030904017858
+    second: Smoke Out_1
+  - first:
+      213: -7654462810777654015
+    second: Smoke Out_2
+  - first:
+      213: 8102036595847455990
+    second: Smoke Out_3
+  - first:
+      213: 7140622048088409861
+    second: Smoke Out_4
+  - first:
+      213: 7677486697329136308
+    second: Smoke Out_5
+  - first:
+      213: 3797191782744132809
+    second: Smoke Out_6
+  - first:
+      213: 198175364693214117
+    second: Smoke Out_7
+  - first:
+      213: 819943744000998976
+    second: Smoke Out_8
+  - first:
+      213: 4089255676141361488
+    second: Smoke Out_9
+  - first:
+      213: 6816134339214909087
+    second: Smoke Out_10
+  - first:
+      213: 3905160682809648472
+    second: Smoke Out_11
+  - first:
+      213: -7933310354862506382
+    second: Smoke Out_12
+  - first:
+      213: -4482890645619229678
+    second: Smoke Out_13
+  - first:
+      213: -2453257526121140206
+    second: Smoke Out_14
+  - first:
+      213: 5181183148420865344
+    second: Smoke Out_15
+  - first:
+      213: 1185843522754470208
+    second: Smoke Out_16
+  - first:
+      213: 7477476610178049338
+    second: Smoke Out_17
+  - first:
+      213: 8359474448552237520
+    second: Smoke Out_18
+  - first:
+      213: -1009965309531366911
+    second: Smoke Out_19
+  - first:
+      213: -7942068148947147845
+    second: Riven_SmokeOut_0
+  - first:
+      213: 183884014083138510
+    second: Riven_SmokeOut_1
+  - first:
+      213: 2853111156713060331
+    second: Riven_SmokeOut_2
+  - first:
+      213: -2581893147194777120
+    second: Riven_SmokeOut_3
+  - first:
+      213: 8965837334554563453
+    second: Riven_SmokeOut_4
+  - first:
+      213: -8297936833847380944
+    second: Riven_SmokeOut_5
+  - first:
+      213: -3453636354006997783
+    second: Riven_SmokeOut_6
+  - first:
+      213: 6814461729892954967
+    second: Riven_SmokeOut_7
+  - first:
+      213: -962867087298129588
+    second: Riven_SmokeOut_8
+  - first:
+      213: -4234094125744454170
+    second: Riven_SmokeOut_9
+  - first:
+      213: -2321315223216892882
+    second: Riven_SmokeOut_10
+  - first:
+      213: 6791024537003109007
+    second: Riven_SmokeOut_11
+  - first:
+      213: 5724369977650216281
+    second: Riven_SmokeOut_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Riven_SmokeOut_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb3af00f81b18c190800000000000000
+      internalID: -7942068148947147845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_1
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ec36c4b59894d8200800000000000000
+      internalID: 183884014083138510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_2
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be7f5980b79489720800000000000000
+      internalID: 2853111156713060331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_3
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e1a071bcd54b2cd0800000000000000
+      internalID: -2581893147194777120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_4
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d735f008d8d0d6c70800000000000000
+      internalID: 8965837334554563453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_5
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 034b5e9f96ec7dc80800000000000000
+      internalID: -8297936833847380944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_6
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4a900c8083210d0800000000000000
+      internalID: -3453636354006997783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_7
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75373c9b6d4d19e50800000000000000
+      internalID: 6814461729892954967
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_8
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c411eaf4c7533a2f0800000000000000
+      internalID: -962867087298129588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_9
+      rect:
+        serializedVersion: 2
+        x: 1296
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e50f6963d97d35c0800000000000000
+      internalID: -4234094125744454170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_10
+      rect:
+        serializedVersion: 2
+        x: 1440
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e2453747a1809cfd0800000000000000
+      internalID: -2321315223216892882
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_11
+      rect:
+        serializedVersion: 2
+        x: 1584
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8a280506d09e3e50800000000000000
+      internalID: 6791024537003109007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeOut_12
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95d70c86a2c017f40800000000000000
+      internalID: 5724369977650216281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Riven_SmokeOut_0: -7942068148947147845
+      Riven_SmokeOut_1: 183884014083138510
+      Riven_SmokeOut_10: -2321315223216892882
+      Riven_SmokeOut_11: 6791024537003109007
+      Riven_SmokeOut_12: 5724369977650216281
+      Riven_SmokeOut_2: 2853111156713060331
+      Riven_SmokeOut_3: -2581893147194777120
+      Riven_SmokeOut_4: 8965837334554563453
+      Riven_SmokeOut_5: -8297936833847380944
+      Riven_SmokeOut_6: -3453636354006997783
+      Riven_SmokeOut_7: 6814461729892954967
+      Riven_SmokeOut_8: -962867087298129588
+      Riven_SmokeOut_9: -4234094125744454170
+      Smoke Out_0: -3516319277517845600
+      Smoke Out_1: -3139408030904017858
+      Smoke Out_10: 6816134339214909087
+      Smoke Out_11: 3905160682809648472
+      Smoke Out_12: -7933310354862506382
+      Smoke Out_13: -4482890645619229678
+      Smoke Out_14: -2453257526121140206
+      Smoke Out_15: 5181183148420865344
+      Smoke Out_16: 1185843522754470208
+      Smoke Out_17: 7477476610178049338
+      Smoke Out_18: 8359474448552237520
+      Smoke Out_19: -1009965309531366911
+      Smoke Out_2: -7654462810777654015
+      Smoke Out_3: 8102036595847455990
+      Smoke Out_4: 7140622048088409861
+      Smoke Out_5: 7677486697329136308
+      Smoke Out_6: 3797191782744132809
+      Smoke Out_7: 198175364693214117
+      Smoke Out_8: 819943744000998976
+      Smoke Out_9: 4089255676141361488
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

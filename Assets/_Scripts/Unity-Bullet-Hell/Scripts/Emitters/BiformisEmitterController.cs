@@ -29,8 +29,8 @@ namespace CaptainPinkTurd.BulletHell
         [SerializeField] private ScoreConfig scoreConfig;
         
         [Header("Projectile Emitter Configs")]
-        [SerializeField] private ProjectileEmitterBiformis redEmitter;
-        [SerializeField] private ProjectileEmitterBiformis blueEmitter;
+        [SerializeField] protected ProjectileEmitterBiformis redEmitter;
+        [SerializeField] protected ProjectileEmitterBiformis blueEmitter;
         [SerializeField] private GameObject alertModel;
         [SerializeField] private SerializeKeyValuePair<EColor, GameObject>[] colorAlertModels;
         
@@ -52,6 +52,7 @@ namespace CaptainPinkTurd.BulletHell
         [SerializeField] private SoundData colorChangeAlertSfx;
         
         protected EColor currentColor;
+        protected ProjectileEmitterBiformis CurrentEmitter => currentColor == EColor.Red ? redEmitter : blueEmitter;
         protected GameObject damageSource;
         
         private float colorSwapInterval;

@@ -1,0 +1,31 @@
+{
+    "name": "StorySystem.Tests",
+    "rootNamespace": "CaptainPinkTurd.Story.Tests",
+    "references": [
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "GUID:4379980e305684f4bbea58f0a9e24506",
+        "GUID:2cd58449b9c64364cb9d02d6903e3c38",
+        "GUID:58bed0e7c5306824586d7eda03609289",
+        "GUID:30daa924d63bc3644b711b7ea432941d",
+        "GUID:43aa4c0ecf728254aa645ccc48be9e8f",
+        "GUID:72fc3dc73c8e49f4793a58fadc644119",
+        "GUID:4e3d7ae76ace4464d8eea86502360e7f",
+        "GUID:074b879a37c5d2a418cd677cc2231fd1",
+        "GUID:97c52685c517a634999b927b1b1e90df",
+        "GUID:d4a30627040e70443b43aa7f6a715d2f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": [
+        "UNITY_INCLUDE_TESTS"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

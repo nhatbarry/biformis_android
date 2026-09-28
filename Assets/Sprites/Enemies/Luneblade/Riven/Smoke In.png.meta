@@ -1,0 +1,424 @@
+fileFormatVersion: 2
+guid: 2d47f92caa1a00a40b390363baeef7a1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5946325435010976933
+    second: Smoke In_0
+  - first:
+      213: 8724640395304001178
+    second: Smoke In_1
+  - first:
+      213: -5084664307633883960
+    second: Smoke In_2
+  - first:
+      213: 5032953694725907696
+    second: Smoke In_3
+  - first:
+      213: 3141908650791411609
+    second: Smoke In_4
+  - first:
+      213: 5241491930622566394
+    second: Smoke In_5
+  - first:
+      213: -3694121708321380355
+    second: Smoke In_6
+  - first:
+      213: -4586060999322274655
+    second: Smoke In_7
+  - first:
+      213: -5124863109661308718
+    second: Smoke In_8
+  - first:
+      213: 960456301987787523
+    second: Smoke In_9
+  - first:
+      213: -8740490485106208468
+    second: Smoke In_10
+  - first:
+      213: -3783827312179039913
+    second: Smoke In_11
+  - first:
+      213: -4140153798273222951
+    second: Smoke In_12
+  - first:
+      213: 1487651268986006173
+    second: Smoke In_13
+  - first:
+      213: 2968259110766640436
+    second: Smoke In_14
+  - first:
+      213: -1344015759964872522
+    second: Riven_SmokeIn_0
+  - first:
+      213: 5220023799636958912
+    second: Riven_SmokeIn_1
+  - first:
+      213: -8345912284815028205
+    second: Riven_SmokeIn_2
+  - first:
+      213: 7431157728484162289
+    second: Riven_SmokeIn_3
+  - first:
+      213: -2406051517021995757
+    second: Riven_SmokeIn_4
+  - first:
+      213: -8818619426668224373
+    second: Riven_SmokeIn_5
+  - first:
+      213: 1488562288085755221
+    second: Riven_SmokeIn_6
+  - first:
+      213: -8087813315074440803
+    second: Riven_SmokeIn_7
+  - first:
+      213: 2295532778612657103
+    second: Riven_SmokeIn_8
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Riven_SmokeIn_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b064c689c8195de0800000000000000
+      internalID: -1344015759964872522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_1
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ce12782dff317840800000000000000
+      internalID: 5220023799636958912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_2
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3101809defc5d2c80800000000000000
+      internalID: -8345912284815028205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_3
+      rect:
+        serializedVersion: 2
+        x: 432
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fa72340596c02760800000000000000
+      internalID: 7431157728484162289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_4
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31d3d90a4ecfb9ed0800000000000000
+      internalID: -2406051517021995757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_5
+      rect:
+        serializedVersion: 2
+        x: 720
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b80e410ca58fd9580800000000000000
+      internalID: -8818619426668224373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_6
+      rect:
+        serializedVersion: 2
+        x: 864
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 555e467a38f68a410800000000000000
+      internalID: 1488562288085755221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_7
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d91405914a052cf80800000000000000
+      internalID: -8087813315074440803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Riven_SmokeIn_8
+      rect:
+        serializedVersion: 2
+        x: 1152
+        y: 0
+        width: 144
+        height: 144
+      alignment: 9
+      pivot: {x: 0.5, y: 0.44}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcb097f56ee5bdf10800000000000000
+      internalID: 2295532778612657103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Riven_SmokeIn_0: -1344015759964872522
+      Riven_SmokeIn_1: 5220023799636958912
+      Riven_SmokeIn_2: -8345912284815028205
+      Riven_SmokeIn_3: 7431157728484162289
+      Riven_SmokeIn_4: -2406051517021995757
+      Riven_SmokeIn_5: -8818619426668224373
+      Riven_SmokeIn_6: 1488562288085755221
+      Riven_SmokeIn_7: -8087813315074440803
+      Riven_SmokeIn_8: 2295532778612657103
+      Smoke In_0: -5946325435010976933
+      Smoke In_1: 8724640395304001178
+      Smoke In_10: -8740490485106208468
+      Smoke In_11: -3783827312179039913
+      Smoke In_12: -4140153798273222951
+      Smoke In_13: 1487651268986006173
+      Smoke In_14: 2968259110766640436
+      Smoke In_2: -5084664307633883960
+      Smoke In_3: 5032953694725907696
+      Smoke In_4: 3141908650791411609
+      Smoke In_5: 5241491930622566394
+      Smoke In_6: -3694121708321380355
+      Smoke In_7: -4586060999322274655
+      Smoke In_8: -5124863109661308718
+      Smoke In_9: 960456301987787523
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
