@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.EndingSequence
   storyData: {fileID: 11400000, guid: 057367ad00ca37348bed39e0f9a5333e, type: 2}
-  font: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   music: {fileID: 8300000, guid: 9c1e3346a86a23c4989678ed9c7db33c, type: 3}
   sfxSource: {fileID: 177485327}
   burstSfx: {fileID: 8300000, guid: e8bb5ad39bf7d8043a9e85682d0e23ad, type: 3}

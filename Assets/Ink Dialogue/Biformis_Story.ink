@@ -7,16 +7,22 @@
 // Speaker (tag #speaker, tên hiển thị nằm ở Resources/Localization/Strings.txt, key "speaker.<id>"):
 //   A        - người em (hình thái Xanh)
 //   B        - người anh (hình thái Đỏ)
-//   Villain  - Phản diện (nhân cách thứ hai của B) - không có hình, màn hình ửng đỏ khi nói
-//   Teen     - Thiếu niên (B lúc còn học trung học)
+//   Villain  - Phản diện (nhân cách thứ hai của B) - khi không đứng trên sân khấu thì màn hình ửng đỏ khi nói
+//   Teen     - Thiếu niên (chính là A, dùng hình Blue Character)
 //   Mom      - Mẹ
 //   Doctor   - Bác sĩ
 //   System   - Thông báo hệ thống (không hiện tên)
 //   Narrator - Dẫn truyện cho các chỉ dẫn sân khấu (không hiện tên)
 //
 // Tag dàn cảnh (CutsceneStage):
-//   #bg:white | black | hospital | past     màu nền
-//   #cast:A,B,Teen | none                    ai đứng trên sân khấu (Box = chiếc hộp đen)
+//   #bg:white | black | hospital | past | RRGGBB[:giây]   màu nền (tên hoặc mã hex, kèm thời gian chuyển màu)
+//   #cast:A,B,Teen | none                    ai đứng trên sân khấu (Box = chiếc hộp đen, B_Bed = B nằm trên giường,
+//                                           Villain = phản diện có hình, lúc đó màn hình không ửng đỏ)
+//   #anim:Nhân vật:clip[:giây]               đổi animation (tên tag Aseprite), có thể chờ vài giây rồi mới đổi
+//       B_Bed: sleep | wake | pant | sit_idle | injected   (wake -> pant -> sit_idle tự nối nhau)
+//       Teen: idle | vanish      Villain: appear | idle | walk | inject
+//   #move:Nhân vật:x[:giây]                  dời nhân vật tới toạ độ x (đơn vị canvas, 0 = giữa màn hình)
+//   #wait:giây                               ẩn khung thoại, chờ cho sân khấu diễn; các tag sau nó chạy khi hết chờ
 //   #fx:shake | flash | red | fade_black | fade_white | fade_in
 //   #sfx:beep | stop | thud                  beep = máy đo nhịp tim (lặp), stop = tắt âm lặp
 // Không dùng tag #layout: layoutAnimator trong DialogueManager đang null.
@@ -72,8 +78,7 @@ BẮT ĐẦU CHƠI.
 -> WhiteRoom_1
 
 === WhiteRoom_1 ===
-<i>(B tỉnh dậy. Trước mặt B là một thiếu niên đang đứng trong một căn phòng màu trắng.)</i> #speaker:Narrator #bg:white #cast:B,Teen
-Anh có sao không? #speaker:Teen
+Anh có sao không? #speaker:Teen #bg:white #cast:B_Bed,Teen #move:Teen:-84 #wait:1.8 #anim:B_Bed:wake #wait:2.6
 Em là ai? Em làm gì ở đây? #speaker:B
 Em đang luyện tập cho đội điền kinh của trường thì bị chấn thương. #speaker:Teen
 Bác sĩ nói em không thể chạy được nữa, nhưng em vẫn cố chạy.
@@ -82,20 +87,21 @@ Em không biết tại sao em lại ở đây sao? #speaker:B
 Vâng. Nhưng ở đây ấm áp và dễ chịu quá. #speaker:Teen
 Em cảm thấy mình có thể chạy nhanh như bay ở đây.
 Giá như ở ngoài kia cũng được như vậy thì hay biết mấy anh nhỉ?
-Bị đạn bắn vào chắc đau lắm nhỉ? #speaker:Villain #fx:shake
+Bị đạn bắn vào chắc đau lắm nhỉ? #speaker:Villain #anim:Teen:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
 Rốt cuộc ông muốn gì? #speaker:B
 Chịu thôi. Ta chỉ mong ngươi nhanh chóng ngộ ra sự thật. #speaker:Villain
 Đi theo ta là không có thiệt đâu.
 Ý ông là sao? #speaker:B
-Mọi đau khổ của con người đều đến từ sự bất lực khi không thể làm những việc ngoài phạm vi thể xác. #speaker:Villain
-Sau khi thực hiện một vài nghiên cứu, ta đã nhận ra một điều.
-Ở hình thái tiến hoá cuối cùng, nhân loại sẽ hợp thành một, sử dụng chung một tư duy và không còn cơ thể vật lý.
-Khi đó, chúng ta không thể bị thương, có thể bay nhanh như gió, du hành giữa các vì sao và mọi khả năng là vô tận.
-Như vậy sẽ không còn sự bất lực, không còn sự nuối tiếc, không còn phân biệt đối xử nữa.
-Lúc đó kể cả có bị đạn bắn chắc cũng chẳng sợ nhỉ?
+Mọi đau khổ của con người đều đến từ sự bất lực khi không thể làm những việc ngoài phạm vi thể xác. #speaker:Villain #bg:EBB5B5:1.5
+Sau khi thực hiện một vài nghiên cứu, ta đã nhận ra một điều. #bg:D68284:1.5
+Ở hình thái tiến hoá cuối cùng, nhân loại sẽ hợp thành một, sử dụng chung một tư duy và không còn cơ thể vật lý. #bg:C8666B:1.5
+Khi đó, chúng ta không thể bị thương, có thể bay nhanh như gió, du hành giữa các vì sao và mọi khả năng là vô tận. #bg:A8434B:1.5
+Như vậy sẽ không còn sự bất lực, không còn sự nuối tiếc, không còn phân biệt đối xử nữa. #bg:86262F:1.5
+Lúc đó kể cả có bị đạn bắn chắc cũng chẳng sợ nhỉ? #bg:641621:1.5
 Nói tóm lại, sứ mệnh của ta là đưa ngày đó đến gần hơn với loài người.
 Ngươi có tin là chỉ cần một công tắc, ta có thể ban cho ngươi cuộc sống mơ ước đó không?
 Ông ta đang nói gì vậy chứ... #speaker:B
+#anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:inject #anim:B_Bed:injected:0.8 #wait:2.2 #bg:310910:1 #fx:fade_black #wait:1.5
 // -> Tỉnh dậy, BẮT ĐẦU MÀN 3.
 -> DONE
 

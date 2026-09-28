@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.Scene.Story;
@@ -26,7 +27,14 @@ namespace CaptainPinkTurd.Story.Tests
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
         };
-        private static readonly string[] CastIds = { "A", "B", "Teen", "Mom", "Doctor", "Box", "none" };
+        private static readonly string[] CastIds = { "A", "B", "B_Bed", "Teen", "Villain", "Mom", "Doctor", "Box", "none" };
+        //clips of the actors with a StageActorAnimation in the Story Cutscene scene (the Aseprite tags)
+        private static readonly Dictionary<string, string[]> AnimClips = new()
+        {
+            ["B_Bed"] = new[] { "sleep", "wake", "pant", "sit_idle", "injected" },
+            ["Teen"] = new[] { "idle", "vanish" },
+            ["Villain"] = new[] { "appear", "idle", "walk", "inject" },
+        };
 
         private static StoryData Data => AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
 
@@ -49,6 +57,22 @@ namespace CaptainPinkTurd.Story.Tests
                 }
                 Assert.Greater(lines, 0, $"{inkPath}: knot {knot} has no lines");
             }
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheWhiteRoomEndsWithTheInjection(string inkPath)
+        {
+            //the closing staging sits on a line with tags only, after B's last line; ink must still hand those tags over
+            var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
+            story.ChoosePathString("WhiteRoom_1");
+            var tagsAfterLastLine = new List<string>();
+            while (story.canContinue)
+            {
+                if (story.Continue().Trim().Length > 0) tagsAfterLastLine.Clear(); //tags of the line itself show with it
+                else tagsAfterLastLine.AddRange(story.currentTags);
+            }
+            Assert.Contains("anim:Villain:inject", tagsAfterLastLine, $"{inkPath}: tags after the last line: {string.Join(" ", tagsAfterLastLine)}");
         }
 
         [Test]
@@ -79,6 +103,8 @@ namespace CaptainPinkTurd.Story.Tests
             return lines;
         }
 
+        private static bool IsNumber(string text) => float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out _);
+
         private static void AssertKnownTag(string knot, string tag)
         {
             int separator = tag.IndexOf(':');
@@ -93,6 +119,28 @@ namespace CaptainPinkTurd.Story.Tests
                     break;
                 case "cast":
                     foreach (var id in value.Split(',')) Assert.Contains(id.Trim(), CastIds, $"{knot}: unknown actor {id}");
+                    break;
+                case "move":
+                    var move = value.Split(':');
+                    Assert.That(move.Length is 2 or 3 && move.Skip(1).All(IsNumber), $"{knot}: move tag '{tag}' is not move:Actor:x[:seconds]");
+                    Assert.Contains(move[0], CastIds, $"{knot}: unknown actor {move[0]}");
+                    break;
+                case "wait":
+                    Assert.IsTrue(IsNumber(value), $"{knot}: wait tag '{tag}' is not wait:seconds");
+                    break;
+                case "bg":
+                    var bg = value.Split(':');
+                    Assert.That(bg.Length is 1 or 2 && (bg.Length == 1 || IsNumber(bg[1])), $"{knot}: bg tag '{tag}' is not bg:colour[:seconds]");
+                    Assert.IsTrue(StageTagValues["bg"].Contains(bg[0]) || (bg[0].Length == 6 && ColorUtility.TryParseHtmlString("#" + bg[0], out _)),
+                        $"{knot}: unknown backdrop colour {bg[0]}");
+                    break;
+                case "anim":
+                    var parts = value.Split(':');
+                    Assert.That(parts.Length is 2 or 3, $"{knot}: anim tag '{tag}' is not anim:Actor:clip[:seconds]");
+                    if (parts.Length == 3)
+                        Assert.IsTrue(float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out _), $"{knot}: anim delay {parts[2]} is not a number");
+                    Assert.IsTrue(AnimClips.ContainsKey(parts[0]), $"{knot}: actor {parts[0]} has no animation");
+                    Assert.Contains(parts[1], AnimClips[parts[0]], $"{knot}: {parts[0]} has no clip {parts[1]}");
                     break;
                 default:
                     Assert.IsTrue(StageTagValues.ContainsKey(key), $"{knot}: unknown tag {tag}");

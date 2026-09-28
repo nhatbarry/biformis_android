@@ -69513,7 +69513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa062ed7f2a7149b06b5e8229abd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Barks.BarkBubble
-  font: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   fontSize: 4
   heightAboveTarget: 1.4
   showSeconds: 2.6
@@ -73689,7 +73689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741c9af8da6597144bb26bdbe7e11e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.LevelTitleCard
-  font: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   titleKey: level.3
   subtitleKey: 
   startDelay: 0.8

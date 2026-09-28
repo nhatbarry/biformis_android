@@ -9,7 +9,7 @@ menu.continue	Tiếp tục	Continue
 menu.new_story	Chơi mới	New game
 menu.back	Quay lại	Back
 menu.language	Tiếng Việt	English
-menu.level_select	Chọn màn (test)	Level select (test)
+menu.level_select	Chọn màn	Level select
 settings.title	Cài đặt	Settings
 settings.master	Âm lượng chung	Master
 settings.music	Nhạc nền	Music

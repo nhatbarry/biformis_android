@@ -51,6 +51,7 @@ namespace CaptainPinkTurd.InkDialogue
                 DialogueManager.Instance.OnDialogueEnd.Subscribe(DialogueFinished);
                 DialogueManager.Instance.OnDisplayDialogue.Subscribe(DisplayDialogue);
                 DialogueManager.Instance.OnChoiceChosen.Subscribe(SubmitChoiceByIndex);
+                DialogueManager.Instance.OnStagePause.Subscribe(StagePaused);
             }));
         }
 
@@ -62,6 +63,7 @@ namespace CaptainPinkTurd.InkDialogue
             DialogueManager.Instance.OnDialogueEnd.Unsubscribe(DialogueFinished);
             DialogueManager.Instance.OnDisplayDialogue.Unsubscribe(DisplayDialogue);
             DialogueManager.Instance.OnChoiceChosen.Unsubscribe(SubmitChoiceByIndex);
+            DialogueManager.Instance.OnStagePause.Unsubscribe(StagePaused);
         }
 
         private void DialogueStarted()
@@ -73,6 +75,17 @@ namespace CaptainPinkTurd.InkDialogue
             contentParent.SetActive(false);
             ResetPanel();
         }
+        //a "wait" tag hands the screen to the cutscene stage: hide the panel (and the last line) until it is over
+        private void StagePaused(bool paused)
+        {
+            if (paused)
+            {
+                dialogueText.text = "";
+                SetSpeakerName(DialogueManager.DEFAULT_SPEAKER);
+            }
+            contentParent.SetActive(!paused);
+        }
+
         private void ResetPanel()
         {
             dialogueText.text = "";

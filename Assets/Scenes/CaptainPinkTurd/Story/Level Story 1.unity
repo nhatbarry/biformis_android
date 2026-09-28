@@ -365,8 +365,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Gi\u1EEF SHIFT: ch\u1EA1y nhanh \xB7 Nh\u1EA5n SHIFT: l\u01B0\u1EDBt"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
-  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -463,7 +463,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  - {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -566,8 +566,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Lao v\xE0o k\u1EBB \u0111\u1ECBch \u0111\u1EC3 ph\xE1 hu\u1EF7 ch\xFAng"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
-  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -664,7 +664,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  - {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -57967,8 +57967,8 @@ MonoBehaviour:
   m_text: "H\u1EA1 h\u1EBFt k\u1EBB \u0111\u1ECBch \u0111\u1EC3 m\u1EDF c\u1EEDa
     \xB7 \u0110i l\xEAn \u0111\u1EC3 v\xE0o c\u1EEDa"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
-  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -58065,7 +58065,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  - {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -58250,7 +58250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741c9af8da6597144bb26bdbe7e11e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.LevelTitleCard
-  font: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   titleKey: level.1
   subtitleKey: 
   startDelay: 0.8
@@ -58968,8 +58968,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "WASD / ph\xEDm m\u0169i t\xEAn: di chuy\u1EC3n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
-  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -59066,7 +59066,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  - {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -59165,8 +59165,8 @@ MonoBehaviour:
   m_text: "J: \u0111\u1ED5i gi\u1EEFa B (\u0110\u1ECF) v\xE0 A (Xanh) \xB7 C\xF9ng
     m\xE0u th\xEC \u0111i xuy\xEAn t\u01B0\u1EDDng v\xE0 \u0111\u1EA1n"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
-  m_sharedMaterial: {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -59263,7 +59263,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5833057110671987082, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  - {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

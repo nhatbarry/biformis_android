@@ -12,6 +12,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace CaptainPinkTurd.Story.Tests
@@ -120,6 +121,52 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.IsEmpty(exceptions, string.Join("\n\n", exceptions));
         }
 
+        [UnityTest, Timeout(120000)]
+        public IEnumerator LevelSelectSitsInTheMainMenuColumn()
+        {
+            LogAssert.ignoreFailingMessages = true;
+            SceneManager.LoadScene("Core");
+            yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");
+            yield return WaitUntil(() => GameObject.Find(StoryMenu.LEVEL_SELECT_BUTTON_NAME) != null, 10f, "level select button");
+
+            var levelSelect = GameObject.Find(StoryMenu.LEVEL_SELECT_BUTTON_NAME).GetComponent<Button>();
+            var column = new List<RectTransform>();
+            foreach (Transform child in levelSelect.transform.parent)
+            {
+                if (child.GetComponent<Button>()) column.Add((RectTransform)child);
+            }
+            column.Sort((a, b) => b.anchoredPosition.y.CompareTo(a.anchoredPosition.y));
+            Assert.AreEqual(6, column.Count, "menu buttons");
+            Assert.AreEqual(2, column.IndexOf((RectTransform)levelSelect.transform), "level select should follow Story and Endless");
+
+            //the whole column must fit a 20:9 phone (2400x1080) under the menu canvas' scaler, without overlaps
+            var canvas = levelSelect.GetComponentInParent<Canvas>().rootCanvas;
+            var scaler = canvas.GetComponent<CanvasScaler>();
+            float scale = Mathf.Pow(2f, Mathf.Lerp(Mathf.Log(2400f / scaler.referenceResolution.x, 2f),
+                Mathf.Log(1080f / scaler.referenceResolution.y, 2f), scaler.matchWidthOrHeight));
+            float halfHeight = 1080f / scale / 2f;
+            float previousBottom = float.MaxValue;
+            foreach (var button in column)
+            {
+                var corners = new Vector3[4];
+                button.GetWorldCorners(corners);
+                float bottom = canvas.transform.InverseTransformPoint(corners[0]).y;
+                float top = canvas.transform.InverseTransformPoint(corners[1]).y;
+                Assert.GreaterOrEqual(bottom, -halfHeight, $"{button.name} is cut off at the bottom of a 20:9 screen");
+                Assert.LessOrEqual(top, halfHeight, $"{button.name} is cut off at the top of a 20:9 screen");
+                Assert.LessOrEqual(top, previousBottom, $"{button.name} overlaps the button above it");
+                previousBottom = bottom;
+            }
+
+            levelSelect.onClick.Invoke();
+            var panel = GameObject.Find("Level Select");
+            Assert.IsNotNull(panel, "level select panel not opened");
+            Assert.IsFalse(levelSelect.gameObject.activeInHierarchy, "main menu still showing");
+            panel.transform.Find("Back").GetComponent<Button>().onClick.Invoke();
+            Assert.IsTrue(levelSelect.gameObject.activeInHierarchy, "back did not return to the main menu");
+            Assert.IsEmpty(exceptions, string.Join("\n\n", exceptions));
+        }
+
         private static int IndexOfScene(StoryData data, string scene)
         {
             for (int i = 0; i < data.Steps.Count; i++)
@@ -135,8 +182,12 @@ namespace CaptainPinkTurd.Story.Tests
             int presses = 0;
             while (DialogueManager.Instance.DialogueIsPlaying)
             {
-                DialogueManager.Instance.RequestContinue();
-                Assert.Less(++presses, 600, $"cutscene {knot} never ended");
+                //presses while a #wait holds the dialogue are ignored by design, so they don't count
+                if (!DialogueManager.Instance.IsStaging)
+                {
+                    DialogueManager.Instance.RequestContinue();
+                    Assert.Less(++presses, 600, $"cutscene {knot} never ended");
+                }
                 yield return null;
                 yield return null;
             }

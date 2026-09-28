@@ -1556,7 +1556,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "S\u1EE5p \u0111\u1ED5 sau"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_sharedMaterial: {fileID: 1543840749}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 1543840749}
@@ -73093,7 +73093,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VT323 SDF Material (Instance)
+  m_Name: m3x6 VI SDF Material (Instance)
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -73110,7 +73110,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 613660367168673958, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+        m_Texture: {fileID: 406821421667688074, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -73413,7 +73413,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 2:00
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_sharedMaterial: {fileID: 966772342}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 966772342}
@@ -73799,7 +73799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 741c9af8da6597144bb26bdbe7e11e6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.LevelTitleCard
-  font: {fileID: 11400000, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   titleKey: level.5
   subtitleKey: level.5.subtitle
   startDelay: 0.8
@@ -74371,7 +74371,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VT323 SDF Material (Instance)
+  m_Name: m3x6 VI SDF Material (Instance)
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -74388,7 +74388,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 613660367168673958, guid: f1fe21a99e942c04ab0304e137743b70, type: 2}
+        m_Texture: {fileID: 406821421667688074, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []

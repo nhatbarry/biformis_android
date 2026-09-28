@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
 using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.Scene;
@@ -11,13 +12,14 @@ namespace CaptainPinkTurd.Story
 {
     /// <summary>
     /// Main menu entry points for story mode: continue / new story, plus the language toggle.
-    /// In the editor and development builds it also adds a level select for testing, built at runtime from the
+    /// Also adds a level select (a dev tool for demos) to the menu's button column, built at runtime from the
     /// menu's own buttons so the scene doesn't change.
     /// </summary>
     public class StoryMenu : MonoBehaviour
     {
         //set by the editor's "play the opened level through Core" hook; read once here, in the main menu
         public const string EDITOR_PLAY_SCENE_KEY = "Biformis.PlaySceneThroughCore";
+        public const string LEVEL_SELECT_BUTTON_NAME = "Level Select Button";
 
         [SerializeField] private StoryData storyData;
         [Tooltip("Raised before a story session starts so no HP is carried over from an earlier session")]
@@ -28,10 +30,15 @@ namespace CaptainPinkTurd.Story
         [Tooltip("Shown instead of starting straight away when there is a story save to continue")]
         [SerializeField] private GameObject storyOptionsPanel;
 
+        [Header("Dev")]
+        [Tooltip("Level select button in the main menu, for testing and demos. Turn off for the release build.")]
+        [SerializeField] private bool showLevelSelect = true;
+
         private const string STEP_NAME_KEY_PREFIX = "step.";
+        //the level select goes right after the two play modes (Story, Endless)
+        private const int LEVEL_SELECT_MENU_INDEX = 2;
 
         private GameObject levelSelectPanel;
-        private GameObject levelSelectButton;
 
         private IEnumerator Start()
         {
@@ -39,7 +46,7 @@ namespace CaptainPinkTurd.Story
             yield return null;
             ShowMainPanel();
 
-            if (Debug.isDebugBuild) BuildLevelSelect();
+            if (showLevelSelect) BuildLevelSelect();
 
 #if UNITY_EDITOR
             string requested = UnityEditor.SessionState.GetString(EDITOR_PLAY_SCENE_KEY, "");
@@ -90,7 +97,6 @@ namespace CaptainPinkTurd.Story
         {
             storyOptionsPanel.SetActive(false);
             if (levelSelectPanel) levelSelectPanel.SetActive(false);
-            if (levelSelectButton) levelSelectButton.SetActive(true);
             mainPanel.SetActive(true);
         }
 
@@ -98,7 +104,6 @@ namespace CaptainPinkTurd.Story
         {
             mainPanel.SetActive(false);
             storyOptionsPanel.SetActive(false);
-            levelSelectButton.SetActive(false);
             levelSelectPanel.SetActive(true);
         }
 
@@ -125,17 +130,26 @@ namespace CaptainPinkTurd.Story
                 .Perform();
         }
 
-        // ------------------------------------------------------------------ level select (debug builds only)
+        // ------------------------------------------------------------------ level select (dev tool)
 
         private void BuildLevelSelect()
         {
-            var template = mainPanel.GetComponentInChildren<Button>(true);
+            var column = MenuColumn();
+            var template = column[0];
             var canvas = mainPanel.transform.parent;
 
-            levelSelectButton = CloneButton(template, canvas, "Level Select Button", "menu.level_select", 96f, OpenLevelSelect).gameObject;
-            var buttonRect = (RectTransform)levelSelectButton.transform;
-            buttonRect.anchorMin = buttonRect.anchorMax = buttonRect.pivot = new Vector2(0f, 1f);
-            buttonRect.anchoredPosition = new Vector2(8f, -8f);
+            //joins the menu's button column: same spacing, the bottom button stays put and the column grows upward
+            float spacing = column.Count > 1 ? Y(column[0]) - Y(column[1]) : 32f;
+            float bottom = Y(column[column.Count - 1]);
+            int index = Mathf.Min(LEVEL_SELECT_MENU_INDEX, column.Count);
+            var levelSelectButton = CloneButton(template, mainPanel.transform, LEVEL_SELECT_BUTTON_NAME, "menu.level_select", Width(template), OpenLevelSelect);
+            levelSelectButton.transform.SetSiblingIndex(column[index - 1].transform.GetSiblingIndex() + 1);
+            column.Insert(index, levelSelectButton);
+            for (int i = 0; i < column.Count; i++)
+            {
+                var rect = (RectTransform)column[i].transform;
+                rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, bottom + (column.Count - 1 - i) * spacing);
+            }
 
             levelSelectPanel = new GameObject("Level Select", typeof(RectTransform));
             var panelRect = (RectTransform)levelSelectPanel.transform;
@@ -156,6 +170,24 @@ namespace CaptainPinkTurd.Story
 
             levelSelectPanel.SetActive(false);
         }
+
+        /// <summary>
+        /// The main menu's own buttons, top to bottom.
+        /// </summary>
+        private List<Button> MenuColumn()
+        {
+            var column = new List<Button>();
+            foreach (Transform child in mainPanel.transform)
+            {
+                if (child.TryGetComponent(out Button button)) column.Add(button);
+            }
+            column.Sort((a, b) => Y(b).CompareTo(Y(a)));
+            return column;
+        }
+
+        private static float Y(Button button) => ((RectTransform)button.transform).anchoredPosition.y;
+
+        private static float Width(Button button) => ((RectTransform)button.transform).sizeDelta.x;
 
         private string StepNameKey(int step)
         {

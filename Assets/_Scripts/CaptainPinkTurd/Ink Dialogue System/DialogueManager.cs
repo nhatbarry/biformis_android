@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using CaptainPinkTurd.Core;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
 using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
@@ -39,15 +41,22 @@ namespace CaptainPinkTurd.InkDialogue
         private const string SPEAKER_TAG = "speaker";
         private const string PORTRAIT_TAG = "portrait";
         private const string LAYOUT_TAG = "layout";
-        
+        //"wait:seconds" pauses the dialogue (panel hidden) so the cutscene stage can act out a moment without text
+        private const string WAIT_TAG = "wait";
+
+        private Coroutine stagingRoutine;
+
         public GameEvent OnDialogueStart { get; private set; } 
         public GameEvent OnDialogueEnd { get; private set; } 
         public GameEvent<int> OnChoiceChosen { get; private set; } 
         public GameEvent<DialogueInfo> OnDisplayDialogue { get; private set; }
         //raised with the raw text of every tag this manager doesn't handle itself (e.g. "bg:white"), for cutscene staging
         public GameEvent<string> OnStageTag { get; private set; }
+        //true while a "wait" tag holds the dialogue so the stage can act; the panel hides until it is raised with false
+        public GameEvent<bool> OnStagePause { get; private set; }
 
         public bool DialogueIsPlaying { get; private set; }
+        public bool IsStaging { get; private set; }
         public bool DialogueIsTyping { get; internal set; }
 
         private TextAsset ActiveInkJson =>
@@ -68,6 +77,7 @@ namespace CaptainPinkTurd.InkDialogue
             OnDialogueEnd = new GameEvent();
             OnChoiceChosen = new GameEvent<int>();
             OnStageTag = new GameEvent<string>();
+            OnStagePause = new GameEvent<bool>();
         }
 
         private void OnEnable()
@@ -131,6 +141,9 @@ namespace CaptainPinkTurd.InkDialogue
 
         public void ExitDialogue()
         {
+            if (stagingRoutine != null) StopCoroutine(stagingRoutine);
+            stagingRoutine = null;
+            IsStaging = false;
             DialogueIsPlaying = false;
             inkDialogueVariables.StopListening(story);
             story.ResetState();
@@ -146,7 +159,7 @@ namespace CaptainPinkTurd.InkDialogue
         //follow the same structure as the guy who made this system
         private void ContinueOrExitStory(InputAction.CallbackContext ctx)
         {
-            if (!DialogueIsPlaying || firstFrameDialogueGuard) return;
+            if (!DialogueIsPlaying || firstFrameDialogueGuard || IsStaging) return;
             
             if (DialogueIsTyping)
             {
@@ -172,27 +185,74 @@ namespace CaptainPinkTurd.InkDialogue
                     dialogueLine = story.Continue();
                     tags.AddRange(story.currentTags);
                 }
-                if (IsLineBlank(dialogueLine) && !story.canContinue)
+                bool ends = IsLineBlank(dialogueLine) && !story.canContinue;
+
+                if (tags.Exists(tag => TryGetWait(tag, out _)))
                 {
-                    HandleTags(tags);
-                    ExitDialogue();
+                    stagingRoutine = StartCoroutine(StageThenShow(tags, dialogueLine, ends));
+                    return;
                 }
-                else
-                {
-                    HandleTags(tags);
-                    DialogueIsTyping = true;
-                    OnDisplayDialogue.Raise(new DialogueInfo()
-                    {
-                        speaker = currentSpeaker,
-                        line = dialogueLine,
-                        choices = story.currentChoices
-                    });
-                }
+                HandleTags(tags);
+                ShowOrExit(dialogueLine, ends);
             }
             else if(story.currentChoices.Count == 0)
             {
                 ExitDialogue();
             }
+        }
+
+        private void ShowOrExit(string dialogueLine, bool ends)
+        {
+            if (ends)
+            {
+                ExitDialogue();
+                return;
+            }
+
+            DialogueIsTyping = true;
+            OnDisplayDialogue.Raise(new DialogueInfo()
+            {
+                speaker = currentSpeaker,
+                line = dialogueLine,
+                choices = story.currentChoices
+            });
+        }
+
+        /// <summary>
+        /// A line carrying "#wait:seconds" plays out its staging first: the tags before each wait run, the panel is
+        /// hidden while the stage acts, then the rest of the tags run and the line shows (or the dialogue ends).
+        /// </summary>
+        private IEnumerator StageThenShow(List<string> tags, string dialogueLine, bool ends)
+        {
+            IsStaging = true;
+            OnStagePause.Raise(true);
+
+            var pending = new List<string>();
+            foreach (string tag in tags)
+            {
+                if (!TryGetWait(tag, out float seconds))
+                {
+                    pending.Add(tag);
+                    continue;
+                }
+                HandleTags(pending);
+                pending.Clear();
+                yield return new WaitForSecondsRealtime(seconds);
+            }
+            HandleTags(pending);
+
+            IsStaging = false;
+            stagingRoutine = null;
+            if (!ends) OnStagePause.Raise(false);
+            ShowOrExit(dialogueLine, ends);
+        }
+
+        private static bool TryGetWait(string tag, out float seconds)
+        {
+            seconds = 0f;
+            string trimmed = tag.Trim();
+            return trimmed.StartsWith(WAIT_TAG + ":") &&
+                   float.TryParse(trimmed[(WAIT_TAG.Length + 1)..], NumberStyles.Float, CultureInfo.InvariantCulture, out seconds);
         }
 
         public void UpdateChoiceIndex(int index) => currentChoiceIndex = index;

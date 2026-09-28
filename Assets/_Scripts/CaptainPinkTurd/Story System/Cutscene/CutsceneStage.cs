@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.InkDialogue;
@@ -11,11 +12,15 @@ namespace CaptainPinkTurd.Story.Cutscene
 {
     /// <summary>
     /// Stages a cutscene from ink tags, so the writer controls what is on screen from the script:
-    ///   #bg:white | black | hospital | past     backdrop colour (see backdropColors)
+    ///   #bg:white | black | hospital | past | RRGGBB[:seconds]   backdrop colour (a name from backdropColors or hex)
     ///   #cast:A,B,Teen | none                    which StageActors stand on stage
     ///   #fx:shake | flash | red | fade_black | fade_white | fade_in
     ///   #sfx:beep | stop | &lt;name in sounds&gt;     "beep" loops a heart monitor, "stop" ends any loop
-    /// The actor who is speaking is lit, the others are dimmed. The villain has no body: its lines tint the screen red.
+    ///   #anim:ActorId:clip[:seconds]               plays a clip of an actor's StageActorAnimation, optionally after a delay
+    ///                                              (e.g. anim:B_Bed:wake:1.2)
+    ///   #move:ActorId:x[:seconds]                  slides an actor to a canvas x position (instantly without seconds)
+    /// The actor who is speaking is lit, the others take listeningTint. When the villain speaks without being on stage,
+    /// its lines tint the screen red and shake it.
     /// </summary>
     public class CutsceneStage : MonoBehaviour
     {
@@ -102,6 +107,12 @@ namespace CaptainPinkTurd.Story.Cutscene
                 case "sfx":
                     PlaySound(value.ToLowerInvariant());
                     break;
+                case "anim":
+                    PlayAnimation(value);
+                    break;
+                case "move":
+                    MoveActor(value);
+                    break;
                 default:
                     Debug.LogWarning($"Cutscene tag not handled: {tag}");
                     break;
@@ -114,10 +125,11 @@ namespace CaptainPinkTurd.Story.Cutscene
 
             foreach (var actor in actors)
             {
-                actor.SetTint(actor.ActorId.Equals(info.speaker, StringComparison.OrdinalIgnoreCase) ? speakingTint : listeningTint);
+                actor.SetTint(actor.SpeakerId.Equals(info.speaker, StringComparison.OrdinalIgnoreCase) ? speakingTint : listeningTint);
             }
 
-            bool villainSpeaking = info.speaker == villainSpeakerId;
+            //a villain standing on stage speaks for itself; one without a body is shown by the red tint and a shake
+            bool villainSpeaking = info.speaker == villainSpeakerId && !castOnStage.Contains(villainSpeakerId);
             if (villainOverlay)
             {
                 villainTween?.Kill();
@@ -126,15 +138,51 @@ namespace CaptainPinkTurd.Story.Cutscene
             if (villainSpeaking && shakeTarget) Shake(4f);
         }
 
-        private void SetBackdrop(string colorName)
+        /// <summary>
+        /// "name" or "RRGGBB", optionally followed by ":seconds" for the fade.
+        /// </summary>
+        private void SetBackdrop(string value)
         {
             if (!backdrop) return;
-            if (!backdropColors.TryGetValue(colorName.ToLowerInvariant(), out Color color))
+            var parts = value.Split(':');
+            string colorName = parts[0].Trim();
+            float fade = backdropFadeTime;
+            if (parts.Length > 1) float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out fade);
+
+            if (!backdropColors.TryGetValue(colorName.ToLowerInvariant(), out Color color) &&
+                !(colorName.Length == 6 && ColorUtility.TryParseHtmlString("#" + colorName, out color)))
             {
                 Debug.LogWarning($"Unknown backdrop colour: {colorName}");
                 return;
             }
-            backdrop.DOColor(color, backdropFadeTime).SetUpdate(true).SetId(this);
+            backdrop.DOKill();
+            backdrop.DOColor(color, fade).SetUpdate(true).SetId(this);
+        }
+
+        /// <summary>
+        /// "ActorId:x" or "ActorId:x:seconds", x in canvas units from the centre of the stage.
+        /// </summary>
+        private void MoveActor(string value)
+        {
+            var parts = value.Split(':');
+            if (parts.Length < 2 || !float.TryParse(parts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out float x))
+            {
+                Debug.LogWarning($"Cutscene move is not Actor:x[:seconds]: {value}");
+                return;
+            }
+            float seconds = 0f;
+            if (parts.Length > 2) float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out seconds);
+
+            foreach (var actor in actors)
+            {
+                if (!actor.ActorId.Equals(parts[0].Trim(), StringComparison.OrdinalIgnoreCase)) continue;
+                var rect = (RectTransform)actor.transform;
+                rect.DOKill();
+                if (seconds <= 0f) rect.anchoredPosition = new Vector2(x, rect.anchoredPosition.y);
+                else rect.DOAnchorPosX(x, seconds).SetEase(Ease.Linear).SetUpdate(true).SetId(this);
+                return;
+            }
+            Debug.LogWarning($"Cutscene actor not found: {value}");
         }
 
         private void SetCast(IEnumerable<string> ids)
@@ -147,6 +195,30 @@ namespace CaptainPinkTurd.Story.Cutscene
                 actor.SetVisible(castOnStage.Contains(actor.ActorId));
                 actor.SetTint(listeningTint);
             }
+        }
+
+        /// <summary>
+        /// "ActorId:clip" or "ActorId:clip:delaySeconds". Works on an actor that is not on stage yet, so it may come
+        /// before or after the cast tag.
+        /// </summary>
+        private void PlayAnimation(string value)
+        {
+            var parts = value.Split(':');
+            string id = parts[0].Trim();
+            string clip = parts.Length > 1 ? parts[1].Trim() : "";
+            float delay = 0f;
+            if (parts.Length > 2) float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out delay);
+
+            foreach (var actor in actors)
+            {
+                if (!actor.ActorId.Equals(id, StringComparison.OrdinalIgnoreCase)) continue;
+                if (actor.TryGetComponent(out StageActorAnimation animation))
+                {
+                    animation.Play(clip, delay);
+                    return;
+                }
+            }
+            Debug.LogWarning($"Cutscene animation not found: {value}");
         }
 
         private void PlayEffect(string effect)

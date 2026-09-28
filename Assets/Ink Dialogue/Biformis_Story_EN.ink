@@ -40,8 +40,7 @@ It hurts. #speaker:B
 -> WhiteRoom_1
 
 === WhiteRoom_1 ===
-<i>(B wakes up. In front of him, a teenager stands in a white room.)</i> #speaker:Narrator #bg:white #cast:B,Teen
-Are you okay? #speaker:Teen
+Are you okay? #speaker:Teen #bg:white #cast:B_Bed,Teen #move:Teen:-84 #wait:1.8 #anim:B_Bed:wake #wait:2.6
 Who are you? What are you doing here? #speaker:B
 I got injured training for the school track team. #speaker:Teen
 The doctor said I couldn't run anymore, but I kept trying anyway.
@@ -50,20 +49,21 @@ You don't know why you're here? #speaker:B
 No. But it's so warm and comfortable here. #speaker:Teen
 I feel like I could run as fast as flying here.
 Wouldn't it be great if it were like this out there too?
-Getting shot must really hurt, huh? #speaker:Villain #fx:shake
+Getting shot must really hurt, huh? #speaker:Villain #anim:Teen:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
 What do you actually want? #speaker:B
 Who knows. I just hope you come to see the truth soon. #speaker:Villain
 Follow me and you won't lose a thing.
 What do you mean? #speaker:B
-All human suffering comes from the helplessness of being unable to do what lies beyond the body. #speaker:Villain
-After some research, I realized something.
-In its final stage of evolution, humanity will merge into one, sharing a single mind, with no physical body.
-Then we can never be hurt. We can fly like the wind, travel among the stars, and our possibilities will be endless.
-No more helplessness, no more regret, no more discrimination.
-Then even getting shot wouldn't be scary, would it?
+All human suffering comes from the helplessness of being unable to do what lies beyond the body. #speaker:Villain #bg:EBB5B5:1.5
+After some research, I realized something. #bg:D68284:1.5
+In its final stage of evolution, humanity will merge into one, sharing a single mind, with no physical body. #bg:C8666B:1.5
+Then we can never be hurt. We can fly like the wind, travel among the stars, and our possibilities will be endless. #bg:A8434B:1.5
+No more helplessness, no more regret, no more discrimination. #bg:86262F:1.5
+Then even getting shot wouldn't be scary, would it? #bg:641621:1.5
 In short, my mission is to bring that day closer to mankind.
 Would you believe that with just one switch, I could give you that dream life?
 What is he even talking about... #speaker:B
+#anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:inject #anim:B_Bed:injected:0.8 #wait:2.2 #bg:310910:1 #fx:fade_black #wait:1.5
 -> DONE
 
 
