@@ -27,13 +27,14 @@ namespace CaptainPinkTurd.Story.Tests
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
         };
-        private static readonly string[] CastIds = { "A", "B", "B_Bed", "Teen", "Villain", "Mom", "Doctor", "Box", "none" };
+        private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none" };
         //clips of the actors with a StageActorAnimation in the Story Cutscene scene (the Aseprite tags)
         private static readonly Dictionary<string, string[]> AnimClips = new()
         {
-            ["B_Bed"] = new[] { "sleep", "wake", "pant", "sit_idle", "injected" },
+            ["B_Bed"] = new[] { "sleep", "wake", "pant", "sit_idle" },
+            ["B_Floor"] = new[] { "sleep", "wake", "pant", "idle" },
             ["Teen"] = new[] { "idle", "vanish" },
-            ["Villain"] = new[] { "appear", "idle", "walk", "inject" },
+            ["Villain"] = new[] { "appear", "idle", "walk", "stab" },
         };
 
         private static StoryData Data => AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
@@ -61,18 +62,21 @@ namespace CaptainPinkTurd.Story.Tests
 
         [TestCase(InkVi)]
         [TestCase(InkEn)]
-        public void TheWhiteRoomEndsWithTheInjection(string inkPath)
+        public void TheWhiteRoomEndsWithBWakingOnTheNextLevelsFloor(string inkPath)
         {
-            //the closing staging sits on a line with tags only, after B's last line; ink must still hand those tags over
+            //B's last line comes after the stab and the cut to Level 3's floor: its staging rides on that line
             var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
             story.ChoosePathString("WhiteRoom_1");
-            var tagsAfterLastLine = new List<string>();
+            var lastLineTags = new List<string>();
             while (story.canContinue)
             {
-                if (story.Continue().Trim().Length > 0) tagsAfterLastLine.Clear(); //tags of the line itself show with it
-                else tagsAfterLastLine.AddRange(story.currentTags);
+                if (story.Continue().Trim().Length > 0) lastLineTags = new List<string>(story.currentTags);
             }
-            Assert.Contains("anim:Villain:inject", tagsAfterLastLine, $"{inkPath}: tags after the last line: {string.Join(" ", tagsAfterLastLine)}");
+            string tags = string.Join(" ", lastLineTags);
+            Assert.Contains("speaker:B", lastLineTags, $"{inkPath}: last line tags: {tags}");
+            Assert.Contains("anim:Villain:stab", lastLineTags, $"{inkPath}: last line tags: {tags}");
+            Assert.Contains("cast:Level3,B_Floor", lastLineTags, $"{inkPath}: last line tags: {tags}");
+            Assert.Less(lastLineTags.IndexOf("anim:Villain:stab"), lastLineTags.IndexOf("cast:Level3,B_Floor"), "the cut comes after the stab");
         }
 
         [Test]

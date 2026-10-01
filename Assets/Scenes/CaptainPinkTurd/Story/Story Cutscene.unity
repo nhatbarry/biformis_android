@@ -147,14 +147,16 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1980388543}
   - {fileID: 1408735545}
-  - {fileID: 784590051}
+  - {fileID: 265595895}
   - {fileID: 193816295}
   - {fileID: 1467614742}
   - {fileID: 1698341571}
   - {fileID: 2141581272}
   - {fileID: 1524432841}
-  - {fileID: 687316516}
+  - {fileID: 1235576273}
+  - {fileID: 42663779}
   m_Father: {fileID: 336523993}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -162,6 +164,172 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &42663778
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 42663779}
+  - component: {fileID: 42663782}
+  - component: {fileID: 42663781}
+  - component: {fileID: 42663780}
+  - component: {fileID: 42663783}
+  m_Layer: 0
+  m_Name: B_Floor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &42663779
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42663778}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35284135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 28}
+  m_SizeDelta: {x: 76, y: 48}
+  m_Pivot: {x: 0.5263158, y: 1.6666666}
+--- !u!114 &42663780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42663778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e760af0c28cce4daacae0cb06107ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActorAnimation
+  unitsPerPixel: 4
+  defaultClip: sleep
+  clips:
+  - name: sleep
+    frames:
+    - {fileID: 8643460536792244157, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -8199197904211976425, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    durations:
+    - 0.4
+    - 0.4
+    loop: 1
+    repeat: 0
+    next: 
+  - name: wake
+    frames:
+    - {fileID: 8557713784224978160, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -6078896694630663468, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 6129507270036907808, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 7442996307908720310, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -6734796115341510739, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -7856592391150577606, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -1511199160453044490, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 460224073372567898, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 4810329732426502310, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    durations:
+    - 0.08
+    - 0.08
+    - 0.06
+    - 0.045
+    - 0.045
+    - 0.08
+    - 0.06
+    - 0.06
+    - 0.4
+    loop: 0
+    repeat: 0
+    next: pant
+  - name: pant
+    frames:
+    - {fileID: -325774306912911864, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: -8726281409411476258, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 7776072272007908649, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 1063351060502253170, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    durations:
+    - 0.13
+    - 0.13
+    - 0.13
+    - 0.13
+    loop: 1
+    repeat: 3
+    next: idle
+  - name: idle
+    frames:
+    - {fileID: -5729567116097940460, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    - {fileID: 4335179555564943056, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+    durations:
+    - 0.6
+    - 0.6
+    loop: 1
+    repeat: 0
+    next: 
+--- !u!114 &42663781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42663778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 8643460536792244157, guid: a3e48859f9a8d674e91ed1b305085b63, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &42663782
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42663778}
+  m_CullTransparentMesh: 1
+--- !u!114 &42663783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 42663778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
+  actorId: B_Floor
+  speakerId: B
+  tintedGraphics:
+  - {fileID: 42663781}
 --- !u!1 &157120977
 GameObject:
   m_ObjectHideFlags: 0
@@ -482,6 +650,148 @@ MonoBehaviour:
   speakerId: 
   tintedGraphics:
   - {fileID: 193816297}
+--- !u!1 &265595894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 265595895}
+  - component: {fileID: 265595898}
+  - component: {fileID: 265595897}
+  - component: {fileID: 265595896}
+  - component: {fileID: 265595899}
+  m_Layer: 0
+  m_Name: Teen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &265595895
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265595894}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35284135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 110, y: 8}
+  m_SizeDelta: {x: 48, y: 76}
+  m_Pivot: {x: 0.5, y: 0.84210527}
+--- !u!114 &265595896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265595894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e760af0c28cce4daacae0cb06107ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActorAnimation
+  unitsPerPixel: 4
+  defaultClip: idle
+  clips:
+  - name: idle
+    frames:
+    - {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: -6561030935056219886, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 8634346976509192572, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 4023709547350312664, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: -1633575573268472445, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 3926721986335232373, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    durations:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    loop: 1
+    repeat: 0
+    next: 
+  - name: vanish
+    frames:
+    - {fileID: -8535815304227403633, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 5236697204967630931, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 6537326634732262546, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: 4895297822662750871, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: -8171769383401927316, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    durations:
+    - 0.11
+    - 0.11
+    - 0.11
+    - 0.11
+    - 0.2
+    loop: 0
+    repeat: 0
+    next: 
+--- !u!114 &265595897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265595894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &265595898
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265595894}
+  m_CullTransparentMesh: 1
+--- !u!114 &265595899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265595894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
+  actorId: Teen
+  speakerId: 
+  tintedGraphics:
+  - {fileID: 265595897}
 --- !u!1 &336523992
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,8 +1020,10 @@ MonoBehaviour:
   - {fileID: 2141581275}
   - {fileID: 1524432844}
   - {fileID: 1408735549}
-  - {fileID: 784590055}
-  - {fileID: 687316520}
+  - {fileID: 265595899}
+  - {fileID: 1235576277}
+  - {fileID: 42663783}
+  - {fileID: 1980388546}
   speakingTint: {r: 1, g: 1, b: 1, a: 1}
   listeningTint: {r: 1, g: 1, b: 1, a: 1}
   villainSpeakerId: Villain
@@ -1218,174 +1530,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 362944439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &687316515
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 687316516}
-  - component: {fileID: 687316519}
-  - component: {fileID: 687316518}
-  - component: {fileID: 687316517}
-  - component: {fileID: 687316520}
-  m_Layer: 0
-  m_Name: Villain
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &687316516
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687316515}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 35284135}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -56, y: 24}
-  m_SizeDelta: {x: 100, y: 124}
-  m_Pivot: {x: 0.6400001, y: 0.6451613}
---- !u!114 &687316517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687316515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99e760af0c28cce4daacae0cb06107ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActorAnimation
-  unitsPerPixel: 4
-  defaultClip: appear
-  clips:
-  - name: appear
-    frames:
-    - {fileID: 20208716969328230, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -3530258400486535571, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 3307323307870213780, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -4972841157327134500, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    durations:
-    - 0.09
-    - 0.09
-    - 0.09
-    - 0.09
-    loop: 0
-    repeat: 0
-    next: idle
-  - name: idle
-    frames:
-    - {fileID: 1236257305308756217, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 8767155592066843827, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    durations:
-    - 0.6
-    - 0.6
-    loop: 1
-    repeat: 0
-    next: 
-  - name: walk
-    frames:
-    - {fileID: 5548936562445110540, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 8132835888150961898, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -6477296150876486059, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -7195762186114164976, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    durations:
-    - 0.15
-    - 0.15
-    - 0.15
-    - 0.15
-    loop: 1
-    repeat: 0
-    next: 
-  - name: inject
-    frames:
-    - {fileID: -4439170668942595030, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -5589450348766759048, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 2804713696110650780, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 546264092864415434, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 5037432797920255038, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -2564684110639832341, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: 788142096617628701, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    - {fileID: -3367902379410502102, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-    durations:
-    - 0.3
-    - 0.12
-    - 0.15
-    - 0.15
-    - 0.15
-    - 0.3
-    - 0.2
-    - 0.4
-    loop: 0
-    repeat: 0
-    next: 
---- !u!114 &687316518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687316515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 1236257305308756217, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &687316519
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687316515}
-  m_CullTransparentMesh: 1
---- !u!114 &687316520
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687316515}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
-  actorId: Villain
-  speakerId: 
-  tintedGraphics:
-  - {fileID: 687316518}
 --- !u!1 &767188471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,148 +1605,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767188471}
   m_CullTransparentMesh: 1
---- !u!1 &784590050
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 784590051}
-  - component: {fileID: 784590054}
-  - component: {fileID: 784590053}
-  - component: {fileID: 784590052}
-  - component: {fileID: 784590055}
-  m_Layer: 0
-  m_Name: Teen
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &784590051
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784590050}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 35284135}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 110, y: 8}
-  m_SizeDelta: {x: 48, y: 76}
-  m_Pivot: {x: 0.5, y: 0.84210527}
---- !u!114 &784590052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784590050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99e760af0c28cce4daacae0cb06107ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActorAnimation
-  unitsPerPixel: 4
-  defaultClip: idle
-  clips:
-  - name: idle
-    frames:
-    - {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -6561030935056219886, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 8634346976509192572, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 4023709547350312664, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -1633575573268472445, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 3926721986335232373, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    durations:
-    - 0.1
-    - 0.1
-    - 0.1
-    - 0.1
-    - 0.1
-    - 0.1
-    loop: 1
-    repeat: 0
-    next: 
-  - name: vanish
-    frames:
-    - {fileID: -8535815304227403633, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 5236697204967630931, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 6537326634732262546, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 4895297822662750871, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -8171769383401927316, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    durations:
-    - 0.11
-    - 0.11
-    - 0.11
-    - 0.11
-    - 0.2
-    loop: 0
-    repeat: 0
-    next: 
---- !u!114 &784590053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784590050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &784590054
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784590050}
-  m_CullTransparentMesh: 1
---- !u!114 &784590055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 784590050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
-  actorId: Teen
-  speakerId: 
-  tintedGraphics:
-  - {fileID: 784590053}
 --- !u!1 &876803469
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,6 +2322,166 @@ Transform:
   m_Children: []
   m_Father: {fileID: 362944439}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1235576272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1235576273}
+  - component: {fileID: 1235576276}
+  - component: {fileID: 1235576275}
+  - component: {fileID: 1235576274}
+  - component: {fileID: 1235576277}
+  m_Layer: 0
+  m_Name: Villain
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1235576273
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235576272}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35284135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -56, y: 24}
+  m_SizeDelta: {x: 100, y: 124}
+  m_Pivot: {x: 0.6400001, y: 0.6451613}
+--- !u!114 &1235576274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235576272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e760af0c28cce4daacae0cb06107ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActorAnimation
+  unitsPerPixel: 4
+  defaultClip: appear
+  clips:
+  - name: appear
+    frames:
+    - {fileID: 20208716969328230, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: -3530258400486535571, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: 3307323307870213780, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: -4972841157327134500, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    durations:
+    - 0.09
+    - 0.09
+    - 0.09
+    - 0.09
+    loop: 0
+    repeat: 0
+    next: idle
+  - name: idle
+    frames:
+    - {fileID: 1236257305308756217, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: 8767155592066843827, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    durations:
+    - 0.6
+    - 0.6
+    loop: 1
+    repeat: 0
+    next: 
+  - name: walk
+    frames:
+    - {fileID: 5548936562445110540, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: 8132835888150961898, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: -6477296150876486059, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: -7195762186114164976, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    durations:
+    - 0.15
+    - 0.15
+    - 0.15
+    - 0.15
+    loop: 1
+    repeat: 0
+    next: 
+  - name: stab
+    frames:
+    - {fileID: -4439170668942595030, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: -5589450348766759048, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: 2804713696110650780, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    - {fileID: 546264092864415434, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+    durations:
+    - 0.5
+    - 0.12
+    - 0.26
+    - 0.07
+    loop: 0
+    repeat: 0
+    next: 
+--- !u!114 &1235576275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235576272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 1236257305308756217, guid: d916cfb604a857e48a1b404b9bfb2036, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1235576276
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235576272}
+  m_CullTransparentMesh: 1
+--- !u!114 &1235576277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235576272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
+  actorId: Villain
+  speakerId: 
+  tintedGraphics:
+  - {fileID: 1235576275}
 --- !u!1 &1408735544
 GameObject:
   m_ObjectHideFlags: 0
@@ -2430,24 +2592,6 @@ MonoBehaviour:
     - 0.6
     - 0.6
     loop: 1
-    repeat: 0
-    next: 
-  - name: injected
-    frames:
-    - {fileID: -7976308683712975289, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    - {fileID: 8186590476579271902, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    - {fileID: -1297411158488727443, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    - {fileID: 247475021339729129, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    - {fileID: -509102805620382896, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    - {fileID: -8759402981658515699, guid: a4501ec6fc893f940b4948ce6236c463, type: 3}
-    durations:
-    - 0.12
-    - 0.15
-    - 0.15
-    - 0.15
-    - 0.3
-    - 0.6
-    loop: 0
     repeat: 0
     next: 
 --- !u!114 &1408735547
@@ -3173,6 +3317,98 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1980388542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980388543}
+  - component: {fileID: 1980388545}
+  - component: {fileID: 1980388544}
+  - component: {fileID: 1980388546}
+  m_Layer: 0
+  m_Name: Level3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1980388543
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980388542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 35284135}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 896, y: 360}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1980388544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980388542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 32feed53f2645c24aba89f5d1d74887c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1980388545
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980388542}
+  m_CullTransparentMesh: 1
+--- !u!114 &1980388546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980388542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564f9a48006a26a43a7ac29d844d2b2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
+  actorId: Level3
+  speakerId: 
+  tintedGraphics:
+  - {fileID: 1980388544}
 --- !u!1 &2108804801
 GameObject:
   m_ObjectHideFlags: 0

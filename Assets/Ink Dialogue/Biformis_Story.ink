@@ -19,8 +19,9 @@
 //   #cast:A,B,Teen | none                    ai đứng trên sân khấu (Box = chiếc hộp đen, B_Bed = B nằm trên giường,
 //                                           Villain = phản diện có hình, lúc đó màn hình không ửng đỏ)
 //   #anim:Nhân vật:clip[:giây]               đổi animation (tên tag Aseprite), có thể chờ vài giây rồi mới đổi
-//       B_Bed: sleep | wake | pant | sit_idle | injected   (wake -> pant -> sit_idle tự nối nhau)
-//       Teen: idle | vanish      Villain: appear | idle | walk | inject
+//       B_Bed: sleep | wake | pant | sit_idle   (wake -> pant -> sit_idle tự nối nhau)
+//       B_Floor (B nằm trên sàn Màn 3): sleep | wake | pant | idle      Level3 = ảnh nền sàn Màn 3
+//       Teen: idle | vanish      Villain: appear | idle | walk | stab
 //   #move:Nhân vật:x[:giây]                  dời nhân vật tới toạ độ x (đơn vị canvas, 0 = giữa màn hình)
 //   #wait:giây                               ẩn khung thoại, chờ cho sân khấu diễn; các tag sau nó chạy khi hết chờ
 //   #fx:shake | flash | red | fade_black | fade_white | fade_in
@@ -100,8 +101,7 @@ Như vậy sẽ không còn sự bất lực, không còn sự nuối tiếc, kh
 Lúc đó kể cả có bị đạn bắn chắc cũng chẳng sợ nhỉ? #bg:641621:1.5
 Nói tóm lại, sứ mệnh của ta là đưa ngày đó đến gần hơn với loài người.
 Ngươi có tin là chỉ cần một công tắc, ta có thể ban cho ngươi cuộc sống mơ ước đó không?
-Ông ta đang nói gì vậy chứ... #speaker:B
-#anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:inject #anim:B_Bed:injected:0.8 #wait:2.2 #bg:310910:1 #fx:fade_black #wait:1.5
+Ông ta đang nói gì vậy chứ... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
 // -> Tỉnh dậy, BẮT ĐẦU MÀN 3.
 -> DONE
 

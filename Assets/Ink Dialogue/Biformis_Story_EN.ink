@@ -62,8 +62,7 @@ No more helplessness, no more regret, no more discrimination. #bg:86262F:1.5
 Then even getting shot wouldn't be scary, would it? #bg:641621:1.5
 In short, my mission is to bring that day closer to mankind.
 Would you believe that with just one switch, I could give you that dream life?
-What is he even talking about... #speaker:B
-#anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:inject #anim:B_Bed:injected:0.8 #wait:2.2 #bg:310910:1 #fx:fade_black #wait:1.5
+What is he even talking about... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
 -> DONE
 
 
