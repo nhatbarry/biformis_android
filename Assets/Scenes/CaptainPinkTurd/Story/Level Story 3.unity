@@ -135,6 +135,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c15ccc8a184245b13284a03e0455de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UI::CaptainPinkTurd.UI.Popup.PopupActivator
+--- !u!1 &318989635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 318989636}
+  m_Layer: 0
+  m_Name: Spawn Position #1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &318989636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 318989635}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: -4, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1991495512}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &376735203
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -252,6 +283,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4957566025479673256, guid: 129a5ae042c11ca469c4067aff704dbd, type: 3}
   m_PrefabInstance: {fileID: 1256682379}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &479777704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 479777705}
+  m_Layer: 0
+  m_Name: Spawn Position #2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &479777705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 479777704}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1991495512}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &613879007 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6317065125661890761, guid: ad6d76c801b9eca46a51a99ba7b1ed6f, type: 3}
@@ -471,8 +533,8 @@ Tilemap:
   - first: {x: -1, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileIndex: 9
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -481,8 +543,8 @@ Tilemap:
   - first: {x: 0, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 8
+      m_TileSpriteIndex: 8
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -596,16 +658,20 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 10a2779a79fcaf74ba8edfc8de3bf556, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 26c2c82f8e11ee2489f47a2fd83ac5fa, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 942d80116899eb941a189fe86a544722, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 519860798d22dec4085f36609e500305, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: e5024673df339c44da60ca6bec265fbd, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: b8798ffa5cce1444b9aa1267407160ad, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 93241dec592086b4da9d45726534929b, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: d7f859cf13aeec843ac72cf76a6bba6a, type: 2}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: 6200584d92c3a1c4995a9f324903353c, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: 9214522175769462251, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
@@ -613,16 +679,20 @@ Tilemap:
     m_Data: {fileID: -8907666336204531924, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: 6183478059368212212, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: -2054583424, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -1702528237, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: -991922455, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 3691755172320232930, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: -593457893901105454, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 8710754528225342697, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
+  - m_RefCount: 1
+    m_Data: {fileID: 3234035993364537311, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 12
     m_Data:
@@ -68231,6 +68301,7 @@ GameObject:
   - component: {fileID: 950821407}
   - component: {fileID: 950821409}
   - component: {fileID: 950821408}
+  - component: {fileID: 950821410}
   m_Layer: 0
   m_Name: Encounter Door
   m_TagString: Untagged
@@ -68265,98 +68336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs:
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 4054407043497097032, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
-  - {fileID: 2769086437950624153, guid: 6268ee0fc961be74bb65a8ca9a75afe4, type: 3}
-  enemiesPerWave: 4
   waves: 2
-  spawnPoints:
-  - {x: 5.5, y: 14.5}
-  - {x: 5.5, y: 15.5}
-  - {x: 5.5, y: 16.5}
-  - {x: 5.5, y: 17.5}
-  - {x: 5.5, y: 18.5}
-  - {x: 5.5, y: 19.5}
-  - {x: 5.5, y: 20.5}
-  - {x: 6.5, y: 14.5}
-  - {x: 6.5, y: 15.5}
-  - {x: 6.5, y: 16.5}
-  - {x: 6.5, y: 17.5}
-  - {x: 6.5, y: 18.5}
-  - {x: 6.5, y: 19.5}
-  - {x: 6.5, y: 20.5}
-  - {x: 7.5, y: 14.5}
-  - {x: 7.5, y: 19.5}
-  - {x: 7.5, y: 20.5}
-  - {x: 8.5, y: 14.5}
-  - {x: 8.5, y: 19.5}
-  - {x: 8.5, y: 20.5}
-  - {x: 9.5, y: 14.5}
-  - {x: 9.5, y: 19.5}
-  - {x: 9.5, y: 20.5}
-  - {x: 10.5, y: 14.5}
-  - {x: 10.5, y: 19.5}
-  - {x: 10.5, y: 20.5}
-  - {x: 11.5, y: 14.5}
-  - {x: 11.5, y: 15.5}
-  - {x: 11.5, y: 16.5}
-  - {x: 11.5, y: 17.5}
-  - {x: 11.5, y: 18.5}
-  - {x: 11.5, y: 19.5}
-  - {x: 11.5, y: 20.5}
-  - {x: 12.5, y: 13.5}
-  - {x: 12.5, y: 14.5}
-  - {x: 12.5, y: 15.5}
-  - {x: 12.5, y: 16.5}
-  - {x: 12.5, y: 17.5}
-  - {x: 12.5, y: 18.5}
-  - {x: 12.5, y: 19.5}
-  - {x: 12.5, y: 20.5}
-  - {x: 13.5, y: 14.5}
-  - {x: 13.5, y: 15.5}
-  - {x: 13.5, y: 16.5}
-  - {x: 13.5, y: 17.5}
-  - {x: 13.5, y: 18.5}
-  - {x: 13.5, y: 19.5}
-  - {x: 13.5, y: 20.5}
-  - {x: 14.5, y: 14.5}
-  - {x: 14.5, y: 15.5}
-  - {x: 14.5, y: 16.5}
-  - {x: 14.5, y: 17.5}
-  - {x: 14.5, y: 18.5}
-  - {x: 14.5, y: 19.5}
-  - {x: 14.5, y: 20.5}
-  - {x: 15.5, y: 14.5}
-  - {x: 15.5, y: 19.5}
-  - {x: 15.5, y: 20.5}
-  - {x: 16.5, y: 14.5}
-  - {x: 16.5, y: 19.5}
-  - {x: 16.5, y: 20.5}
-  - {x: 17.5, y: 14.5}
-  - {x: 17.5, y: 19.5}
-  - {x: 17.5, y: 20.5}
-  - {x: 18.5, y: 14.5}
-  - {x: 18.5, y: 19.5}
-  - {x: 18.5, y: 20.5}
-  - {x: 19.5, y: 14.5}
-  - {x: 19.5, y: 15.5}
-  - {x: 19.5, y: 16.5}
-  - {x: 19.5, y: 17.5}
-  - {x: 19.5, y: 18.5}
-  - {x: 19.5, y: 19.5}
-  - {x: 19.5, y: 20.5}
-  - {x: 20.5, y: 14.5}
-  - {x: 20.5, y: 15.5}
-  - {x: 20.5, y: 16.5}
-  - {x: 20.5, y: 17.5}
-  - {x: 20.5, y: 18.5}
-  - {x: 20.5, y: 19.5}
-  - {x: 20.5, y: 20.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -68422,6 +68404,44 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 18, y: 9}
   m_EdgeRadius: 0
+--- !u!114 &950821410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950821406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair: []
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!4 &967160041 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4108975754366707165, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
@@ -68451,7 +68471,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986831835}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -68459,7 +68479,7 @@ Transform:
   - {fileID: 1991495512}
   - {fileID: 1363725152}
   - {fileID: 950821407}
-  m_Father: {fileID: 1727938693}
+  m_Father: {fileID: 1157547466}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1129578071
 GameObject:
@@ -68601,8 +68621,8 @@ Tilemap:
   - first: {x: -5, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileIndex: 8
+      m_TileSpriteIndex: 8
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -68611,8 +68631,8 @@ Tilemap:
   - first: {x: -4, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 9
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -68621,8 +68641,8 @@ Tilemap:
   - first: {x: 3, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileIndex: 8
+      m_TileSpriteIndex: 8
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -68631,8 +68651,8 @@ Tilemap:
   - first: {x: 4, y: -4, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 5
+      m_TileIndex: 9
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -68671,8 +68691,8 @@ Tilemap:
   - first: {x: 4, y: -3, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 7
-      m_TileSpriteIndex: 7
+      m_TileIndex: 9
+      m_TileSpriteIndex: 9
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -68786,16 +68806,20 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 08f53fcf09010fd4094caaff31c47bda, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: 06bfeedce93d72647b6a4b694a42e1e6, type: 2}
-  - m_RefCount: 3
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 86b95954b894006428226da50a374e94, type: 2}
   - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: d5bf112625b628b49ba8050a17b6c783, type: 2}
-  - m_RefCount: 3
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: ad50826c6a1e5d044bf435b11622a882, type: 2}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 2432e3351b3068f489aa6a95d0d3bb31, type: 2}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 11400000, guid: 4710259a4f1d21243ab95bd667eb701a, type: 2}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: 9a1ba149a2bd5e54baa959e649286c65, type: 2}
+  - m_RefCount: 3
+    m_Data: {fileID: 11400000, guid: 5a24848b83984f342b3738afc01e6d70, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 3
     m_Data: {fileID: 3581545487557173641, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
@@ -68803,16 +68827,20 @@ Tilemap:
     m_Data: {fileID: 167602090117647133, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 3
     m_Data: {fileID: -748655851102102446, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
-  - m_RefCount: 3
+  - m_RefCount: 1
     m_Data: {fileID: 1124803534, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 406758922, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
-  - m_RefCount: 3
+  - m_RefCount: 1
     m_Data: {fileID: 2048916513, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -5835682199983588531, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
-  - m_RefCount: 2
+  - m_RefCount: 1
     m_Data: {fileID: 1008129602410011205, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
+  - m_RefCount: 2
+    m_Data: {fileID: 9129502463804830439, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
+  - m_RefCount: 3
+    m_Data: {fileID: -5504842313667123701, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 18
     m_Data:
@@ -69310,6 +69338,7 @@ Transform:
   - {fileID: 1807919447}
   - {fileID: 419894776}
   - {fileID: 1605926865}
+  - {fileID: 986831836}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1182088841
@@ -69552,6 +69581,7 @@ GameObject:
   - component: {fileID: 1363725152}
   - component: {fileID: 1363725154}
   - component: {fileID: 1363725153}
+  - component: {fileID: 1363725155}
   m_Layer: 0
   m_Name: Encounter 2
   m_TagString: Untagged
@@ -69586,94 +69616,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs:
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 4054407043497097032, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
-  - {fileID: 2769086437950624153, guid: 6268ee0fc961be74bb65a8ca9a75afe4, type: 3}
-  enemiesPerWave: 4
   waves: 1
-  spawnPoints:
-  - {x: 6.5, y: -2.5}
-  - {x: 7.5, y: -6.5}
-  - {x: 7.5, y: -5.5}
-  - {x: 7.5, y: -4.5}
-  - {x: 7.5, y: -3.5}
-  - {x: 7.5, y: -2.5}
-  - {x: 7.5, y: -1.5}
-  - {x: 7.5, y: -0.5}
-  - {x: 7.5, y: 0.5}
-  - {x: 7.5, y: 1.5}
-  - {x: 8.5, y: -6.5}
-  - {x: 8.5, y: -1.5}
-  - {x: 8.5, y: -0.5}
-  - {x: 8.5, y: 0.5}
-  - {x: 8.5, y: 1.5}
-  - {x: 9.5, y: -6.5}
-  - {x: 9.5, y: -1.5}
-  - {x: 9.5, y: -0.5}
-  - {x: 9.5, y: 0.5}
-  - {x: 9.5, y: 1.5}
-  - {x: 10.5, y: -6.5}
-  - {x: 10.5, y: -1.5}
-  - {x: 10.5, y: -0.5}
-  - {x: 10.5, y: 0.5}
-  - {x: 10.5, y: 1.5}
-  - {x: 11.5, y: -6.5}
-  - {x: 11.5, y: -1.5}
-  - {x: 11.5, y: -0.5}
-  - {x: 11.5, y: 0.5}
-  - {x: 11.5, y: 1.5}
-  - {x: 12.5, y: -6.5}
-  - {x: 12.5, y: -5.5}
-  - {x: 12.5, y: -4.5}
-  - {x: 12.5, y: -3.5}
-  - {x: 12.5, y: -2.5}
-  - {x: 12.5, y: -1.5}
-  - {x: 12.5, y: -0.5}
-  - {x: 12.5, y: 0.5}
-  - {x: 12.5, y: 1.5}
-  - {x: 13.5, y: -6.5}
-  - {x: 13.5, y: -5.5}
-  - {x: 13.5, y: -4.5}
-  - {x: 13.5, y: -3.5}
-  - {x: 13.5, y: -2.5}
-  - {x: 13.5, y: -1.5}
-  - {x: 13.5, y: -0.5}
-  - {x: 13.5, y: 0.5}
-  - {x: 13.5, y: 1.5}
-  - {x: 14.5, y: -6.5}
-  - {x: 14.5, y: -5.5}
-  - {x: 14.5, y: -4.5}
-  - {x: 14.5, y: -3.5}
-  - {x: 14.5, y: 1.5}
-  - {x: 15.5, y: -6.5}
-  - {x: 15.5, y: -5.5}
-  - {x: 15.5, y: -4.5}
-  - {x: 15.5, y: -3.5}
-  - {x: 15.5, y: 1.5}
-  - {x: 16.5, y: -6.5}
-  - {x: 16.5, y: -5.5}
-  - {x: 16.5, y: -4.5}
-  - {x: 16.5, y: -3.5}
-  - {x: 16.5, y: 1.5}
-  - {x: 17.5, y: -6.5}
-  - {x: 17.5, y: -5.5}
-  - {x: 17.5, y: -4.5}
-  - {x: 17.5, y: -3.5}
-  - {x: 17.5, y: 1.5}
-  - {x: 18.5, y: -6.5}
-  - {x: 18.5, y: -5.5}
-  - {x: 18.5, y: -4.5}
-  - {x: 18.5, y: -3.5}
-  - {x: 18.5, y: -2.5}
-  - {x: 18.5, y: -1.5}
-  - {x: 18.5, y: -0.5}
-  - {x: 18.5, y: 0.5}
-  - {x: 18.5, y: 1.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -69739,6 +69684,44 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 14, y: 11}
   m_EdgeRadius: 0
+--- !u!114 &1363725155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363725151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair: []
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!1001 &1385152257
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -70099,7 +70082,7 @@ Transform:
   m_GameObject: {fileID: 1605926864}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.5, y: -3.5, z: -10}
+  m_LocalPosition: {x: -12.222222, y: -3.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -70378,7 +70361,6 @@ Transform:
   - {fileID: 860899244}
   - {fileID: 7878350318300230441}
   - {fileID: 853347494}
-  - {fileID: 986831836}
   - {fileID: 401911895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -70728,9 +70710,9 @@ CompositeCollider2D:
       - X: 120000000
         Y: 220000000
       - X: 120000000
-        Y: 240000000
+        Y: 230000000
       - X: 140000000
-        Y: 240000000
+        Y: 230000000
       - X: 140000000
         Y: 220000000
       - X: 220000000
@@ -70819,22 +70801,22 @@ CompositeCollider2D:
       - {x: 4, y: 13.00003}
       - {x: 4.0000296, y: 22}
       - {x: 12, y: 22.000029}
-      - {x: 12.00003, y: 24}
-      - {x: 14, y: 23.999971}
+      - {x: 12.00003, y: 23}
+      - {x: 14, y: 22.999971}
       - {x: 14.000029, y: 22}
       - {x: 22, y: 21.999971}
       - {x: 21.999971, y: 13}
       - {x: 14, y: 12.99997}
       - {x: 14.000029, y: 3}
       - {x: 20, y: 2.9999707}
-    - - {x: 17.999971, y: 16}
-      - {x: 17.999971, y: 18}
-      - {x: 16, y: 17.999971}
-      - {x: 16.000029, y: 16}
     - - {x: 9.99997, y: 16}
       - {x: 9.99997, y: 18}
       - {x: 8, y: 17.999971}
       - {x: 8.00003, y: 16}
+    - - {x: 17.999971, y: 16}
+      - {x: 17.999971, y: 18}
+      - {x: 16, y: 17.999971}
+      - {x: 16.000029, y: 16}
     - - {x: 16.999971, y: -2}
       - {x: 16.999971, y: 0}
       - {x: 15, y: -0.000029300001}
@@ -72967,6 +72949,26 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
+  - first: {x: 12, y: 23, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 9
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 13, y: 23, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 9
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 14, y: 23, z: 0}
     second:
       serializedVersion: 2
@@ -73021,6 +73023,8 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 204
     m_Data: {fileID: 11400000, guid: 4a57e3bdc8955b04a9eae3e7b6951b3d, type: 2}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: cedd7b9f969ba8f4889a9280b4745dcc, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 10
     m_Data: {fileID: 9046047427341356226, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
@@ -73040,10 +73044,10 @@ Tilemap:
     m_Data: {fileID: -725975062686601681, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 8432460429007845530, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 204
+  - m_RefCount: 206
     m_Data:
       e00: 1
       e01: 0
@@ -73062,7 +73066,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 204
+  - m_RefCount: 206
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -73129,6 +73133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1991495512}
   - component: {fileID: 1991495514}
+  - component: {fileID: 1991495515}
   - component: {fileID: 1991495513}
   m_Layer: 0
   m_Name: Encounter 1
@@ -73149,7 +73154,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 318989636}
+  - {fileID: 479777705}
   m_Father: {fileID: 986831836}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1991495513
@@ -73164,68 +73171,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs:
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
-  - {fileID: 4054407043497097032, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
-  - {fileID: 2769086437950624153, guid: 6268ee0fc961be74bb65a8ca9a75afe4, type: 3}
-  enemiesPerWave: 4
   waves: 1
-  spawnPoints:
-  - {x: -18.5, y: -1.5}
-  - {x: -18.5, y: -0.5}
-  - {x: -18.5, y: 0.5}
-  - {x: -17.5, y: -1.5}
-  - {x: -17.5, y: -0.5}
-  - {x: -17.5, y: 0.5}
-  - {x: -16.5, y: -1.5}
-  - {x: -16.5, y: -0.5}
-  - {x: -16.5, y: 0.5}
-  - {x: -15.5, y: -4.5}
-  - {x: -15.5, y: -3.5}
-  - {x: -15.5, y: -2.5}
-  - {x: -15.5, y: -1.5}
-  - {x: -15.5, y: -0.5}
-  - {x: -15.5, y: 0.5}
-  - {x: -14.5, y: -4.5}
-  - {x: -14.5, y: -3.5}
-  - {x: -14.5, y: -2.5}
-  - {x: -14.5, y: -1.5}
-  - {x: -14.5, y: -0.5}
-  - {x: -14.5, y: 0.5}
-  - {x: -13.5, y: -4.5}
-  - {x: -13.5, y: -3.5}
-  - {x: -13.5, y: -2.5}
-  - {x: -13.5, y: -1.5}
-  - {x: -13.5, y: -0.5}
-  - {x: -13.5, y: 0.5}
-  - {x: -12.5, y: -4.5}
-  - {x: -12.5, y: -3.5}
-  - {x: -12.5, y: -2.5}
-  - {x: -12.5, y: -1.5}
-  - {x: -12.5, y: -0.5}
-  - {x: -12.5, y: 0.5}
-  - {x: -11.5, y: -4.5}
-  - {x: -11.5, y: -3.5}
-  - {x: -11.5, y: -2.5}
-  - {x: -11.5, y: -1.5}
-  - {x: -11.5, y: -0.5}
-  - {x: -11.5, y: 0.5}
-  - {x: -10.5, y: -4.5}
-  - {x: -10.5, y: -3.5}
-  - {x: -10.5, y: -2.5}
-  - {x: -10.5, y: -1.5}
-  - {x: -10.5, y: -0.5}
-  - {x: -10.5, y: 0.5}
-  - {x: -9.5, y: -4.5}
-  - {x: -9.5, y: -3.5}
-  - {x: -9.5, y: -2.5}
-  - {x: -9.5, y: -1.5}
-  - {x: -9.5, y: -0.5}
-  - {x: -9.5, y: 0.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -73291,6 +73239,48 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 12, y: 8}
   m_EdgeRadius: 0
+--- !u!114 &1991495515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1991495511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair:
+  - Value: {fileID: 2849812209136150907, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
+    Key: {fileID: 318989636}
+  - Value: {fileID: 2297502924798621319, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
+    Key: {fileID: 479777705}
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!1 &2013895483
 GameObject:
   m_ObjectHideFlags: 0

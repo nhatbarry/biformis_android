@@ -7,6 +7,7 @@ using BulletHell;
 using CaptainPinkTurd.BulletHell;
 using CaptainPinkTurd.Game.Enemy;
 using CaptainPinkTurd.Game.Player;
+using CaptainPinkTurd.SpawnSystem;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;

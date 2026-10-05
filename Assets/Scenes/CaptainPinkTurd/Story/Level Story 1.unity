@@ -372,7 +372,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3439329279
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.8}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -385,7 +385,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3439329279
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.8}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -57927,8 +57927,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.5, y: 19.5}
-  m_SizeDelta: {x: 12, y: 3}
+  m_AnchoredPosition: {x: 8, y: 19}
+  m_SizeDelta: {x: 9, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &910051264
 MonoBehaviour:
@@ -57974,7 +57974,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3439329279
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.8}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -57987,7 +57987,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -58031,7 +58031,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0.28688812, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -58929,8 +58929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -20.5, y: 0.5}
-  m_SizeDelta: {x: 12, y: 3}
+  m_AnchoredPosition: {x: -20.5113, y: 0.25}
+  m_SizeDelta: {x: 6.4766, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1269456844
 MonoBehaviour:
@@ -58975,7 +58975,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3439329279
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.8}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -58988,7 +58988,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -59032,7 +59032,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0.946048, z: 0, w: 1.015639}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -59125,8 +59125,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.5, y: 2.5}
-  m_SizeDelta: {x: 12, y: 3}
+  m_AnchoredPosition: {x: 8, y: 2.5}
+  m_SizeDelta: {x: 6, y: 3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1270718025
 MonoBehaviour:
@@ -59162,8 +59162,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "J: \u0111\u1ED5i gi\u1EEFa B (\u0110\u1ECF) v\xE0 A (Xanh) \xB7 C\xF9ng
-    m\xE0u th\xEC \u0111i xuy\xEAn t\u01B0\u1EDDng v\xE0 \u0111\u1EA1n"
+  m_text: "J: \u0111\u1ED5i gi\u1EEFa B (\u0110\u1ECF) v\xE0 A (Xanh) \nC\xF9ng m\xE0u
+    th\xEC \u0111i xuy\xEAn t\u01B0\u1EDDng v\xE0 \u0111\u1EA1n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   m_sharedMaterial: {fileID: 7627256980448258942, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
@@ -59172,7 +59172,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 3439329279
   m_fontColor: {r: 1, g: 1, b: 1, a: 0.8}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -59185,7 +59185,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -59229,7 +59229,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0.2693653, y: 0, z: 0.24691772, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -59814,7 +59814,7 @@ Transform:
   m_GameObject: {fileID: 1605926864}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.5, y: -1.5, z: -10}
+  m_LocalPosition: {x: -16.222221, y: -0.5, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -60377,9 +60377,9 @@ CompositeCollider2D:
       - X: 70000000
         Y: 200000000
       - X: 70000000
-        Y: 220000000
+        Y: 210000000
       - X: 90000000
-        Y: 220000000
+        Y: 210000000
       - X: 90000000
         Y: 200000000
       - X: 130000000
@@ -60460,8 +60460,8 @@ CompositeCollider2D:
       - {x: 3, y: 13.00003}
       - {x: 3.0000293, y: 20}
       - {x: 7, y: 20.000029}
-      - {x: 7.0000296, y: 22}
-      - {x: 9, y: 21.999971}
+      - {x: 7.0000296, y: 21}
+      - {x: 9, y: 20.999971}
       - {x: 9.00003, y: 20}
       - {x: 13, y: 19.999971}
       - {x: 12.99997, y: 13}
@@ -62016,6 +62016,26 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741826
+  - first: {x: 7, y: 21, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 11
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
+  - first: {x: 8, y: 21, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 11
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: 9, y: 21, z: 0}
     second:
       serializedVersion: 2
@@ -62070,6 +62090,8 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 146
     m_Data: {fileID: 11400000, guid: 4a57e3bdc8955b04a9eae3e7b6951b3d, type: 2}
+  - m_RefCount: 2
+    m_Data: {fileID: 11400000, guid: cedd7b9f969ba8f4889a9280b4745dcc, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 8
     m_Data: {fileID: 9046047427341356226, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
@@ -62093,10 +62115,10 @@ Tilemap:
     m_Data: {fileID: 1738381236663462924, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 2
+    m_Data: {fileID: 8432460429007845530, guid: 5e6701590d0541f449b9cc7bcdfd86d8, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 146
+  - m_RefCount: 148
     m_Data:
       e00: 1
       e01: 0
@@ -62115,7 +62137,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 146
+  - m_RefCount: 148
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1

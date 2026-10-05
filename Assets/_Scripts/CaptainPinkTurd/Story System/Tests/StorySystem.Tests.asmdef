@@ -2,8 +2,8 @@
     "name": "StorySystem.Tests",
     "rootNamespace": "CaptainPinkTurd.Story.Tests",
     "references": [
-        "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
+        "GUID:27619889b8ba8c24980f49ee34dbb44a",
+        "GUID:0acc523941302664db1f4e527237feb3",
         "GUID:4379980e305684f4bbea58f0a9e24506",
         "GUID:2cd58449b9c64364cb9d02d6903e3c38",
         "GUID:58bed0e7c5306824586d7eda03609289",
@@ -16,7 +16,8 @@
         "GUID:d4a30627040e70443b43aa7f6a715d2f",
         "GUID:2bafac87e7f4b9b418d9448d219b01ab",
         "GUID:15fc0a57446b3144c949da3e2b9737a9",
-        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff"
+        "GUID:516a5277b8c3b4f4c8cc86b77b1591ff",
+        "GUID:bdba41ac695c1d94c86b25dc306aa653"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
