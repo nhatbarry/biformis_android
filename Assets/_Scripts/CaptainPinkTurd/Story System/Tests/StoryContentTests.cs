@@ -27,7 +27,10 @@ namespace CaptainPinkTurd.Story.Tests
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
         };
-        private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none" };
+        private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none",
+            "Room", "Lever", "Trapdoor", "CageFront", "Spotlight", "Captives", "Villain_Op", "Level1", "Shaft", "B_Fall", "Hospital",
+            "Track", "B_FB", "A_FB", "Vignette", "Dungeon", "DRoom", "Door", "Gap", "Bed_D", "Bed_Empty", "Vent", "TeenB", "Villain_D",
+            "Caption", "DarkDungeon", "DarkRoom", "A4", "B4", "Bedroom", "WallShadow", "BSit" };
         //clips of the actors with a StageActorAnimation in the Story Cutscene scene (the Aseprite tags)
         private static readonly Dictionary<string, string[]> AnimClips = new()
         {
@@ -35,7 +38,30 @@ namespace CaptainPinkTurd.Story.Tests
             ["B_Floor"] = new[] { "sleep", "wake", "pant", "idle" },
             ["Teen"] = new[] { "idle", "vanish" },
             ["Villain"] = new[] { "appear", "idle", "walk", "stab" },
+            ["Villain_Op"] = new[] { "appear_remote", "idle_remote", "talk_remote", "walk_remote", "press_remote", "pull_lever" },
+            ["Lever"] = new[] { "idle", "open" },
+            ["Trapdoor"] = new[] { "idle", "open" },
+            ["Captives"] = new[] { "idle", "struggle", "merge", "merged", "merged_red" },
+            ["B_Fall"] = new[] { "fall", "land", "lie", "getup", "idle" },
+            ["Mom"] = new[] { "idle", "talk", "cry" },
+            ["Doctor"] = new[] { "idle", "talk" },
+            ["Door"] = new[] { "idle", "bang" },
+            ["Gap"] = new[] { "glow", "glow_fade", "blood_seep", "blood_still" },
+            ["Vent"] = new[] { "closed", "open" },
+            ["TeenB"] = new[] { "idle", "idle_faded", "fade", "vanish" },
+            ["Villain_D"] = new[] { "appear", "idle", "talk", "walk", "touch_door" },
+            ["A4"] = new[] { "idle", "run" },
+            ["B4"] = new[] { "idle", "run" },
+            ["Bedroom"] = new[] { "idle", "bang" },
+            ["BSit"] = new[] { "hug", "rock", "up", "shiver", "slam", "down" },
         };
+        //who speaks each line of the team's preview GIFs (the lines themselves are the user's, copied verbatim)
+        private static readonly string[] AfterLevel3Speakers =
+        {
+            "B", "A", "B", "A", "B", "B", "A", "B", //the school track
+            "TeenB", "B", "TeenB", "B", "TeenB", "B", "Villain", "B", "Villain", "A", "B", "A", "Villain", "A", "Villain", //the dungeon
+        };
+        private static readonly string[] Level4EndSpeakers = { "A", "A", "B", "A", "B", "A", "B", "B", "A", "Doctor", "Mom", "Doctor" };
 
         private static StoryData Data => AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
 
@@ -79,6 +105,72 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.Less(lastLineTags.IndexOf("anim:Villain:stab"), lastLineTags.IndexOf("cast:Level3,B_Floor"), "the cut comes after the stab");
         }
 
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheOpeningEndsWithBGettingUpOnLevel1(string inkPath)
+        {
+            //the GIF's dialogue ends on the villain's line; the lever, the fall and Level 1's floor are a tags-only
+            //line after it, which ink must still hand over (and no "system starting up" line follows any more)
+            var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
+            story.ChoosePathString("Intro");
+            var tagsAfterLastLine = new List<string>();
+            string lastSpeaker = null;
+            while (story.canContinue)
+            {
+                if (story.Continue().Trim().Length > 0)
+                {
+                    tagsAfterLastLine.Clear();
+                    foreach (var tag in story.currentTags)
+                        if (tag.StartsWith("speaker:")) lastSpeaker = tag["speaker:".Length..];
+                }
+                else tagsAfterLastLine.AddRange(story.currentTags);
+            }
+            string tags = string.Join(" ", tagsAfterLastLine);
+            Assert.AreEqual("Villain", lastSpeaker, $"{inkPath}: the opening's last line isn't the villain's");
+            Assert.Contains("anim:Villain_Op:pull_lever", tagsAfterLastLine, $"{inkPath}: tags after the last line: {tags}");
+            Assert.Contains("cast:Level1,Shaft,B_Fall", tagsAfterLastLine, $"{inkPath}: tags after the last line: {tags}");
+            Assert.Contains("anim:B_Fall:land", tagsAfterLastLine, $"{inkPath}: tags after the last line: {tags}");
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheSceneAfterLevel3FollowsItsGif(string inkPath)
+        {
+            var lines = Lines(inkPath, "AfterLevel3");
+            CollectionAssert.AreEqual(AfterLevel3Speakers, lines.Take(AfterLevel3Speakers.Length).Select(l => l.speaker).ToArray(),
+                $"{inkPath}: speakers of the after-Level-3 scene");
+            int lastVillain = AfterLevel3Speakers.Length - 1;
+            Assert.Contains("anim:Villain_D:touch_door", lines[lastVillain].tags, $"{inkPath}: the villain touches the door before 'then die'");
+            //after "then die": the knocks fade, blood seeps, the villain walks back to the empty bed, beep... then the hospital
+            var after = lines[lastVillain + 1].tags;
+            string tags = string.Join(" ", after);
+            Assert.AreEqual("Mom", lines[lastVillain + 1].speaker, $"{inkPath}: the hospital's first line should follow");
+            foreach (var tag in new[] { "knock:Door:0.9", "anim:Gap:blood_seep", "move:Dungeon:-320:2.1", "cast:Caption", "cast:Hospital,Mom,Doctor" })
+                Assert.Contains(tag, after, $"{inkPath}: staging before the hospital: {tags}");
+            Assert.Less(after.IndexOf("cast:Caption"), after.IndexOf("cast:Hospital,Mom,Doctor"), "the caption comes before the hospital");
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheEndOfLevel4FollowsItsGif(string inkPath)
+        {
+            var lines = Lines(inkPath, "Level4_End");
+            CollectionAssert.AreEqual(Level4EndSpeakers, lines.Take(Level4EndSpeakers.Length).Select(l => l.speaker).ToArray(),
+                $"{inkPath}: speakers of the end of Level 4");
+            //the box is handed over by the player before the first line of the past
+            var first = lines[0].tags;
+            string tags = string.Join(" ", first);
+            foreach (var tag in new[] { "reach:B4:A4:-56", "hold", "attach:Box:B4:-18,4", "cast:Bedroom,WallShadow,BSit" })
+                Assert.Contains(tag, first, $"{inkPath}: staging before the past: {tags}");
+            Assert.Less(first.IndexOf("reach:B4:A4:-56"), first.IndexOf("hold"), "the hold waits for the reach");
+            Assert.Less(first.IndexOf("hold"), first.IndexOf("cast:Bedroom,WallShadow,BSit"), "the past starts after the box");
+            //"Anh! Anh ơi!" comes after B beats his head; the hospital after the beeps
+            Assert.Contains("anim:BSit:down", lines[8].tags, $"{inkPath}: A's last cry comes after the slams");
+            var hospital = lines[9].tags;
+            Assert.Less(hospital.IndexOf("cast:Caption"), hospital.IndexOf("cast:Hospital,Mom,Doctor"), "the beeps come before the hospital");
+            Assert.Contains("anim:Mom:cry", lines[12].tags, $"{inkPath}: Mom cries after the doctor's last line");
+        }
+
         [Test]
         public void BothLanguagesHaveTheSameLineCountPerKnot()
         {
@@ -98,6 +190,31 @@ namespace CaptainPinkTurd.Story.Tests
             }
         }
 
+        /// <summary>
+        /// The lines a cutscene shows, as DialogueManager groups them: a blank (tags-only) line's tags go with the next
+        /// line, and lines without a speaker tag keep the previous speaker.
+        /// </summary>
+        private static List<(string speaker, string text, List<string> tags)> Lines(string inkPath, string knot)
+        {
+            var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
+            story.ChoosePathString(knot);
+            var lines = new List<(string, string, List<string>)>();
+            var pending = new List<string>();
+            string speaker = null;
+            while (story.canContinue)
+            {
+                string text = story.Continue().Trim();
+                pending.AddRange(story.currentTags);
+                if (text.Length == 0) continue;
+                foreach (var tag in pending)
+                    if (tag.StartsWith("speaker:")) speaker = tag["speaker:".Length..];
+                lines.Add((speaker, text, pending));
+                pending = new List<string>();
+            }
+            if (pending.Count > 0) lines.Add((speaker, "", pending));
+            return lines;
+        }
+
         private static int CountLines(string inkPath, string knot)
         {
             var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
@@ -111,6 +228,8 @@ namespace CaptainPinkTurd.Story.Tests
 
         private static void AssertKnownTag(string knot, string tag)
         {
+            if (tag.Trim() == "hold") return; //waits for the stage, see the struggle tag
+
             int separator = tag.IndexOf(':');
             Assert.Greater(separator, 0, $"{knot}: tag '{tag}' is not key:value");
             string key = tag[..separator].Trim();
@@ -126,8 +245,14 @@ namespace CaptainPinkTurd.Story.Tests
                     break;
                 case "move":
                     var move = value.Split(':');
-                    Assert.That(move.Length is 2 or 3 && move.Skip(1).All(IsNumber), $"{knot}: move tag '{tag}' is not move:Actor:x[:seconds]");
+                    Assert.That(move.Length is 2 or 3 && move[1].Split(',').Length <= 2 && move[1].Split(',').All(IsNumber) && move.Skip(2).All(IsNumber),
+                        $"{knot}: move tag '{tag}' is not move:Actor:x[,y][:seconds]");
                     Assert.Contains(move[0], CastIds, $"{knot}: unknown actor {move[0]}");
+                    break;
+                case "struggle":
+                    var struggle = value.Split(':');
+                    Assert.That(struggle.Length == 2 && int.TryParse(struggle[1], out int count) && count > 0, $"{knot}: struggle tag '{tag}' is not struggle:Actor:count");
+                    Assert.Contains("struggle", AnimClips[struggle[0]], $"{knot}: {struggle[0]} has no struggle clip");
                     break;
                 case "wait":
                     Assert.IsTrue(IsNumber(value), $"{knot}: wait tag '{tag}' is not wait:seconds");
@@ -145,6 +270,44 @@ namespace CaptainPinkTurd.Story.Tests
                         Assert.IsTrue(float.TryParse(parts[2], NumberStyles.Float, CultureInfo.InvariantCulture, out _), $"{knot}: anim delay {parts[2]} is not a number");
                     Assert.IsTrue(AnimClips.ContainsKey(parts[0]), $"{knot}: actor {parts[0]} has no animation");
                     Assert.Contains(parts[1], AnimClips[parts[0]], $"{knot}: {parts[0]} has no clip {parts[1]}");
+                    break;
+                case "flip":
+                case "banging":
+                    var toggle = value.Split(':');
+                    Assert.That(toggle.Length == 2 && toggle[1] is "on" or "off", $"{knot}: {key} tag '{tag}' is not {key}:Actor:on|off");
+                    Assert.Contains(toggle[0], CastIds, $"{knot}: unknown actor {toggle[0]}");
+                    if (key == "banging") Assert.Contains("bang", AnimClips[toggle[0]], $"{knot}: {toggle[0]} has no bang clip");
+                    break;
+                case "knock":
+                    var knock = value.Split(':');
+                    Assert.That(knock.Length == 2 && IsNumber(knock[1]), $"{knot}: knock tag '{tag}' is not knock:Actor:level");
+                    Assert.Contains("bang", AnimClips[knock[0]], $"{knot}: {knock[0]} has no bang clip");
+                    break;
+                case "fade":
+                    var fade = value.Split(':');
+                    Assert.That(fade.Length is 1 or 2 && (fade.Length == 1 || IsNumber(fade[1])) &&
+                                (fade[0] == "in" || (fade[0].Length == 6 && ColorUtility.TryParseHtmlString("#" + fade[0], out _))),
+                        $"{knot}: fade tag '{tag}' is not fade:RRGGBB|in[:seconds]");
+                    break;
+                case "attach":
+                    var attach = value.Split(':');
+                    Assert.Contains(attach[0], CastIds, $"{knot}: unknown actor {attach[0]}");
+                    Assert.That((attach.Length == 2 && attach[1] == "none") ||
+                                (attach.Length == 3 && CastIds.Contains(attach[1]) && attach[2].Split(',').Length == 2 && attach[2].Split(',').All(IsNumber)),
+                        $"{knot}: attach tag '{tag}' is not attach:Actor:Target:dx,dy or attach:Actor:none");
+                    break;
+                case "reach":
+                    var reach = value.Split(':');
+                    Assert.That(reach.Length == 3 && CastIds.Contains(reach[1]) && IsNumber(reach[2]), $"{knot}: reach tag '{tag}' is not reach:Walker:Target:maxX");
+                    Assert.IsTrue(AnimClips[reach[0]].Contains("idle") && AnimClips[reach[0]].Contains("run"), $"{knot}: {reach[0]} can't walk (no idle/run clips)");
+                    break;
+                case "alpha":
+                    var alpha = value.Split(':');
+                    Assert.That(alpha.Length is 2 or 3 && CastIds.Contains(alpha[0]) && alpha.Skip(1).All(IsNumber), $"{knot}: alpha tag '{tag}' is not alpha:Actor:opacity[:seconds]");
+                    break;
+                case "shake":
+                    var shake = value.Split(':');
+                    Assert.That(shake.Length is 1 or 2 && shake.All(IsNumber), $"{knot}: shake tag '{tag}' is not shake:units[:seconds]");
                     break;
                 default:
                     Assert.IsTrue(StageTagValues.ContainsKey(key), $"{knot}: unknown tag {tag}");

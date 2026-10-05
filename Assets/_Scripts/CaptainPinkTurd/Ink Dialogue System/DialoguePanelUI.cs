@@ -102,6 +102,7 @@ namespace CaptainPinkTurd.InkDialogue
                 return;
             }
 
+            graphicRaycaster.enabled = true; //a line with choices may have turned it off
             SetHiddenObjectsActive(false);
             SetSpeakerName(dialogueInfo.speaker);
             typewriterText.StartTyping(dialogueInfo.speaker, dialogueInfo.line, dialogueText.alignment, () =>
@@ -114,7 +115,9 @@ namespace CaptainPinkTurd.InkDialogue
         
         private void DisplayChoices(List<Choice> dialogueChoices)
         {
-            graphicRaycaster.enabled = false;
+            //runs after every line; only a line with choices may switch pointer input off, otherwise taps stop
+            //advancing the dialogue on touch screens from the second line on
+            if (dialogueChoices.Count > 0) graphicRaycaster.enabled = false;
             currentChoiceButtons.Clear();
             
             choiceGroup.AddLayoutElements(dialogueChoices.Count);

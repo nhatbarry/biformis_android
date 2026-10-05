@@ -8,22 +8,18 @@ VAR corridorBarkIndex = 0
 
 
 === Intro ===
-Damn it! We're back here again? #speaker:B #bg:black #cast:A,B
+Damn it! We're back here again? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 I thought we'd run so far away. #speaker:A
-Hello there! We meet again! #speaker:Villain #fx:red
+Hello there! We meet again! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
 Turn us back! I don't want to do this anymore! #speaker:B
 We'll give you your money back! Please, let us go! #speaker:A
-Sorry! I'm afraid I can't let the two of you go right now. #speaker:Villain
-Besides, I have no way of separating you two.
+Sorry! I'm afraid I can't let the two of you go right now. Besides, I have no way of separating you two. #speaker:Villain
 What? #speaker:B
-I have an idea. Why don't you two just accept it? #speaker:Villain
-What good does it do to keep suffering over it?
+I have an idea. Why don't you two just accept it? What good does it do to keep suffering over it? #speaker:Villain
 You lunatic! You're the one who did all this. Stop preaching at us! #speaker:B
-How shallow. Let me tell you, listening to me will gain you far more than you lose. #speaker:Villain
-Very well, I'll give you two one more chance.
-Don't think of this as a punishment. Think of it as a lesson I've prepared for you both.
-System starting up. #speaker:System #cast:none #fx:flash
-BEGIN.
+How shallow. Let me tell you, listening to me will gain you far more than you lose. #speaker:Villain #anim:Villain_Op:press_remote #wait:0.7 #anim:Captives:merge #wait:1.2
+Very well, I'll give you two one more chance. Don't think of this as a punishment. Think of it as a lesson I've prepared for you both.
+#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-152:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #anim:Trapdoor:open:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #wait:1.6 #cast:Level1,B_Fall #wait:4.8
 -> DONE
 
 
@@ -67,77 +63,68 @@ What is he even talking about... #speaker:B #anim:Villain:walk #move:Villain:60:
 
 
 === AfterLevel3 ===
-I had a really strange dream just now. #speaker:B #bg:black #cast:A,B
+I had a really strange dream just now. #speaker:B #bg:F6F0E4:0 #fade:F6F0E4:0 #cast:Track,B_FB,A_FB,Vignette #fade:in:0.9 #wait:0.9
 Did you dream about those things again? #speaker:A
 How do you know what I dreamed about? #speaker:B
-Back in high school you got injured and had to quit the school track team, remember? #speaker:A
-Did you forget?
-[speed=0.4]... #speaker:B
-Looks like he wants me to forget all that...
+Back in high school you got injured and had to quit the school track team, remember? Did you forget? #speaker:A
+[speed=0.4]... #speaker:B #flip:B_FB:on
+Looks like he wants me to forget all that... #flip:B_FB:off
 So do you want to forget? #speaker:A
-[speed=0.4]... #speaker:B
+[speed=0.4]... #speaker:B #flip:B_FB:on
 -> WhiteRoom_2
 
 === WhiteRoom_2 ===
-<i>(B dreams again. The teenager appears.)</i> #speaker:Narrator #bg:white #cast:B,Teen
-You remember me now? #speaker:Teen
+You remember me now? #speaker:TeenB #fade:F6F0E4:0.9 #wait:0.9 #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB #move:Dungeon:-320 #fade:in:0.7 #wait:0.7
 Yeah. #speaker:B
-So how do you feel? #speaker:Teen
+So how do you feel? #speaker:TeenB
 I don't know what I'm supposed to feel. I'm just tired. #speaker:B
-Are you going to forget me? #speaker:Teen
+Are you going to forget me? #speaker:TeenB
 I don't know. #speaker:B
-Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #fx:red
+Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D #anim:Villain_D:appear #wait:0.36 #anim:TeenB:idle_faded
 Stop talking. #speaker:B
 It's just one press of a button. Come with me already. #speaker:Villain
-Hey. Are you there? #speaker:A
+Hey. Are you there? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D,Gap #anim:Gap:glow
 A? #speaker:B
 Don't listen to him. Please. #speaker:A
-Get lost! Do you want to watch him suffer? #speaker:Villain #fx:shake
+Get lost! Do you want to watch him suffer? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
 Open the door for me. #speaker:A
-Still so stubborn? Then die. #speaker:Villain #fx:shake
+Still so stubborn? Then die. #speaker:Villain #anim:Villain_D:walk #move:Villain_D:-480:0.7 #wait:0.7 #banging:Door:off #anim:Villain_D:touch_door
+#knock:Door:0.9 #wait:0.9 #knock:Door:0.6 #wait:1.3 #knock:Door:0.3 #wait:1.8 #anim:Gap:glow_fade #wait:1.8 #anim:Gap:blood_seep #wait:3.85 #anim:Villain_D:idle #wait:0.5 #flip:Villain_D:off #anim:Villain_D:walk #move:Villain_D:128:2.4 #wait:0.3 #move:Dungeon:-320:2.1 #wait:2.1 #anim:Villain_D:idle #wait:1.5 #fade:060103:1.2 #wait:1.2 #cast:Caption #sfx:beep #wait:2.2
 -> Hospital_1
 
 === Hospital_1 ===
-<i>(Darkness. The sound of hospital machines.)</i> #speaker:Narrator #bg:black #cast:none #sfx:beep
-Can my boy wake up, doctor? #speaker:Mom #bg:hospital #cast:Mom,Doctor
+Can my boy wake up, doctor? #speaker:Mom #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 His mind is resisting very strongly. #speaker:Doctor
 At this point, I can't say whether A will be able to get in or not.
 -> DONE
 
 
 === Level4_End ===
-<i>(A appears in the white room and sees B.)</i> #speaker:Narrator #bg:white #cast:A,B
-<i>(A hands B a black, square box.)</i> #cast:A,B,Box
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
-<i>(The past.)</i> #speaker:Narrator #bg:past #cast:B #fx:fade_in
-Hey! Come eat, dinner's ready! #speaker:A
-Hey...
-Why do you think we've been like this since the day we were born? #speaker:B
-The kind of thing that can get hurt at any moment.
-Who are you talking to? #speaker:A
-It would be so nice not to have this body. #speaker:B
-What's wrong with you? Don't scare me! #speaker:A
-The kids at school were talking about me again. #speaker:B
-Ugh, I want to split my head open to show them how much they've made me suffer.
-Why are there so many people in this world? Why is everyone so different?
-It's not fair! Why is everyone after me?
-Get out! Get out! #fx:shake
-Hey! Are you okay?! #speaker:A #sfx:thud #fx:shake #cast:none
+Hey! Come eat, dinner's ready! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
+Hey... #speaker:A
+Why do you think we've been like this since the day we were born? The kind of thing that can get hurt at any moment. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
+Who are you talking to? #speaker:A #alpha:WallShadow:0.5
+It would be so nice not to have this body. #speaker:B #alpha:WallShadow:1
+What's wrong with you? Don't scare me! #speaker:A #banging:Bedroom:on
+The kids at school were talking about me again. Ugh, I want to split my head open to show them how much they've made me suffer. #speaker:B #anim:BSit:shiver
+Why are there so many people in this world? Why is everyone so different? It's not fair! Why is everyone after me? Get out! Get out! #speaker:B #anim:BSit:rock
+Hey! Are you okay?! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
+#fade:08060A:1 #wait:1 #banging:Bedroom:off #cast:Caption #sfx:beep #wait:1.8
 -> Hospital_2
 
 === Hospital_2 ===
-<i>(The sound of hospital machines.)</i> #speaker:Narrator #bg:black #sfx:beep
-It seems your son has created a second personality. #speaker:Doctor #bg:hospital #cast:Mom,Doctor
+It seems your son has created a second personality. #speaker:Doctor #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 W... what do you mean, doctor? #speaker:Mom
-This second personality can make his wishes come true. #speaker:Doctor
-So, I'm sorry to say it has taken control.
-Your son no longer cares about his real life.
+This second personality can make his wishes come true. So, I'm sorry to say it has taken control. Your son no longer cares about his real life. #speaker:Doctor
+#anim:Mom:cry #wait:2.2 #fade:08060A:1 #wait:1
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
-<i>(Back in the white room. A and B face each other.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B
+<i>(Back in the white room. A and B face each other.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B #fade:in:0.8 #wait:0.8
 It's been a few years since then. #speaker:A
 Then one day the doctor said you were showing signs of improvement.
 They took the chance to help me get into your mind and bring you back.

@@ -70,7 +70,7 @@ Assets/_Scripts/CaptainPinkTurd/
 | `PlayerAnimationController.cs` | Chọn hướng bằng dot product; không phát lại animation đang chạy | **Sửa bug PC** (phần animation) |
 | `AnimationControllerBase.cs` | Giải phóng timer cũ trước khi tạo timer mới | **Sửa rò rỉ PC** |
 | `Move_Effect.cs` | Trail bật khi sprint, không chỉ khi dash | **Sửa đúng ý đồ gốc** (xem §6) |
-| `Renderer2D.asset` | Bật Camera Sorting Layer Texture, bound = 8 | **Sửa bug PC ẩn** |
+| `Renderer2D.asset` | Bật Camera Sorting Layer Texture, bound = `0` (ID của layer `Default`) | **Sửa bug PC ẩn** |
 | `Core.unity` | Loading overlay stretch full màn | Không — 16:9 vốn đã che kín |
 | `Player TopDown Movement Stats.asset` | `walkSpeed` 6.5, `runSpeed` 8.45 | Có — đây là cân bằng game |
 | `ProjectSettings.asset` | Khóa landscape, package name Android | Không |
@@ -102,9 +102,9 @@ Có 3 test hồi quy trong `Tests/TimeScaleRegressionTests.cs`.
 
 `Shockwave_Screen_Vfx` (dùng bởi Spider, Turret, Bullet Source) lấy mẫu `_CameraSortingLayerTexture`, nhưng `Renderer2D.asset` để `m_UseCameraSortingLayersTexture: 0`. DX11 trên PC che được lỗi này, Vulkan/GLES trên Android trả về xám đặc.
 
-**Đã sửa:** bật lên, và đặt `m_CameraSortingLayersTextureBound: 8` (= `Default`). Con số này quan trọng: sprite shockwave nằm ở sorting layer `CameraSortingLayer` (index 9), nên texture phải chụp mọi layer **bên dưới** nó, tức 0→8. Nếu để 0 thì nó chỉ bóp méo mỗi layer `Outside map`.
+**Đã sửa:** bật lên, và đặt `m_CameraSortingLayersTextureBound: 0`. Sprite shockwave nằm ở sorting layer `CameraSortingLayer`, nên texture phải được chụp ngay sau layer **bên dưới** nó là `Default`.
 
-> ⚠️ **Chưa kiểm chứng bằng mắt.** Nếu thêm/bớt sorting layer trong `TagManager.asset`, phải chỉnh lại con số này.
+> ❌ **Sai lầm đã mắc:** lần sửa đầu đặt `8` vì nghĩ đây là *số thứ tự* layer (`Default` là layer thứ 8). Thực ra URP so con số này với **`uniqueID`** của sorting layer trong `TagManager.asset` (`RendererLighting.GetCameraSortingLayerBoundsIndex`). Không layer nào có ID 8 → URP không bao giờ chụp texture → trên máy thật (Vulkan/GLES), mỗi lần quái chết shockwave trải các frame cũ thành một "đường hầm" nhoè khắp màn hình. `Default` có `uniqueID: 0`, đúng bằng giá trị renderer PC (`2D URP Renderer.asset`) vẫn dùng. Test `RenderingSettingsTests` kiểm tra mọi renderer 2D mà các quality level dùng (Android = Medium → `UniversalRP.asset` → `Renderer2D.asset`).
 
 ### 5.3 Hướng nhân vật sai khi dùng joystick
 
@@ -202,7 +202,7 @@ Bất cứ ảnh nào định che kín màn hình phải để anchor `(0,0)-(1,
 
 ### Sorting layer
 
-Nếu thêm/bớt/đổi thứ tự sorting layer, phải chỉnh lại `m_CameraSortingLayersTextureBound` trong `Renderer2D.asset` (§5.2).
+Nếu thêm/bớt/đổi thứ tự sorting layer, `m_CameraSortingLayersTextureBound` trong `Renderer2D.asset` phải là **`uniqueID`** (không phải số thứ tự) của layer nằm ngay dưới `CameraSortingLayer` (§5.2). Test `RenderingSettingsTests` sẽ báo nếu sai.
 
 ---
 
@@ -286,7 +286,7 @@ Thư mục `Tests/` có `defineConstraints: UNITY_INCLUDE_TESTS` nên **không v
 | Việc | Trạng thái |
 |---|---|
 | **Multi-touch** (giữ sprint + đẩy joystick cùng lúc) | ❌ Chưa kiểm chứng — phải thử tay trên máy |
-| **Shockwave sau khi sửa bound = 8** | ❌ Chưa nhìn bằng mắt |
+| **Shockwave sau khi sửa bound = 0** | ❌ Chưa nhìn bằng mắt trên máy (bound = 8 đã gây lỗi nhoè trên máy thật) |
 | **FPS sau khi bật Camera Sorting Layer Texture** | ❌ Chưa đo — thêm 1 lần copy full-screen mỗi frame |
 | Nút Interact | Đã code, tắt mặc định (§6) |
 | Package name | Vẫn là mặc định |

@@ -11,7 +11,8 @@ namespace CaptainPinkTurd.Story.Cutscene
     /// The dialogue panel's look for each speaker: their portrait in a frame at the left of the panel, their name
     /// colour, and the text moved clear of the portrait.
     /// Portraits are clips of portraitAnimation named after the #speaker value: "Speaker" plays (usually loops) while
-    /// they talk, "Speaker_appear" plays first when the speaker changes to them. A speaker without a clip has no portrait.
+    /// they talk, "Speaker_appear" plays first when the speaker changes to them, and "Speaker_talk", if there is one,
+    /// plays while their line is typing (A's mouth moves). A speaker without a clip has no portrait.
     /// Speakers in shakeSpeakers jitter while their line is typing (the villain's portrait has no talking mouth).
     /// </summary>
     public class DialogueSpeakerStyle : MonoBehaviour
@@ -99,8 +100,19 @@ namespace CaptainPinkTurd.Story.Cutscene
         private void Update()
         {
             if (!portraitAnimation) return;
+            bool typing = portraitSpeaker != null && DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsTyping;
+            if (portraitSpeaker != null)
+            {
+                string talk = portraitSpeaker + "_talk";
+                if (portraitAnimation.HasClip(talk))
+                {
+                    if (typing && portraitAnimation.CurrentClip != talk) portraitAnimation.Play(talk);
+                    else if (!typing && portraitAnimation.CurrentClip == talk) portraitAnimation.Play(portraitSpeaker);
+                }
+            }
+
             var rect = (RectTransform)portraitAnimation.transform;
-            bool talking = shaking && portraitSpeaker != null && DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsTyping;
+            bool talking = shaking && typing;
 
             if (!talking)
             {

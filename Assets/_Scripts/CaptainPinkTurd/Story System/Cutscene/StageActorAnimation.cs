@@ -57,6 +57,8 @@ namespace CaptainPinkTurd.Story.Cutscene
         }
 
         public bool HasClip(string clipName) => Find(clipName) != null;
+        public string CurrentClip => current?.name;
+        public string DefaultClip => defaultClip;
 
         public void Play(string clipName, float delay = 0f)
         {
@@ -138,6 +140,7 @@ namespace CaptainPinkTurd.Story.Cutscene
 
             var sprite = current.frames[frame];
             image.sprite = sprite;
+            image.enabled = sprite; //an empty cel (e.g. a closed trapdoor) draws nothing, not a white box
             if (!sprite || unitsPerPixel <= 0f) return;
 
             var rect = (RectTransform)transform;

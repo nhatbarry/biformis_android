@@ -7,9 +7,11 @@ using CaptainPinkTurd.Game.Player;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene.Manager;
 using CaptainPinkTurd.Scene.Story;
+using CaptainPinkTurd.Story.Cutscene;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -180,17 +182,30 @@ namespace CaptainPinkTurd.Story.Tests
             yield return WaitUntil(() => DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsPlaying, 10f, $"cutscene {knot} to start");
 
             int presses = 0;
+            var stage = Object.FindAnyObjectByType<CutsceneStage>();
             while (DialogueManager.Instance.DialogueIsPlaying)
             {
-                //presses while a #wait holds the dialogue are ignored by design, so they don't count
-                if (!DialogueManager.Instance.IsStaging)
-                {
-                    DialogueManager.Instance.RequestContinue();
-                    Assert.Less(++presses, 600, $"cutscene {knot} never ended");
-                }
+                //the end of Level 4 waits for the player to walk B up to A: hold a finger on A, as on a phone
+                if (stage && stage.IsReaching) HoldFingerOn(stage.ReachTarget);
+                //while the stage holds the dialogue a press only goes to the stage (e.g. the opening's struggle),
+                //so those don't count towards the line limit
+                DialogueManager.Instance.RequestContinue();
+                if (!DialogueManager.Instance.IsStaging) Assert.Less(++presses, 600, $"cutscene {knot} never ended");
                 yield return null;
                 yield return null;
             }
+        }
+
+        private static void HoldFingerOn(RectTransform target)
+        {
+            var pointer = Object.FindAnyObjectByType<StagePointer>();
+            Assert.IsNotNull(pointer, "the stage has no StagePointer to walk with on a touch screen");
+            if (pointer.Held) return;
+            pointer.OnPointerDown(new PointerEventData(EventSystem.current)
+            {
+                position = RectTransformUtility.WorldToScreenPoint(null, target.position),
+                pointerId = 0,
+            });
         }
 
         private static IEnumerator WaitUntil(Func<bool> condition, float timeoutSeconds, string what)

@@ -161,7 +161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.12941177, g: 0.15294118, b: 0.22352941, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -804,7 +804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -850,7 +850,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: 0
+  m_lineSpacing: -8
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
@@ -1113,6 +1113,9 @@ MonoBehaviour:
   inkJsonEnglish: {fileID: 4900000, guid: 1463c39c93fad8f4486d56b25d2e7026, type: 3}
   onDialogueStart: {fileID: 11400000, guid: 37f79edd3f22e374a84d019f06fb47d7, type: 2}
   onDialogueEnd: {fileID: 11400000, guid: 4e49de43fae1ac24b99b0b17a68fbdaf, type: 2}
+  autoAdvance: 1
+  autoAdvanceBaseDelay: 2.5
+  autoAdvancePerCharacter: 0.05
 --- !u!1 &4612117850182145640
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,9 +1399,11 @@ MonoBehaviour:
     next: Villain
   - name: A
     frames:
-    - {fileID: 1374076441, guid: 1f783a7b61839724e8ea21f650e62ccd, type: 3}
+    - {fileID: 468251706290756499, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    - {fileID: 4566509172797568065, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
     durations:
-    - 1
+    - 0.7
+    - 0.7
     loop: 1
     repeat: 0
     next: 
@@ -1415,6 +1420,20 @@ MonoBehaviour:
     - {fileID: 1374076441, guid: 1f783a7b61839724e8ea21f650e62ccd, type: 3}
     durations:
     - 1
+    loop: 1
+    repeat: 0
+    next: 
+  - name: A_talk
+    frames:
+    - {fileID: -7284112187694029539, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    - {fileID: 7838196309651036543, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    - {fileID: 7834732033400526092, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    - {fileID: -472506757214792778, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    durations:
+    - 0.16
+    - 0.16
+    - 0.16
+    - 0.16
     loop: 1
     repeat: 0
     next: 
@@ -1548,10 +1567,14 @@ MonoBehaviour:
     Key: A
   - Value: {r: 0.58431375, g: 0.8784314, b: 0.8, a: 1}
     Key: Teen
-  - Value: {r: 0.65882355, g: 0.47058824, b: 0.34509805, a: 1}
+  - Value: {r: 0.9647059, g: 0.627451, b: 0.6117647, a: 1}
+    Key: TeenB
+  - Value: {r: 0.78431374, g: 0.627451, b: 0.47843137, a: 1}
     Key: Villain
-  - Value: {r: 0.98039216, g: 0.7529412, b: 0.64705884, a: 1}
+  - Value: {r: 0.9490196, g: 0.76862746, b: 0.3372549, a: 1}
     Key: Mom
+  - Value: {r: 0.58431375, g: 0.8784314, b: 0.8, a: 1}
+    Key: Doctor
 --- !u!1 &7071293720515693689
 GameObject:
   m_ObjectHideFlags: 0
@@ -1611,7 +1634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.58431375, g: 0.8784314, b: 0.8, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1688,7 +1711,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
   m_Color: {r: 0.22352941, g: 0.4392157, b: 0.47843137, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

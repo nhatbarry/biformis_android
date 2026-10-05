@@ -22,7 +22,32 @@
 //       B_Bed: sleep | wake | pant | sit_idle   (wake -> pant -> sit_idle tự nối nhau)
 //       B_Floor (B nằm trên sàn Màn 3): sleep | wake | pant | idle      Level3 = ảnh nền sàn Màn 3
 //       Teen: idle | vanish      Villain: appear | idle | walk | stab
-//   #move:Nhân vật:x[:giây]                  dời nhân vật tới toạ độ x (đơn vị canvas, 0 = giữa màn hình)
+//       Cảnh mở đầu: Room, Lever (idle | open), Trapdoor (idle | open), CageFront, Spotlight,
+//         Captives (idle | struggle | merge | merged | merged_red),
+//         Villain_Op (appear_remote | idle_remote | talk_remote | walk_remote | press_remote | pull_lever),
+//         Level1 = ảnh sàn Màn 1, Shaft = luồng sáng, B_Fall (fall | land | lie | getup | idle)
+//       Bệnh viện: Hospital = phòng bệnh (B nằm thở, máy đo nhịp tim), Mom (idle | talk | cry), Doctor (idle | talk)
+//       Sau Màn 3: ký ức sân trường Track, Vignette, B_FB, A_FB; hầm ngục Dungeon (cả căn phòng, #move để trượt camera:
+//         x = 320 - 4 * camX), DRoom, Door (idle | bang), Gap (glow | glow_fade | blood_seep | blood_still),
+//         Bed_D, Bed_Empty, Vent (closed | open), TeenB (idle | idle_faded | fade | vanish),
+//         Villain_D (appear | idle | talk | walk | touch_door), Caption = dòng "bíp... bíp... bíp..."
+//       Cuối Màn 4: hầm ngục tối DarkDungeon (đứng yên ở nửa có cửa), DarkRoom, A4 = A bị thương (idle | run),
+//         B4 = B (idle | run), Box = chiếc hộp ký ức
+//       Quá khứ: Bedroom = phòng ngủ (idle | bang = cửa rung), WallShadow = bóng mỏ chim trên tường,
+//         BSit = B ngồi (hug | rock | up | shiver | slam | down)
+//         Ai có clip talk thì tự diễn talk trong lúc chữ chạy (trừ khi đang diễn clip khác, vd Mẹ đang khóc)
+//   #move:Nhân vật:x[,y][:giây]              dời nhân vật tới toạ độ x (hoặc x,y) (đơn vị canvas, 0 = giữa màn hình)
+//   #struggle:Nhân vật:số lần                người chơi chạm / bấm Space / E đủ số lần để vùng vẫy (có thanh tiến độ)
+//   #hold                                    giống #wait nhưng chờ tới khi sân khấu xong việc (đi sau #struggle)
+//   #flip:Nhân vật:on|off                    lật ngang nhân vật (quay mặt sang phía kia)
+//   #fade:RRGGBB[:giây] | #fade:in[:giây]    phủ cả màn hình một màu rồi bỏ ra (vd màu giấy F6F0E4)
+//   #banging:Door:on|off                     A đập cửa liên tục: cửa rung, màn hình giật, chữ RẦM! khi cửa ngoài khung
+//   #knock:Door:độ đậm                       một tiếng cộc... yếu (độ đậm 0-1 của chữ)
+//   #attach:Vật:Nhân vật:dx,dy | #attach:Vật:none   vật đi theo nhân vật, lệch dx,dy (vd chiếc hộp trên tay)
+//   #reach:Nhân vật:Mục tiêu:x tối đa        người chơi tự đi nhân vật tới sát mục tiêu (phím trái/phải, A/D, giữ ngón tay
+//                                           về phía muốn đi) rồi bấm Space / E / chạm để làm; đặt #hold ngay sau
+//   #alpha:Nhân vật:độ đậm[:giây]            làm mờ / hiện một nhân vật (vd bóng trên tường)
+//   #shake:độ mạnh[:giây]                    rung màn hình (đơn vị canvas, 4 = 1 pixel)
 //   #wait:giây                               ẩn khung thoại, chờ cho sân khấu diễn; các tag sau nó chạy khi hết chờ
 //   #fx:shake | flash | red | fade_black | fade_white | fade_in
 //   #sfx:beep | stop | thud                  beep = máy đo nhịp tim (lặp), stop = tắt âm lặp
@@ -38,22 +63,18 @@ VAR corridorBarkIndex = 0
 // MỞ ĐẦU - Cảnh 1: Bắt đầu
 // ---------------------------------------------------------------------
 === Intro ===
-Khốn kiếp! Lại quay lại rồi à? #speaker:B #bg:black #cast:A,B
+Khốn kiếp! Lại quay lại rồi à? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 Em nhớ là bọn mình đã chạy xa lắm rồi mà. #speaker:A
-Xin chào! Chúng ta lại gặp nhau rồi! #speaker:Villain #fx:red
+Xin chào! Chúng ta lại gặp nhau rồi! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
 Biến bọn tôi trở lại! Tôi không muốn làm nữa! #speaker:B
 Bọn tôi sẽ trả tiền lại cho ông mà! Làm ơn thả bọn tôi ra! #speaker:A
-Xin lỗi nhé! Ta e rằng hiện tại ta không thể thả hai người ra được. #speaker:Villain
-Với cả, ta làm gì có cách nào để tách hai người ra.
+Xin lỗi nhé! Ta e rằng hiện tại ta không thể thả hai người ra được. Với cả, ta làm gì có cách nào để tách hai người ra. #speaker:Villain
 Hả? #speaker:B
-Ta có ý này. Sao hai người không chấp nhận chuyện này đi nhỉ? #speaker:Villain
-Cứ đau khổ mãi về nó có được lợi gì đâu.
+Ta có ý này. Sao hai người không chấp nhận chuyện này đi nhỉ? Cứ đau khổ mãi về nó có được lợi gì đâu. #speaker:Villain
 Đồ điên! Mấy chuyện này là do ông gây ra chứ ai. Đừng có rao giảng đạo lý nữa! #speaker:B
-Đúng là nông cạn. Nói cho hai người biết, nghe lời ta thì được nhiều hơn là mất đấy. #speaker:Villain
-Thôi được rồi, ta sẽ cho hai người thêm một cơ hội.
-Đừng coi đây là hình phạt mà hãy xem như là một bài học ta dành cho hai người đi.
-Hệ thống khởi động. #speaker:System #cast:none #fx:flash
-BẮT ĐẦU CHƠI.
+Đúng là nông cạn. Nói cho hai người biết, nghe lời ta thì được nhiều hơn là mất đấy. #speaker:Villain #anim:Villain_Op:press_remote #wait:0.7 #anim:Captives:merge #wait:1.2
+Thôi được rồi, ta sẽ cho hai người thêm một cơ hội. Đừng coi đây là hình phạt mà hãy xem như là một bài học ta dành cho hai người đi.
+#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-152:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #anim:Trapdoor:open:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #wait:1.6 #cast:Level1,B_Fall #wait:4.8
 -> DONE
 
 
@@ -110,39 +131,37 @@ Ngươi có tin là chỉ cần một công tắc, ta có thể ban cho ngươi 
 // CẢNH - SAU MÀN 3 -> CĂN PHÒNG TRẮNG (lần 2) -> BỆNH VIỆN
 // ---------------------------------------------------------------------
 === AfterLevel3 ===
-Hồi nãy anh mơ thấy một giấc mơ lạ lắm. #speaker:B #bg:black #cast:A,B
+Hồi nãy anh mơ thấy một giấc mơ lạ lắm. #speaker:B #bg:F6F0E4:0 #fade:F6F0E4:0 #cast:Track,B_FB,A_FB,Vignette #fade:in:0.9 #wait:0.9
 Anh lại mơ thấy những chuyện đó nữa à? #speaker:A
 Sao em biết anh mơ thấy gì? #speaker:B
-Hồi còn học trung học, anh bị chấn thương nên phải rút khỏi đội điền kinh của trường còn gì? #speaker:A
-Anh quên chuyện đó à?
-[speed=0.4]... #speaker:B
-Có vẻ ông ta muốn anh quên đi những chuyện đó...
+Hồi còn học trung học, anh bị chấn thương nên phải rút khỏi đội điền kinh của trường còn gì? Anh quên chuyện đó à? #speaker:A
+[speed=0.4]... #speaker:B #flip:B_FB:on
+Có vẻ ông ta muốn anh quên đi những chuyện đó... #flip:B_FB:off
 Vậy anh có muốn quên đi không? #speaker:A
-[speed=0.4]... #speaker:B
+[speed=0.4]... #speaker:B #flip:B_FB:on
 -> WhiteRoom_2
 
 === WhiteRoom_2 ===
-<i>(B lại mơ. Thiếu niên xuất hiện.)</i> #speaker:Narrator #bg:white #cast:B,Teen
-Anh nhớ ra em rồi sao? #speaker:Teen
+Anh nhớ ra em rồi sao? #speaker:TeenB #fade:F6F0E4:0.9 #wait:0.9 #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB #move:Dungeon:-320 #fade:in:0.7 #wait:0.7
 Ờ. #speaker:B
-Vậy anh thấy sao? #speaker:Teen
+Vậy anh thấy sao? #speaker:TeenB
 Anh không biết mình nên có cảm xúc gì. Anh chỉ thấy mệt thôi. #speaker:B
-Anh sẽ quên em sao? #speaker:Teen
+Anh sẽ quên em sao? #speaker:TeenB
 Anh không biết. #speaker:B
-Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #fx:red
+Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D #anim:Villain_D:appear #wait:0.36 #anim:TeenB:idle_faded
 Đừng nói nữa. #speaker:B
 Chỉ cần một nút ấn thôi mà. Mau đi theo ta đi rồi. #speaker:Villain
-Anh ơi. Anh có ở đó không? #speaker:A
+Anh ơi. Anh có ở đó không? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D,Gap #anim:Gap:glow
 A? #speaker:B
 Anh ơi. Đừng có nghe hắn. Xin anh đấy. #speaker:A
-Cút đi! Ngươi muốn nhìn hắn đau khổ sao? #speaker:Villain #fx:shake
+Cút đi! Ngươi muốn nhìn hắn đau khổ sao? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
 Mở cửa ra cho ta. #speaker:A
-Vẫn còn cố chấp à? Vậy thì chết đi. #speaker:Villain #fx:shake
+Vẫn còn cố chấp à? Vậy thì chết đi. #speaker:Villain #anim:Villain_D:walk #move:Villain_D:-480:0.7 #wait:0.7 #banging:Door:off #anim:Villain_D:touch_door
+#knock:Door:0.9 #wait:0.9 #knock:Door:0.6 #wait:1.3 #knock:Door:0.3 #wait:1.8 #anim:Gap:glow_fade #wait:1.8 #anim:Gap:blood_seep #wait:3.85 #anim:Villain_D:idle #wait:0.5 #flip:Villain_D:off #anim:Villain_D:walk #move:Villain_D:128:2.4 #wait:0.3 #move:Dungeon:-320:2.1 #wait:2.1 #anim:Villain_D:idle #wait:1.5 #fade:060103:1.2 #wait:1.2 #cast:Caption #sfx:beep #wait:2.2
 -> Hospital_1
 
 === Hospital_1 ===
-<i>(Màn hình đen. Tiếng máy móc trong bệnh viện vang lên.)</i> #speaker:Narrator #bg:black #cast:none #sfx:beep
-Thằng bé có thể tỉnh lại không bác sĩ? #speaker:Mom #bg:hospital #cast:Mom,Doctor
+Thằng bé có thể tỉnh lại không bác sĩ? #speaker:Mom #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 Tâm trí cậu ấy đang chống cự rất mạnh. #speaker:Doctor
 Với tình hình này, tôi không thể nói trước rằng cậu A có xâm nhập vào được hay không.
 // -> BẮT ĐẦU MÀN 4.
@@ -153,38 +172,31 @@ Với tình hình này, tôi không thể nói trước rằng cậu A có xâm 
 // KẾT THÚC MÀN 4 -> QUÁ KHỨ -> BỆNH VIỆN -> PHÒNG TRẮNG
 // ---------------------------------------------------------------------
 === Level4_End ===
-<i>(A xuất hiện trong căn phòng trắng và nhìn thấy B.)</i> #speaker:Narrator #bg:white #cast:A,B
-<i>(A đưa cho B một chiếc hộp hình vuông màu đen.)</i> #cast:A,B,Box
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
-<i>(Quá khứ.)</i> #speaker:Narrator #bg:past #cast:B #fx:fade_in
-Anh ơi! Ra ăn cơm đi! #speaker:A
-Anh...
-Cậu nghĩ tại sao chúng ta từ khi sinh ra đã như vậy rồi nhỉ? #speaker:B
-Kiểu có thể bị thương bất cứ lúc nào ấy.
-Anh đang nói chuyện với ai thế? #speaker:A
-Nếu như không có cơ thể này thì tốt quá ha. #speaker:B
-Anh bị sao thế? Anh đừng doạ em! #speaker:A
-Bọn ở trường lại nói mình nữa rồi. #speaker:B
-Ôi mình muốn bổ đầu ra để chứng minh mình đã khổ sở chừng nào với bọn nó quá.
-Sao thế giới này lại đông người vậy chứ? Sao tất cả mọi người đều khác nhau?
-Thật không công bằng! Tại sao ai cũng nhắm vào tôi.
-Cút đi! Cút đi! #fx:shake
-Anh! Anh ơi! #speaker:A #sfx:thud #fx:shake #cast:none
+Anh ơi! Ra ăn cơm đi! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
+Anh... #speaker:A
+Cậu nghĩ tại sao chúng ta từ khi sinh ra đã như vậy rồi nhỉ? Kiểu có thể bị thương bất cứ lúc nào ấy. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
+Anh đang nói chuyện với ai thế? #speaker:A #alpha:WallShadow:0.5
+Nếu như không có cơ thể này thì tốt quá ha. #speaker:B #alpha:WallShadow:1
+Anh bị sao thế? Anh đừng doạ em! #speaker:A #banging:Bedroom:on
+Bọn ở trường lại nói mình nữa rồi. Ôi mình muốn bổ đầu ra để chứng minh mình đã khổ sở chừng nào với bọn nó quá. #speaker:B #anim:BSit:shiver
+Sao thế giới này lại đông người vậy chứ? Sao tất cả mọi người đều khác nhau? Thật không công bằng! Tại sao ai cũng nhắm vào tôi. Cút đi! Cút đi! #speaker:B #anim:BSit:rock
+Anh! Anh ơi! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
+#fade:08060A:1 #wait:1 #banging:Bedroom:off #cast:Caption #sfx:beep #wait:1.8
 -> Hospital_2
 
 === Hospital_2 ===
-<i>(Tiếng máy bệnh viện.)</i> #speaker:Narrator #bg:black #sfx:beep
-Có vẻ con trai bà đã tự tạo ra một nhân cách thứ hai. #speaker:Doctor #bg:hospital #cast:Mom,Doctor
+Có vẻ con trai bà đã tự tạo ra một nhân cách thứ hai. #speaker:Doctor #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 L... là sao ạ bác sĩ? #speaker:Mom
-Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở thành sự thật. #speaker:Doctor
-Vì vậy, thật tiếc khi phải nói rằng nó đã chiếm quyền kiểm soát.
-Con trai bà không còn thiết tha gì đời sống thật nữa.
+Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở thành sự thật. Vì vậy, thật tiếc khi phải nói rằng nó đã chiếm quyền kiểm soát. Con trai bà không còn thiết tha gì đời sống thật nữa. #speaker:Doctor
+#anim:Mom:cry #wait:2.2 #fade:08060A:1 #wait:1
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
-<i>(Quay trở lại căn phòng trắng. A và B đối diện nhau.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B
+<i>(Quay trở lại căn phòng trắng. A và B đối diện nhau.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B #fade:in:0.8 #wait:0.8
 Từ đó cũng được vài năm rồi. #speaker:A
 Bỗng nhiên một ngày bác sĩ nói anh có chuyển biến tích cực.
 Họ đã chớp lấy cơ hội này để giúp em xâm nhập vào não anh và đưa anh trở lại.
