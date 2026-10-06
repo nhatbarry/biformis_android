@@ -25,6 +25,9 @@ namespace CaptainPinkTurd.Game.Enemy
         [SerializeField] private BasicVfxAnimationController spawnVfx;
         
         private PathCreator pathCreator;
+        //handed over by the encounter that spawned this spider; cleared when it goes back to the pool
+        private PathCreator encounterPath;
+        private bool pathInitialized;
         private SpriteRenderer sr;
         private AnimationClip currentIdleAnim;
         private AnimationClip currentMoveAnim;
@@ -34,6 +37,13 @@ namespace CaptainPinkTurd.Game.Enemy
         private float initialDistanceTravelledOffset;
         private bool runAnimationIsPlaying;
         private bool isRunning;
+
+        public PathCreator CurrentPath => pathCreator;
+        
+        /// <summary>
+        /// Called by the encounter that spawned this spider, right after spawning it and before its first Update.
+        /// </summary>
+        public void AssignPath(PathCreator path) => encounterPath = path;
         
         protected override void Awake()
         {
@@ -47,20 +57,26 @@ namespace CaptainPinkTurd.Game.Enemy
         {
             base.OnEnable();
             
+            //the path is picked on the first Update: Instantiate/SetActive run OnEnable before the spawner gets this
+            //spider back, so an encounter can only hand its path over after this
             ToggleSpider(false);
-            InitializePath();
+            pathInitialized = false;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
             
-            pathCreator.pathUpdated -= OnPathChanged;
+            if (pathCreator) pathCreator.pathUpdated -= OnPathChanged;
             pathCreator = null;
+            //a pooled spider keeps its fields: when reused, it mustn't walk the last encounter's path
+            encounterPath = null;
         }
 
         void Update()
         {
+            if (!pathInitialized) InitializePath();
+            
             //having a damageSource means Spider is currently being impacted by taking damage, so it should stop its movement for a moment
             if (!pathCreator || !isRunning || damageSource) return;
 
@@ -88,7 +104,13 @@ namespace CaptainPinkTurd.Game.Enemy
         }
         private void InitializePath()
         {
-            if (assignedPath)
+            pathInitialized = true;
+            
+            if (encounterPath)
+            {
+                pathCreator = encounterPath;
+            }
+            else if (assignedPath)
             {
                 pathCreator = assignedPath;
             }
@@ -118,7 +140,10 @@ namespace CaptainPinkTurd.Game.Enemy
             
             pathCreator.pathUpdated += OnPathChanged;
             
-            initialDistanceTravelledOffset = Random.Range(0f, pathCreator.path.length);
+            //an encounter's spider starts where it was spawned, on the nearest point of its path; others anywhere along theirs
+            initialDistanceTravelledOffset = encounterPath
+                ? pathCreator.path.GetClosestDistanceAlongPath(transform.position)
+                : Random.Range(0f, pathCreator.path.length);
             distanceTravelled = initialDistanceTravelledOffset;
             transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
             

@@ -1,14 +1,20 @@
+using System;
 using System.Collections;
+using CaptainPinkTurd.Core.Base;
 using CaptainPinkTurd.Core.Extensions;
+using CaptainPinkTurd.Game.Enemy;
+using PathCreation;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace CaptainPinkTurd.SpawnSystem
 {
     /// <summary>
     /// A room's fight: when the player walks into this trigger, enemies arrive in waves of a fixed size at the room's
     /// spawn points (never right next to the player). Once the last wave is gone, onCleared fires - opening the next
-    /// gate or the level's door.
+    /// gate or the level's door. Spiders spawned here walk one of the room's own paths (pathsGroup); a room without
+    /// paths skips its spiders.
     /// </summary>
     [RequireComponent(typeof(Collider2D), typeof(PositionBasedSpawner))]
     public class EncounterSpawner : MonoBehaviour
@@ -18,9 +24,12 @@ namespace CaptainPinkTurd.SpawnSystem
         [SerializeField] private float minDistanceBetweenSpawns = 1.5f;
         [SerializeField] private float secondsBetweenWaves = 1.5f;
         [SerializeField] private LayerMask playerLayers;
+        [Tooltip("This room's paths: each spider spawned here walks a random one. Without it, spiders are skipped")]
+        [SerializeField] private Transform pathsGroup;
         [SerializeField] private UnityEvent onCleared;
         
         private PositionBasedSpawner positionBasedSpawner;
+        private PathCreator[] paths;
         private Transform spawnedHolder;
         private bool started;
 
@@ -40,6 +49,19 @@ namespace CaptainPinkTurd.SpawnSystem
             spawnedHolder.SetParent(transform.parent, false);
             
             positionBasedSpawner = GetComponent<PositionBasedSpawner>();
+            paths = pathsGroup ? pathsGroup.GetComponentsInChildren<PathCreator>() : Array.Empty<PathCreator>();
+        }
+
+        private void OnEnable()
+        {
+            positionBasedSpawner.OnSpawning += OnSpawning;
+            positionBasedSpawner.OnObjectSpawned += OnObjectSpawned;
+        }
+
+        private void OnDisable()
+        {
+            positionBasedSpawner.OnSpawning -= OnSpawning;
+            positionBasedSpawner.OnObjectSpawned -= OnObjectSpawned;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -72,6 +94,22 @@ namespace CaptainPinkTurd.SpawnSystem
 
             Cleared = true;
             onCleared?.Invoke();
+        }
+
+        private void OnSpawning(SpawnRequest request)
+        {
+            if (paths.Length > 0 || !request.Prefab.TryGetComponent(out Spider _)) return;
+            
+            Debug.LogWarning($"{name} has no paths group: skipped spawning {request.Prefab.name}", this);
+            request.Cancel = true;
+        }
+
+        private void OnObjectSpawned(GameObjectBase spawned)
+        {
+            if (paths.Length > 0 && spawned.TryGetComponent(out Spider spider))
+            {
+                spider.AssignPath(paths[Random.Range(0, paths.Length)]);
+            }
         }
     }
 }
