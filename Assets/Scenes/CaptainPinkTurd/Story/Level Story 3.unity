@@ -68867,7 +68867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  waves: 2
+  waves: []
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
   secondsBetweenWaves: 1.5
@@ -70184,7 +70184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  waves: 1
+  waves: []
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
   secondsBetweenWaves: 1.5
@@ -73845,7 +73845,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 1
@@ -73915,7 +73915,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  waves: 1
+  waves:
+  - {fileID: 1991495515}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
   secondsBetweenWaves: 1.5
@@ -73996,7 +73997,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
-  spawnedObjectPositionPair: []
+  spawnedObjectPositionPair:
+  - Value: {fileID: 0}
+    Key: {fileID: 0}
   secondsBetweenSpawns: 0.3
   spawnSfx:
     clip: {fileID: 0}

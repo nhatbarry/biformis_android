@@ -731,7 +731,7 @@ MonoBehaviour:
         m_Calls: []
     Key: 0
   spawnedFromPool: 0
-  maxHealth: 5
+  maxHealth: 3
   knockbackForce: 30
   scorePopup: {fileID: 2206898398476630954, guid: 7c1beffc9e5c0194bbb9929cd72f8604, type: 3}
   scoreTextTargetHeight: 2.25

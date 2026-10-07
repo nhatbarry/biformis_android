@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using CaptainPinkTurd.Core.Base;
 using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Game.Enemy;
@@ -16,10 +17,10 @@ namespace CaptainPinkTurd.SpawnSystem
     /// gate or the level's door. Spiders spawned here walk one of the room's own paths (pathsGroup); a room without
     /// paths skips its spiders.
     /// </summary>
-    [RequireComponent(typeof(Collider2D), typeof(PositionBasedSpawner))]
+    [RequireComponent(typeof(Collider2D))]
     public class EncounterSpawner : MonoBehaviour
     {
-        [SerializeField] private int waves = 1;
+        [SerializeField] private List<PositionBasedSpawner> waves;
         [SerializeField] private float minDistanceFromPlayer = 3.5f;
         [SerializeField] private float minDistanceBetweenSpawns = 1.5f;
         [SerializeField] private float secondsBetweenWaves = 1.5f;
@@ -28,7 +29,6 @@ namespace CaptainPinkTurd.SpawnSystem
         [SerializeField] private Transform pathsGroup;
         [SerializeField] private UnityEvent onCleared;
         
-        private PositionBasedSpawner positionBasedSpawner;
         private PathCreator[] paths;
         private Transform spawnedHolder;
         private bool started;
@@ -48,20 +48,25 @@ namespace CaptainPinkTurd.SpawnSystem
             spawnedHolder = new GameObject($"{name} Enemies").transform;
             spawnedHolder.SetParent(transform.parent, false);
             
-            positionBasedSpawner = GetComponent<PositionBasedSpawner>();
             paths = pathsGroup ? pathsGroup.GetComponentsInChildren<PathCreator>() : Array.Empty<PathCreator>();
         }
 
         private void OnEnable()
         {
-            positionBasedSpawner.OnSpawning += OnSpawning;
-            positionBasedSpawner.OnObjectSpawned += OnObjectSpawned;
+            foreach (var wave in waves)
+            {
+                wave.OnSpawning += OnSpawning;
+                wave.OnObjectSpawned += OnObjectSpawned;
+            }
         }
 
         private void OnDisable()
         {
-            positionBasedSpawner.OnSpawning -= OnSpawning;
-            positionBasedSpawner.OnObjectSpawned -= OnObjectSpawned;
+            foreach (var wave in waves)
+            {
+                wave.OnSpawning -= OnSpawning;
+                wave.OnObjectSpawned -= OnObjectSpawned;
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -81,15 +86,15 @@ namespace CaptainPinkTurd.SpawnSystem
 
         private IEnumerator Run()
         {
-            for (int wave = 0; wave < waves; wave++)
+            foreach (var wave in waves)
             {
-                if (wave > 0) yield return new WaitForSeconds(secondsBetweenWaves);
+                if (waves.IndexOf(wave) > 0) yield return new WaitForSeconds(secondsBetweenWaves);
 
-                yield return positionBasedSpawner.SpawnAllPair();
+                yield return wave.SpawnAllPair();
 
                 //killed enemies are destroyed (or disabled, if something pooled them)
-                yield return new WaitUntil(() => positionBasedSpawner.SpawnedObjects.TrueForAll(e => !e || !e.isActiveAndEnabled));
-                positionBasedSpawner.SpawnedObjects.Clear();
+                yield return new WaitUntil(() => wave.SpawnedObjects.TrueForAll(e => !e || !e.isActiveAndEnabled));
+                wave.SpawnedObjects.Clear();
             }
 
             Cleared = true;
