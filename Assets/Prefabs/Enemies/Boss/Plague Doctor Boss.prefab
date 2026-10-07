@@ -11,7 +11,15 @@ GameObject:
   - component: {fileID: 6729150482216340547}
   - component: {fileID: 2314863759012866203}
   - component: {fileID: 8829461035107729514}
-  m_Layer: 0
+  - component: {fileID: 1247012375846551533}
+  - component: {fileID: 4794249394564240345}
+  - component: {fileID: 870321497579053474}
+  - component: {fileID: 2693195998859614186}
+  - component: {fileID: 5718980483712403835}
+  - component: {fileID: 4982529781556968844}
+  - component: {fileID: 3785114162623373521}
+  - component: {fileID: 8982129422171778109}
+  m_Layer: 9
   m_Name: Plague Doctor Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +67,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 2100000, guid: 5c83063abd8c6be4f8c342c869357fb4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,13 +120,8 @@ MonoBehaviour:
     - {fileID: -6622807657185079199, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
     - {fileID: 2917555610375034216, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
     - {fileID: 5040485165528225686, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
-    frameMilliseconds:
-    - 200
-    - 200
-    - 200
-    - 200
-    - 200
-    - 200
+    frameMilliseconds: c8000000c8000000c8000000c8000000c8000000c8000000
+    bladeEndpoints: []
   cast:
     frames:
     - {fileID: 7527457031995657854, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
@@ -131,17 +134,8 @@ MonoBehaviour:
     - {fileID: -8055283802429963998, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
     - {fileID: 8570585123780721560, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
     - {fileID: -6513523045338732725, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
-    frameMilliseconds:
-    - 100
-    - 100
-    - 100
-    - 200
-    - 30
-    - 30
-    - 40
-    - 100
-    - 120
-    - 220
+    frameMilliseconds: 640000006400000064000000c80000001e0000001e000000280000006400000078000000dc000000
+    bladeEndpoints: []
   walkThrow:
     frames:
     - {fileID: 8255321491855066560, guid: f5f1b7892d6c0e8b0c34f3b7a0fdb7b0, type: 3}
@@ -156,95 +150,26 @@ MonoBehaviour:
     - {fileID: -5620842620076808888, guid: f5f1b7892d6c0e8b0c34f3b7a0fdb7b0, type: 3}
     - {fileID: 986812236149574246, guid: f5f1b7892d6c0e8b0c34f3b7a0fdb7b0, type: 3}
     - {fileID: -8026825570540519597, guid: f5f1b7892d6c0e8b0c34f3b7a0fdb7b0, type: 3}
-    frameMilliseconds:
-    - 100
-    - 100
-    - 100
-    - 160
-    - 30
-    - 30
-    - 40
-    - 100
-    - 100
-    - 100
-    - 100
-    - 100
+    frameMilliseconds: 640000006400000064000000a00000001e0000001e000000280000006400000064000000640000006400000064000000
+    bladeEndpoints: []
   iceShatter:
     frames:
-    - {fileID: -4966525631014494072, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -3499012096108660300, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -7877572809658343630, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -4863630774811352891, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 897965299622525674, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -1100019141824521893, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 5407575450123662382, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 3612663478153946511, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 2945675931540504344, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 5792027513679413800, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -1948670065933952113, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -5059715218560084342, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 9191888220983532582, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 6271986910516101658, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 3312413239218397221, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 211279160756174026, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -4254696204031420618, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -8748808018837585621, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -1010140101200586475, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -1018985391085305319, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 8769011812379321843, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 4809688849198304119, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -7783712988381880480, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -8730933981982364749, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -3940104709554336191, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 3812807533453072961, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -7627417953507745440, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -8210491203197377360, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -9062309227342243354, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -3382180171783471293, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -4958659864515409646, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 6409411260769927802, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -3209543859711388652, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -8005833476933583047, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: 3445466273892694646, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    - {fileID: -1582337261349317873, guid: e0fbcebba83ee5e1a912cfe2e601c6d7, type: 3}
-    frameMilliseconds:
-    - 120
-    - 100
-    - 160
-    - 30
-    - 30
-    - 40
-    - 100
-    - 150
-    - 150
-    - 150
-    - 160
-    - 160
-    - 170
-    - 180
-    - 180
-    - 300
-    - 200
-    - 220
-    - 250
-    - 280
-    - 300
-    - 350
-    - 550
-    - 700
-    - 130
-    - 100
-    - 70
-    - 80
-    - 80
-    - 90
-    - 100
-    - 100
-    - 110
-    - 130
-    - 350
-    - 950
+    - {fileID: -1502796839, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1840704072, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1937419890, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: -963435993, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: -277424426, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: -737133899, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: -431357050, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: -1600741030, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1796718530, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1957459785, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1946492212, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    - {fileID: 1548441261, guid: af7420dc249237244ba6c236f6c56599, type: 3}
+    frameMilliseconds: aa000000b40000002c010000f00000002c010000320000004600000064000000a0000000780000009600000058020000
+    bladeEndpoints: []
   redHair: {fileID: 21300000, guid: 76e4d367ec2093f127c2db6c2f9bbcd6, type: 3}
+  phaseTwoRestingPose: {fileID: 1548441261, guid: af7420dc249237244ba6c236f6c56599, type: 3}
   levitate:
     frames:
     - {fileID: 1102798721514033757, guid: 9055d2db869d5f9bda15c161cd13bebf, type: 3}
@@ -261,29 +186,366 @@ MonoBehaviour:
     - {fileID: -6898651149270878793, guid: 9055d2db869d5f9bda15c161cd13bebf, type: 3}
     - {fileID: 3524217523777241395, guid: 9055d2db869d5f9bda15c161cd13bebf, type: 3}
     - {fileID: 1139610928529499334, guid: 9055d2db869d5f9bda15c161cd13bebf, type: 3}
-    frameMilliseconds:
-    - 160
-    - 120
-    - 120
-    - 120
-    - 140
-    - 120
-    - 180
-    - 180
-    - 180
-    - 180
-    - 220
-    - 260
-    - 240
-    - 500
-  idleSeconds: {x: 1, y: 2.5}
+    frameMilliseconds: a00000007800000078000000780000008c00000078000000b4000000b4000000b4000000b4000000dc00000004010000f0000000f4010000
+    bladeEndpoints: []
+  idleSeconds: {x: 0.65, y: 1.1}
   castWeight: 1
   walkThrowWeight: 1
-  iceShatterWeight: 0.5
-  levitateWeight: 1
+  levitateWeight: 0.7
   walkLoops: {x: 2, y: 3}
-  walkPixelsPerFrame: 1
-  walkHalfWidth: 3
-  redHairSeconds: 2
-  hoverSeconds: 2
+  hoverSeconds: 4.5
   hoverLoopFrames: 4
+  damageCooldown: 0.8
+  projectileSpeed: 8.5
+  knockbackForce: 30
+  hitStopDuration: 0.2
+  shakeProfile: {fileID: 11400000, guid: 484ec0819d268ef4e8ded07b65e3080e, type: 2}
+  impactShockwavePrefab: {fileID: 6386854355507245172, guid: ddf39c5a02e34294bbbf17bc54ca2410, type: 3}
+  damagedSfx:
+    clip: {fileID: 8300000, guid: 53e976d48b2d6584d97c91ae2cc488e9, type: 3}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  frozenFrame: 2
+  summonPrefabs:
+  - {fileID: 4564287098680374756, guid: aca6d0772bb694945980936ab77b8718, type: 3}
+  - {fileID: 2769086437950624153, guid: 6268ee0fc961be74bb65a8ca9a75afe4, type: 3}
+  - {fileID: 1912405418011189884, guid: d9ef6956948494c4d87353abd1e03817, type: 3}
+  - {fileID: 3603879645543089829, guid: f9f0d7fb10d7a2646a4dc1c447bd0fd5, type: 3}
+  - {fileID: 4564287098680374756, guid: f278379638852c843be52e6e55e3a1c0, type: 3}
+  summonRadius: 6.5
+  summonSpacingSeconds: 0.4
+--- !u!61 &1247012375846551533
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 2.5, y: 2.5}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1.4, y: 2.8}
+  m_EdgeRadius: 0
+--- !u!114 &4794249394564240345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaa0ec109a663ed48a5657ec968e5d65, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossHazards
+  redProjectile: {fileID: 21300000, guid: 1722a035a0024dc4ab6ea770a6e57231, type: 3}
+  blueProjectile: {fileID: 21300000, guid: 7447737ece0227540b477983122a3e8e, type: 3}
+  projectileMaterial: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  lightningOne:
+  - {fileID: 1953002011, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  - {fileID: -276757669, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  - {fileID: -936237360, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  - {fileID: 523728446, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  - {fileID: 1950821214, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  - {fileID: 1292802748, guid: f54dbddd37147b2489d4b1bef77c7a0a, type: 3}
+  lightningTwo:
+  - {fileID: 1801793021, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  - {fileID: 860179479, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  - {fileID: 2127129446, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  - {fileID: -1663626103, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  - {fileID: 1511484118, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  - {fileID: -437324772, guid: d9d7398b4b74329438fbb503cb434e67, type: 3}
+  lightningFrameSeconds: 0.1
+  warningSeconds: 1.1
+  strikeRadius: 0.8
+  projectileDiameter: 1
+  projectileLifetime: 4.5
+  maximumProjectiles: 640
+--- !u!114 &870321497579053474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd5587ac946cbd45b3b4e1a4d6fd9d2, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossHealthBar
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+--- !u!58 &2693195998859614186
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.25}
+  m_Radius: 0.55
+--- !u!50 &5718980483712403835
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &4982529781556968844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1cb60beab36145438e0fabdc706df60, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossPhaseTwoPlaceholder
+  horizontalSlash:
+    frames:
+    - {fileID: 663003643485370784, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -6235067751332280117, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: 2242393304625730427, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -2275327566049259710, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -1521855175259780719, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -8276115854440018730, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: 5579019347966179512, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -6543514073032215054, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    - {fileID: -767712272786716851, guid: a6ee0a38df1961449b0128d0ad5aa921, type: 3}
+    frameMilliseconds: a00000006e000000a0000000320000003c0000005a000000640000006e000000dc000000
+    bladeEndpoints:
+    - {x: 1.13532, y: 1.02177, z: 1.56855, w: 1.84696}
+    - {x: 0.55769, y: 0.56792, z: 0.39266, w: 0.98051}
+    - {x: -0.12308, y: 1.10429, z: -0.78323, w: 1.64066}
+    - {x: 1.32099, y: 1.00114, z: 1.98114, w: 1.43437}
+    - {x: 1.42414, y: 0.98051, z: 2.29058, w: 1.14555}
+    - {x: 0.9084, y: 0.46477, z: 1.44477, w: 0.07281}
+    - {x: 0.94966, y: 0.46477, z: 1.40351, w: 0.15533}
+    - {x: 1.2591, y: 1.02177, z: 1.56855, w: 1.90885}
+    - {x: 0.97029, y: 1.0424, z: 1.52729, w: 1.86759}
+  rangedCharge:
+    frames:
+    - {fileID: -228850604466999775, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: 807235716859476087, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: 7375510637690760252, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: -6320979047319316725, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: 6734529270286477211, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: -7364027164907635185, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: -5237697715267240565, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    - {fileID: 9088094456017789086, guid: 81d72d64f1c5c9e4697a272da8d07fb3, type: 3}
+    frameMilliseconds: b4000000780000008c000000dc000000040100003c0000008c000000dc000000
+    bladeEndpoints:
+    - {x: 0.70987, y: 0.5421, z: 1.2779, w: 0.12899}
+    - {x: 0.65823, y: 0.5421, z: 1.26069, w: 0.09456}
+    - {x: 0.72709, y: 0.5421, z: 1.2779, w: 0.11178}
+    - {x: 0.67545, y: 0.5421, z: 1.26069, w: 0.09456}
+    - {x: 0.76151, y: 0.5421, z: 1.2779, w: 0.11178}
+    - {x: 0.70987, y: 0.5421, z: 1.12299, w: 0.09456}
+    - {x: 0.69266, y: 0.5421, z: 1.26069, w: 0.11178}
+    - {x: 0.70987, y: 0.5421, z: 1.24348, w: 0.11178}
+  dashStab:
+    frames:
+    - {fileID: 8465749004708925771, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: 4047074871595476448, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: 7323663358597331530, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: 4414490704021164289, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: -2059277039318688189, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: -28086364566684446, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: -662474646598746298, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: 2353637460505241392, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    - {fileID: 4045792413883019240, guid: 5bb536bbd08d0b54d998aa01c5d83fce, type: 3}
+    frameMilliseconds: b40000006e000000b400000028000000320000003c0000008c0000008200000004010000
+    bladeEndpoints:
+    - {x: 0.77614, y: 0.58778, z: 1.50785, w: 0.0928}
+    - {x: -0.66576, y: 0.56626, z: -1.05314, w: 0.22192}
+    - {x: 0.96983, y: 0.37257, z: 1.63698, w: 0.30801}
+    - {x: 1.07743, y: 0.7169, z: 1.57242, w: 1.0182}
+    - {x: 0.7331, y: 0.88907, z: 1.48633, w: 0.95363}
+    - {x: 0.71158, y: 0.84603, z: 1.42177, w: 1.0182}
+    - {x: 0.71158, y: 0.43713, z: 1.48633, w: 0.13584}
+    - {x: 0.7331, y: 0.65234, z: 1.42177, w: 0.11432}
+    - {x: 0.77614, y: 0.63082, z: 1.48633, w: 0.11432}
+  verticalSlash:
+    frames:
+    - {fileID: 123143067046779950, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: 2808000436020711685, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -6846458017260262721, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -2038248342945685414, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -7488498224966292088, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -4689184669050143977, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: 16042589958405735, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -2567937272375201408, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    - {fileID: -2949704252631738631, guid: b09929eaeb2c98543ae6cea55d36605b, type: 3}
+    frameMilliseconds: b400000078000000a0000000400100006400000028000000640000008c000000f0000000
+    bladeEndpoints:
+    - {x: 0.74548, y: 0.58397, z: 1.4187, w: 0.05004}
+    - {x: 1.0937, y: 1.65183, z: 0.95441, w: 2.48755}
+    - {x: 1.0937, y: 1.69826, z: 1.00084, w: 2.41791}
+    - {x: 1.14012, y: 1.79112, z: 1.02405, w: 2.83577}
+    - {x: 1.14012, y: 1.79112, z: 1.02405, w: 2.78934}
+    - {x: 0.72227, y: 0.56076, z: 1.11691, w: -0.04282}
+    - {x: 0.67584, y: 0.56076, z: 1.5812, w: 0.05004}
+    - {x: 0.76869, y: 0.56076, z: 1.55798, w: 0.02683}
+    - {x: 0.79191, y: 0.56076, z: 1.5812, w: 0.00361}
+  restSeconds: 1
+  automaticAttacks: 1
+  slashRange: 2.55
+  dashOvershoot: 1.6
+  auraInterval: 0.34
+  warningFont: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
+  attackSfx:
+    clip: {fileID: 8300000, guid: 8e9580cb8531abe498e173a556f67e84, type: 3}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  previewPhaseTwoOnStart: 0
+--- !u!114 &3785114162623373521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a0343dc767eabd4db0dcad47f7488c6, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossPhaseTwoEffects
+  shotSpeed: 36
+  shotRadius: 0.34
+  waveSpeed: 7.5
+  waveWidth: 5.4
+  lifetime: 4.5
+--- !u!114 &8982129422171778109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4183527716902457361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb3d69511b8ac74d8582adb311e6664, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossRoaming

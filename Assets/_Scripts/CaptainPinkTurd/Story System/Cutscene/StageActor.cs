@@ -17,8 +17,6 @@ namespace CaptainPinkTurd.Story.Cutscene
             "Captives", "Doctor", "Mom", "Teen", "TeenB", "Villain", "Villain_D", "Villain_Op"
         };
 
-        private static readonly Color CharacterOutlineColor = new Color(0.035f, 0.035f, 0.035f, 1f);
-
         [Tooltip("Matches the #speaker tag value in ink, or the name used in a cast: tag")]
         [SerializeField] private string actorId;
         [Tooltip("The #speaker value that lights this actor up, if not its actor id (e.g. B_Bed speaks as B)")]
@@ -36,16 +34,16 @@ namespace CaptainPinkTurd.Story.Cutscene
             //an actor that starts off stage only wakes up when first cast, after the stage has already tinted it:
             //keep the colours cached by that first SetTint, not the tinted ones
             if (baseColors == null) CacheBaseColors();
-            EnsureCharacterOutlines();
+            RemoveCharacterOutlines();
         }
 
         public void SetVisible(bool visible)
         {
-            if (visible) EnsureCharacterOutlines();
+            if (visible) RemoveCharacterOutlines();
             gameObject.SetActive(visible);
         }
 
-        private void EnsureCharacterOutlines()
+        private void RemoveCharacterOutlines()
         {
             if (!CharacterActorIds.Contains(actorId) || tintedGraphics == null) return;
 
@@ -54,11 +52,7 @@ namespace CaptainPinkTurd.Story.Cutscene
                 if (!graphic) continue;
 
                 var outline = graphic.GetComponent<Outline>();
-                if (!outline) outline = graphic.gameObject.AddComponent<Outline>();
-                outline.effectColor = CharacterOutlineColor;
-                // Story art uses 4 canvas units per source pixel.
-                outline.effectDistance = Vector2.one * 4f;
-                outline.useGraphicAlpha = true;
+                if (outline) outline.enabled = false;
             }
         }
 

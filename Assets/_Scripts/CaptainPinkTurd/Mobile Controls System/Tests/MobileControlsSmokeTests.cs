@@ -65,6 +65,12 @@ namespace CaptainPinkTurd.MobileControls.Tests
             Assert.IsNotNull(Find("Run And Dash"), "run/dash button missing");
             Assert.IsNotNull(Find("Pause"), "pause button missing");
             Assert.IsNotNull(Gamepad.current, "no virtual gamepad was created by the on-screen controls");
+            var dash = Find("Run And Dash").GetComponent<RectTransform>();
+            var swap = Find("Switch Dimension").GetComponent<RectTransform>();
+            Assert.Greater(dash.anchoredPosition.y, swap.anchoredPosition.y, "dash belongs above switch-form");
+            Assert.Less(swap.anchoredPosition.x, dash.anchoredPosition.x, "switch-form uses the lower-left slot");
+            var artImage = Find("Run And Dash").transform.Find("Art").GetComponent<UnityEngine.UI.Image>();
+            Assert.AreEqual(0.75f, artImage.color.a, 0.001f, "controls should be slightly transparent");
         }
 
         [UnityTest]
@@ -207,11 +213,16 @@ namespace CaptainPinkTurd.MobileControls.Tests
         {
             yield return ShowHud();
             Assert.AreEqual("red_disabled", ClipOf("Interact"), "lit with nothing in reach");
+            var visibility = Find("Interact").GetComponent<CanvasGroup>();
+            Assert.AreEqual(0f, visibility.alpha);
+            Assert.IsFalse(visibility.blocksRaycasts);
 
             var reachable = new GameObject("Something In Reach");
             InteractPrompt.SetInReach(reachable, true);
             yield return null;
             Assert.AreEqual("red_ready", ClipOf("Interact"), "doesn't light up with something in reach");
+            Assert.AreEqual(1f, visibility.alpha);
+            Assert.IsTrue(visibility.blocksRaycasts);
 
             bool fired = false;
             actions.Player.Interact.performed += _ => fired = true;
@@ -225,6 +236,8 @@ namespace CaptainPinkTurd.MobileControls.Tests
             Object.DestroyImmediate(reachable); //a door unloaded with its level
             yield return null;
             Assert.AreEqual("red_disabled", ClipOf("Interact"), "stays lit once the thing in reach is gone");
+            Assert.AreEqual(0f, visibility.alpha);
+            Assert.IsFalse(visibility.blocksRaycasts);
         }
 
         /// <summary>The controls wear the colours of the player's form: red for B, blue for A.</summary>

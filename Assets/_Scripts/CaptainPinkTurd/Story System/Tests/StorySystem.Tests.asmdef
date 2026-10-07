@@ -18,7 +18,8 @@
         "GUID:15fc0a57446b3144c949da3e2b9737a9",
         "GUID:516a5277b8c3b4f4c8cc86b77b1591ff",
         "GUID:bdba41ac695c1d94c86b25dc306aa653",
-        "GUID:680f8f5813c77b443bd9b7eba9b16533"
+        "GUID:680f8f5813c77b443bd9b7eba9b16533",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

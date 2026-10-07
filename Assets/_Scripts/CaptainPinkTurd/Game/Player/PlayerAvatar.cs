@@ -11,6 +11,7 @@ namespace CaptainPinkTurd.Game.Player
         
         public void OnPlayerColorChangeEvent(EColor newColor)
         {
+            if (TryGetComponent<PlayerAvatarHealthBar>(out var healthBar)) healthBar.OnPlayerColorChangeEvent(newColor);
             if(colorProfiles.TryGetValue(newColor, out var profile))
             {
                 foreach (Transform child in transform)

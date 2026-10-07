@@ -5,7 +5,7 @@ Tài liệu này phục vụ hai người đọc:
 1. **Đội dev bản PC** — biết đâu là những chỗ nếu động vào sẽ làm hỏng bản Android, và biết những bug chung đã được sửa.
 2. **Người/AI làm bản Android lần sau** — dựng lại được toàn bộ quyết định mà không cần đọc lại lịch sử chat.
 
-Cập nhật lần cuối: 2026-10-05. Unity 6000.3.10f1, URP 2D, Input System 1.18 (chỉ New Input System — `activeInputHandler: 1`).
+Cập nhật lần cuối: 2026-10-07. Unity 6000.3.10f1, URP 2D, Input System 1.18 (chỉ New Input System — `activeInputHandler: 1`).
 
 ---
 
@@ -26,12 +26,17 @@ Toàn bộ HUD được **dựng bằng code lúc runtime** — không prefab, k
 | Hành động | Phím PC | Control path giả lập | Nút mobile |
 |---|---|---|---|
 | Di chuyển | WASD / mũi tên | `<Gamepad>/leftStick` | Joystick nổi, nửa trái (lúc rảnh nằm ở góc trái dưới) |
-| Sprint (giữ) + Dash (chạm) | `LeftShift` | `<Gamepad>/leftStickPress` | Nút phải dưới (không có hồi chiêu) |
-| Đổi dimension | `J` | `<Gamepad>/rightShoulder` | Nút phía trên nút dash |
+| Sprint (giữ) + Dash (chạm) | `LeftShift` | `<Gamepad>/leftStickPress` | Nút trên bên phải (không có hồi chiêu) |
+| Đổi dimension | `J` | `<Gamepad>/rightShoulder` | Nút dưới bên trái cụm nút phải |
 | Pause | `Esc` | `<Gamepad>/buttonEast` | Nút góc phải trên |
-| Tương tác | `E` | `<Gamepad>/buttonNorth` | Nút "!" bên trái nút dash: qua cửa, nhận hộp |
+| Tương tác | `E` | `<Gamepad>/buttonNorth` | Nút "!" ở dưới bên phải, chỉ hiện khi có thể tương tác: qua cửa, nhận hộp |
 
 Định nghĩa tại `Assets/_Scripts/CaptainPinkTurd/Core/Input Paths/MobileControlPaths.cs`.
+
+Ngày 2026-10-07: nút và joystick có opacity 0.75 theo yêu cầu; đổi vị trí không đổi
+control path. Nút `!` được ẩn bằng CanvasGroup (alpha/raycast), không tắt GameObject,
+để giữ device và không ngắt joystick đang giữ. Player có 10 HP, thanh máu luôn hiện
+bên phải avatar (`PlayerAvatarHealthBar`); nhóm HP hover/trúng đòn cũ được tắt.
 
 ### Vì sao chọn những path đó
 
@@ -316,3 +321,10 @@ Thứ tự đã chứng minh là hiệu quả:
 8. **Ngờ vực mọi thứ chạy theo sự kiện "input đổi giá trị".** Bàn phím bắn vài sự kiện, joystick bắn mỗi frame. Cái gì tốn kém hoặc có tác dụng phụ (phát animation, tạo timer, spawn) mà nằm trong đường đó đều sẽ nổ.
 8. **Ngờ vực mọi shader lấy mẫu texture của render pipeline.** DX11 tha thứ, Vulkan/GLES thì không.
 9. **Viết test cho từng thứ sửa được headless.** Nhưng đừng cố bơm Touchscreen ảo trong batchmode — không chạy.
+
+
+### Cập nhật gameplay 2026-10-08
+
+Hành lang dùng Map Bound 40×53. Cinemachine tính confiner bằng lens gốc trước khi CameraFraming thu nhỏ Camera trên điện thoại rộng; bound ngang 22 có thể khiến camera đứng giữa hành lang và mất nhân vật. Regression kiểm tra tỷ lệ 2.4 và di chuyển bằng joystick sau chuyển từ màn 4 với HP còn lại.
+
+Đạn tụ lực boss phase 2 chạy 36 unit/giây, dùng kiểm tra đoạn di chuyển thay vì overlap ở vị trí cuối để tránh xuyên người chơi. Trail giữ 0.14 giây. Boss roaming và các chuỗi aura đều dùng thời gian gameplay, pause dừng toàn bộ. Hội thoại không hiện avatar; avatar HUD và thanh máu gameplay vẫn giữ. Chi tiết trong docs/BOSS_FIGHT.md.

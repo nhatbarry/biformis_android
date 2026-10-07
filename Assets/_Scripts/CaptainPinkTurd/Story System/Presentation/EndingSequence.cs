@@ -251,19 +251,20 @@ namespace CaptainPinkTurd.Story.Presentation
             Place(portraitFrameBorder.rectTransform, new Vector2(-218f, -108f), new Vector2(160f, 160f));
             portrait = OverlayCanvas.CreateImage(root.transform, "Portrait", Color.white, false);
             Place(portrait.rectTransform, new Vector2(-218f, -108f), new Vector2(144f, 144f));
+            portrait.enabled = portraitFrameBorder.enabled = false;
 
             var textRoot = new GameObject("Dialogue Text", typeof(RectTransform));
             textRoot.transform.SetParent(root.transform, false);
-            Place((RectTransform)textRoot.transform, new Vector2(68f, -120f), new Vector2(410f, 90f));
+            Place((RectTransform)textRoot.transform, new Vector2(-8f, -120f), new Vector2(550f, 90f));
             speakerText = CreateText(textRoot.transform, "Speaker", 22f, TextAlignmentOptions.TopLeft, new Color(0.57f, 0.85f, 0.8f, 1f));
             var speakerRect = speakerText.rectTransform;
-            StretchAtTopLeft(speakerRect, Vector2.zero, new Vector2(400f, 26f));
+            StretchAtTopLeft(speakerRect, Vector2.zero, new Vector2(550f, 26f));
             lineText = CreateText(textRoot.transform, "Line", 20f, TextAlignmentOptions.TopLeft, Color.white);
-            StretchAtTopLeft(lineText.rectTransform, new Vector2(0f, -27f), new Vector2(400f, 64f));
+            StretchAtTopLeft(lineText.rectTransform, new Vector2(0f, -27f), new Vector2(550f, 64f));
             lineText.enableWordWrapping = true;
             lineText.overflowMode = TextOverflowModes.Truncate;
             continueText = CreateText(textRoot.transform, "Continue", 18f, TextAlignmentOptions.BottomRight, new Color(0.57f, 0.85f, 0.8f, 1f));
-            StretchAtTopLeft(continueText.rectTransform, new Vector2(370f, -64f), new Vector2(30f, 24f));
+            StretchAtTopLeft(continueText.rectTransform, new Vector2(520f, -64f), new Vector2(30f, 24f));
             continueText.text = "▼";
             dialogueGroup.alpha = 0f;
             dialogueGroup.interactable = false;
@@ -617,10 +618,8 @@ namespace CaptainPinkTurd.Story.Presentation
             speakerText.text = speaker == "Villain" ? (Localization.CurrentLanguage == ELanguage.Vietnamese ? "Phản diện" : "The Villain") : speaker;
             speakerText.color = nameColor;
             lineText.text = "";
-            portrait.enabled = true;
-            portraitFrameBorder.enabled = true;
-            SetPortrait(portraitFrames, portraitFrame);
-            if (portraitFrameCount > 1) AddTrack(portrait, portraitFrames, portraitFrame, portraitFrameCount, portraitFrameSeconds, true);
+            portrait.enabled = false;
+            portraitFrameBorder.enabled = false;
             advanceRequested = false;
             string localized = line;
             for (int i = 0; i < localized.Length; i++)

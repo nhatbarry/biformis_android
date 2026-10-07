@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CaptainPinkTurd.Game.Enemy;
+using CaptainPinkTurd.Game.Player;
+using CaptainPinkTurd.Core.DesignPattern.SOAP.Variables;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +23,7 @@ namespace CaptainPinkTurd.Story.Tests
         private const string PrefabPath = "Assets/Prefabs/Enemies/Boss/Plague Doctor Boss.prefab";
 
         private readonly List<string> bossExceptions = new();
+        private BoolVariableSO dash;
 
         [SetUp]
         public void SetUp()
@@ -33,6 +36,7 @@ namespace CaptainPinkTurd.Story.Tests
         public void TearDown()
         {
             Application.logMessageReceived -= OnLog;
+            if (dash) dash.Value = false;
         }
 
         // clip, cell size, pixels per unit, pivot - cells and pivots as Boss_Assets/README.md gives them; pixels per
@@ -42,7 +46,6 @@ namespace CaptainPinkTurd.Story.Tests
             ("idle", 512, 204.8f, new Vector2(0.5f, 0f)),
             ("cast", 48, 12.8f, new Vector2(0.5f, 0f)),
             ("walkThrow", 48, 12.8f, new Vector2(0.5f, 0f)),
-            ("iceShatter", 64, 12.8f, new Vector2(0.5f, 0.0625f)),
             ("levitate", 64, 12.8f, new Vector2(0.5f, 0.0625f)),
         };
 
@@ -77,6 +80,25 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.IsNotNull(redHair, "red-haired pose missing");
             Assert.AreEqual(12.8f, redHair.pixelsPerUnit);
             Assert.AreEqual(new Vector2(32f, 4f), redHair.pivot, "the red-haired pose must stand where the shatter ends");
+
+            var transformation = boss.FindProperty("iceShatter.frames");
+            var timing = boss.FindProperty("iceShatter.frameMilliseconds");
+            Assert.AreEqual(12, transformation.arraySize);
+            Assert.AreEqual(2, boss.FindProperty("frozenFrame").intValue, "complete blue ice must hold before red cracks");
+            int total = 0;
+            for (int i = 0; i < 12; i++)
+            {
+                var sprite = (Sprite)transformation.GetArrayElementAtIndex(i).objectReferenceValue;
+                Assert.AreEqual(new Rect(i * 414, 0, 414, 442), sprite.rect);
+                Assert.AreEqual(4968, sprite.texture.width, "the new sheet must not shrink on import");
+                Assert.AreEqual(85.33f, sprite.pixelsPerUnit, 0.001f);
+                Assert.AreEqual(new Vector2(192f, 93f), sprite.pivot);
+                total += timing.GetArrayElementAtIndex(i).intValue;
+            }
+            Assert.AreEqual(2440, total);
+            Assert.AreEqual(100, timing.GetArrayElementAtIndex(7).intValue, "aura lasts exactly 100 ms");
+            Assert.AreEqual(transformation.GetArrayElementAtIndex(11).objectReferenceValue,
+                boss.FindProperty("phaseTwoRestingPose").objectReferenceValue, "rest at the aura-free knife pose");
         }
 
         [UnityTest, Timeout(180000)]
@@ -85,13 +107,16 @@ namespace CaptainPinkTurd.Story.Tests
             yield return StoryTestLoading.LoadLevelThroughCore("Level Story 6");
             var boss = Object.FindAnyObjectByType<PlagueDoctorBoss>();
             Assert.IsNotNull(boss, "Level 6 has no boss");
+            var player = Object.FindAnyObjectByType<PlayerUnit>();
+            dash = new SerializedObject(player).FindProperty("isDashing").objectReferenceValue as BoolVariableSO;
+            dash.Value = true; //this test watches animations, not player survival
             var sprite = boss.GetComponent<SpriteRenderer>();
             var settings = new SerializedObject(boss);
             settings.FindProperty("idleSeconds").vector2Value = new Vector2(0.2f, 0.2f);
             settings.ApplyModifiedProperties();
 
             float home = boss.transform.position.x;
-            float halfWidth = settings.FindProperty("walkHalfWidth").floatValue;
+            var playArea = Object.FindAnyObjectByType<BossArenaController>().PlayArea;
 
             //only one action allowed at a time, so the next pick is that one
             Only(settings, "castWeight");
@@ -106,13 +131,8 @@ namespace CaptainPinkTurd.Story.Tests
                 right = Mathf.Max(right, boss.transform.position.x);
             });
             Assert.Greater(right - left, 0.2f, "the boss didn't walk while throwing");
-            Assert.GreaterOrEqual(left, home - halfWidth - 0.001f, "the boss walked out of its range");
-            Assert.LessOrEqual(right, home + halfWidth + 0.001f, "the boss walked out of its range");
-
-            Only(settings, "iceShatterWeight");
-            yield return WaitForClip(sprite, Frames(settings, "iceShatter"), "ice shatter");
-            var redHair = settings.FindProperty("redHair").objectReferenceValue as Sprite;
-            yield return StoryTestLoading.WaitFor(() => sprite.sprite == redHair, 15f, "the red-haired form");
+            Assert.GreaterOrEqual(left, playArea.xMin, "the boss walked out of the arena");
+            Assert.LessOrEqual(right, playArea.xMax, "the boss walked out of the arena");
 
             Only(settings, "levitateWeight");
             var levitate = settings.FindProperty("levitate.frames");
@@ -130,7 +150,7 @@ namespace CaptainPinkTurd.Story.Tests
 
         private static void Only(SerializedObject settings, string weight)
         {
-            foreach (var name in new[] { "castWeight", "walkThrowWeight", "iceShatterWeight", "levitateWeight" })
+            foreach (var name in new[] { "castWeight", "walkThrowWeight", "levitateWeight" })
                 settings.FindProperty(name).floatValue = name == weight ? 1f : 0f;
             settings.ApplyModifiedProperties();
         }

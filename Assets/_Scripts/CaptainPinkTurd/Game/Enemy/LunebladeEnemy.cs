@@ -71,6 +71,10 @@ namespace CaptainPinkTurd.Game.Enemy
         private PlayerUnit player;
         private IDamageable playerHealth;
         private int redLayer, blueLayer;
+        private CircleCollider2D solidFeet;
+        private EnemyWallPath wallPath;
+        private ContactFilter2D wallFilter;
+        private readonly Collider2D[] overlappingWalls = new Collider2D[8];
 
         private Sprite[] frames;
         private bool loopFrames;
@@ -88,6 +92,17 @@ namespace CaptainPinkTurd.Game.Enemy
             redLayer = LayerMask.NameToLayer("Red");
             blueLayer = LayerMask.NameToLayer("Blue");
             Coll.isTrigger = true;
+            if (Coll is BoxCollider2D reception)
+            {
+                // Cover the legs as well as the torso. The old box started above the feet: a player
+                // approaching from below/side hit the solid circle before ever entering this trigger.
+                reception.offset = new Vector2(0f,0.55f);
+                reception.size = new Vector2(1.4f,1.9f);
+            }
+            solidFeet = GetComponent<CircleCollider2D>();
+            wallFilter = new ContactFilter2D { useTriggers = false };
+            wallFilter.SetLayerMask(blinkBlockers);
+            if(solidFeet)wallPath=new EnemyWallPath(solidFeet,blinkBlockers);
         }
 
         protected override void OnEnable()
@@ -99,6 +114,7 @@ namespace CaptainPinkTurd.Game.Enemy
             body.linearVelocity = Vector2.zero;
             player = FindAnyObjectByType<PlayerUnit>();
             playerHealth = player ? player.GetComponent<IDamageable>() : null;
+            wallPath?.Bind(player ? player.GetComponent<Rigidbody2D>() : null);
             StartCoroutine(Live());
         }
 
@@ -171,14 +187,32 @@ namespace CaptainPinkTurd.Game.Enemy
         private IEnumerator Approach()
         {
             Play(runFrames, true);
-            while (PlayerAvailable && PlayerDistance > attackRange)
+            while (PlayerAvailable && (PlayerDistance > attackRange || (wallPath!=null && !wallPath.Clear(body.position,PlayerPosition))))
             {
                 var direction = (PlayerPosition - body.position).normalized;
+                if(wallPath!=null)direction=wallPath.Direction(body.position,PlayerPosition,attackRange);
                 body.linearVelocity = direction * moveSpeed;
                 Face(PlayerPosition);
                 yield return new WaitForFixedUpdate();
             }
             Stop();
+        }
+
+        private void FixedUpdate()
+        {
+            if (!solidFeet || !solidFeet.enabled) return;
+            int count=solidFeet.Overlap(wallFilter,overlappingWalls);
+            for(int i=0;i<count;i++)
+            {
+                if(player && overlappingWalls[i].attachedRigidbody==player.rb)continue;
+                var overlap=solidFeet.Distance(overlappingWalls[i]);
+                if(!overlap.isOverlapped)continue;
+                Vector2 correction=overlap.pointB-overlap.pointA;
+                if(correction.sqrMagnitude<0.000001f)continue;
+                body.position+=correction+correction.normalized*0.02f;
+                transform.position=new Vector3(body.position.x,body.position.y,transform.position.z);
+                wallPath?.Reset();
+            }
         }
 
         private IEnumerator Attack(bool melee, bool shoot)
@@ -265,7 +299,7 @@ namespace CaptainPinkTurd.Game.Enemy
         /// </summary>
         private bool TryHitPlayer(float radius)
         {
-            if (playerHealth == null || PlayerDistance > radius) return false;
+            if (playerHealth == null || PlayerDistance > radius || (wallPath!=null && !wallPath.Clear(body.position,PlayerPosition))) return false;
 
             int hurtableLayer = currentColor == EColor.Red ? blueLayer : redLayer;
             if (player.gameObject.layer != hurtableLayer) return false;

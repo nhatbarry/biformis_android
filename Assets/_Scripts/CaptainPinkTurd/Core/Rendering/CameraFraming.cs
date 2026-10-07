@@ -33,6 +33,12 @@ namespace CaptainPinkTurd.Core.Rendering
 
         private readonly List<Camera> targets = new();
 
+        /// <summary>A cinematic can change its authored lens without compounding the aspect correction.</summary>
+        public void SetAuthoredSize(Camera camera, float size)
+        {
+            if (camera) authoredSizes[camera] = Mathf.Max(0.01f, size);
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoSpawn()
         {

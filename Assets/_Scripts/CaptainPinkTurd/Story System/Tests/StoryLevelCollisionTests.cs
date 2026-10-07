@@ -56,7 +56,10 @@ namespace CaptainPinkTurd.Story.Tests
                     firstOpen ??= $"{cell} from {outside}";
                 }
             }
-            Assert.Greater(faces, 0, $"{level}: no wall faces found");
+            if (level == "Level Story 6")
+                Assert.AreEqual(0, faces, "the boss arena must have no surrounding walls");
+            else
+                Assert.Greater(faces, 0, $"{level}: no wall faces found");
             Assert.AreEqual(0, open, $"{level}: {open}/{faces} wall faces let the player through (first: {firstOpen})");
 
             foreach (var map in solidMaps)

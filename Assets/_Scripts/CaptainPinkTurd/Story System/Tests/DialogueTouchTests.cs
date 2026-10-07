@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using UnityEditor;
 
 namespace CaptainPinkTurd.Story.Tests
 {
@@ -150,7 +151,20 @@ namespace CaptainPinkTurd.Story.Tests
 
         private void OnLine(DialogueInfo info)
         {
-            if (info.line != null) linesShown++;
+            if (info.line == null) return;
+            linesShown++;
+            var style = Object.FindAnyObjectByType<DialogueSpeakerStyle>(FindObjectsInactive.Include);
+            if (!style) return;
+            var settings = new SerializedObject(style);
+            var portrait = settings.FindProperty("portraitFrame").objectReferenceValue as GameObject;
+            Assert.IsNotNull(portrait);
+            Assert.IsFalse(portrait.activeSelf, "dialogue must not reveal an avatar when the speaker changes");
+            var blocks=settings.FindProperty("textBlocks");
+            for(int i=0;i<blocks.arraySize;i++)
+            {
+                var block=blocks.GetArrayElementAtIndex(i).objectReferenceValue as RectTransform;
+                Assert.Less(block.offsetMin.x,30f,"text must reclaim the portrait column");
+            }
         }
 
         private static Vector2 PanelCentre()

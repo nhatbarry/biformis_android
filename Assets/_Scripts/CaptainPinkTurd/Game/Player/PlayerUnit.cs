@@ -79,6 +79,8 @@ namespace CaptainPinkTurd.Game.Player
             gameObject.layer = layer;
             foreach (Transform child in transform)
             {
+                // The wall-blocking box has its own layer; only the colour hitbox follows form/dash.
+                if (child.gameObject.layer == LayerMask.NameToLayer("Player Collider")) continue;
                 child.gameObject.layer = layer;
             }
         }

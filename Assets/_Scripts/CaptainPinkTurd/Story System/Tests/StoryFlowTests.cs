@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using CaptainPinkTurd.Game.Player;
+using CaptainPinkTurd.Game.Enemy;
+using CaptainPinkTurd.Game;
+using CaptainPinkTurd.Core.Struct;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene.Manager;
 using CaptainPinkTurd.Scene.Story;
@@ -12,6 +15,8 @@ using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -46,6 +51,33 @@ namespace CaptainPinkTurd.Story.Tests
             Time.timeScale = 1f;
         }
 
+        [UnityTest, Timeout(90000)]
+        public IEnumerator BossVictoryStartsTheEndingWithoutADoor()
+        {
+            var data = AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Core");
+            yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");
+            yield return new WaitForSecondsRealtime(0.5f);
+            int bossStep = -1;
+            for (int i = 0; i < data.Steps.Count; i++) if (data.Steps[i].sceneName == "Level Story 6") bossStep = i;
+            Assert.GreaterOrEqual(bossStep, 0);
+            StoryFlow.StartAt(data, bossStep);
+            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Level Story 6", 30f, "boss arena");
+            var boss = Object.FindAnyObjectByType<PlagueDoctorBoss>();
+            var player = Object.FindAnyObjectByType<PlayerUnit>();
+            Assert.IsNull(Object.FindAnyObjectByType<Door>());
+            boss.PreviewPhaseTwo();
+            yield return WaitUntil(() => boss.Phase == PlagueDoctorBoss.EPhase.RedHaired, 15f, "phase two");
+            int deaths = 0;
+            boss.OnDeath.Subscribe(_ => deaths++);
+            boss.TakeDamage(new SDamageData(8, player.gameObject));
+            boss.TakeDamage(new SDamageData(8, player.gameObject));
+            Assert.AreEqual(1, deaths);
+            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Story Ending", 30f, "automatic ending after boss death");
+            Assert.AreEqual(bossStep + 1, data.CurrentStepIndex);
+            Assert.AreEqual(1f, Time.timeScale, "the last hit-stop must not freeze the cutscene");
+        }
+
         [UnityTest, Timeout(600000)]
         public IEnumerator TheWholeStoryPlaysThroughToTheMenu()
         {
@@ -75,7 +107,27 @@ namespace CaptainPinkTurd.Story.Tests
                     Assert.IsNotNull(Object.FindAnyObjectByType<PlayerUnit>(), $"{step.sceneName} has no player");
                     Object.FindAnyObjectByType<LevelManager>().NextLevel();
                 }
-                //the ending scene advances by itself
+                else if (step.sceneName == "Story Ending")
+                {
+                    //The current artwork ending has dialogue. Drive its real continue binding, like a player.
+                    // Gamepads accept events while the batchmode window has no focus; keyboards do not.
+                    var endingPad = InputSystem.AddDevice<Gamepad>();
+                    try
+                    {
+                        float end = Time.realtimeSinceStartup + 90f;
+                        while (!SceneManager.GetSceneByName("MainMenu").isLoaded)
+                        {
+                            Assert.Less(Time.realtimeSinceStartup, end, "ending never finishes after continue input");
+                            InputSystem.QueueStateEvent(endingPad, new GamepadState().WithButton(GamepadButton.South));
+                            InputSystem.Update();
+                            yield return null;
+                            InputSystem.QueueStateEvent(endingPad, new GamepadState());
+                            InputSystem.Update();
+                            yield return new WaitForSecondsRealtime(0.1f);
+                        }
+                    }
+                    finally { InputSystem.RemoveDevice(endingPad); }
+                }
             }
 
             yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 90f, "main menu after the ending");

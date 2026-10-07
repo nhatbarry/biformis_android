@@ -43,6 +43,7 @@ namespace CaptainPinkTurd.MobileControls
         [Tooltip("The art's screen height in pixels: each art pixel is the whole number of screen pixels nearest " +
                  "to Screen.height / this, so the pixel art stays crisp.")]
         [SerializeField] private float artScreenHeight = 90f;
+        [Range(0.2f, 1f), SerializeField] private float controlOpacity = 0.75f;
 
         [Header("Joystick (left part of the screen; art pixels)")]
         [Tooltip("Fraction of the screen width, from the left edge, where a finger can summon the stick.")]
@@ -57,11 +58,11 @@ namespace CaptainPinkTurd.MobileControls
 
         [Header("Buttons (centres in art pixels, from their corner)")]
         [Tooltip("The E key: goes through an open door, takes the box... Lights up while something is in reach.")]
-        [SerializeField] private Vector2 interactPosition = new(-44f, 14f);
+        [SerializeField] private Vector2 interactPosition = new(-18f, 20f);
         [Tooltip("Sprint while held, dash when tapped - the left shift key on desktop, which drives both.")]
-        [SerializeField] private Vector2 runPosition = new(-18f, 20f);
+        [SerializeField] private Vector2 runPosition = new(-16f, 48f);
         [Tooltip("Switch form - the J key on desktop.")]
-        [SerializeField] private Vector2 dimensionPosition = new(-16f, 48f);
+        [SerializeField] private Vector2 dimensionPosition = new(-44f, 14f);
         [Tooltip("From the top-right corner.")]
         [SerializeField] private Vector2 pausePosition = new(-10f, -10f);
 
@@ -82,6 +83,7 @@ namespace CaptainPinkTurd.MobileControls
         private FloatingOnScreenStick stick;
         private HudSpriteAnimation stickBaseArt, stickKnobArt;
         private Control interact, run, dimension, pause;
+        private CanvasGroup interactVisibility;
 
         private PopupManager popupManager;
         private bool menuOpen;
@@ -218,6 +220,10 @@ namespace CaptainPinkTurd.MobileControls
             stickKnobArt.Play(art.joystickKnob.Find(t + (held ? "pressed" : "idle")));
 
             interact.art.Play(art.interact.Find(t + (interact.Pressed ? "pressed" : InteractPrompt.Available ? "ready" : "disabled")));
+            // Keep the virtual control enabled so a disappearing prompt cannot release other held controls.
+            bool showInteract = InteractPrompt.Available || interact.Pressed;
+            interactVisibility.alpha = showInteract ? 1f : 0f;
+            interactVisibility.blocksRaycasts = showInteract;
             run.art.Play(art.dash.Find(t + (run.Pressed ? "pressed" : "idle")));
             dimension.art.Play(turning
                 ? art.swap.Find(form == EColor.Blue ? "to_blue" : "to_red")
@@ -309,6 +315,7 @@ namespace CaptainPinkTurd.MobileControls
 
             interact = BuildButton(gameplay, "Interact", MobileControlPaths.Interact, ButtonSize,
                 interactPosition, new Vector2(1f, 0f));
+            interactVisibility = interact.root.AddComponent<CanvasGroup>();
             run = BuildButton(gameplay, "Run And Dash", MobileControlPaths.RunAndDash, ButtonSize,
                 runPosition, new Vector2(1f, 0f));
             dimension = BuildButton(gameplay, "Switch Dimension", MobileControlPaths.SwitchDimension, ButtonSize,
@@ -376,6 +383,7 @@ namespace CaptainPinkTurd.MobileControls
         {
             var image = rect.gameObject.AddComponent<Image>();
             image.raycastTarget = false;
+            image.color = new Color(1f, 1f, 1f, controlOpacity);
             var animation = rect.gameObject.AddComponent<HudSpriteAnimation>();
             animation.Configure(art.unitsPerPixel);
             return animation;
