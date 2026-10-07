@@ -40,6 +40,7 @@ level.3	Màn 3 · Giấc mơ	Level 3 · The Dream
 level.4	Màn 4 · Chỉ có A	Level 4 · Only A
 level.corridor	Hành lang	The Corridor
 level.5	Màn 5 · Sụp đổ	Level 5 · Collapse
+level.6	Màn 6	Level 6
 level.4.subtitle	A đang xâm nhập vào tâm trí B. Không thể đổi màu.	A is breaking into B's mind. You can't switch colours.
 level.5.subtitle	Thoát ra trước khi mọi thứ sụp đổ!	Get out before everything collapses!
 level.5.timer	Sụp đổ sau	Collapse in
@@ -51,7 +52,8 @@ hint.sprint.touch	Giữ nút chạy: chạy nhanh · Chạm: lướt	Hold the ru
 hint.switch	J: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	J: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
 hint.switch.touch	Nút đổi màu: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	Colour button: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
 hint.attack	Lao vào kẻ địch để phá huỷ chúng	Ram into enemies to destroy them
-hint.door	Hạ hết kẻ địch để mở cửa · Đi lên để vào cửa	Destroy every enemy to open the door · Walk up to go through
+hint.door	Hạ hết kẻ địch để mở cửa · Đứng ở cửa rồi nhấn E để qua màn	Destroy every enemy to open the door · Stand at it and press E to go through
+hint.door.touch	Hạ hết kẻ địch để mở cửa · Đứng ở cửa rồi bấm nút ! để qua màn	Destroy every enemy to open the door · Stand at it and tap the ! button to go through
 # --- Ending ---		
 ending.the_end	HẾT	THE END
 # --- Story steps (level select; index = position in Story Data) ---		
@@ -65,9 +67,10 @@ step.6	Màn 4	Level 4
 step.7	Quá khứ	The past
 step.8	Hành lang	The corridor
 step.9	Màn 5	Level 5
-step.10	Kết thúc	Ending
+step.10	Màn 6	Level 6
+step.11	Kết thúc	Ending
 fx.bang	RẦM!	BANG!
 fx.knock	cộc...	knock...
 fx.beep	bíp... bíp... bíp...	beep... beep... beep...
 stage.take	Space: nhận	Space: take
-stage.take_touch	Chạm: nhận	Tap: take
+stage.take_touch	Nút !: nhận	! button: take

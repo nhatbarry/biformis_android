@@ -1,4 +1,6 @@
 using System;
+using CaptainPinkTurd.Core.DesignPattern.SOAP.Events;
+using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.InputPaths;
 using CaptainPinkTurd.Scene;
 using CaptainPinkTurd.UI.Popup;
@@ -10,80 +12,93 @@ using UnityEngine.UI;
 namespace CaptainPinkTurd.MobileControls
 {
     /// <summary>
-    /// The touch HUD: a floating joystick on the left, the action buttons on the bottom right, and pause on
-    /// the top right.
+    /// The touch HUD: a floating joystick on the left; interact, dash and switch-form buttons on the bottom right;
+    /// pause on the top right - the team's UI_Controls_Android art and layout (a 160 x 90 screen), in the colours of the
+    /// player's current form (red = B, blue = A).
     /// </summary>
     /// <remarks>
     /// Nothing here talks to gameplay. Every control simulates a virtual Gamepad through Unity's
     /// <c>OnScreenControl</c> using the paths in <see cref="MobileControlPaths"/>, all of which are already
     /// bound to the same actions as the desktop keys, so touch input travels the exact same path as WASD,
-    /// shift and escape do and the gameplay behaves identically.
+    /// shift, E and escape do and the gameplay behaves identically. The interact button lights up while
+    /// <see cref="InteractPrompt"/> says something is in reach (an open door, the box at the end of Level 4).
     ///
-    /// The whole hierarchy is built in code so the HUD needs no prefab, no sprites and no scene edits - the
-    /// scene list and load order stay exactly as they were. It spawns itself on touch platforms (see
-    /// <see cref="AutoSpawn"/>), but if you want to tune it in the inspector you can drop this component on a
-    /// GameObject in the Core scene instead and the auto-spawn will step aside.
+    /// The hierarchy is built in code so the HUD needs no prefab and no scene edits - the scene list and load
+    /// order stay exactly as they were; its art is <see cref="MobileControlsArt"/>, loaded from Resources. It
+    /// spawns itself on touch platforms (see <see cref="AutoSpawn"/>), but if you want to tune it in the
+    /// inspector you can drop this component on a GameObject in the Core scene instead and the auto-spawn will
+    /// step aside.
     /// </remarks>
     [DisallowMultipleComponent]
-    public class MobileControlsHUD : MonoBehaviour
+    public class MobileControlsHUD : MonoBehaviour, IGameEventSOListener<EColor>
     {
         private static MobileControlsHUD instance;
 
+        //the art's sizes, in its own pixels
+        private const float StickSize = 32f, KnobSize = 16f, ButtonSize = 24f, PauseSize = 12f;
+
         [Header("Canvas")]
-        [Tooltip("Matches the game's own UI canvas so the controls scale with the rest of the HUD.")]
-        [SerializeField] private Vector2 referenceResolution = new(640f, 360f);
         [Tooltip("Just under the Core scene's UI canvas, so the loading overlay still covers the controls.")]
         [SerializeField] private int sortingOrder = 9998;
+        [Tooltip("The art's screen height in pixels: each art pixel is the whole number of screen pixels nearest " +
+                 "to Screen.height / this, so the pixel art stays crisp.")]
+        [SerializeField] private float artScreenHeight = 90f;
 
-        [Header("Joystick (left half)")]
+        [Header("Joystick (left part of the screen; art pixels)")]
         [Tooltip("Fraction of the screen width, from the left edge, where a finger can summon the stick.")]
         [Range(0.2f, 0.7f)]
         [SerializeField] private float zoneWidth = 0.45f;
-        [SerializeField] private float baseSize = 104f;
-        [SerializeField] private float knobSize = 46f;
-        [SerializeField] private float movementRange = 34f;
+        [Tooltip("Where the stick waits while nothing touches it: its centre from the bottom-left corner.")]
+        [SerializeField] private Vector2 stickRest = new(22f, 20f);
+        [Tooltip("How far the knob travels before the stick reads as fully deflected.")]
+        [SerializeField] private float movementRange = 9f;
         [Range(0f, 0.9f)]
-        [SerializeField] private float deadZone = 0.15f;
+        [SerializeField] private float deadZone = 0.2f;
 
-        [Header("Buttons (bottom right, offsets from that corner)")]
-        [Tooltip("Switch dimension - the J key on desktop. Sits closest to the corner because it is the " +
-                 "button the thumb reaches for most.")]
-        [SerializeField] private float dimensionSize = 86f;
-        [SerializeField] private Vector2 dimensionPosition = new(-64f, 56f);
-
+        [Header("Buttons (centres in art pixels, from their corner)")]
+        [Tooltip("The E key: goes through an open door, takes the box... Lights up while something is in reach.")]
+        [SerializeField] private Vector2 interactPosition = new(-44f, 14f);
         [Tooltip("Sprint while held, dash when tapped - the left shift key on desktop, which drives both.")]
-        [SerializeField] private float runSize = 70f;
-        [SerializeField] private Vector2 runPosition = new(-154f, 108f);
+        [SerializeField] private Vector2 runPosition = new(-18f, 20f);
+        [Tooltip("Switch form - the J key on desktop.")]
+        [SerializeField] private Vector2 dimensionPosition = new(-16f, 48f);
+        [Tooltip("From the top-right corner.")]
+        [SerializeField] private Vector2 pausePosition = new(-10f, -10f);
 
-        [Tooltip("The E key. Off by default: no scene in the build list drives the Interact action yet " +
-                 "(doors open by walking into them), so the button would sit there doing nothing. " +
-                 "Turn it on the moment something reads Interact.")]
-        [SerializeField] private bool showInteractButton;
-        [SerializeField] private float interactSize = 66f;
-        [SerializeField] private Vector2 interactPosition = new(-64f, 156f);
+        [Header("Switching form")]
+        [Tooltip("The switch button's to_blue / to_red turn (3 frames x 80 ms)")]
+        [SerializeField] private float switchAnimationTime = 0.24f;
+        [Tooltip("The rest of the controls change colour halfway through the turn")]
+        [SerializeField] private float themeSwitchDelay = 0.12f;
 
-        [Header("Pause (top right, offset from that corner)")]
-        [SerializeField] private float pauseSize = 58f;
-        [SerializeField] private Vector2 pausePosition = new(-48f, -42f);
-
-        [Header("Look")]
-        [Range(0f, 1f)]
-        [SerializeField] private float restAlpha = 0.55f;
-        [Range(0f, 1f)]
-        [SerializeField] private float pressedAlpha = 1f;
-        [SerializeField] private Color dimensionRed = new(0.90f, 0.26f, 0.33f, 1f);
-        [SerializeField] private Color dimensionBlue = new(0.28f, 0.55f, 0.94f, 1f);
-
+        private MobileControlsArt art;
         private GameObject canvasRoot;
+        private CanvasScaler scaler;
+        private int screenHeight;
 
         /// <summary>Everything except pause, so the pause menu is not fighting a joystick for touches.</summary>
         private CanvasGroup gameplayControls;
 
+        private FloatingOnScreenStick stick;
+        private HudSpriteAnimation stickBaseArt, stickKnobArt;
+        private Control interact, run, dimension, pause;
+
         private PopupManager popupManager;
-        private Image pauseIcon;
-        private Sprite pauseGlyph;
-        private Sprite resumeGlyph;
-        private bool wasMenuOpen;
+        private bool menuOpen;
+
+        private EColor form = EColor.Red;   //the form the game is in
+        private EColor theme = EColor.Red;  //the colours the controls show
+        private float switchStarted = float.NegativeInfinity;
+        private float shownAt = float.NegativeInfinity;
+        private bool inCutscene;
+
+        private struct Control
+        {
+            public GameObject root;
+            public MobileHudButton press;
+            public HudSpriteAnimation art;
+            public bool Pressed => press && press.IsPressed;
+        }
 
         /// <summary>
         /// Creates the HUD on touch platforms without anyone having to place it in a scene. Runs after the
@@ -122,6 +137,12 @@ namespace CaptainPinkTurd.MobileControls
             // Only when we spawned ourselves - a HUD authored into the Core scene is already persistent.
             if (!transform.parent) DontDestroyOnLoad(gameObject);
 
+            art = MobileControlsArt.Load();
+            if (!art)
+            {
+                Debug.LogError($"Mobile controls: no {nameof(MobileControlsArt)} at Resources/{MobileControlsArt.ResourcePath}");
+                return;
+            }
             Build();
         }
 
@@ -134,6 +155,8 @@ namespace CaptainPinkTurd.MobileControls
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
+            InteractPrompt.CutsceneControlsChanged += RefreshVisibility;
+            if (art && art.onDimensionChange) art.onDimensionChange.Subscribe(this);
             RefreshVisibility();
         }
 
@@ -141,37 +164,72 @@ namespace CaptainPinkTurd.MobileControls
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
+            InteractPrompt.CutsceneControlsChanged -= RefreshVisibility;
+            if (art && art.onDimensionChange) art.onDimensionChange.Unsubscribe(this);
         }
 
         private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode) => RefreshVisibility();
 
         private void OnSceneUnloaded(UnityEngine.SceneManagement.Scene scene) => RefreshVisibility();
 
+        /// <summary>The game changed form (also raised as each level loads, and by Level 4's lock to A).</summary>
+        public void OnEventRaised(EColor data)
+        {
+            if (data == form) return;
+            form = data;
+            //a switch while playing turns the button; as a level starts (Level 4 locks A in) the controls just take the colours
+            bool playing = canvasRoot && canvasRoot.activeInHierarchy && !inCutscene && Time.unscaledTime - shownAt > 0.5f;
+            if (playing) switchStarted = Time.unscaledTime;
+            else theme = form;
+        }
+
         private void Update()
         {
+            if (!canvasRoot || !canvasRoot.activeSelf) return;
+            KeepPixelsWhole();
+
             // Ask the popup system directly rather than watching Time.timeScale. A frozen clock is not the
             // same thing as an open menu: HitStop zeroes the time scale for a moment on every hit, and
             // treating that as a pause used to yank the controls out from under the player's thumb.
-            bool menuOpen = popupManager && popupManager.AnyPopupShowing();
-            if (menuOpen == wasMenuOpen) return;
-
-            wasMenuOpen = menuOpen;
-
-            // Faded and untouchable rather than deactivated: switching a held joystick off loses the finger
-            // that is on it, and the player would have to lift and press again to get moving.
-            if (gameplayControls)
+            bool open = popupManager && popupManager.AnyPopupShowing();
+            if (open != menuOpen)
             {
-                gameplayControls.alpha = menuOpen ? 0f : 1f;
-                gameplayControls.blocksRaycasts = !menuOpen;
+                menuOpen = open;
+                // Faded and untouchable rather than deactivated: switching a held joystick off loses the finger
+                // that is on it, and the player would have to lift and press again to get moving.
+                gameplayControls.alpha = open ? 0f : 1f;
+                gameplayControls.blocksRaycasts = !open;
             }
 
-            if (pauseIcon) pauseIcon.sprite = menuOpen ? resumeGlyph : pauseGlyph;
+            ShowStates();
+        }
+
+        /// <summary>Picks every control's clip from its state, in the current theme.</summary>
+        private void ShowStates()
+        {
+            float sinceSwitch = Time.unscaledTime - switchStarted;
+            bool turning = sinceSwitch < switchAnimationTime;
+            if (inCutscene) theme = InteractPrompt.CutsceneTheme;
+            else if (sinceSwitch >= themeSwitchDelay) theme = form;
+            string t = theme == EColor.Red ? "red_" : "blue_";
+
+            bool held = stick && stick.IsHeld;
+            stickBaseArt.Play(art.joystickBase.Find(t + (held ? "active" : "idle")));
+            stickKnobArt.Play(art.joystickKnob.Find(t + (held ? "pressed" : "idle")));
+
+            interact.art.Play(art.interact.Find(t + (interact.Pressed ? "pressed" : InteractPrompt.Available ? "ready" : "disabled")));
+            run.art.Play(art.dash.Find(t + (run.Pressed ? "pressed" : "idle")));
+            dimension.art.Play(turning
+                ? art.swap.Find(form == EColor.Blue ? "to_blue" : "to_red")
+                : art.swap.Find(t + (dimension.Pressed ? "pressed" : "idle")));
+            pause.art.Play(art.pause.Find(t + (menuOpen ? "play" : "pause") + (pause.Pressed ? "_pressed" : "")));
         }
 
         /// <summary>
-        /// Shows the controls only while a gameplay level is loaded, so they stay out of the main menu.
-        /// Hiding deactivates the canvas, which releases the virtual gamepad and zeroes the stick - the player
-        /// can never be left walking into a scene transition.
+        /// Shows the controls while a gameplay level is loaded, and in a cutscene that asks for them (walking B up to
+        /// A at the end of Level 4: only the joystick and the interact button then). Hiding deactivates the canvas,
+        /// which releases the virtual gamepad and zeroes the stick - the player can never be left walking into a
+        /// scene transition.
         /// </summary>
         private void RefreshVisibility()
         {
@@ -180,8 +238,16 @@ namespace CaptainPinkTurd.MobileControls
             // The Popup Manager prefab lives in each level scene, so it is a different instance every level.
             popupManager = FindAnyObjectByType<PopupManager>();
 
-            bool show = IsGameplaySceneLoaded();
-            if (canvasRoot.activeSelf != show) canvasRoot.SetActive(show);
+            bool level = IsGameplaySceneLoaded();
+            inCutscene = !level && InteractPrompt.CutsceneControls;
+            run.root.SetActive(!inCutscene);
+            dimension.root.SetActive(!inCutscene);
+            pause.root.SetActive(!inCutscene);
+
+            bool show = level || inCutscene;
+            if (canvasRoot.activeSelf == show) return;
+            canvasRoot.SetActive(show);
+            if (show) shownAt = Time.unscaledTime;
         }
 
         private static bool IsGameplaySceneLoaded()
@@ -196,6 +262,18 @@ namespace CaptainPinkTurd.MobileControls
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// One art pixel is a whole number of screen pixels (Screen.height / 90 rounded), as the team asked, so the
+        /// pixel art never comes out with uneven pixels. The canvas is then about 360 units tall on any phone.
+        /// </summary>
+        private void KeepPixelsWhole()
+        {
+            if (Screen.height == screenHeight) return;
+            screenHeight = Screen.height;
+            float screenPixelsPerArtPixel = Mathf.Max(1f, Mathf.Round(screenHeight / artScreenHeight));
+            scaler.scaleFactor = screenPixelsPerArtPixel / art.unitsPerPixel;
         }
 
         #region Construction
@@ -213,12 +291,11 @@ namespace CaptainPinkTurd.MobileControls
             var canvas = canvasRoot.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = sortingOrder;
+            canvas.pixelPerfect = true;
 
-            var scaler = canvasRoot.GetComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = referenceResolution;
-            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            scaler.matchWidthOrHeight = 0.5f;
+            scaler = canvasRoot.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+            KeepPixelsWhole();
 
             var safeArea = CreateChild("Safe Area", canvasRoot.transform);
             Stretch(safeArea);
@@ -230,33 +307,18 @@ namespace CaptainPinkTurd.MobileControls
 
             BuildStick(gameplay);
 
-            BuildButton(gameplay, "Switch Dimension", MobileControlPaths.SwitchDimension, dimensionSize,
-                dimensionPosition, new Vector2(1f, 0f),
-                MobileControlGraphics.SplitDisc(dimensionRed, dimensionBlue, Color.white, 0.09f),
-                icon: null, iconScale: 0f);
-
-            BuildButton(gameplay, "Run And Dash", MobileControlPaths.RunAndDash, runSize, runPosition,
-                new Vector2(1f, 0f),
-                MobileControlGraphics.Disc(new Color(1f, 1f, 1f, 0.30f), Color.white, 0.09f),
-                MobileControlGraphics.Chevrons(Color.white), iconScale: 0.62f);
-
-            if (showInteractButton)
-            {
-                BuildButton(gameplay, "Interact", MobileControlPaths.Interact, interactSize, interactPosition,
-                    new Vector2(1f, 0f),
-                    MobileControlGraphics.Disc(new Color(1f, 1f, 1f, 0.30f), Color.white, 0.09f),
-                    MobileControlGraphics.Disc(Color.white, Color.white, 0f), iconScale: 0.34f);
-            }
-
-            pauseGlyph = MobileControlGraphics.Bars(Color.white);
-            resumeGlyph = MobileControlGraphics.Triangle(Color.white);
+            interact = BuildButton(gameplay, "Interact", MobileControlPaths.Interact, ButtonSize,
+                interactPosition, new Vector2(1f, 0f));
+            run = BuildButton(gameplay, "Run And Dash", MobileControlPaths.RunAndDash, ButtonSize,
+                runPosition, new Vector2(1f, 0f));
+            dimension = BuildButton(gameplay, "Switch Dimension", MobileControlPaths.SwitchDimension, ButtonSize,
+                dimensionPosition, new Vector2(1f, 0f));
 
             // Outside the gameplay group: it has to stay reachable while the pause menu is up.
-            pauseIcon = BuildButton(safeArea, "Pause", MobileControlPaths.Pause, pauseSize, pausePosition,
-                new Vector2(1f, 1f),
-                MobileControlGraphics.Disc(new Color(1f, 1f, 1f, 0.30f), Color.white, 0.09f),
-                pauseGlyph, iconScale: 0.46f);
+            pause = BuildButton(safeArea, "Pause", MobileControlPaths.Pause, PauseSize,
+                pausePosition, new Vector2(1f, 1f));
 
+            ShowStates();
             RefreshVisibility();
         }
 
@@ -274,51 +336,49 @@ namespace CaptainPinkTurd.MobileControls
             catcher.color = Color.clear;
             catcher.raycastTarget = true;
 
+            float unit = art.unitsPerPixel;
             var stickBase = CreateChild("Stick Base", zone);
-            Centre(stickBase, baseSize);
-            AddImage(stickBase, MobileControlGraphics.Disc(new Color(1f, 1f, 1f, 0.22f), Color.white, 0.08f),
-                restAlpha);
+            Centre(stickBase, StickSize * unit);
+            stickBaseArt = AddArt(CreateChild("Art", stickBase));
 
             var knob = CreateChild("Stick Knob", stickBase);
-            Centre(knob, knobSize);
-            AddImage(knob, MobileControlGraphics.Disc(new Color(1f, 1f, 1f, 0.85f), Color.white, 0.12f),
-                pressedAlpha);
+            Centre(knob, KnobSize * unit);
+            stickKnobArt = AddArt(CreateChild("Art", knob));
 
-            stickBase.gameObject.SetActive(false);
-
-            var stick = zone.gameObject.AddComponent<FloatingOnScreenStick>();
-            stick.Configure(stickBase, knob, MobileControlPaths.Move, movementRange, deadZone);
+            stick = zone.gameObject.AddComponent<FloatingOnScreenStick>();
+            stick.Configure(stickBase, knob, MobileControlPaths.Move, movementRange * unit, deadZone, stickRest * unit);
         }
 
-        /// <summary>Builds one round button and returns its icon, for callers that want to swap the glyph.</summary>
-        private Image BuildButton(RectTransform parent, string name, string controlPath, float size,
-            Vector2 position, Vector2 corner, Sprite background, Sprite icon, float iconScale)
+        /// <summary>One button: a full-size touch area with the animated art inside it.</summary>
+        private Control BuildButton(RectTransform parent, string name, string controlPath, float sizeInPixels,
+            Vector2 positionInPixels, Vector2 corner)
         {
+            float unit = art.unitsPerPixel;
             var button = CreateChild(name, parent);
             button.anchorMin = button.anchorMax = corner;
             button.pivot = new Vector2(0.5f, 0.5f);
-            button.sizeDelta = new Vector2(size, size);
-            button.anchoredPosition = position;
+            button.sizeDelta = Vector2.one * sizeInPixels * unit;
+            button.anchoredPosition = positionInPixels * unit;
 
-            var backgroundImage = AddImage(button, background, restAlpha);
-            backgroundImage.raycastTarget = true;
+            var touchArea = button.gameObject.AddComponent<Image>();
+            touchArea.color = Color.clear;
+            touchArea.raycastTarget = true;
 
-            Image iconImage = null;
-            if (icon)
-            {
-                var iconRect = CreateChild("Icon", button);
-                Centre(iconRect, size * iconScale);
-                iconImage = AddImage(iconRect, icon, restAlpha);
-            }
-
-            var tinted = iconImage
-                ? new Graphic[] { backgroundImage, iconImage }
-                : new Graphic[] { backgroundImage };
+            var artRect = CreateChild("Art", button);
+            var control = new Control { root = button.gameObject, art = AddArt(artRect) };
 
             button.gameObject.AddComponent<OnScreenButton>().controlPath = controlPath;
-            button.gameObject.AddComponent<MobileHudButton>().Configure(tinted, restAlpha, pressedAlpha);
+            control.press = button.gameObject.AddComponent<MobileHudButton>();
+            return control;
+        }
 
-            return iconImage;
+        private HudSpriteAnimation AddArt(RectTransform rect)
+        {
+            var image = rect.gameObject.AddComponent<Image>();
+            image.raycastTarget = false;
+            var animation = rect.gameObject.AddComponent<HudSpriteAnimation>();
+            animation.Configure(art.unitsPerPixel);
+            return animation;
         }
 
         private static RectTransform CreateChild(string name, Transform parent)
@@ -343,15 +403,6 @@ namespace CaptainPinkTurd.MobileControls
             rect.pivot = new Vector2(0.5f, 0.5f);
             rect.sizeDelta = new Vector2(size, size);
             rect.anchoredPosition = Vector2.zero;
-        }
-
-        private static Image AddImage(RectTransform rect, Sprite sprite, float alpha)
-        {
-            var image = rect.gameObject.AddComponent<Image>();
-            image.sprite = sprite;
-            image.color = new Color(1f, 1f, 1f, alpha);
-            image.raycastTarget = false;
-            return image;
         }
 
         #endregion

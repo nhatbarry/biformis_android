@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 53815149}
   - component: {fileID: 53815151}
   - component: {fileID: 53815150}
+  - component: {fileID: 53815152}
   m_Layer: 0
   m_Name: Encounter Door
   m_TagString: Untagged
@@ -149,7 +150,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 990661594}
+  - {fileID: 1831737123}
+  - {fileID: 347833660}
   m_Father: {fileID: 103351062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &53815150
@@ -164,379 +168,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs:
-  - {fileID: 4564287098680374756, guid: aca6d0772bb694945980936ab77b8718, type: 3}
-  enemiesPerWave: 3
   waves: 3
-  spawnPoints:
-  - {x: -14.5, y: -7.5}
-  - {x: -14.5, y: -6.5}
-  - {x: -14.5, y: -5.5}
-  - {x: -14.5, y: -4.5}
-  - {x: -14.5, y: -3.5}
-  - {x: -14.5, y: -2.5}
-  - {x: -14.5, y: -1.5}
-  - {x: -14.5, y: -0.5}
-  - {x: -14.5, y: 0.5}
-  - {x: -14.5, y: 1.5}
-  - {x: -14.5, y: 2.5}
-  - {x: -14.5, y: 3.5}
-  - {x: -14.5, y: 4.5}
-  - {x: -14.5, y: 5.5}
-  - {x: -14.5, y: 6.5}
-  - {x: -14.5, y: 7.5}
-  - {x: -13.5, y: -7.5}
-  - {x: -13.5, y: -6.5}
-  - {x: -13.5, y: -5.5}
-  - {x: -13.5, y: -4.5}
-  - {x: -13.5, y: -3.5}
-  - {x: -13.5, y: -2.5}
-  - {x: -13.5, y: -1.5}
-  - {x: -13.5, y: -0.5}
-  - {x: -13.5, y: 0.5}
-  - {x: -13.5, y: 1.5}
-  - {x: -13.5, y: 2.5}
-  - {x: -13.5, y: 3.5}
-  - {x: -13.5, y: 4.5}
-  - {x: -13.5, y: 5.5}
-  - {x: -13.5, y: 6.5}
-  - {x: -13.5, y: 7.5}
-  - {x: -12.5, y: -7.5}
-  - {x: -12.5, y: -6.5}
-  - {x: -12.5, y: -5.5}
-  - {x: -12.5, y: -4.5}
-  - {x: -12.5, y: -3.5}
-  - {x: -12.5, y: -2.5}
-  - {x: -12.5, y: -1.5}
-  - {x: -12.5, y: -0.5}
-  - {x: -12.5, y: 0.5}
-  - {x: -12.5, y: 1.5}
-  - {x: -12.5, y: 2.5}
-  - {x: -12.5, y: 3.5}
-  - {x: -12.5, y: 4.5}
-  - {x: -12.5, y: 5.5}
-  - {x: -12.5, y: 6.5}
-  - {x: -12.5, y: 7.5}
-  - {x: -11.5, y: -7.5}
-  - {x: -11.5, y: -6.5}
-  - {x: -11.5, y: -5.5}
-  - {x: -11.5, y: -4.5}
-  - {x: -11.5, y: -3.5}
-  - {x: -11.5, y: -2.5}
-  - {x: -11.5, y: -1.5}
-  - {x: -11.5, y: -0.5}
-  - {x: -11.5, y: 0.5}
-  - {x: -11.5, y: 1.5}
-  - {x: -11.5, y: 2.5}
-  - {x: -11.5, y: 3.5}
-  - {x: -11.5, y: 4.5}
-  - {x: -11.5, y: 5.5}
-  - {x: -11.5, y: 6.5}
-  - {x: -11.5, y: 7.5}
-  - {x: -10.5, y: -7.5}
-  - {x: -10.5, y: -1.5}
-  - {x: -10.5, y: -0.5}
-  - {x: -10.5, y: 0.5}
-  - {x: -10.5, y: 1.5}
-  - {x: -10.5, y: 7.5}
-  - {x: -9.5, y: -7.5}
-  - {x: -9.5, y: -1.5}
-  - {x: -9.5, y: -0.5}
-  - {x: -9.5, y: 0.5}
-  - {x: -9.5, y: 1.5}
-  - {x: -9.5, y: 7.5}
-  - {x: -8.5, y: -7.5}
-  - {x: -8.5, y: -1.5}
-  - {x: -8.5, y: -0.5}
-  - {x: -8.5, y: 0.5}
-  - {x: -8.5, y: 1.5}
-  - {x: -8.5, y: 7.5}
-  - {x: -7.5, y: -7.5}
-  - {x: -7.5, y: -1.5}
-  - {x: -7.5, y: -0.5}
-  - {x: -7.5, y: 0.5}
-  - {x: -7.5, y: 1.5}
-  - {x: -7.5, y: 7.5}
-  - {x: -6.5, y: -7.5}
-  - {x: -6.5, y: -1.5}
-  - {x: -6.5, y: -0.5}
-  - {x: -6.5, y: 0.5}
-  - {x: -6.5, y: 1.5}
-  - {x: -6.5, y: 7.5}
-  - {x: -5.5, y: -7.5}
-  - {x: -5.5, y: -6.5}
-  - {x: -5.5, y: -5.5}
-  - {x: -5.5, y: -4.5}
-  - {x: -5.5, y: -3.5}
-  - {x: -5.5, y: -2.5}
-  - {x: -5.5, y: -1.5}
-  - {x: -5.5, y: -0.5}
-  - {x: -5.5, y: 0.5}
-  - {x: -5.5, y: 1.5}
-  - {x: -5.5, y: 2.5}
-  - {x: -5.5, y: 3.5}
-  - {x: -5.5, y: 4.5}
-  - {x: -5.5, y: 5.5}
-  - {x: -5.5, y: 6.5}
-  - {x: -5.5, y: 7.5}
-  - {x: -4.5, y: -7.5}
-  - {x: -4.5, y: -6.5}
-  - {x: -4.5, y: -5.5}
-  - {x: -4.5, y: -4.5}
-  - {x: -4.5, y: -3.5}
-  - {x: -4.5, y: -2.5}
-  - {x: -4.5, y: -1.5}
-  - {x: -4.5, y: -0.5}
-  - {x: -4.5, y: 0.5}
-  - {x: -4.5, y: 1.5}
-  - {x: -4.5, y: 2.5}
-  - {x: -4.5, y: 3.5}
-  - {x: -4.5, y: 4.5}
-  - {x: -4.5, y: 5.5}
-  - {x: -4.5, y: 6.5}
-  - {x: -4.5, y: 7.5}
-  - {x: -3.5, y: -7.5}
-  - {x: -3.5, y: -6.5}
-  - {x: -3.5, y: -5.5}
-  - {x: -3.5, y: -4.5}
-  - {x: -3.5, y: -3.5}
-  - {x: -3.5, y: -2.5}
-  - {x: -3.5, y: -1.5}
-  - {x: -3.5, y: -0.5}
-  - {x: -3.5, y: 0.5}
-  - {x: -3.5, y: 1.5}
-  - {x: -3.5, y: 2.5}
-  - {x: -3.5, y: 3.5}
-  - {x: -3.5, y: 4.5}
-  - {x: -3.5, y: 5.5}
-  - {x: -3.5, y: 6.5}
-  - {x: -3.5, y: 7.5}
-  - {x: -2.5, y: -7.5}
-  - {x: -2.5, y: -6.5}
-  - {x: -2.5, y: -5.5}
-  - {x: -2.5, y: -4.5}
-  - {x: -2.5, y: -3.5}
-  - {x: -2.5, y: -2.5}
-  - {x: -2.5, y: -1.5}
-  - {x: -2.5, y: -0.5}
-  - {x: -2.5, y: 0.5}
-  - {x: -2.5, y: 1.5}
-  - {x: -2.5, y: 2.5}
-  - {x: -2.5, y: 3.5}
-  - {x: -2.5, y: 4.5}
-  - {x: -2.5, y: 5.5}
-  - {x: -2.5, y: 6.5}
-  - {x: -2.5, y: 7.5}
-  - {x: -1.5, y: -7.5}
-  - {x: -1.5, y: -6.5}
-  - {x: -1.5, y: -5.5}
-  - {x: -1.5, y: -4.5}
-  - {x: -1.5, y: -3.5}
-  - {x: -1.5, y: -2.5}
-  - {x: -1.5, y: 3.5}
-  - {x: -1.5, y: 4.5}
-  - {x: -1.5, y: 5.5}
-  - {x: -1.5, y: 6.5}
-  - {x: -1.5, y: 7.5}
-  - {x: -0.5, y: -5.5}
-  - {x: -0.5, y: -4.5}
-  - {x: -0.5, y: -3.5}
-  - {x: -0.5, y: -2.5}
-  - {x: -0.5, y: 3.5}
-  - {x: -0.5, y: 4.5}
-  - {x: -0.5, y: 5.5}
-  - {x: -0.5, y: 6.5}
-  - {x: -0.5, y: 7.5}
-  - {x: 0.5, y: -5.5}
-  - {x: 0.5, y: -4.5}
-  - {x: 0.5, y: -3.5}
-  - {x: 0.5, y: -2.5}
-  - {x: 0.5, y: 3.5}
-  - {x: 0.5, y: 4.5}
-  - {x: 0.5, y: 5.5}
-  - {x: 0.5, y: 6.5}
-  - {x: 0.5, y: 7.5}
-  - {x: 1.5, y: -5.5}
-  - {x: 1.5, y: -4.5}
-  - {x: 1.5, y: -3.5}
-  - {x: 1.5, y: -2.5}
-  - {x: 1.5, y: 3.5}
-  - {x: 1.5, y: 4.5}
-  - {x: 1.5, y: 5.5}
-  - {x: 1.5, y: 6.5}
-  - {x: 1.5, y: 7.5}
-  - {x: 2.5, y: -7.5}
-  - {x: 2.5, y: -6.5}
-  - {x: 2.5, y: -5.5}
-  - {x: 2.5, y: -4.5}
-  - {x: 2.5, y: -3.5}
-  - {x: 2.5, y: -2.5}
-  - {x: 2.5, y: 3.5}
-  - {x: 2.5, y: 4.5}
-  - {x: 2.5, y: 5.5}
-  - {x: 2.5, y: 6.5}
-  - {x: 2.5, y: 7.5}
-  - {x: 3.5, y: -7.5}
-  - {x: 3.5, y: -6.5}
-  - {x: 3.5, y: -5.5}
-  - {x: 3.5, y: -4.5}
-  - {x: 3.5, y: -3.5}
-  - {x: 3.5, y: -2.5}
-  - {x: 3.5, y: -1.5}
-  - {x: 3.5, y: -0.5}
-  - {x: 3.5, y: 0.5}
-  - {x: 3.5, y: 1.5}
-  - {x: 3.5, y: 2.5}
-  - {x: 3.5, y: 3.5}
-  - {x: 3.5, y: 4.5}
-  - {x: 3.5, y: 5.5}
-  - {x: 3.5, y: 6.5}
-  - {x: 3.5, y: 7.5}
-  - {x: 4.5, y: -7.5}
-  - {x: 4.5, y: -6.5}
-  - {x: 4.5, y: -5.5}
-  - {x: 4.5, y: -4.5}
-  - {x: 4.5, y: -3.5}
-  - {x: 4.5, y: -2.5}
-  - {x: 4.5, y: -1.5}
-  - {x: 4.5, y: -0.5}
-  - {x: 4.5, y: 0.5}
-  - {x: 4.5, y: 1.5}
-  - {x: 4.5, y: 2.5}
-  - {x: 4.5, y: 3.5}
-  - {x: 4.5, y: 4.5}
-  - {x: 4.5, y: 5.5}
-  - {x: 4.5, y: 6.5}
-  - {x: 4.5, y: 7.5}
-  - {x: 5.5, y: -7.5}
-  - {x: 5.5, y: -6.5}
-  - {x: 5.5, y: -5.5}
-  - {x: 5.5, y: -4.5}
-  - {x: 5.5, y: -3.5}
-  - {x: 5.5, y: -2.5}
-  - {x: 5.5, y: -1.5}
-  - {x: 5.5, y: -0.5}
-  - {x: 5.5, y: 0.5}
-  - {x: 5.5, y: 1.5}
-  - {x: 5.5, y: 2.5}
-  - {x: 5.5, y: 3.5}
-  - {x: 5.5, y: 4.5}
-  - {x: 5.5, y: 5.5}
-  - {x: 5.5, y: 6.5}
-  - {x: 5.5, y: 7.5}
-  - {x: 6.5, y: -7.5}
-  - {x: 6.5, y: -6.5}
-  - {x: 6.5, y: -5.5}
-  - {x: 6.5, y: -4.5}
-  - {x: 6.5, y: -3.5}
-  - {x: 6.5, y: -2.5}
-  - {x: 6.5, y: -1.5}
-  - {x: 6.5, y: -0.5}
-  - {x: 6.5, y: 0.5}
-  - {x: 6.5, y: 1.5}
-  - {x: 6.5, y: 2.5}
-  - {x: 6.5, y: 3.5}
-  - {x: 6.5, y: 4.5}
-  - {x: 6.5, y: 5.5}
-  - {x: 6.5, y: 6.5}
-  - {x: 6.5, y: 7.5}
-  - {x: 7.5, y: -7.5}
-  - {x: 7.5, y: -1.5}
-  - {x: 7.5, y: -0.5}
-  - {x: 7.5, y: 0.5}
-  - {x: 7.5, y: 1.5}
-  - {x: 7.5, y: 7.5}
-  - {x: 8.5, y: -7.5}
-  - {x: 8.5, y: -1.5}
-  - {x: 8.5, y: -0.5}
-  - {x: 8.5, y: 0.5}
-  - {x: 8.5, y: 1.5}
-  - {x: 8.5, y: 7.5}
-  - {x: 9.5, y: -7.5}
-  - {x: 9.5, y: -1.5}
-  - {x: 9.5, y: -0.5}
-  - {x: 9.5, y: 0.5}
-  - {x: 9.5, y: 1.5}
-  - {x: 9.5, y: 7.5}
-  - {x: 10.5, y: -7.5}
-  - {x: 10.5, y: -1.5}
-  - {x: 10.5, y: -0.5}
-  - {x: 10.5, y: 0.5}
-  - {x: 10.5, y: 1.5}
-  - {x: 10.5, y: 7.5}
-  - {x: 11.5, y: -7.5}
-  - {x: 11.5, y: -1.5}
-  - {x: 11.5, y: -0.5}
-  - {x: 11.5, y: 0.5}
-  - {x: 11.5, y: 1.5}
-  - {x: 11.5, y: 7.5}
-  - {x: 12.5, y: -7.5}
-  - {x: 12.5, y: -6.5}
-  - {x: 12.5, y: -5.5}
-  - {x: 12.5, y: -4.5}
-  - {x: 12.5, y: -3.5}
-  - {x: 12.5, y: -2.5}
-  - {x: 12.5, y: -1.5}
-  - {x: 12.5, y: -0.5}
-  - {x: 12.5, y: 0.5}
-  - {x: 12.5, y: 1.5}
-  - {x: 12.5, y: 2.5}
-  - {x: 12.5, y: 3.5}
-  - {x: 12.5, y: 4.5}
-  - {x: 12.5, y: 5.5}
-  - {x: 12.5, y: 6.5}
-  - {x: 12.5, y: 7.5}
-  - {x: 13.5, y: -7.5}
-  - {x: 13.5, y: -6.5}
-  - {x: 13.5, y: -5.5}
-  - {x: 13.5, y: -4.5}
-  - {x: 13.5, y: -3.5}
-  - {x: 13.5, y: -2.5}
-  - {x: 13.5, y: -1.5}
-  - {x: 13.5, y: -0.5}
-  - {x: 13.5, y: 0.5}
-  - {x: 13.5, y: 1.5}
-  - {x: 13.5, y: 2.5}
-  - {x: 13.5, y: 3.5}
-  - {x: 13.5, y: 4.5}
-  - {x: 13.5, y: 5.5}
-  - {x: 13.5, y: 6.5}
-  - {x: 13.5, y: 7.5}
-  - {x: 14.5, y: -7.5}
-  - {x: 14.5, y: -6.5}
-  - {x: 14.5, y: -5.5}
-  - {x: 14.5, y: -4.5}
-  - {x: 14.5, y: -3.5}
-  - {x: 14.5, y: -2.5}
-  - {x: 14.5, y: -1.5}
-  - {x: 14.5, y: -0.5}
-  - {x: 14.5, y: 0.5}
-  - {x: 14.5, y: 1.5}
-  - {x: 14.5, y: 2.5}
-  - {x: 14.5, y: 3.5}
-  - {x: 14.5, y: 4.5}
-  - {x: 14.5, y: 5.5}
-  - {x: 14.5, y: 6.5}
-  - {x: 14.5, y: 7.5}
-  - {x: 15.5, y: -7.5}
-  - {x: 15.5, y: -6.5}
-  - {x: 15.5, y: -5.5}
-  - {x: 15.5, y: -4.5}
-  - {x: 15.5, y: -3.5}
-  - {x: 15.5, y: -2.5}
-  - {x: 15.5, y: -1.5}
-  - {x: 15.5, y: -0.5}
-  - {x: 15.5, y: 0.5}
-  - {x: 15.5, y: 1.5}
-  - {x: 15.5, y: 2.5}
-  - {x: 15.5, y: 3.5}
-  - {x: 15.5, y: 4.5}
-  - {x: 15.5, y: 5.5}
-  - {x: 15.5, y: 6.5}
-  - {x: 15.5, y: 7.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -602,6 +236,50 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 33, y: 18}
   m_EdgeRadius: 0
+--- !u!114 &53815152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 53815148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair:
+  - Value: {fileID: 2858917455640054745, guid: aca6d0772bb694945980936ab77b8718, type: 3}
+    Key: {fileID: 990661594}
+  - Value: {fileID: 2858917455640054745, guid: aca6d0772bb694945980936ab77b8718, type: 3}
+    Key: {fileID: 1831737123}
+  - Value: {fileID: 2858917455640054745, guid: aca6d0772bb694945980936ab77b8718, type: 3}
+    Key: {fileID: 347833660}
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!224 &98134892 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 716021802374538416, guid: fd8d72b9c85039f47a4082a4a9136f75, type: 3}
@@ -872,6 +550,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4168135719172529405, guid: a5cafe5492c402f43a4ad92f1018b1c0, type: 3}
   m_PrefabInstance: {fileID: 275144551}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &347833659
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 347833660}
+  m_Layer: 0
+  m_Name: Spawn Position #3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &347833660
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347833659}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5, y: 3.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53815149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &419894776 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4957566025479673256, guid: 129a5ae042c11ca469c4067aff704dbd, type: 3}
@@ -48972,6 +48681,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4108975754366707165, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
   m_PrefabInstance: {fileID: 3564836562178595603}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &990661593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 990661594}
+  m_Layer: 0
+  m_Name: Spawn Position #1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &990661594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990661593}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.5, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53815149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1126160416
 GameObject:
   m_ObjectHideFlags: 0
@@ -52425,6 +52165,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1831737122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1831737123}
+  m_Layer: 0
+  m_Name: Spawn Position #2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1831737123
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831737122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 11.5, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53815149}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1897490409
 GameObject:
   m_ObjectHideFlags: 0

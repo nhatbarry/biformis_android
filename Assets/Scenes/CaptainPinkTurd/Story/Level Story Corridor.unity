@@ -42420,6 +42420,7 @@ GameObject:
   - component: {fileID: 994509422}
   - component: {fileID: 994509424}
   - component: {fileID: 994509423}
+  - component: {fileID: 994509425}
   m_Layer: 0
   m_Name: Encounter Door
   m_TagString: Untagged
@@ -42454,142 +42455,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs: []
-  enemiesPerWave: 0
   waves: 0
-  spawnPoints:
-  - {x: -0.5, y: 3.5}
-  - {x: -0.5, y: 4.5}
-  - {x: -0.5, y: 5.5}
-  - {x: -0.5, y: 6.5}
-  - {x: -0.5, y: 7.5}
-  - {x: -0.5, y: 8.5}
-  - {x: -0.5, y: 9.5}
-  - {x: -0.5, y: 10.5}
-  - {x: -0.5, y: 11.5}
-  - {x: -0.5, y: 12.5}
-  - {x: -0.5, y: 13.5}
-  - {x: -0.5, y: 14.5}
-  - {x: -0.5, y: 15.5}
-  - {x: -0.5, y: 16.5}
-  - {x: -0.5, y: 17.5}
-  - {x: -0.5, y: 18.5}
-  - {x: -0.5, y: 19.5}
-  - {x: -0.5, y: 20.5}
-  - {x: -0.5, y: 21.5}
-  - {x: -0.5, y: 22.5}
-  - {x: -0.5, y: 23.5}
-  - {x: -0.5, y: 24.5}
-  - {x: -0.5, y: 25.5}
-  - {x: -0.5, y: 26.5}
-  - {x: -0.5, y: 27.5}
-  - {x: -0.5, y: 28.5}
-  - {x: -0.5, y: 29.5}
-  - {x: -0.5, y: 30.5}
-  - {x: -0.5, y: 31.5}
-  - {x: -0.5, y: 32.5}
-  - {x: -0.5, y: 33.5}
-  - {x: -0.5, y: 34.5}
-  - {x: -0.5, y: 35.5}
-  - {x: -0.5, y: 36.5}
-  - {x: -0.5, y: 37.5}
-  - {x: -0.5, y: 38.5}
-  - {x: -0.5, y: 39.5}
-  - {x: -0.5, y: 40.5}
-  - {x: -0.5, y: 41.5}
-  - {x: -0.5, y: 42.5}
-  - {x: -0.5, y: 43.5}
-  - {x: -0.5, y: 44.5}
-  - {x: -0.5, y: 45.5}
-  - {x: 0.5, y: 3.5}
-  - {x: 0.5, y: 4.5}
-  - {x: 0.5, y: 5.5}
-  - {x: 0.5, y: 6.5}
-  - {x: 0.5, y: 7.5}
-  - {x: 0.5, y: 8.5}
-  - {x: 0.5, y: 9.5}
-  - {x: 0.5, y: 10.5}
-  - {x: 0.5, y: 11.5}
-  - {x: 0.5, y: 12.5}
-  - {x: 0.5, y: 13.5}
-  - {x: 0.5, y: 14.5}
-  - {x: 0.5, y: 15.5}
-  - {x: 0.5, y: 16.5}
-  - {x: 0.5, y: 17.5}
-  - {x: 0.5, y: 18.5}
-  - {x: 0.5, y: 19.5}
-  - {x: 0.5, y: 20.5}
-  - {x: 0.5, y: 21.5}
-  - {x: 0.5, y: 22.5}
-  - {x: 0.5, y: 23.5}
-  - {x: 0.5, y: 24.5}
-  - {x: 0.5, y: 25.5}
-  - {x: 0.5, y: 26.5}
-  - {x: 0.5, y: 27.5}
-  - {x: 0.5, y: 28.5}
-  - {x: 0.5, y: 29.5}
-  - {x: 0.5, y: 30.5}
-  - {x: 0.5, y: 31.5}
-  - {x: 0.5, y: 32.5}
-  - {x: 0.5, y: 33.5}
-  - {x: 0.5, y: 34.5}
-  - {x: 0.5, y: 35.5}
-  - {x: 0.5, y: 36.5}
-  - {x: 0.5, y: 37.5}
-  - {x: 0.5, y: 38.5}
-  - {x: 0.5, y: 39.5}
-  - {x: 0.5, y: 40.5}
-  - {x: 0.5, y: 41.5}
-  - {x: 0.5, y: 42.5}
-  - {x: 0.5, y: 43.5}
-  - {x: 0.5, y: 44.5}
-  - {x: 0.5, y: 45.5}
-  - {x: 1.5, y: 3.5}
-  - {x: 1.5, y: 4.5}
-  - {x: 1.5, y: 5.5}
-  - {x: 1.5, y: 6.5}
-  - {x: 1.5, y: 7.5}
-  - {x: 1.5, y: 8.5}
-  - {x: 1.5, y: 9.5}
-  - {x: 1.5, y: 10.5}
-  - {x: 1.5, y: 11.5}
-  - {x: 1.5, y: 12.5}
-  - {x: 1.5, y: 13.5}
-  - {x: 1.5, y: 14.5}
-  - {x: 1.5, y: 15.5}
-  - {x: 1.5, y: 16.5}
-  - {x: 1.5, y: 17.5}
-  - {x: 1.5, y: 18.5}
-  - {x: 1.5, y: 19.5}
-  - {x: 1.5, y: 20.5}
-  - {x: 1.5, y: 21.5}
-  - {x: 1.5, y: 22.5}
-  - {x: 1.5, y: 23.5}
-  - {x: 1.5, y: 24.5}
-  - {x: 1.5, y: 25.5}
-  - {x: 1.5, y: 26.5}
-  - {x: 1.5, y: 27.5}
-  - {x: 1.5, y: 28.5}
-  - {x: 1.5, y: 29.5}
-  - {x: 1.5, y: 30.5}
-  - {x: 1.5, y: 31.5}
-  - {x: 1.5, y: 32.5}
-  - {x: 1.5, y: 33.5}
-  - {x: 1.5, y: 34.5}
-  - {x: 1.5, y: 35.5}
-  - {x: 1.5, y: 36.5}
-  - {x: 1.5, y: 37.5}
-  - {x: 1.5, y: 38.5}
-  - {x: 1.5, y: 39.5}
-  - {x: 1.5, y: 40.5}
-  - {x: 1.5, y: 41.5}
-  - {x: 1.5, y: 42.5}
-  - {x: 1.5, y: 43.5}
-  - {x: 1.5, y: 44.5}
-  - {x: 1.5, y: 45.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -42655,6 +42523,44 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 5, y: 47}
   m_EdgeRadius: 0
+--- !u!114 &994509425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994509421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair: []
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!1001 &1062937006
 PrefabInstance:
   m_ObjectHideFlags: 0

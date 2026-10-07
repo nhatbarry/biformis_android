@@ -99,7 +99,11 @@ namespace CaptainPinkTurd.Story.Tests
             //regression: every bullet in a room used to "hit" the room's fight trigger (Default layer, and queries hit
             //triggers even from inside them) and the damage went to whichever spawned enemy sat under that trigger
             yield return StoryTestLoading.LoadLevelThroughCore("Level Story 3");
-            yield return StoryTestLoading.WaitFor(() => Object.FindObjectsByType<BiformisEmitterController>(FindObjectsSortMode.None).Length >= 4, 15f, "the first wave");
+            //the player starts in the first room: wait for its whole wave (its fixed spawns, as the team placed them)
+            var room = Object.FindObjectsByType<EncounterSpawner>(FindObjectsSortMode.None).First(e => e.name == "Encounter 1").GetComponent<PositionBasedSpawner>();
+            int wave = new SerializedObject(room).FindProperty("spawnedObjectPositionPair").arraySize;
+            Assert.GreaterOrEqual(wave, 2, "the first room needs at least two enemies to test friendly fire");
+            yield return StoryTestLoading.WaitFor(() => Object.FindObjectsByType<BiformisEmitterController>(FindObjectsSortMode.None).Length >= wave, 15f, "the first wave");
 
             int spawned = Object.FindObjectsByType<BiformisEmitterController>(FindObjectsSortMode.None).Length;
             int fewest = spawned;

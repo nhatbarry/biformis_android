@@ -17,7 +17,7 @@ namespace CaptainPinkTurd.Story.Tests
     {
         private static readonly string[] Levels =
         {
-            "Level Story 1", "Level Story 2", "Level Story 3", "Level Story 4", "Level Story Corridor", "Level Story 5",
+            "Level Story 1", "Level Story 2", "Level Story 3", "Level Story 4", "Level Story Corridor", "Level Story 5", "Level Story 6",
         };
 
         private static readonly Vector3Int[] Neighbours = { Vector3Int.left, Vector3Int.right, Vector3Int.up, Vector3Int.down };

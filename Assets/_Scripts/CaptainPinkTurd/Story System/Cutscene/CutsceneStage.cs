@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using CaptainPinkTurd.Core.CustomDataStructure;
+using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Extensions;
+using CaptainPinkTurd.Core.InputPaths;
 using CaptainPinkTurd.InkDialogue;
 using DG.Tweening;
 using UnityEngine;
@@ -27,9 +29,10 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #knock:ActorId:level                       one weaker knock: "bang" once and the knock text at that opacity
     ///   #attach:ActorId:TargetId:dx,dy | :none     keeps an actor (a prop) at another's position plus an offset, e.g. a box
     ///                                              in someone's hand, until attached elsewhere or to none
-    ///   #reach:ActorId:TargetId:maxX               the player walks the actor (left/right keys, A/D, stick, or holding a
-    ///                                              finger where it should go) up to the target, then acts (Space / E /
-    ///                                              tap) once close enough; put #hold after it
+    ///   #reach:ActorId:TargetId:maxX               the player walks the actor (left/right keys, A/D, a stick - on phones
+    ///                                              the touch HUD's joystick, shown for it) up to the target, then acts
+    ///                                              with Interact (E / Space, the HUD's "!" button, lit once close
+    ///                                              enough); taps on the stage don't count; put #hold after it
     ///   #alpha:ActorId:opacity[:seconds]           fades a whole actor (e.g. a shadow on the wall)
     ///   #shake:units[:seconds]                     shakes the stage (4 units = one art pixel)
     ///   #struggle:ActorId:count                    a struggle the player taps (or presses Space / Interact) through:
@@ -78,8 +81,6 @@ namespace CaptainPinkTurd.Story.Cutscene
         [SerializeField] private Graphic knockText;
 
         [Header("Reach")]
-        [Tooltip("Takes the finger on the stage while it holds the dialogue (the Stage Tap)")]
-        [SerializeField] private StagePointer stagePointer;
         [Tooltip("Shown over the walker while it is close enough to act; blinks")]
         [SerializeField] private RectTransform reachPrompt;
         [Tooltip("Shown over the walker until the player first moves it; blinks")]
@@ -153,6 +154,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         private void OnDestroy()
         {
             DOTween.Kill(this);
+            if (reachWalker) EndReach();
 
             if (!DialogueManager.HasInstance) return;
             DialogueManager.Instance.OnStageTag.Unsubscribe(HandleStageTag);
@@ -314,11 +316,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         //taps reach us through the dialogue manager (stage tap target, Interact); Space is read in Update
         private void OnStageInput()
         {
-            if (reachWalker)
-            {
-                if (ReachNear()) FinishReach();
-                return;
-            }
+            if (reachWalker) return; //only Interact acts in a reach (read in UpdateReach), not a tap on the stage
             if (struggleTarget <= 0) return;
 
             strugglePresses++;
@@ -336,7 +334,7 @@ namespace CaptainPinkTurd.Story.Cutscene
 
         private void Update()
         {
-            if ((struggleTarget > 0 || reachWalker) && Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) OnStageInput();
+            if (struggleTarget > 0 && Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) OnStageInput();
             UpdateDoor(Time.unscaledDeltaTime);
             UpdateReach(Time.unscaledDeltaTime);
 
@@ -660,6 +658,8 @@ namespace CaptainPinkTurd.Story.Cutscene
             }
             reachMoved = false;
             reachTime = 0f;
+            //on phones the touch HUD (otherwise only in levels) brings its joystick and "!" button, in B's red
+            InteractPrompt.ShowCutsceneControls(EColor.Red);
         }
 
         /// <summary>A reach is waiting for the player to walk up to its target and act.</summary>
@@ -698,12 +698,28 @@ namespace CaptainPinkTurd.Story.Cutscene
 
             reachTime += dt;
             bool close = ReachNear();
+            InteractPrompt.SetInReach(this, close);
             ShowOver(reachPrompt, walker, close && reachTime % 0.8f < 0.4f);
             ShowOver(reachHint, walker, !close && !reachMoved && reachTime % 0.9f < 0.45f);
+            if (close && InteractPressed()) FinishReach();
         }
 
-        //-1, 0 or 1: keys or stick, or a finger (the mouse) held on the stage: walk towards it
-        private float ReachDirection(RectTransform walker)
+        //the Interact input as the player knows it: E (Space in the team's preview), or Interact on a gamepad - which is
+        //where the touch HUD's "!" button lands
+        private static bool InteractPressed()
+        {
+            var keyboard = Keyboard.current;
+            if (keyboard != null && (keyboard.eKey.wasPressedThisFrame || keyboard.spaceKey.wasPressedThisFrame)) return true;
+            foreach (var gamepad in Gamepad.all)
+            {
+                if (gamepad.buttonNorth.wasPressedThisFrame) return true;
+            }
+            return false;
+        }
+
+        //-1, 0 or 1: the keys, or any gamepad's stick - the touch HUD's joystick drives a virtual one, which needn't be
+        //Gamepad.current while a real pad is connected
+        private static float ReachDirection(RectTransform walker)
         {
             float direction = 0f;
             var keyboard = Keyboard.current;
@@ -712,19 +728,13 @@ namespace CaptainPinkTurd.Story.Cutscene
                 if (keyboard.leftArrowKey.isPressed || keyboard.aKey.isPressed) direction -= 1f;
                 if (keyboard.rightArrowKey.isPressed || keyboard.dKey.isPressed) direction += 1f;
             }
-            var gamepad = Gamepad.current;
-            if (direction == 0f && gamepad != null)
+            if (direction != 0f) return direction;
+            foreach (var gamepad in Gamepad.all)
             {
                 float stick = gamepad.leftStick.x.ReadValue() + gamepad.dpad.x.ReadValue();
-                if (Mathf.Abs(stick) > 0.5f) direction = Mathf.Sign(stick);
+                if (Mathf.Abs(stick) > 0.5f) return Mathf.Sign(stick);
             }
-            if (direction == 0f && stagePointer && stagePointer.Held &&
-                RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)walker.parent, stagePointer.ScreenPosition, stagePointer.EventCamera, out Vector2 finger))
-            {
-                float towards = finger.x - walker.anchoredPosition.x;
-                if (Mathf.Abs(towards) > 8f) direction = Mathf.Sign(towards);
-            }
-            return direction;
+            return 0f;
         }
 
         private void ShowOver(RectTransform text, RectTransform walker, bool show)
@@ -737,10 +747,17 @@ namespace CaptainPinkTurd.Story.Cutscene
         private void FinishReach()
         {
             if (reachWalker.TryGetComponent(out StageActorAnimation animation)) animation.Play("idle");
+            EndReach();
+            if (DialogueManager.HasInstance) DialogueManager.Instance.ReleaseStageHold();
+        }
+
+        private void EndReach()
+        {
             reachWalker = reachTarget = null;
             if (reachPrompt) reachPrompt.gameObject.SetActive(false);
             if (reachHint) reachHint.gameObject.SetActive(false);
-            if (DialogueManager.HasInstance) DialogueManager.Instance.ReleaseStageHold();
+            InteractPrompt.SetInReach(this, false);
+            InteractPrompt.HideCutsceneControls();
         }
 
         //is any part of the rect inside the stage (the visible screen)?

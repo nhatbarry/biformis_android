@@ -1359,51 +1359,19 @@ MonoBehaviour:
   unitsPerPixel: 0
   defaultClip: 
   clips:
-  - name: Villain_appear
-    frames:
-    - {fileID: 6622665647760553496, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: -8909188630881447396, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: -2271745264948082107, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: -1677161761924310786, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    durations:
-    - 0.07
-    - 0.07
-    - 0.07
-    - 0.07
-    loop: 0
-    repeat: 0
-    next: Villain
   - name: Villain
     frames:
-    - {fileID: -1663861429145443744, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: 760976724135596582, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
+    - {fileID: 21300000, guid: d1e6ccbcfe4ff504d8a85961c4ff6625, type: 3}
     durations:
-    - 0.7
-    - 0.7
+    - 1
     loop: 1
-    repeat: 3
-    next: Villain_glint
-  - name: Villain_glint
-    frames:
-    - {fileID: 6553262558323970916, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: 2835897745261737316, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: -1496329215185344405, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    - {fileID: 8357206295072133752, guid: e7898a5ac65265749895a4e796d9d676, type: 3}
-    durations:
-    - 0.08
-    - 0.08
-    - 0.16
-    - 0.4
-    loop: 0
     repeat: 0
-    next: Villain
+    next: 
   - name: A
     frames:
-    - {fileID: 468251706290756499, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
-    - {fileID: 4566509172797568065, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
+    - {fileID: 1374076441, guid: 1f783a7b61839724e8ea21f650e62ccd, type: 3}
     durations:
-    - 0.7
-    - 0.7
+    - 1
     loop: 1
     repeat: 0
     next: 
@@ -1420,20 +1388,6 @@ MonoBehaviour:
     - {fileID: 1374076441, guid: 1f783a7b61839724e8ea21f650e62ccd, type: 3}
     durations:
     - 1
-    loop: 1
-    repeat: 0
-    next: 
-  - name: A_talk
-    frames:
-    - {fileID: -7284112187694029539, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
-    - {fileID: 7838196309651036543, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
-    - {fileID: 7834732033400526092, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
-    - {fileID: -472506757214792778, guid: 8f89227b78e454c4bb0d4b6c07b98ad4, type: 3}
-    durations:
-    - 0.16
-    - 0.16
-    - 0.16
-    - 0.16
     loop: 1
     repeat: 0
     next: 

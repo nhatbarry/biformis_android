@@ -6,9 +6,9 @@ using UnityEngine.InputSystem.OnScreen;
 namespace CaptainPinkTurd.MobileControls
 {
     /// <summary>
-    /// A floating on-screen stick: invisible until a finger lands anywhere in its zone, at which point the
-    /// stick springs up under that finger. Feeds a virtual <c>Gamepad</c> stick, so every system that reads
-    /// the Move action keeps working untouched.
+    /// A floating on-screen stick: a finger landing anywhere in its zone brings the stick up under that finger.
+    /// At rest it either hides or, with a rest position, waits there so the player sees where it is. Feeds a virtual
+    /// <c>Gamepad</c> stick, so every system that reads the Move action keeps working untouched.
     /// </summary>
     /// <remarks>
     /// This exists instead of Unity's <c>OnScreenStick</c> because that component only accepts a finger that
@@ -36,9 +36,16 @@ namespace CaptainPinkTurd.MobileControls
         [Range(0f, 0.9f)]
         [SerializeField] private float deadZone = 0.15f;
 
+        [Header("Rest")]
+        [Tooltip("Keep the stick on screen while nothing touches it, at Rest Offset")]
+        [SerializeField] private bool showAtRest;
+        [Tooltip("Where the resting stick's centre sits, in canvas units from the zone's bottom-left corner")]
+        [SerializeField] private Vector2 restOffset;
+
         private RectTransform zone;
         private int activePointerId = NoPointer;
         private bool hasOrigin;
+        private bool resting = true; //back home after a finger lifted (not after an interruption that kept it down)
 
         protected override string controlPathInternal
         {
@@ -46,13 +53,28 @@ namespace CaptainPinkTurd.MobileControls
             set => stickControlPath = value;
         }
 
-        public void Configure(RectTransform baseTransform, RectTransform knob, string path, float range, float dead)
+        /// <summary>A finger is steering the stick.</summary>
+        public bool IsHeld => activePointerId != NoPointer;
+
+        public void Configure(RectTransform baseTransform, RectTransform knob, string path, float range, float dead,
+            Vector2? rest = null)
         {
             stickBase = baseTransform;
             stickKnob = knob;
             stickControlPath = path;
             movementRange = range;
             deadZone = dead;
+            showAtRest = rest.HasValue;
+            restOffset = rest ?? Vector2.zero;
+        }
+
+        //the zone's size is only known once the layout has run, so the resting stick is placed every frame
+        private void LateUpdate()
+        {
+            if (!showAtRest || IsHeld || !resting || !stickBase) return;
+            if (!zone) zone = (RectTransform)transform;
+            var rect = zone.rect;
+            stickBase.anchoredPosition = new Vector2(rect.xMin + restOffset.x, rect.yMin + restOffset.y);
         }
 
         protected override void OnEnable()
@@ -102,6 +124,7 @@ namespace CaptainPinkTurd.MobileControls
         {
             if (eventData.pointerId != activePointerId) return;
             Release();
+            resting = true;
         }
 
         /// <summary>
@@ -114,6 +137,7 @@ namespace CaptainPinkTurd.MobileControls
             if (!TryGetLocalPoint(eventData, out Vector2 point)) return;
 
             activePointerId = eventData.pointerId;
+            resting = false;
 
             if (stickBase)
             {
@@ -131,7 +155,7 @@ namespace CaptainPinkTurd.MobileControls
             activePointerId = NoPointer;
 
             if (stickKnob) stickKnob.anchoredPosition = Vector2.zero;
-            if (stickBase) stickBase.gameObject.SetActive(false);
+            if (stickBase) stickBase.gameObject.SetActive(showAtRest);
 
             SendValueToControl(Vector2.zero);
         }

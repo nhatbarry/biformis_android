@@ -11,7 +11,6 @@ using CaptainPinkTurd.Story.Cutscene;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -55,6 +54,7 @@ namespace CaptainPinkTurd.Story.Tests
 
             SceneManager.LoadScene("Core");
             yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");
+            TouchHud.Ensure();
             yield return new WaitForSecondsRealtime(0.5f);
 
             Object.FindAnyObjectByType<StoryMenu>().StartNewStory();
@@ -185,8 +185,8 @@ namespace CaptainPinkTurd.Story.Tests
             var stage = Object.FindAnyObjectByType<CutsceneStage>();
             while (DialogueManager.Instance.DialogueIsPlaying)
             {
-                //the end of Level 4 waits for the player to walk B up to A: hold a finger on A, as on a phone
-                if (stage && stage.IsReaching) HoldFingerOn(stage.ReachTarget);
+                //the end of Level 4 waits for the player to walk B up to A: the touch joystick, then the "!" button
+                if (stage && stage.IsReaching) yield return TouchHud.TakeTheBox(stage);
                 //while the stage holds the dialogue a press only goes to the stage (e.g. the opening's struggle),
                 //so those don't count towards the line limit
                 DialogueManager.Instance.RequestContinue();
@@ -194,18 +194,6 @@ namespace CaptainPinkTurd.Story.Tests
                 yield return null;
                 yield return null;
             }
-        }
-
-        private static void HoldFingerOn(RectTransform target)
-        {
-            var pointer = Object.FindAnyObjectByType<StagePointer>();
-            Assert.IsNotNull(pointer, "the stage has no StagePointer to walk with on a touch screen");
-            if (pointer.Held) return;
-            pointer.OnPointerDown(new PointerEventData(EventSystem.current)
-            {
-                position = RectTransformUtility.WorldToScreenPoint(null, target.position),
-                pointerId = 0,
-            });
         }
 
         private static IEnumerator WaitUntil(Func<bool> condition, float timeoutSeconds, string what)

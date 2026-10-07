@@ -72,6 +72,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 5.unity
     guid: 73b4b66abd8a4c3459711c92f2242308
   - enabled: 1
+    path: Assets/Scenes/CaptainPinkTurd/Story/Level Story 6.unity
+    guid: 3d20aec6ca00d224b892c4fa08653451
+  - enabled: 1
     path: Assets/Scenes/CaptainPinkTurd/Story/Story Ending.unity
     guid: 84097c24a2b8d5843aecf31ab0bfba97
   m_configObjects:

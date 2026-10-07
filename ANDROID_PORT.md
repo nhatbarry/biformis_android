@@ -5,7 +5,7 @@ Tài liệu này phục vụ hai người đọc:
 1. **Đội dev bản PC** — biết đâu là những chỗ nếu động vào sẽ làm hỏng bản Android, và biết những bug chung đã được sửa.
 2. **Người/AI làm bản Android lần sau** — dựng lại được toàn bộ quyết định mà không cần đọc lại lịch sử chat.
 
-Cập nhật lần cuối: 2026-08-29. Unity 6000.3.10f1, URP 2D, Input System 1.18 (chỉ New Input System — `activeInputHandler: 1`).
+Cập nhật lần cuối: 2026-10-05. Unity 6000.3.10f1, URP 2D, Input System 1.18 (chỉ New Input System — `activeInputHandler: 1`).
 
 ---
 
@@ -17,7 +17,7 @@ Mỗi hệ thống trong project tự tạo instance riêng (`new InputSystemAct
 
 Hệ quả quan trọng: **touch đi đúng con đường mà bàn phím đi**. Không có nhánh code riêng cho mobile, nên gameplay không thể lệch giữa hai bản.
 
-Toàn bộ HUD được **dựng bằng code lúc runtime** — không prefab, không sprite import, không sửa scene. Nhờ vậy danh sách scene và thứ tự load giữ nguyên tuyệt đối (`EditorBuildSettings.asset` và `InputSystem_Actions.inputactions` đều không có diff).
+Toàn bộ HUD được **dựng bằng code lúc runtime** — không prefab, không sửa scene. Nhờ vậy danh sách scene và thứ tự load giữ nguyên tuyệt đối (`EditorBuildSettings.asset` và `InputSystem_Actions.inputactions` đều không có diff). Hình vẽ của nút là bộ `UI_Controls_Android` của nhóm (`Assets/Sprites/UI/Mobile Controls/`, file `.aseprite`), nạp qua `Resources/Mobile Controls Art.asset` (`MobileControlsArt`: mỗi nút một danh sách clip = tag Aseprite, đủ hai theme `red_` / `blue_`).
 
 ---
 
@@ -25,11 +25,11 @@ Toàn bộ HUD được **dựng bằng code lúc runtime** — không prefab, k
 
 | Hành động | Phím PC | Control path giả lập | Nút mobile |
 |---|---|---|---|
-| Di chuyển | WASD / mũi tên | `<Gamepad>/leftStick` | Joystick nổi, nửa trái |
-| Sprint (giữ) + Dash (chạm) | `LeftShift` | `<Gamepad>/leftStickPress` | Nút phải dưới |
-| Đổi dimension | `J` | `<Gamepad>/rightShoulder` | Nút góc phải dưới |
+| Di chuyển | WASD / mũi tên | `<Gamepad>/leftStick` | Joystick nổi, nửa trái (lúc rảnh nằm ở góc trái dưới) |
+| Sprint (giữ) + Dash (chạm) | `LeftShift` | `<Gamepad>/leftStickPress` | Nút phải dưới (không có hồi chiêu) |
+| Đổi dimension | `J` | `<Gamepad>/rightShoulder` | Nút phía trên nút dash |
 | Pause | `Esc` | `<Gamepad>/buttonEast` | Nút góc phải trên |
-| Tương tác | `E` | `<Gamepad>/buttonNorth` | *(tắt mặc định)* |
+| Tương tác | `E` | `<Gamepad>/buttonNorth` | Nút "!" bên trái nút dash: qua cửa, nhận hộp |
 
 Định nghĩa tại `Assets/_Scripts/CaptainPinkTurd/Core/Input Paths/MobileControlPaths.cs`.
 
@@ -53,10 +53,12 @@ Assets/_Scripts/CaptainPinkTurd/
    ├─ MobileControlsSystem.asmdef
    ├─ MobileControlsHUD.cs          Dựng canvas, quản lý hiển thị
    ├─ FloatingOnScreenStick.cs      Joystick nổi (Unity không có sẵn loại này)
-   ├─ MobileHudButton.cs            Phản hồi hình ảnh khi bấm (thuần thẩm mỹ)
-   ├─ MobileControlGraphics.cs      Vẽ sprite nút bằng code, khỏi cần import ảnh
+   ├─ MobileHudButton.cs            Biết nút có đang bị giữ (để hiện hình "pressed")
+   ├─ MobileControlsArt.cs          Hình vẽ của nhóm: clip theo tag, theme đỏ/xanh (asset ở Resources)
+   ├─ HudSpriteAnimation.cs         Chạy clip trên Image (thời gian unscaled, frame bị cắt viền)
    ├─ SafeAreaFitter.cs             Tránh tai thỏ / thanh cử chỉ
-   └─ Tests/                        9 PlayMode test
+   └─ Tests/                        13 PlayMode test
+Core/Input Paths/InteractPrompt.cs  Gameplay báo HUD "có thứ để tương tác" (nút ! sáng) và cutscene xin HUD
 ```
 
 ## 4. File có sẵn đã bị sửa
@@ -64,6 +66,7 @@ Assets/_Scripts/CaptainPinkTurd/
 | File | Sửa gì | Ảnh hưởng bản PC |
 |---|---|---|
 | `GameManager.cs` | Thêm binding thứ 2 cho đổi dimension | Không — phím `J` giữ nguyên |
+| `Door.cs` | Qua cửa bằng Interact khi đứng gần (bán kính `interactRange` quanh cửa), không còn "đi lên là qua" | **Có** — PC qua cửa bằng `E` (gợi ý ở Màn 1 đã đổi) |
 | `HitStop.cs` | Không lưu timescale đã đóng băng; thêm `Abort()` | **Sửa bug PC** |
 | `ShakeUtils.cs` | Cùng lỗi; `OnComplete` → `OnKill` | **Sửa bug PC** |
 | `SceneController.cs` | Gọi `HitStop.Abort()` khi chuyển scene | **Sửa bug PC** |
@@ -152,7 +155,7 @@ Trung thực về những thứ đã làm sai và mất thời gian:
 
 **Kết luận sai rằng `PopupManager` không có trong scene nào.** Tôi grep theo script GUID — sai phương pháp, vì **prefab instance trong scene không lặp lại GUID của script**, chỉ có override. Thực tế `Popup Manager.prefab` có trong cả 12 level và đã nối sẵn đầy đủ. Bài học: muốn biết prefab có trong scene không thì grep **GUID của prefab**, không phải của script.
 
-**Đề xuất nút Interact khi chưa kiểm chứng.** Tôi tư vấn thêm nút `E` vì tưởng cửa/NPC cần. Thực tế `Door` mở bằng cách **đi lên trên** (`playerInput.y > 0`), và `InteractionDetector2D` **không được gắn ở scene nào**. Nút vẫn được code đầy đủ nhưng để `showInteractButton = false`.
+**Đề xuất nút Interact khi chưa kiểm chứng.** Tôi tư vấn thêm nút `E` vì tưởng cửa/NPC cần. Thực tế lúc đó `Door` mở bằng cách **đi lên trên** (`playerInput.y > 0`), và `InteractionDetector2D` **không được gắn ở scene nào**, nên nút bị tắt. Về sau (bộ nút của nhóm) cửa đổi sang qua bằng Interact: đứng trong `interactRange` quanh cửa đã mở thì nút "!" sáng nhấp nháy (`InteractPrompt`), bấm mới qua màn. `Door` tự tạo `InputAction` riêng (`E` + `MobileControlPaths.Interact`) giống nút đổi dimension của `GameManager`.
 
 **Test multi-touch không chạy được.** Đã thử 3 cách bơm sự kiện Touchscreen ảo, đều không tới được device dưới `-batchmode` (`press=false, position=0`) dù raycast trúng đúng nút và module active. Đã bỏ test đó thay vì để nó đỏ vô nghĩa. **Multi-touch vẫn chưa được kiểm chứng tự động** — phải thử tay.
 
@@ -254,7 +257,7 @@ ADB="/c/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/PlaybackEngines/A
 
 ## 10. Chạy test
 
-9 PlayMode test, chạy headless không cần máy thật. **Phải đóng Unity Editor trước** (tranh lock).
+13 PlayMode test, chạy headless không cần máy thật. **Phải đóng Unity Editor trước** (tranh lock).
 
 ```bash
 "/c/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Unity.exe" \
@@ -267,7 +270,11 @@ ADB="/c/Program Files/Unity/Hub/Editor/6000.3.10f1/Editor/Data/PlaybackEngines/A
 
 | Test | Bảo vệ điều gì |
 |---|---|
-| `BuildsTheExpectedControls` | HUD dựng đủ joystick + 3 nút, gamepad ảo được tạo |
+| `BuildsTheExpectedControls` | HUD dựng đủ joystick + 4 nút, gamepad ảo được tạo |
+| `InteractButtonFiresInteractAndLightsUpWhenSomethingIsInReach` | Nút ! bắn `Player/Interact` như phím `E`; mờ khi không có gì, sáng khi có thứ trong tầm |
+| `ControlsTakeTheColoursOfThePlayersForm` | Đổi dạng → nút đổi dạng xoay (`to_blue`), cả bộ nút sang màu xanh |
+| `TheArtHasEveryClipTheHudShows` | Asset hình có đủ mọi clip cả hai theme (re-import làm mất sprite sẽ báo) |
+| `EveryArtPixelIsAWholeNumberOfScreenPixels` | Pixel art giữ pixel vuông: 1 pixel art = số nguyên pixel màn |
 | `JoystickDrivesTheMoveAction` | Kéo phải → `Move.x > 0.5`; thả → về 0 |
 | `JoystickKeepsSteeringThroughAnInterruptionWithoutLiftingTheFinger` | Bug §6 không tái phát |
 | `RunButtonHoldsRunAndTapsDash` | Một nút cho cả `Run` lẫn `Dash`, đúng như `LeftShift` |
@@ -288,7 +295,7 @@ Thư mục `Tests/` có `defineConstraints: UNITY_INCLUDE_TESTS` nên **không v
 | **Multi-touch** (giữ sprint + đẩy joystick cùng lúc) | ❌ Chưa kiểm chứng — phải thử tay trên máy |
 | **Shockwave sau khi sửa bound = 0** | ❌ Chưa nhìn bằng mắt trên máy (bound = 8 đã gây lỗi nhoè trên máy thật) |
 | **FPS sau khi bật Camera Sorting Layer Texture** | ❌ Chưa đo — thêm 1 lần copy full-screen mỗi frame |
-| Nút Interact | Đã code, tắt mặc định (§6) |
+| Nút Interact | Dùng để qua cửa và nhận hộp (§6) |
 | Package name | Vẫn là mặc định |
 | Tablet / màn hẹp hơn 16:9 | Chạy được nhưng thấy hẹp hơn PC (§8) |
 | Rung phản hồi (haptic) | Chưa làm — NiceVibrations đã có sẵn trong project |

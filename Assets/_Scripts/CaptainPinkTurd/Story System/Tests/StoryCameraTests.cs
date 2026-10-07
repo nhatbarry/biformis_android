@@ -15,7 +15,7 @@ namespace CaptainPinkTurd.Story.Tests
     {
         private static readonly string[] Levels =
         {
-            "Level Story 1", "Level Story 2", "Level Story 3", "Level Story 4", "Level Story Corridor", "Level Story 5",
+            "Level Story 1", "Level Story 2", "Level Story 3", "Level Story 4", "Level Story Corridor", "Level Story 5", "Level Story 6",
         };
 
         [SetUp]

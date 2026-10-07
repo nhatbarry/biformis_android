@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: 04589d8f24ea522abadaec1a37c2cb66
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: m3x6 VI
+  fontNames:
+  - m3x6 VI
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
