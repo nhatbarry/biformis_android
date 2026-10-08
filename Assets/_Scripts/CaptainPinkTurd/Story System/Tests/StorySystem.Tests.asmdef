@@ -19,7 +19,7 @@
         "GUID:516a5277b8c3b4f4c8cc86b77b1591ff",
         "GUID:bdba41ac695c1d94c86b25dc306aa653",
         "GUID:680f8f5813c77b443bd9b7eba9b16533",
-        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "Unity.InputSystem",
         "GUID:626070ea3273cb844a310aa4f53b31fa"
     ],
     "includePlatforms": [],
