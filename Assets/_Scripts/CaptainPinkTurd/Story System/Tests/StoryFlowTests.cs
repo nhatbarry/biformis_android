@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using CaptainPinkTurd.Game.Player;
+using CaptainPinkTurd.Game.Enemy;
+using CaptainPinkTurd.Game;
+using CaptainPinkTurd.Core.Struct;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene.Manager;
 using CaptainPinkTurd.Scene.Story;
@@ -11,8 +14,9 @@ using CaptainPinkTurd.Story.Cutscene;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -47,6 +51,33 @@ namespace CaptainPinkTurd.Story.Tests
             Time.timeScale = 1f;
         }
 
+        [UnityTest, Timeout(90000)]
+        public IEnumerator BossVictoryStartsTheEndingWithoutADoor()
+        {
+            var data = AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Core");
+            yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");
+            yield return new WaitForSecondsRealtime(0.5f);
+            int bossStep = -1;
+            for (int i = 0; i < data.Steps.Count; i++) if (data.Steps[i].sceneName == "Level Story 6") bossStep = i;
+            Assert.GreaterOrEqual(bossStep, 0);
+            StoryFlow.StartAt(data, bossStep);
+            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Level Story 6", 30f, "boss arena");
+            var boss = Object.FindAnyObjectByType<PlagueDoctorBoss>();
+            var player = Object.FindAnyObjectByType<PlayerUnit>();
+            Assert.IsNull(Object.FindAnyObjectByType<Door>());
+            boss.PreviewPhaseTwo();
+            yield return WaitUntil(() => boss.Phase == PlagueDoctorBoss.EPhase.RedHaired, 15f, "phase two");
+            int deaths = 0;
+            boss.OnDeath.Subscribe(_ => deaths++);
+            boss.TakeDamage(new SDamageData(8, player.gameObject));
+            boss.TakeDamage(new SDamageData(8, player.gameObject));
+            Assert.AreEqual(1, deaths);
+            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Story Ending", 30f, "automatic ending after boss death");
+            Assert.AreEqual(bossStep + 1, data.CurrentStepIndex);
+            Assert.AreEqual(1f, Time.timeScale, "the last hit-stop must not freeze the cutscene");
+        }
+
         [UnityTest, Timeout(600000)]
         public IEnumerator TheWholeStoryPlaysThroughToTheMenu()
         {
@@ -55,6 +86,7 @@ namespace CaptainPinkTurd.Story.Tests
 
             SceneManager.LoadScene("Core");
             yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");
+            TouchHud.Ensure();
             yield return new WaitForSecondsRealtime(0.5f);
 
             Object.FindAnyObjectByType<StoryMenu>().StartNewStory();
@@ -75,7 +107,27 @@ namespace CaptainPinkTurd.Story.Tests
                     Assert.IsNotNull(Object.FindAnyObjectByType<PlayerUnit>(), $"{step.sceneName} has no player");
                     Object.FindAnyObjectByType<LevelManager>().NextLevel();
                 }
-                //the ending scene advances by itself
+                else if (step.sceneName == "Story Ending")
+                {
+                    //The current artwork ending has dialogue. Drive its real continue binding, like a player.
+                    // Gamepads accept events while the batchmode window has no focus; keyboards do not.
+                    var endingPad = InputSystem.AddDevice<Gamepad>();
+                    try
+                    {
+                        float end = Time.realtimeSinceStartup + 90f;
+                        while (!SceneManager.GetSceneByName("MainMenu").isLoaded)
+                        {
+                            Assert.Less(Time.realtimeSinceStartup, end, "ending never finishes after continue input");
+                            InputSystem.QueueStateEvent(endingPad, new GamepadState().WithButton(GamepadButton.South));
+                            InputSystem.Update();
+                            yield return null;
+                            InputSystem.QueueStateEvent(endingPad, new GamepadState());
+                            InputSystem.Update();
+                            yield return new WaitForSecondsRealtime(0.1f);
+                        }
+                    }
+                    finally { InputSystem.RemoveDevice(endingPad); }
+                }
             }
 
             yield return WaitUntil(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 90f, "main menu after the ending");
@@ -185,8 +237,8 @@ namespace CaptainPinkTurd.Story.Tests
             var stage = Object.FindAnyObjectByType<CutsceneStage>();
             while (DialogueManager.Instance.DialogueIsPlaying)
             {
-                //the end of Level 4 waits for the player to walk B up to A: hold a finger on A, as on a phone
-                if (stage && stage.IsReaching) HoldFingerOn(stage.ReachTarget);
+                //the end of Level 4 waits for the player to walk B up to A: the touch joystick, then the "!" button
+                if (stage && stage.IsReaching) yield return TouchHud.TakeTheBox(stage);
                 //while the stage holds the dialogue a press only goes to the stage (e.g. the opening's struggle),
                 //so those don't count towards the line limit
                 DialogueManager.Instance.RequestContinue();
@@ -194,18 +246,6 @@ namespace CaptainPinkTurd.Story.Tests
                 yield return null;
                 yield return null;
             }
-        }
-
-        private static void HoldFingerOn(RectTransform target)
-        {
-            var pointer = Object.FindAnyObjectByType<StagePointer>();
-            Assert.IsNotNull(pointer, "the stage has no StagePointer to walk with on a touch screen");
-            if (pointer.Held) return;
-            pointer.OnPointerDown(new PointerEventData(EventSystem.current)
-            {
-                position = RectTransformUtility.WorldToScreenPoint(null, target.position),
-                pointerId = 0,
-            });
         }
 
         private static IEnumerator WaitUntil(Func<bool> condition, float timeoutSeconds, string what)

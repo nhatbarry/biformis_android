@@ -1,0 +1,451 @@
+fileFormatVersion: 2
+guid: af7420dc249237244ba6c236f6c56599
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3959937883083274196
+    second: boss-bang-vo-bien-hinh-aura_0
+  - first:
+      213: -2301747734975629525
+    second: boss-bang-vo-bien-hinh-aura_1
+  - first:
+      213: -26825567275910425
+    second: boss-bang-vo-bien-hinh-aura_2
+  - first:
+      213: -5563276961819243021
+    second: boss-bang-vo-bien-hinh-aura_3
+  - first:
+      213: 7672025491022367762
+    second: boss-bang-vo-bien-hinh-aura_4
+  - first:
+      213: 4548663718560260210
+    second: boss-bang-vo-bien-hinh-aura_5
+  - first:
+      213: -7440659450876233048
+    second: boss-bang-vo-bien-hinh-aura_6
+  - first:
+      213: 5373083574242378018
+    second: boss-bang-vo-bien-hinh-aura_7
+  - first:
+      213: 4069358124218364448
+    second: boss-bang-vo-bien-hinh-aura_8
+  - first:
+      213: 6528917008858880937
+    second: boss-bang-vo-bien-hinh-aura_9
+  - first:
+      213: -6023364918959548271
+    second: boss-bang-vo-bien-hinh-aura_10
+  - first:
+      213: 6757063821556095781
+    second: boss-bang-vo-bien-hinh-aura_11
+  - first:
+      213: -4780628004098855465
+    second: boss-bang-vo-bien-hinh-aura_12
+  - first:
+      213: -4210330626191718132
+    second: boss-bang-vo-bien-hinh-aura_13
+  - first:
+      213: -3243038698569062483
+    second: boss-bang-vo-bien-hinh-aura_14
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 85.33
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: IceTransformation_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 104ee00c60cd6d14ea6192a44f6aba9a
+      internalID: -1502796839
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_1
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b80a690fe0d25f7448bf578bd3be64f6
+      internalID: 1840704072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_2
+      rect:
+        serializedVersion: 2
+        x: 828
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7f144fa6f2c7214e811852a43c048e7
+      internalID: 1937419890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_3
+      rect:
+        serializedVersion: 2
+        x: 1242
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efe2c51f40c558b4ca79abd69f717280
+      internalID: -963435993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_4
+      rect:
+        serializedVersion: 2
+        x: 1656
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f8bed50f3f3a15489cd3cb8cc0dc45f
+      internalID: -277424426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_5
+      rect:
+        serializedVersion: 2
+        x: 2070
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88e738f5eccdcc845ab8493daff430cc
+      internalID: -737133899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_6
+      rect:
+        serializedVersion: 2
+        x: 2484
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74fc3472ba68d1d4dbc63599fe1097af
+      internalID: -431357050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_7
+      rect:
+        serializedVersion: 2
+        x: 2898
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b5f3b10a19ec4d43b30cf41f020027d
+      internalID: -1600741030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_8
+      rect:
+        serializedVersion: 2
+        x: 3312
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 987ec533cc3213b41913661662d1cf1e
+      internalID: 1796718530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_9
+      rect:
+        serializedVersion: 2
+        x: 3726
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 331c6ef219bb9034982fbed8251b7ac1
+      internalID: 1957459785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_10
+      rect:
+        serializedVersion: 2
+        x: 4140
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b9ba1c5b3df8ae41abe47d13f88914f
+      internalID: 1946492212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IceTransformation_11
+      rect:
+        serializedVersion: 2
+        x: 4554
+        y: 0
+        width: 414
+        height: 442
+      alignment: 9
+      pivot: {x: 0.46376812, y: 0.21040724}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e30e4059d65b97045a9429fdf4072f3d
+      internalID: 1548441261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 2bf7c684cf939ab4899022a49cf42322
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      IceTransformation_0: -1502796839
+      IceTransformation_1: 1840704072
+      IceTransformation_10: 1946492212
+      IceTransformation_11: 1548441261
+      IceTransformation_2: 1937419890
+      IceTransformation_3: -963435993
+      IceTransformation_4: -277424426
+      IceTransformation_5: -737133899
+      IceTransformation_6: -431357050
+      IceTransformation_7: -1600741030
+      IceTransformation_8: 1796718530
+      IceTransformation_9: 1957459785
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -60,10 +60,17 @@ namespace CaptainPinkTurd.MobileControls.Tests
             yield return ShowHud();
 
             Assert.IsNotNull(Find("Move Zone"), "joystick zone missing");
+            Assert.IsNotNull(Find("Interact"), "interact button missing");
             Assert.IsNotNull(Find("Switch Dimension"), "dimension button missing");
             Assert.IsNotNull(Find("Run And Dash"), "run/dash button missing");
             Assert.IsNotNull(Find("Pause"), "pause button missing");
             Assert.IsNotNull(Gamepad.current, "no virtual gamepad was created by the on-screen controls");
+            var dash = Find("Run And Dash").GetComponent<RectTransform>();
+            var swap = Find("Switch Dimension").GetComponent<RectTransform>();
+            Assert.Greater(dash.anchoredPosition.y, swap.anchoredPosition.y, "dash belongs above switch-form");
+            Assert.Less(swap.anchoredPosition.x, dash.anchoredPosition.x, "switch-form uses the lower-left slot");
+            var artImage = Find("Run And Dash").transform.Find("Art").GetComponent<UnityEngine.UI.Image>();
+            Assert.AreEqual(0.75f, artImage.color.a, 0.001f, "controls should be slightly transparent");
         }
 
         [UnityTest]
@@ -196,6 +203,111 @@ namespace CaptainPinkTurd.MobileControls.Tests
         }
 
 
+
+        /// <summary>
+        /// The "!" button is the E key: it goes through an open door and takes the box at the end of Level 4. It sits
+        /// dimmed until something is in reach, then blinks.
+        /// </summary>
+        [UnityTest]
+        public IEnumerator InteractButtonFiresInteractAndLightsUpWhenSomethingIsInReach()
+        {
+            yield return ShowHud();
+            Assert.AreEqual("red_disabled", ClipOf("Interact"), "lit with nothing in reach");
+            var visibility = Find("Interact").GetComponent<CanvasGroup>();
+            Assert.AreEqual(0f, visibility.alpha);
+            Assert.IsFalse(visibility.blocksRaycasts);
+
+            var reachable = new GameObject("Something In Reach");
+            InteractPrompt.SetInReach(reachable, true);
+            yield return null;
+            Assert.AreEqual("red_ready", ClipOf("Interact"), "doesn't light up with something in reach");
+            Assert.AreEqual(1f, visibility.alpha);
+            Assert.IsTrue(visibility.blocksRaycasts);
+
+            bool fired = false;
+            actions.Player.Interact.performed += _ => fired = true;
+            Press(Find("Interact"));
+            yield return null;
+            yield return null;
+            Assert.IsTrue(fired, "the interact button must trigger Player/Interact, the action E triggers");
+            Assert.AreEqual("red_pressed", ClipOf("Interact"), "no pressed art while held");
+            Release(Find("Interact"));
+
+            Object.DestroyImmediate(reachable); //a door unloaded with its level
+            yield return null;
+            Assert.AreEqual("red_disabled", ClipOf("Interact"), "stays lit once the thing in reach is gone");
+            Assert.AreEqual(0f, visibility.alpha);
+            Assert.IsFalse(visibility.blocksRaycasts);
+        }
+
+        /// <summary>The controls wear the colours of the player's form: red for B, blue for A.</summary>
+        [UnityTest]
+        public IEnumerator ControlsTakeTheColoursOfThePlayersForm()
+        {
+            yield return ShowHud();
+            yield return new WaitForSecondsRealtime(0.6f); //a form change right as the HUD shows isn't animated
+            var art = MobileControlsArt.Load();
+            Assert.AreEqual("red_idle", ClipOf("Run And Dash"));
+
+            art.onDimensionChange.Raise(Core.Enum.EColor.Blue);
+            yield return null;
+            Assert.AreEqual("to_blue", ClipOf("Switch Dimension"), "the switch button doesn't turn");
+            yield return new WaitForSecondsRealtime(0.4f);
+            Assert.AreEqual("blue_idle", ClipOf("Switch Dimension"));
+            Assert.AreEqual("blue_idle", ClipOf("Run And Dash"));
+            Assert.AreEqual("blue_idle", ClipOf("Stick Base"));
+
+            art.onDimensionChange.Raise(Core.Enum.EColor.Red); //as the next level starts
+        }
+
+        /// <summary>Every clip the HUD asks for exists in both colours, with its sprites (a re-import could lose them).</summary>
+        [Test]
+        public void TheArtHasEveryClipTheHudShows()
+        {
+            var art = MobileControlsArt.Load();
+            Assert.IsNotNull(art, "no Mobile Controls Art in Resources");
+            Assert.IsNotNull(art.onDimensionChange, "the art doesn't know the dimension change event");
+            var wanted = new (string name, MobileControlsArt.Control control, string[] clips)[]
+            {
+                ("joystick base", art.joystickBase, new[] { "idle", "active" }),
+                ("joystick knob", art.joystickKnob, new[] { "idle", "pressed" }),
+                ("dash", art.dash, new[] { "idle", "pressed" }),
+                ("interact", art.interact, new[] { "disabled", "ready", "pressed" }),
+                ("swap", art.swap, new[] { "idle", "pressed" }),
+                ("pause", art.pause, new[] { "pause", "pause_pressed", "play", "play_pressed" }),
+            };
+            foreach (var (name, control, clips) in wanted)
+            {
+                foreach (var theme in new[] { "red_", "blue_" })
+                {
+                    foreach (var clip in clips) AssertClip(name, control, theme + clip);
+                }
+            }
+            AssertClip("swap", art.swap, "to_blue");
+            AssertClip("swap", art.swap, "to_red");
+            Assert.AreEqual(2, art.interact.Find("red_ready").frames.Length, "the ready button blinks between two frames");
+        }
+
+        /// <summary>The pixel art keeps square pixels: one art pixel is a whole number of screen pixels.</summary>
+        [UnityTest]
+        public IEnumerator EveryArtPixelIsAWholeNumberOfScreenPixels()
+        {
+            yield return ShowHud();
+            var canvas = hud.GetComponentInChildren<Canvas>(true);
+            float screenPixels = canvas.scaleFactor * MobileControlsArt.Load().unitsPerPixel;
+            Assert.AreEqual(Mathf.Round(screenPixels), screenPixels, 0.001f, $"an art pixel is {screenPixels} screen pixels");
+            Assert.GreaterOrEqual(screenPixels, 1f);
+        }
+
+        private static void AssertClip(string name, MobileControlsArt.Control control, string clip)
+        {
+            var found = control?.Find(clip);
+            Assert.IsNotNull(found, $"{name} has no clip {clip}");
+            Assert.IsNotEmpty(found.frames, $"{name}/{clip} has no frames");
+            foreach (var frame in found.frames) Assert.IsNotNull(frame, $"{name}/{clip} lost a sprite");
+        }
+
+        private string ClipOf(string control) => Find(control).GetComponentInChildren<HudSpriteAnimation>().CurrentClip;
 
         private IEnumerator ShowHud()
         {

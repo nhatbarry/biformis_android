@@ -1,0 +1,141 @@
+{
+  "animation": "Right_03_TuLucTayTrong",
+  "direction": "Right",
+  "action": "cast",
+  "frames": 9,
+  "cellPixels": [
+    749,
+    564
+  ],
+  "sheetPixels": [
+    6741,
+    564
+  ],
+  "pivotPixelsFromTopLeft": [
+    336,
+    426
+  ],
+  "pivotNormalizedUnity": [
+    0.4485981308411215,
+    0.24468085106382975
+  ],
+  "frameDurationsMs": [
+    180,
+    120,
+    140,
+    220,
+    260,
+    60,
+    60,
+    140,
+    220
+  ],
+  "durationMs": 1400,
+  "loopInUnity": false,
+  "pixelsPerUnitSuggested": 126.29,
+  "knifeLengthMultiplier": 2,
+  "camera": "Elevated orthographic top-down 3/4",
+  "unityEvents": {
+    "SpawnRangedSkill": {
+      "frame": 7,
+      "timeMs": 980
+    }
+  },
+  "sourceFootAnchors": [
+    [
+      118,
+      312
+    ],
+    [
+      96,
+      334
+    ],
+    [
+      108,
+      298
+    ],
+    [
+      116,
+      330
+    ],
+    [
+      100,
+      330
+    ],
+    [
+      80,
+      330
+    ],
+    [
+      98,
+      329
+    ],
+    [
+      88,
+      329
+    ],
+    [
+      104,
+      329
+    ]
+  ],
+  "sourceCellRectangles": [
+    [
+      0,
+      39,
+      468,
+      406
+    ],
+    [
+      469,
+      17,
+      906,
+      406
+    ],
+    [
+      906,
+      53,
+      1308,
+      405
+    ],
+    [
+      0,
+      406,
+      464,
+      791
+    ],
+    [
+      465,
+      406,
+      907,
+      791
+    ],
+    [
+      907,
+      406,
+      1288,
+      791
+    ],
+    [
+      0,
+      791,
+      478,
+      1186
+    ],
+    [
+      478,
+      791,
+      912,
+      1202
+    ],
+    [
+      912,
+      791,
+      1294,
+      1186
+    ]
+  ],
+  "sourceArtworkPreserved": true,
+  "layer": "Artwork",
+  "recommendedMaxTextureSize": 8192
+}

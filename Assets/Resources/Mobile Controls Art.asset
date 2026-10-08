@@ -1,0 +1,232 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752bc1b1289cd3246a5bd6500a94ec51, type: 3}
+  m_Name: Mobile Controls Art
+  m_EditorClassIdentifier: MobileControlsSystem::CaptainPinkTurd.MobileControls.MobileControlsArt
+  joystickBase:
+    clips:
+    - name: blue_active
+      frames:
+      - {fileID: -1298110641697335445, guid: 8837139d32501824a8dece8154ae5b72, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_idle
+      frames:
+      - {fileID: -3354807324192242407, guid: 8837139d32501824a8dece8154ae5b72, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_active
+      frames:
+      - {fileID: -7664945491390568365, guid: 8837139d32501824a8dece8154ae5b72, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_idle
+      frames:
+      - {fileID: -2695703538820405479, guid: 8837139d32501824a8dece8154ae5b72, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+  joystickKnob:
+    clips:
+    - name: blue_idle
+      frames:
+      - {fileID: 126740839008552407, guid: e0e4b63c181bc2c4aa27e6ddf64a2bf9, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_pressed
+      frames:
+      - {fileID: 5940870856733459042, guid: e0e4b63c181bc2c4aa27e6ddf64a2bf9, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_idle
+      frames:
+      - {fileID: 7518304262477726165, guid: e0e4b63c181bc2c4aa27e6ddf64a2bf9, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pressed
+      frames:
+      - {fileID: -7747280676950853603, guid: e0e4b63c181bc2c4aa27e6ddf64a2bf9, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+  dash:
+    clips:
+    - name: blue_idle
+      frames:
+      - {fileID: -1444734128345591516, guid: 974b00e150a9f8a479e72c23dbfd9c3a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_pressed
+      frames:
+      - {fileID: 202444771201871400, guid: 974b00e150a9f8a479e72c23dbfd9c3a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_idle
+      frames:
+      - {fileID: 7088239091691737323, guid: 974b00e150a9f8a479e72c23dbfd9c3a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pressed
+      frames:
+      - {fileID: -2998553154335292641, guid: 974b00e150a9f8a479e72c23dbfd9c3a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+  interact:
+    clips:
+    - name: blue_disabled
+      frames:
+      - {fileID: -1015352913232637215, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_pressed
+      frames:
+      - {fileID: 6830805674164527192, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_ready
+      frames:
+      - {fileID: -5195663661872739439, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      - {fileID: -1975771690799136751, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.35
+      - 0.35
+      loop: 1
+    - name: red_disabled
+      frames:
+      - {fileID: -3824472026502059190, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pressed
+      frames:
+      - {fileID: 5863821936412246911, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_ready
+      frames:
+      - {fileID: -8011141463603605306, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      - {fileID: 1723476653211028021, guid: f12fc2e22abf1e04ba9c09450523575c, type: 3}
+      durations:
+      - 0.35
+      - 0.35
+      loop: 1
+  swap:
+    clips:
+    - name: blue_idle
+      frames:
+      - {fileID: 5753915893010053194, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_pressed
+      frames:
+      - {fileID: -4552372564428459346, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_idle
+      frames:
+      - {fileID: 2691312659244242594, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pressed
+      frames:
+      - {fileID: -6919653004020623800, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: to_blue
+      frames:
+      - {fileID: 1122569158818139481, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      - {fileID: -5029793820345359046, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      - {fileID: 2220802178330445994, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.08
+      - 0.08
+      - 0.08
+      loop: 0
+    - name: to_red
+      frames:
+      - {fileID: -7487615284970193274, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      - {fileID: -4650551944361599555, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      - {fileID: -5588243388620206258, guid: 27069fb89073ffa479762b82708c365a, type: 3}
+      durations:
+      - 0.08
+      - 0.08
+      - 0.08
+      loop: 0
+  pause:
+    clips:
+    - name: blue_pause
+      frames:
+      - {fileID: -7449869486324166679, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_pause_pressed
+      frames:
+      - {fileID: -4921743682956855005, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_play
+      frames:
+      - {fileID: -8005435356138991032, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: blue_play_pressed
+      frames:
+      - {fileID: 3269152742691518769, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pause
+      frames:
+      - {fileID: -2875698505756393556, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_pause_pressed
+      frames:
+      - {fileID: 2299225477082440363, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_play
+      frames:
+      - {fileID: -8213416867629974406, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+    - name: red_play_pressed
+      frames:
+      - {fileID: -4321100932278753541, guid: 5c8cfde1a6223d442816a85952b2e940, type: 3}
+      durations:
+      - 0.1
+      loop: 1
+  onDimensionChange: {fileID: 11400000, guid: 1b1203bc31818be4aad9cd3b7a101d03, type: 2}
+  unitsPerPixel: 4

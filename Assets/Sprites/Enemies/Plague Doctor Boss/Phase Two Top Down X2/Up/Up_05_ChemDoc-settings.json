@@ -1,0 +1,141 @@
+{
+  "animation": "Up_05_ChemDoc",
+  "direction": "Up",
+  "action": "cleave",
+  "frames": 9,
+  "cellPixels": [
+    749,
+    564
+  ],
+  "sheetPixels": [
+    6741,
+    564
+  ],
+  "pivotPixelsFromTopLeft": [
+    336,
+    426
+  ],
+  "pivotNormalizedUnity": [
+    0.4485981308411215,
+    0.24468085106382975
+  ],
+  "frameDurationsMs": [
+    180,
+    120,
+    160,
+    320,
+    100,
+    40,
+    100,
+    140,
+    240
+  ],
+  "durationMs": 1400,
+  "loopInUnity": false,
+  "pixelsPerUnitSuggested": 109.23,
+  "knifeLengthMultiplier": 2,
+  "camera": "Elevated orthographic top-down 3/4",
+  "unityEvents": {
+    "SpawnSwordAura": {
+      "frame": 6,
+      "timeMs": 880
+    }
+  },
+  "sourceFootAnchors": [
+    [
+      214,
+      376
+    ],
+    [
+      276,
+      367
+    ],
+    [
+      199,
+      360
+    ],
+    [
+      186,
+      328
+    ],
+    [
+      224,
+      329
+    ],
+    [
+      154,
+      328
+    ],
+    [
+      194,
+      296
+    ],
+    [
+      213,
+      296
+    ],
+    [
+      231,
+      282
+    ]
+  ],
+  "sourceCellRectangles": [
+    [
+      0,
+      17,
+      432,
+      425
+    ],
+    [
+      433,
+      25,
+      934,
+      424
+    ],
+    [
+      936,
+      33,
+      1303,
+      425
+    ],
+    [
+      79,
+      425,
+      488,
+      798
+    ],
+    [
+      491,
+      425,
+      950,
+      798
+    ],
+    [
+      952,
+      425,
+      1319,
+      796
+    ],
+    [
+      54,
+      798,
+      428,
+      1144
+    ],
+    [
+      435,
+      798,
+      849,
+      1162
+    ],
+    [
+      852,
+      812,
+      1319,
+      1165
+    ]
+  ],
+  "sourceArtworkPreserved": true,
+  "layer": "Artwork",
+  "recommendedMaxTextureSize": 8192
+}

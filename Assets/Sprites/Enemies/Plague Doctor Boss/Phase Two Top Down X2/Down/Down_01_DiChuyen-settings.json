@@ -1,0 +1,136 @@
+{
+  "animation": "Down_01_DiChuyen",
+  "direction": "Down",
+  "action": "walk",
+  "frames": 9,
+  "cellPixels": [
+    749,
+    564
+  ],
+  "sheetPixels": [
+    6741,
+    564
+  ],
+  "pivotPixelsFromTopLeft": [
+    336,
+    426
+  ],
+  "pivotNormalizedUnity": [
+    0.4485981308411215,
+    0.24468085106382975
+  ],
+  "frameDurationsMs": [
+    50,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    100,
+    50
+  ],
+  "durationMs": 800,
+  "loopInUnity": true,
+  "pixelsPerUnitSuggested": 124.59,
+  "knifeLengthMultiplier": 2,
+  "camera": "Elevated orthographic top-down 3/4",
+  "unityEvents": {},
+  "sourceFootAnchors": [
+    [
+      262,
+      334
+    ],
+    [
+      161,
+      296
+    ],
+    [
+      124,
+      329
+    ],
+    [
+      187,
+      283
+    ],
+    [
+      102,
+      286
+    ],
+    [
+      169,
+      285
+    ],
+    [
+      219,
+      310
+    ],
+    [
+      117,
+      291
+    ],
+    [
+      174,
+      312
+    ]
+  ],
+  "sourceCellRectangles": [
+    [
+      0,
+      19,
+      497,
+      411
+    ],
+    [
+      514,
+      54,
+      914,
+      411
+    ],
+    [
+      983,
+      25,
+      1319,
+      411
+    ],
+    [
+      21,
+      434,
+      495,
+      792
+    ],
+    [
+      512,
+      433,
+      938,
+      781
+    ],
+    [
+      939,
+      434,
+      1319,
+      781
+    ],
+    [
+      41,
+      792,
+      510,
+      1146
+    ],
+    [
+      510,
+      794,
+      936,
+      1153
+    ],
+    [
+      937,
+      792,
+      1319,
+      1176
+    ]
+  ],
+  "sourceArtworkPreserved": true,
+  "layer": "Artwork",
+  "recommendedMaxTextureSize": 8192
+}

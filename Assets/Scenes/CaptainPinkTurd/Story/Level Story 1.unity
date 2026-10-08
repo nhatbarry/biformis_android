@@ -1056,6 +1056,37 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &586510400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 586510401}
+  m_Layer: 0
+  m_Name: Spawn Position #1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &586510401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 586510400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.5, y: 16.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481325205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &613879007 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6317065125661890761, guid: ad6d76c801b9eca46a51a99ba7b1ed6f, type: 3}
@@ -57943,7 +57974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.Localization.LocalizedText
   key: hint.door
-  touchKey: 
+  touchKey: hint.door.touch
 --- !u!114 &910051265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58204,6 +58235,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4108975754366707165, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
   m_PrefabInstance: {fileID: 3564836562178595603}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1005909176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005909177}
+  m_Layer: 0
+  m_Name: Spawn Position #2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1005909177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005909176}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.5, y: 16.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1481325205}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1042235751
 GameObject:
   m_ObjectHideFlags: 0
@@ -59581,6 +59643,7 @@ GameObject:
   - component: {fileID: 1481325205}
   - component: {fileID: 1481325207}
   - component: {fileID: 1481325206}
+  - component: {fileID: 1481325208}
   m_Layer: 0
   m_Name: Encounter Door
   m_TagString: Untagged
@@ -59600,7 +59663,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 586510401}
+  - {fileID: 1005909177}
   m_Father: {fileID: 941066026}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1481325206
@@ -59615,57 +59680,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24b2f96eaf150a14abe235a10c65f2af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.EncounterSpawner
-  enemyPrefabs:
-  - {fileID: 3603879645543089829, guid: f9f0d7fb10d7a2646a4dc1c447bd0fd5, type: 3}
-  - {fileID: 4054407043497097032, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
-  enemiesPerWave: 2
   waves: 2
-  spawnPoints:
-  - {x: 4.5, y: 14.5}
-  - {x: 4.5, y: 15.5}
-  - {x: 4.5, y: 16.5}
-  - {x: 4.5, y: 17.5}
-  - {x: 4.5, y: 18.5}
-  - {x: 5.5, y: 14.5}
-  - {x: 5.5, y: 15.5}
-  - {x: 5.5, y: 16.5}
-  - {x: 5.5, y: 17.5}
-  - {x: 5.5, y: 18.5}
-  - {x: 6.5, y: 14.5}
-  - {x: 6.5, y: 15.5}
-  - {x: 6.5, y: 16.5}
-  - {x: 6.5, y: 17.5}
-  - {x: 6.5, y: 18.5}
-  - {x: 7.5, y: 13.5}
-  - {x: 7.5, y: 14.5}
-  - {x: 7.5, y: 15.5}
-  - {x: 7.5, y: 16.5}
-  - {x: 7.5, y: 17.5}
-  - {x: 7.5, y: 18.5}
-  - {x: 8.5, y: 13.5}
-  - {x: 8.5, y: 14.5}
-  - {x: 8.5, y: 15.5}
-  - {x: 8.5, y: 16.5}
-  - {x: 8.5, y: 17.5}
-  - {x: 8.5, y: 18.5}
-  - {x: 9.5, y: 14.5}
-  - {x: 9.5, y: 15.5}
-  - {x: 9.5, y: 16.5}
-  - {x: 9.5, y: 17.5}
-  - {x: 9.5, y: 18.5}
-  - {x: 10.5, y: 14.5}
-  - {x: 10.5, y: 15.5}
-  - {x: 10.5, y: 16.5}
-  - {x: 10.5, y: 17.5}
-  - {x: 10.5, y: 18.5}
-  - {x: 11.5, y: 14.5}
-  - {x: 11.5, y: 15.5}
-  - {x: 11.5, y: 16.5}
-  - {x: 11.5, y: 17.5}
-  - {x: 11.5, y: 18.5}
   minDistanceFromPlayer: 3.5
   minDistanceBetweenSpawns: 1.5
-  secondsBetweenSpawns: 0.3
   secondsBetweenWaves: 1.5
   playerLayers:
     serializedVersion: 2
@@ -59731,6 +59748,48 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 10, y: 7}
   m_EdgeRadius: 0
+--- !u!114 &1481325208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481325204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77bf0e280de94f9e91d284df552563c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: SpawnSystem::CaptainPinkTurd.SpawnSystem.PositionBasedSpawner
+  spawnedObjectPositionPair:
+  - Value: {fileID: 1559923827531433834, guid: f9f0d7fb10d7a2646a4dc1c447bd0fd5, type: 3}
+    Key: {fileID: 586510401}
+  - Value: {fileID: 2297502924798621319, guid: 6fec9d3036bb47542b95fefb7133b457, type: 3}
+    Key: {fileID: 1005909177}
+  secondsBetweenSpawns: 0.3
+  spawnSfx:
+    clip: {fileID: 0}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
 --- !u!1 &1482861299
 GameObject:
   m_ObjectHideFlags: 0
