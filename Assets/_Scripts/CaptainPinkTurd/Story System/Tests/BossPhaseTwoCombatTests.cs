@@ -22,11 +22,11 @@ namespace CaptainPinkTurd.Story.Tests
     {
         private readonly List<string> exceptions = new();
         private static readonly string[] Properties = { "horizontalSlash", "rangedCharge", "dashStab", "verticalSlash" };
-        private static readonly float[] Ppu = { 144.21f, 148.05f, 124.16f, 119.04f };
+        private static readonly float[] Ppu = { 106.24f, 101.97f, 108.37f, 96.85f };
         private static readonly int[][] Timing =
         {
             new[] { 160, 110, 160, 50, 60, 90, 100, 110, 220 },
-            new[] { 180, 120, 140, 220, 260, 60, 140, 220 },
+            new[] { 180, 120, 140, 220, 260, 60, 60, 140, 220 },
             new[] { 180, 110, 180, 40, 50, 60, 140, 130, 260 },
             new[] { 180, 120, 160, 320, 100, 40, 100, 140, 240 },
         };
@@ -47,7 +47,7 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         [Test]
-        public void FourApprovedActionsKeepTheirFramesTimingAndWorldSize()
+        public void NativeTopDownPackKeepsAllTwentyClipsAndSourceFrameTimings()
         {
             var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Enemies/Boss/Plague Doctor Boss.prefab");
             var settings = new SerializedObject(prefab.GetComponent<BossPhaseTwoCombat>());
@@ -66,9 +66,34 @@ namespace CaptainPinkTurd.Story.Tests
                     Assert.AreEqual(Ppu[action], sprite.pixelsPerUnit, 0.001f);
                     Assert.AreEqual(FilterMode.Point, sprite.texture.filterMode);
                     Assert.Greater(sprite.bounds.size.y, i==0 ? 2f : 1.5f, "standing pose retains scale; crouched dash frames may be shorter");
-                    Assert.Less(sprite.bounds.size.y, 4.5f, "do not apply the old 2.5x scale a second time");
+                    Assert.Less(sprite.bounds.size.y, 6f, "full native canvas retains its transparent padding without an extra scale multiplier");
                 }
             }
+            var art = new SerializedObject(prefab.GetComponent<BossDirectionalArt>()).FindProperty("directions");
+            Assert.AreEqual(4, art.arraySize);
+            int count = 0;
+            for (int direction = 0; direction < 4; direction++)
+            {
+                var set = art.GetArrayElementAtIndex(direction);
+                foreach (var property in new[] { "walk", "horizontalSlash", "rangedCharge", "dashStab", "verticalSlash" })
+                {
+                    var clip = set.FindPropertyRelative(property);
+                    Assert.AreEqual(9, clip.FindPropertyRelative("frames").arraySize);
+                    int total = 0;
+                    for (int frame = 0; frame < 9; frame++)
+                    {
+                        var sprite = clip.FindPropertyRelative("frames").GetArrayElementAtIndex(frame).objectReferenceValue as Sprite;
+                        Assert.IsNotNull(sprite);
+                        StringAssert.Contains("Phase Two Top Down X2", AssetDatabase.GetAssetPath(sprite));
+                        Assert.AreEqual(FilterMode.Point, sprite.texture.filterMode);
+                        Assert.Greater(clip.FindPropertyRelative("bladeWidths").GetArrayElementAtIndex(frame).floatValue, 0f);
+                        total += clip.FindPropertyRelative("frameMilliseconds").GetArrayElementAtIndex(frame).intValue;
+                        count++;
+                    }
+                    Assert.AreEqual(property == "walk" ? 800 : property == "horizontalSlash" ? 1060 : property == "dashStab" ? 1150 : 1400, total);
+                }
+            }
+            Assert.AreEqual(180, count);
         }
 
         [UnityTest, Timeout(60000)]
@@ -129,10 +154,10 @@ namespace CaptainPinkTurd.Story.Tests
                 BossPhaseTwoCombat.ECue.BeginDash, BossPhaseTwoCombat.ECue.StabHit,
                 BossPhaseTwoCombat.ECue.EndDash, BossPhaseTwoCombat.ECue.SpawnSwordAura,
             }, cues);
-            CollectionAssert.AreEqual(new[] { 4, 5, 3, 4, 6, 5 }, cueFrames);
+            CollectionAssert.AreEqual(new[] { 4, 6, 3, 4, 6, 5 }, cueFrames);
             Assert.AreNotEqual(origin, boss.transform.position, "the dash must now move the boss");
             Assert.AreEqual(playerHealth, health.CurrentHealth);
-            Assert.AreEqual(3, boss.GetComponent<BossPhaseTwoEffects>().TotalShotsEmitted);
+            Assert.AreEqual(1, boss.GetComponent<BossPhaseTwoEffects>().TotalShotsEmitted);
             Assert.AreEqual(4, boss.GetComponent<BossPhaseTwoEffects>().TotalWavesEmitted);
             Assert.AreEqual(0, hazards.TotalProjectilesEmitted);
             Assert.AreEqual(0, hazards.TotalStrikesWarned);

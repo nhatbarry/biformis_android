@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Interfaces;
 using CaptainPinkTurd.Core.Struct;
+using CaptainPinkTurd.Core.Utilities;
 using CaptainPinkTurd.Game.Player;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -64,6 +65,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private IDamageable playerHealth;
         private CircleCollider2D playerHitbox;
         private Material unlit;
+        private BossArenaController arena;
         private int redLayer, blueLayer;
 
         public int ActiveProjectileCount => projectiles.Count;
@@ -77,9 +79,27 @@ namespace CaptainPinkTurd.Game.Enemy
         public Material ProjectileMaterial => projectileMaterial;
         public Sprite ProjectileSprite(EColor color) => color == EColor.Red ? redProjectile : blueProjectile;
         public bool CanHurtPlayer(EColor color) => HurtsPlayer(color);
+        public int TotalPlayerImpacts { get; private set; }
+        public int TotalAttackImpacts { get; private set; }
+        public void PlayAttackImpact(float stopSeconds = 0.045f)
+        {
+            TotalAttackImpacts++;
+            Impact(stopSeconds, 0.13f);
+        }
+        private void Impact(float stopSeconds, float strength)
+        {
+            if (!arena) arena = FindAnyObjectByType<BossArenaController>();
+            if (arena) arena.ShakeImpact(strength);
+            HitStop.Stop(stopSeconds);
+        }
         public void HitPlayer(EColor color)
         {
-            if (HurtsPlayer(color)) playerHealth.TakeDamage(new SDamageData(1, gameObject));
+            if (!HurtsPlayer(color)) return;
+            int previous = playerHealth.CurrentHealth;
+            playerHealth.TakeDamage(new SDamageData(1, gameObject));
+            if (playerHealth.CurrentHealth >= previous) return;
+            TotalPlayerImpacts++;
+            Impact(0.08f, 0.2f);
         }
 
         private void Awake()
@@ -185,7 +205,7 @@ namespace CaptainPinkTurd.Game.Enemy
                 // The old emitters circle-cast at Scale/2. Sweep a round bullet at the same visual radius.
                 bool hit = HurtsPlayer(projectile.color) && DistanceToSegment(HitboxPosition,
                     previous, projectile.position) <= HitboxRadius + projectileDiameter * 0.5f;
-                if (hit) playerHealth.TakeDamage(new SDamageData(1, gameObject));
+                if (hit) HitPlayer(projectile.color);
                 if (hit || projectile.remaining <= 0f)
                 {
                     projectiles[i] = projectiles[^1];
@@ -214,7 +234,7 @@ namespace CaptainPinkTurd.Game.Enemy
                     {
                         strike.hit = true;
                         if (HurtsPlayer(strike.color) && Vector2.Distance(HitboxPosition, strike.position) <= strikeRadius + HitboxRadius)
-                            playerHealth.TakeDamage(new SDamageData(1, gameObject));
+                            HitPlayer(strike.color);
                     }
                 }
                 if (age < warningSeconds) continue;

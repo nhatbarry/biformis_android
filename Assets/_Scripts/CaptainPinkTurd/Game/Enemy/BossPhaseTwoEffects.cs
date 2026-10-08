@@ -9,7 +9,7 @@ namespace CaptainPinkTurd.Game.Enemy
     [RequireComponent(typeof(BossHazards))]
     public class BossPhaseTwoEffects : MonoBehaviour
     {
-        [SerializeField] private float shotSpeed = 36f;
+        [SerializeField] private float shotSpeed = 1200f;
         [SerializeField] private float shotRadius = 0.34f;
         [SerializeField] private float waveSpeed = 7.5f;
         [SerializeField] private float waveWidth = 5.4f;
@@ -26,6 +26,15 @@ namespace CaptainPinkTurd.Game.Enemy
         private EColor chargeColour;
         private readonly List<Flying> flying = new(48);
         private readonly List<Slash> slashes = new(4);
+        private readonly List<Ghost> ghosts = new(64);
+
+        private sealed class Ghost
+        {
+            public GameObject root;
+            public SpriteRenderer[] art;
+            public Color tint;
+            public float born;
+        }
 
         private sealed class Flying
         {
@@ -45,11 +54,15 @@ namespace CaptainPinkTurd.Game.Enemy
             public LineRenderer outer, core;
             public float born;
             public EColor colour;
+            public float duration = 0.22f;
         }
 
         public int TotalShotsEmitted { get; private set; }
         public int TotalWavesEmitted { get; private set; }
         public int ActiveProjectileCount => flying.Count;
+        public int ActiveAfterimageCount => ghosts.Count;
+        public int TotalAfterimagesEmitted { get; private set; }
+        public float ShotSpeed => shotSpeed;
         public bool IsCharging => charge && charge.activeSelf;
         public float WaveWidth => waveWidth;
         public static Color Colour(EColor colour) => colour == EColor.Red
@@ -108,8 +121,8 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private void DrawCharge()
         {
-            charge.transform.localPosition = Vector3.up * 2.9f;
-            SetArtSize(orb, chargeColour, Mathf.Lerp(0.2f, 1.25f, chargeProgress));
+            charge.transform.localPosition = new Vector3(0.65f, 3.65f, 0f);
+            SetArtSize(orb, chargeColour, Mathf.Lerp(0.2f, 0.95f, chargeProgress));
             var colour = Colour(chargeColour);
             chargeRing.startColor = chargeRing.endColor = colour;
             float radius = Mathf.Lerp(0.55f, 0.25f, chargeProgress);
@@ -126,12 +139,22 @@ namespace CaptainPinkTurd.Game.Enemy
             }
         }
 
-        public void FireFan(Vector2 origin, Vector2 direction, EColor colour)
+        public void FireShot(Vector2 origin, Vector2 direction, EColor colour)
         {
-            // Cover the player's general direction instead of placing the middle shot exactly on them.
-            float drift = Random.Range(-8f, 8f);
-            for (int i = -1; i <= 1; i++)
-                Spawn(origin, Rotate(direction, i * 30f + drift + Random.Range(-3f, 3f)), colour, false);
+            if (direction.sqrMagnitude < 0.001f) return;
+            Spawn(origin, direction, colour, false);
+            // Keep the streak visible even when a swept hit consumes the bullet on its first frame.
+            var root = new GameObject("Boss Shot Streak " + colour);
+            root.transform.SetParent(flyingRoot, false);
+            var outer = NewLine("Shot Streak Colour", root.transform, 0.24f, true);
+            var core = NewLine("Shot Streak Core", root.transform, 0.055f, true);
+            outer.positionCount = core.positionCount = 2;
+            outer.SetPosition(0, origin); core.SetPosition(0, origin);
+            Vector2 end = origin + direction.normalized * 24f;
+            outer.SetPosition(1, end); core.SetPosition(1, end);
+            outer.startColor = outer.endColor = Colour(colour);
+            core.startColor = core.endColor = Color.white;
+            slashes.Add(new Slash { root = root, outer = outer, core = core, born = Time.time, colour = colour, duration = 0.16f });
         }
         public void FireWave(Vector2 origin, Vector2 direction, EColor colour) => Spawn(origin, direction, colour, true);
 
@@ -221,7 +244,7 @@ namespace CaptainPinkTurd.Game.Enemy
                     else hit = DistanceToSegment(rules.PlayerHitPosition, previous, item.position) <= shotRadius + rules.PlayerRadius;
                 }
                 if (hit) rules.HitPlayer(item.colour);
-                if (hit || Time.time - item.born >= lifetime)
+                if (hit || Time.time - item.born >= (item.wave ? lifetime : 0.12f))
                 {
                     Destroy(item.root);
                     flying.RemoveAt(i);
@@ -233,11 +256,53 @@ namespace CaptainPinkTurd.Game.Enemy
             {
                 var slash = slashes[i];
                 float age = Time.time - slash.born;
-                if (age >= 0.22f) { Destroy(slash.root); slashes.RemoveAt(i); continue; }
-                Color tint = Colour(slash.colour); tint.a = 1f - age / 0.22f;
+                if (age >= slash.duration) { Destroy(slash.root); slashes.RemoveAt(i); continue; }
+                Color tint = Colour(slash.colour); tint.a = 1f - age / slash.duration;
                 slash.outer.startColor = slash.outer.endColor = tint;
                 slash.core.startColor = slash.core.endColor = new Color(1f, 1f, 1f, tint.a);
             }
+            for (int i = ghosts.Count - 1; i >= 0; i--)
+            {
+                var ghost = ghosts[i];
+                float age = Time.time - ghost.born;
+                if (age >= 0.28f) { Destroy(ghost.root); ghosts.RemoveAt(i); continue; }
+                var tint = ghost.tint;
+                tint.a = 0.52f * (1f - age / 0.28f);
+                foreach (var art in ghost.art) art.color = tint;
+            }
+        }
+
+        public void DashAfterimage(Vector2 footPosition)
+        {
+            if (ghosts.Count >= 64) return;
+            var directional = GetComponent<BossDirectionalArt>();
+            var sources = directional ? directional.VisibleRenderers : new[] { GetComponent<SpriteRenderer>() };
+            var root = new GameObject("Boss Dash Afterimage");
+            root.transform.SetParent(flyingRoot, false);
+            var copies = new List<SpriteRenderer>(2);
+            var combat = GetComponent<BossPhaseTwoCombat>();
+            Color tint = Colour(combat.CurrentColour);
+            tint.a = 0.52f;
+            foreach (var source in sources)
+            {
+                if (!source || !source.enabled || !source.sprite) continue;
+                var copy = NewSprite("Afterimage " + source.name, root.transform);
+                copy.sprite = source.sprite;
+                copy.sharedMaterial = source.sharedMaterial;
+                copy.transform.position = source.transform.position + (Vector3)(footPosition - (Vector2)transform.position);
+                copy.transform.rotation = source.transform.rotation;
+                copy.transform.localScale = source.transform.lossyScale;
+                copy.flipX = source.flipX;
+                var block = new MaterialPropertyBlock();
+                source.GetPropertyBlock(block);
+                copy.SetPropertyBlock(block);
+                copy.color = tint;
+                copy.sortingLayerID = source.sortingLayerID;
+                copy.sortingOrder = source.sortingOrder - 2;
+                copies.Add(copy);
+            }
+            ghosts.Add(new Ghost { root = root, art = copies.ToArray(), born = Time.time, tint = tint });
+            TotalAfterimagesEmitted++;
         }
 
         private void Draw(Flying item)
@@ -281,6 +346,8 @@ namespace CaptainPinkTurd.Game.Enemy
             HideCharge();
             foreach (var slash in slashes) if (slash.root) Destroy(slash.root);
             slashes.Clear();
+            foreach (var ghost in ghosts) if (ghost.root) Destroy(ghost.root);
+            ghosts.Clear();
         }
         private void OnDisable() => ClearAll();
         private void OnDestroy()

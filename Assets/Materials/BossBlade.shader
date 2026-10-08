@@ -10,6 +10,9 @@ Shader "Biformis/Boss Blade"
         _BladeWidth ("Blade Half Width", Float) = 0.11
         _BladeOn ("Colour Blade", Float) = 0
         _HitEffectAmount ("Hit Flash", Range(0,1)) = 0
+        _AlphaCutoff ("Sprite Edge Cutoff", Range(0,1)) = 0
+        _DarkBorderPixels ("Remove Dark Outside Border", Float) = 0
+        _BladeWarmOnly ("Restrict Blade To Warm Metal", Float) = 0
     }
     SubShader
     {
@@ -32,8 +35,9 @@ Shader "Biformis/Boss Blade"
                 half4 _BladeTint;
                 float4 _BladeEndpoints;
                 float4 _BladeAtlasScale;
-                float _BladeWidth, _BladeOn, _HitEffectAmount;
+                float _BladeWidth, _BladeOn, _HitEffectAmount, _AlphaCutoff, _DarkBorderPixels, _BladeWarmOnly;
             CBUFFER_END
+            float4 _MainTex_TexelSize;
             Varyings Vert(Attributes input)
             {
                 UNITY_SETUP_INSTANCE_ID(input);
@@ -48,7 +52,23 @@ Shader "Biformis/Boss Blade"
             }
             half4 Frag(Varyings input) : SV_Target
             {
-                half4 colour = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv) * input.color;
+                half4 texel = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                clip(texel.a - _AlphaCutoff);
+                #if defined(UNITY_COLORSPACE_GAMMA)
+                    float darkThreshold = 0.15;
+                #else
+                    float darkThreshold = 0.03;
+                #endif
+                if (_DarkBorderPixels > 0 && max(texel.r, max(texel.g, texel.b)) < darkThreshold)
+                {
+                    float2 step = _MainTex_TexelSize.xy * _DarkBorderPixels;
+                    float edge = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv + float2(step.x,0)).a;
+                    edge = min(edge, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv - float2(step.x,0)).a);
+                    edge = min(edge, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv + float2(0,step.y)).a);
+                    edge = min(edge, SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv - float2(0,step.y)).a);
+                    clip(edge - 0.05);
+                }
+                half4 colour = texel * input.color;
                 float2 segment = _BladeEndpoints.zw - _BladeEndpoints.xy;
                 float2 bladeCoordinate = input.uv * _BladeAtlasScale.xy;
                 float t = saturate(dot(bladeCoordinate - _BladeEndpoints.xy, segment) / max(dot(segment, segment), 0.0001));
@@ -57,6 +77,7 @@ Shader "Biformis/Boss Blade"
                 // Restrict colour to the pale metal inside the annotated blade, leaving its black outline intact.
                 float lightness = max(colour.r, max(colour.g, colour.b));
                 mask *= smoothstep(0.42, 0.72, lightness);
+                mask *= lerp(1, smoothstep(0.01, 0.025, texel.r - texel.b), _BladeWarmOnly);
                 colour.rgb = lerp(colour.rgb, _BladeTint.rgb * lightness, mask);
                 colour.rgb = lerp(colour.rgb, half3(1,1,1), saturate(_HitEffectAmount));
                 return colour;

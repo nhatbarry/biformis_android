@@ -260,8 +260,8 @@ MonoBehaviour:
   arenaCamera: {fileID: 1605926868}
   boss: {fileID: 5126970418836252189}
   cameraCentre: {x: 8, y: 16.85}
-  playAreaCentre: {x: 8, y: 15.75}
-  playAreaSize: {x: 18, y: 7}
+  playAreaCentre: {x: 8, y: 15.4}
+  playAreaSize: {x: 16, y: 10}
   combatSize: 6.5
   closeUpSize: 3
   zoomSeconds: 0.65
@@ -59834,7 +59834,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5453090795503190856, guid: b5b6c98ee9920164dabf428375a7ef0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.5
+      value: 12.55
       objectReference: {fileID: 0}
     - target: {fileID: 5453090795503190856, guid: b5b6c98ee9920164dabf428375a7ef0d, type: 3}
       propertyPath: m_LocalPosition.z

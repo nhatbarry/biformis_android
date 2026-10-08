@@ -25,6 +25,7 @@ namespace CaptainPinkTurd.Game.Enemy
     /// </summary>
     [RequireComponent(typeof(SpriteRenderer), typeof(BoxCollider2D), typeof(BossHazards))]
     [RequireComponent(typeof(BossHealthBar), typeof(CircleCollider2D), typeof(Rigidbody2D))]
+    [RequireComponent(typeof(BossGroundPresentation))]
     public class PlagueDoctorBoss : MonoBehaviour, IDamageable
     {
         public enum EPhase { Hooded, Freezing, Frozen, Shattering, RedHaired, Dead, Revealing }
@@ -36,6 +37,7 @@ namespace CaptainPinkTurd.Game.Enemy
             [Tooltip("How long each frame shows, in milliseconds (the pack's manifest.json)")]
             public int[] frameMilliseconds;
             [HideInInspector] public Vector4[] bladeEndpoints;
+            [HideInInspector] public float[] bladeWidths;
 
             public float FrameSeconds(int frame) => frameMilliseconds[frame] / 1000f;
         }
@@ -341,7 +343,7 @@ namespace CaptainPinkTurd.Game.Enemy
             int volley = 0;
             float interval = CurrentPattern == EPattern.LongStream ? 0.20f : CurrentPattern == EPattern.Circle ? 0.48f : 0.42f;
             // Lock a stream's aim for the whole throw so the player can step out of its trail.
-            Vector2 aim = ((Vector2)player.transform.position - ((Vector2)transform.position + Vector2.up)).normalized;
+            Vector2 aim = ((Vector2)player.transform.position - ((Vector2)transform.position + Vector2.up * 0.25f)).normalized;
             for (int loop = 0; loop < loops; loop++)
             {
                 for (int frame = 0; frame < clip.frames.Length; frame++)
@@ -364,7 +366,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private void FireVolley(Vector2 aim, int volley)
         {
             EColor color = volley % 2 == 0 ? EColor.Red : EColor.Blue;
-            Vector2 origin = (Vector2)transform.position + Vector2.up * 1.2f;
+            Vector2 origin = (Vector2)transform.position + Vector2.up * 0.25f;
             if (CurrentPattern == EPattern.LongStream)
             {
                 Vector2 side = new Vector2(-aim.y, aim.x);

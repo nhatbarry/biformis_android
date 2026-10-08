@@ -35,6 +35,26 @@ namespace CaptainPinkTurd.Story.Tests
                 Assert.AreEqual(authoredHalfWidth, size * aspect, 0.001f, $"at aspect {aspect:F2} the camera shows a different world width");
             }
         }
+
+        [UnityTest]
+        public IEnumerator BossArenaKeepsItsFloorDepthOnWidePhones()
+        {
+            yield return StoryTestLoading.LoadLevelThroughCore("Level Story 6");
+            yield return null;
+            yield return null;
+            var framing = Object.FindAnyObjectByType<CameraFraming>();
+            var sizeFor = typeof(CameraFraming).GetMethod("SizeFor", BindingFlags.Instance | BindingFlags.NonPublic);
+            var arena = Object.FindAnyObjectByType<CaptainPinkTurd.Game.Enemy.BossArenaController>();
+            var camera = Camera.main;
+            float height = (float)sizeFor.Invoke(framing, new object[] { camera, 16f / 9f });
+            foreach (float aspect in new[] { 20f / 9f, 21f / 9f, 2.4f })
+            {
+                camera.aspect = aspect;
+                Assert.AreEqual(height, (float)sizeFor.Invoke(framing, new object[] { camera, aspect }), 0.001f,
+                    "wide phones must not crop the arena into a horizontal strip");
+                Assert.Greater(arena.PlayArea.height, 8f);
+            }
+        }
     }
 }
 #endif

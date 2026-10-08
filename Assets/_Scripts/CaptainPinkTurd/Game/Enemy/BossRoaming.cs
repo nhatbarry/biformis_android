@@ -37,7 +37,7 @@ namespace CaptainPinkTurd.Game.Enemy
                 destination = arena.ClampPosition((Vector2)player.transform.position + Random.insideUnitCircle * Random.Range(0.6f, 3f), 0.8f);
                 nextDestination = Time.time + Random.Range(0.65f, 1.8f);
             }
-            float speed = boss.Phase == PlagueDoctorBoss.EPhase.Hooded ? 1.45f : 2.8f;
+            float speed = boss.Phase == PlagueDoctorBoss.EPhase.Hooded ? 0.9f : 1.4f;
             body.MovePosition(Vector2.MoveTowards(body.position, destination, speed * Time.fixedDeltaTime));
         }
     }

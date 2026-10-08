@@ -327,4 +327,9 @@ Thứ tự đã chứng minh là hiệu quả:
 
 Hành lang dùng Map Bound 40×53. Cinemachine tính confiner bằng lens gốc trước khi CameraFraming thu nhỏ Camera trên điện thoại rộng; bound ngang 22 có thể khiến camera đứng giữa hành lang và mất nhân vật. Regression kiểm tra tỷ lệ 2.4 và di chuyển bằng joystick sau chuyển từ màn 4 với HP còn lại.
 
-Đạn tụ lực boss phase 2 chạy 36 unit/giây, dùng kiểm tra đoạn di chuyển thay vì overlap ở vị trí cuối để tránh xuyên người chơi. Trail giữ 0.14 giây. Boss roaming và các chuỗi aura đều dùng thời gian gameplay, pause dừng toàn bộ. Hội thoại không hiện avatar; avatar HUD và thanh máu gameplay vẫn giữ. Chi tiết trong docs/BOSS_FIGHT.md.
+Boss phase 2 dùng bộ top-down dao ×2 do người dùng gửi: 20 Aseprite, mỗi clip 9 frame, đủ bốn hướng và năm động tác. Dao nằm trong frame và có mask màu riêng. Tụ lực nhả tại 980ms/frame 7 của bộ mới; đi bộ loop 800ms, giữ pivot chân và PPU từ manifest, không nhân thêm scale. Tụ lực báo màu và ! rồi bắn một viên 1200 unit/giây, dùng kiểm tra đoạn di chuyển để tránh xuyên người chơi. Vệt sáng giữ 0.16 giây kể cả đạn biến mất khi trúng. Bắn/đâm có hit-stop ngắn; mọi hit gây mất HP có rung camera. Tàn ảnh lao giữ 0.28 giây, giới hạn 64 ảnh đang hiện. Roaming giảm còn 0.9 / 1.4 unit/giây cho phase 1 / 2. Boss roaming và các chuỗi aura đều dùng thời gian gameplay, pause dừng toàn bộ. Hội thoại không hiện avatar; avatar HUD và thanh máu gameplay vẫn giữ. Chi tiết trong docs/BOSS_FIGHT.md.
+
+
+### Ngoại lệ khung hình boss top-down (2026-10-08)
+
+Riêng Level Story 6 gọi SetAuthoredSize(..., preserveVertical: true), giữ chiều dọc 6.5 trên màn hình rộng để arena không biến thành một dải ngang. Sàn 64×48 đủ che vùng camera rộng hơn; phạm vi di chuyển vẫn giới hạn trong arena 16×10 và chừa chỗ phía trên cho thân boss/HP. Màn cũ giữ công thức cố định chiều ngang. Camera vẫn đứng yên, zoom chuyển phase vẫn dùng cùng chế độ framing và giữ nguyên cách ẩn Canvas/virtual gamepad.

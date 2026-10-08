@@ -44,8 +44,15 @@ public static class BossPresentationSetup
         arenaSettings.FindProperty("arenaCamera").objectReferenceValue = camera;
         arenaSettings.FindProperty("boss").objectReferenceValue = boss;
         arenaSettings.FindProperty("cameraCentre").vector2Value = cameraCentre;
-        arenaSettings.FindProperty("playAreaCentre").vector2Value = (Vector2)boss.transform.position + Vector2.down * 0.5f;
+        arenaSettings.FindProperty("playAreaCentre").vector2Value = cameraCentre + Vector2.down * 1.45f;
+        arenaSettings.FindProperty("playAreaSize").vector2Value = new Vector2(16f, 10f);
         arenaSettings.ApplyModifiedPropertiesWithoutUndo();
+        var player = Object.FindAnyObjectByType<PlayerUnit>();
+        if (player)
+        {
+            player.transform.position = new Vector3(cameraCentre.x, cameraCentre.y - 4.3f, player.transform.position.z);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(player.transform);
+        }
         var exit = arenaRoot.GetComponent<BossFightStoryExit>() ?? arenaRoot.AddComponent<BossFightStoryExit>();
         var exitSettings = new SerializedObject(exit);
         exitSettings.FindProperty("boss").objectReferenceValue = boss;

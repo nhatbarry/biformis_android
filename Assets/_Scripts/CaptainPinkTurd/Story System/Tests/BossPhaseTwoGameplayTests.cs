@@ -74,6 +74,77 @@ namespace CaptainPinkTurd.Story.Tests
         }
         private IEnumerator Finish() => StoryTestLoading.WaitFor(() => !combat.CurrentAction.HasValue, 8f, "attack recovery");
 
+        [UnityTest, Timeout(90000)]
+        public IEnumerator NativeWalkAnimatesAndEveryAttackPlaysInAllFourDirections()
+        {
+            yield return Load();
+            dash.Value = true;
+            var directional = boss.GetComponent<BossDirectionalArt>();
+            var renderer = boss.GetComponent<SpriteRenderer>();
+            var roaming = boss.GetComponent<BossRoaming>();
+            Place((Vector2)boss.transform.position + Vector2.right * 5f, EColor.Blue);
+            roaming.enabled = true;
+            var walked = new HashSet<Sprite>();
+            for (float end = Time.time + 0.7f; Time.time < end;)
+            {
+                walked.Add(renderer.sprite);
+                yield return null;
+            }
+            Assert.Greater(walked.Count, 2, "walk plays source frames rather than wobbling a still sprite");
+            roaming.enabled = false;
+            var centre = Object.FindAnyObjectByType<BossArenaController>().PlayArea.center;
+            foreach (var direction in new[] { Vector2.down, Vector2.right, Vector2.up, Vector2.left })
+            {
+                foreach (BossPhaseTwoCombat.EAction action in System.Enum.GetValues(typeof(BossPhaseTwoCombat.EAction)))
+                {
+                    effects.ClearAll();
+                    boss.GetComponent<Rigidbody2D>().position = centre;
+                    boss.transform.position = new Vector3(centre.x, centre.y, boss.transform.position.z);
+                    Place(centre + direction * 3f, EColor.Blue);
+                    Assert.IsTrue(combat.TryAttack(action, EColor.Red));
+                    yield return StoryTestLoading.WaitFor(() => combat.CurrentFrame >= 2, 4f, "directional anticipation");
+                    Assert.AreEqual(BossDirectionalArt.ViewFor(direction), directional.CurrentDirection);
+                    var clip = directional.AttackClip(action, direction);
+                    Assert.AreEqual(clip.frames[combat.CurrentFrame], renderer.sprite);
+                    StringAssert.Contains("/" + directional.CurrentDirection + "/", AssetDatabase.GetAssetPath(renderer.sprite));
+                    Capture("native-" + directional.CurrentDirection + "-" + action);
+                    yield return Finish();
+                }
+            }
+            Assert.AreEqual(10, health.CurrentHealth);
+        }
+
+        [UnityTest, Timeout(60000)]
+        public IEnumerator RangedShotUsesTheFloorAndNewArtFacesAllFourDirections()
+        {
+            yield return Load();
+            dash.Value = true;
+            var bossArt = boss.GetComponent<SpriteRenderer>();
+            foreach (var direction in new[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right })
+            {
+                effects.ClearAll();
+                Place((Vector2)boss.transform.position + direction * 2.2f, EColor.Blue);
+                yield return null;
+                var playerArt = player.GetComponentsInChildren<SpriteRenderer>().Single(art => art.name == "Blue");
+                Assert.AreEqual("Character", bossArt.sortingLayerName);
+                if (direction == Vector2.up) Assert.Less(playerArt.sortingOrder, bossArt.sortingOrder, "player above boss goes behind");
+                if (direction == Vector2.down) Assert.Greater(playerArt.sortingOrder, bossArt.sortingOrder, "player below boss goes in front");
+                var directional = boss.GetComponent<BossDirectionalArt>();
+                Assert.AreEqual(BossDirectionalArt.ViewFor(direction), directional.CurrentDirection);
+                StringAssert.Contains("Phase Two Top Down X2", AssetDatabase.GetAssetPath(directional.CurrentView));
+                int before = effects.TotalShotsEmitted;
+                Assert.IsTrue(combat.TryAttack(BossPhaseTwoCombat.EAction.RangedCharge, EColor.Red));
+                yield return StoryTestLoading.WaitFor(() => effects.TotalShotsEmitted == before + 1, 4f, "floor-directed shot");
+                var streak = Object.FindObjectsByType<LineRenderer>(FindObjectsSortMode.None).Single(line => line.name == "Shot Streak Colour");
+                Vector2 travel = (streak.GetPosition(1) - streak.GetPosition(0)).normalized;
+                Assert.Greater(Vector2.Dot(travel, direction), 0.97f,
+                    "aim is based on floor positions, including targets directly above the boss");
+                if (direction == Vector2.up) Capture("top-down-north-shot");
+                yield return Finish();
+            }
+            Assert.AreEqual(10, health.CurrentHealth);
+        }
+
         [UnityTest, Timeout(60000)]
         public IEnumerator BossRoamsInBothPhasesAndHoldsOnlyForChargedAttacks()
         {
@@ -162,9 +233,14 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.IsTrue(combat.TryAttack(BossPhaseTwoCombat.EAction.DashStab, EColor.Blue));
             Assert.IsTrue(combat.WarningVisible);
             yield return new WaitForSeconds(0.2f);
+            Assert.Less(Vector4.Distance(boss.GetComponent<BossDirectionalArt>().KnifeColour,
+                BossPhaseTwoEffects.Colour(EColor.Blue)), 0.01f, "the windup knife shows the incoming colour");
             Capture("dash-warning");
             Place(origin + new Vector2(3f, 2f), EColor.Red); //warning tracks until release
             Vector2 locked = player.rb.position;
+            yield return StoryTestLoading.WaitFor(() => effects.TotalAfterimagesEmitted >= 12, 4f, "dense dash afterimages");
+            Assert.Greater(effects.ActiveAfterimageCount, 8);
+            Capture("dash-afterimages");
             yield return Finish();
             Assert.Less(Vector2.Distance(locked, combat.LockedTarget),0.05f);
             Assert.Greater(Vector2.Dot((Vector2)boss.transform.position - locked, (locked-origin).normalized), 0.4f);
@@ -185,44 +261,77 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         [UnityTest, Timeout(60000)]
-        public IEnumerator ChargedShotSplitsIntoThreeStraightTrailedBulletsAndPauses()
+        public IEnumerator ChargedShotWarnsThenFiresOneInstantStreakWithLaunchImpactAndPauses()
         {
             yield return Load();
             Place((Vector2)boss.transform.position + Vector2.right * 6f, EColor.Blue);
             dash.Value = true;
+            bool frozenAtRelease = false;
+            combat.OnSkillCue.Subscribe(cue =>
+            {
+                if (cue == BossPhaseTwoCombat.ECue.SpawnRangedSkill) frozenAtRelease = HitStop.IsWaiting && Time.timeScale == 0f;
+            });
             Assert.IsTrue(combat.TryAttack(BossPhaseTwoCombat.EAction.RangedCharge, EColor.Red));
+            Assert.IsTrue(combat.WarningVisible);
             yield return StoryTestLoading.WaitFor(() => combat.CurrentFrame == 3, 4f, "charge pose");
             Assert.IsTrue(effects.IsCharging);
+            Assert.IsTrue(combat.WarningVisible, "the coloured ! remains throughout windup");
+            Assert.Less(Vector4.Distance(combat.WarningColour, BossPhaseTwoEffects.Colour(EColor.Red)), 0.01f);
             Capture("ranged-charge");
-            yield return StoryTestLoading.WaitFor(() => effects.TotalShotsEmitted == 3, 4f, "three-shot release");
+            yield return StoryTestLoading.WaitFor(() => effects.TotalShotsEmitted == 1, 4f, "single-shot release");
             Assert.IsFalse(effects.IsCharging);
+            Assert.IsFalse(combat.WarningVisible);
+            Assert.IsTrue(frozenAtRelease);
+            Assert.IsTrue(Object.FindAnyObjectByType<BossArenaController>().IsShaking);
+            Assert.GreaterOrEqual(effects.ShotSpeed, 1000f);
             Vector2 target = combat.LockedTarget;
-            var shots = Object.FindObjectsByType<SpriteRenderer>(FindObjectsSortMode.None)
-                .Where(art => art.name == "Projectile" && art.transform.parent.name.StartsWith("Boss Energy Shot")).ToArray();
-            Assert.AreEqual(3, shots.Length);
-            var initial = shots.Select(art => (Vector2)art.transform.parent.position).ToArray();
+            var streak = Object.FindObjectsByType<LineRenderer>(FindObjectsSortMode.None).Single(line => line.name == "Shot Streak Colour");
+            Assert.Greater(Vector3.Distance(streak.GetPosition(0), streak.GetPosition(1)), 20f);
+            Assert.Less(Vector4.Distance(streak.startColor, BossPhaseTwoEffects.Colour(EColor.Red)), 0.01f);
             Place(player.rb.position + Vector2.up * 1.5f, EColor.Blue);
-            yield return new WaitForSeconds(0.2f);
-            var directions = shots.Select((art, i) => ((Vector2)art.transform.parent.position - initial[i]).normalized).ToArray();
+            yield return StoryTestLoading.WaitFor(() => !HitStop.IsWaiting, 3f, "launch hit-stop ends");
             Assert.AreEqual(target, combat.LockedTarget);
-            float fan = directions.Max(first => directions.Max(second => Vector2.Angle(first, second)));
-            Assert.That(fan, Is.InRange(54f, 66f), "three shots spread broadly into separate directions");
-            Vector2 generalAim = (target - initial[1]).normalized;
-            Assert.IsTrue(directions.All(direction => Vector2.Dot(direction, generalAim) > 0.7f),
-                "all three shots still head roughly towards the player's position at release");
-            var trails = Object.FindObjectsByType<LineRenderer>(FindObjectsSortMode.None).Where(line => line.name == "Coloured Trail").ToArray();
-            Assert.AreEqual(3, trails.Length);
-            Assert.IsTrue(trails.All(line => line.positionCount >= 3));
-            Assert.IsTrue(trails.All(line => Vector4.Distance(line.startColor, BossPhaseTwoEffects.Colour(EColor.Red)) < 0.009f));
-            Capture("three-shot-trails");
+            Capture("single-shot-streak");
             Time.timeScale = 0f;
-            var paused = shots.Select(art => art.transform.parent.position).ToArray();
+            var tint = streak.startColor;
             yield return new WaitForSecondsRealtime(0.35f);
-            CollectionAssert.AreEqual(paused, shots.Select(art => art.transform.parent.position).ToArray());
+            Assert.AreEqual(tint, streak.startColor, "a real pause freezes streak fade");
             Time.timeScale = 1f;
             boss.TakeDamage(new SDamageData(1, player.gameObject));
             yield return StoryTestLoading.WaitFor(() => effects.ActiveProjectileCount == 0, 4f, "ram clears phase-two projectiles");
             yield return Finish();
+            Assert.AreEqual(1, effects.TotalShotsEmitted);
+        }
+
+        [UnityTest, Timeout(60000)]
+        public IEnumerator ExtremelyFastShotSweepsThePlayerAndOnlyAcceptedDamageShakes()
+        {
+            yield return Load();
+            Place((Vector2)boss.transform.position + new Vector2(4f, -1f), EColor.Red);
+            var rules = boss.GetComponent<BossHazards>();
+            var arena = Object.FindAnyObjectByType<BossArenaController>();
+            Vector2 centre = rules.PlayerHitPosition;
+            effects.FireShot(centre - Vector2.right * 5f, Vector2.right, EColor.Red);
+            yield return new WaitForSeconds(0.15f);
+            Assert.AreEqual(10, health.CurrentHealth);
+            Assert.AreEqual(0, rules.TotalPlayerImpacts);
+            effects.FireShot(centre - Vector2.right * 5f, Vector2.right, EColor.Blue);
+            yield return StoryTestLoading.WaitFor(() => health.CurrentHealth == 9, 3f, "swept opposite-colour hit");
+            Assert.AreEqual(1, rules.TotalPlayerImpacts);
+            Assert.IsTrue(HitStop.IsWaiting);
+            Assert.IsTrue(arena.IsShaking);
+            rules.HitPlayer(EColor.Blue);
+            Assert.AreEqual(1, rules.TotalPlayerImpacts, "invincibility frames do not generate another impact");
+            yield return StoryTestLoading.WaitFor(() => !HitStop.IsWaiting, 3f, "hit-stop recovery");
+            yield return new WaitForSeconds(0.3f);
+            Assert.IsFalse(arena.IsShaking);
+            Assert.AreEqual(1f, Time.timeScale);
+            yield return StoryTestLoading.WaitFor(() => !health.IsInvincibilityFrameOn, 4f, "damage cooldown");
+            dash.Value = true;
+            effects.FireShot(rules.PlayerHitPosition - Vector2.right * 5f, Vector2.right, EColor.Blue);
+            yield return new WaitForSeconds(0.15f);
+            Assert.AreEqual(9, health.CurrentHealth);
+            Assert.AreEqual(1, rules.TotalPlayerImpacts);
         }
 
         [UnityTest, Timeout(60000)]

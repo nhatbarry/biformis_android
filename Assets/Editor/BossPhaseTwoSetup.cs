@@ -15,6 +15,11 @@ public static class BossPhaseTwoSetup
     [MenuItem("Biformis/Configure Boss Phase Two Assets")]
     public static void Configure()
     {
+        if (File.Exists(BossTopDownPackSetup.Art + "manifest.json"))
+        {
+            BossTopDownPackSetup.Configure();
+            return;
+        }
         AssetDatabase.Refresh();
         var actions = new[]
         {

@@ -52,7 +52,8 @@ namespace CaptainPinkTurd.Game.Enemy
         private void LateUpdate()
         {
             // Sprite bounds include the sheets' transparent canvas; use the actual hood/head height plus its rise.
-            bar.position = transform.position + Vector3.up * ((boss.IsFrozen ? 3.45f : 2.85f) + boss.VisualLift);
+            float height = boss.IsFrozen ? 3.45f : boss.Phase == PlagueDoctorBoss.EPhase.RedHaired ? 3.12f : 2.85f;
+            bar.position = transform.position + Vector3.up * (height + boss.VisualLift);
             int maximum = boss.PhaseMaximumHealth;
             int health = boss.PhaseHealth;
             label.text = $"{health}/{maximum}";

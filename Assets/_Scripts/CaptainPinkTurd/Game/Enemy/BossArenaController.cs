@@ -15,7 +15,7 @@ namespace CaptainPinkTurd.Game.Enemy
         [SerializeField] private PlagueDoctorBoss boss;
         [SerializeField] private Vector2 cameraCentre;
         [SerializeField] private Vector2 playAreaCentre;
-        [SerializeField] private Vector2 playAreaSize = new(18f, 7f);
+        [SerializeField] private Vector2 playAreaSize = new(16f, 10f);
         [SerializeField] private float combatSize = 6.5f;
         [SerializeField] private float closeUpSize = 3f;
         [SerializeField] private float zoomSeconds = 0.65f;
@@ -27,28 +27,45 @@ namespace CaptainPinkTurd.Game.Enemy
         private float viewSize;
         private RigidbodyConstraints2D playerConstraints;
         private Vector2 playerPosition;
+        private float shakeRemaining, shakeDuration, shakeStrength, shakeElapsed;
         private readonly List<(Canvas canvas, GraphicRaycaster raycaster, bool raycasts)> hiddenUi = new();
         public bool IsPresentingPhaseTwo { get; private set; }
         public float CurrentAuthoredSize => viewSize;
+        public bool IsShaking => shakeRemaining > 0f;
+
+        public void ShakeImpact(float strength, float seconds = 0.18f)
+        {
+            if (IsPresentingPhaseTwo) return;
+            shakeStrength = Mathf.Max(shakeRemaining > 0f ? shakeStrength : 0f, strength);
+            shakeDuration = shakeRemaining = Mathf.Max(shakeRemaining, seconds);
+            shakeElapsed = 0f;
+        }
 
         public Rect PlayArea
         {
             get
             {
                 float aspect = arenaCamera ? arenaCamera.aspect : 16f / 9f;
-                float halfHeight = Mathf.Min(combatSize, combatSize * (16f / 9f) / aspect);
+                // The open boss floor preserves its vertical depth on wide phones.
+                float halfHeight = combatSize;
                 var view = new Rect(cameraCentre - new Vector2(halfHeight * aspect, halfHeight),
                     new Vector2(halfHeight * aspect * 2f, halfHeight * 2f));
                 var intended = new Rect(playAreaCentre - playAreaSize * 0.5f, playAreaSize);
                 return Rect.MinMaxRect(Mathf.Max(intended.xMin, view.xMin + 0.5f),
                     Mathf.Max(intended.yMin, view.yMin + 0.5f),
                     Mathf.Min(intended.xMax, view.xMax - 0.5f),
-                    Mathf.Min(intended.yMax, view.yMax - 0.5f));
+                    Mathf.Min(intended.yMax, view.yMax - 3.85f)); // full boss, HP and levitation stay in frame
             }
         }
 
         private void Awake()
         {
+            // Older open Editor scenes may still serialize the former horizontal strip.
+            if (playAreaSize == new Vector2(18f, 7f))
+            {
+                playAreaSize = new Vector2(16f, 10f);
+                playAreaCentre = cameraCentre + Vector2.down * 1.45f;
+            }
             if (!arenaCamera) arenaCamera = Camera.main;
             if (!boss) boss = FindAnyObjectByType<PlagueDoctorBoss>();
             player = FindAnyObjectByType<PlayerUnit>();
@@ -61,9 +78,22 @@ namespace CaptainPinkTurd.Game.Enemy
         {
             if (arenaCamera)
             {
-                arenaCamera.transform.position = new Vector3(viewCentre.x, viewCentre.y, -10f);
+                Vector2 offset = Vector2.zero;
+                if (shakeRemaining > 0f)
+                {
+                    // The arena fixes the camera each frame, so apply shake around that anchor here.
+                    // Hit-stop may animate the impact; an actual menu pause must freeze it.
+                    if (Time.timeScale > 0f || CaptainPinkTurd.Core.Utilities.HitStop.IsWaiting)
+                    {
+                        shakeRemaining = Mathf.Max(0f, shakeRemaining - Time.unscaledDeltaTime);
+                        shakeElapsed += Time.unscaledDeltaTime;
+                    }
+                    float force = shakeStrength * (shakeRemaining / shakeDuration);
+                    offset = new Vector2(Mathf.Sin(shakeElapsed * 89f), Mathf.Sin(shakeElapsed * 113f)) * force;
+                }
+                arenaCamera.transform.position = new Vector3(viewCentre.x + offset.x, viewCentre.y + offset.y, -10f);
                 if (!framing) framing = FindAnyObjectByType<CameraFraming>();
-                if (framing) framing.SetAuthoredSize(arenaCamera, viewSize);
+                if (framing) framing.SetAuthoredSize(arenaCamera, viewSize, preserveVertical: true);
                 else arenaCamera.orthographicSize = viewSize;
             }
             if (player && player.gameObject.activeInHierarchy)

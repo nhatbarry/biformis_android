@@ -62,6 +62,7 @@ namespace CaptainPinkTurd.Story.Tests
             var camera = Camera.main;
             Vector3 origin = camera.transform.position;
             float size = camera.orthographicSize;
+            Assert.Greater(arena.PlayArea.height, 8f, "top-down floor must leave room to move above and below the boss");
             var thumb = TouchHud.PushStick(Vector2.right);
             yield return new WaitForSeconds(3f);
             TouchHud.LetGoOfStick(thumb);
@@ -157,7 +158,7 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.AreEqual(6.5f, arena.CurrentAuthoredSize, 0.001f);
             yield return null;
             Assert.AreEqual(originalCamera, camera.transform.position);
-            Assert.AreEqual(settings.FindProperty("phaseTwoRestingPose").objectReferenceValue, sprite.sprite);
+            StringAssert.Contains("Phase Two Top Down X2", AssetDatabase.GetAssetPath(sprite.sprite));
             Assert.IsFalse(boss.IsInvulnerable);
             Assert.AreEqual("8/8", boss.GetComponent<BossHealthBar>().DisplayedHealth);
             Capture("phase-two-wide", arena, 1280, 576);

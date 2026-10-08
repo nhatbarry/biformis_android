@@ -140,7 +140,7 @@ namespace CaptainPinkTurd.Story.Tests
             yield return new WaitForSeconds(1.2f);
             foreach (float aspect in new[] { 20f / 9f, 21f / 9f })
             {
-                float halfHeight = 6.5f * (16f / 9f) / aspect;
+                float halfHeight = 6.5f; // boss arena preserves floor depth across phone aspect ratios
                 float cameraY = Camera.main.transform.position.y;
                 float highestHealth = boss.transform.position.y + 2.85f + 12f / 12.8f + 0.4f;
                 Assert.Less(highestHealth, cameraY + halfHeight, "the levitating boss health must fit a wide phone");
@@ -221,7 +221,7 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.AreEqual(0, deaths, "phase one is not boss death");
             Assert.AreEqual(8, boss.PhaseHealth);
             Assert.AreEqual("8/8", boss.GetComponent<BossHealthBar>().DisplayedHealth);
-            Assert.AreEqual(settings.FindProperty("phaseTwoRestingPose").objectReferenceValue, boss.GetComponent<SpriteRenderer>().sprite);
+            StringAssert.Contains("Phase Two Top Down X2", AssetDatabase.GetAssetPath(boss.GetComponent<SpriteRenderer>().sprite));
             Assert.IsNull(Object.FindAnyObjectByType<Door>());
             Assert.AreEqual(0, hazards.ActiveProjectileCount);
             Assert.AreEqual(0, hazards.ActiveStrikeCount);
