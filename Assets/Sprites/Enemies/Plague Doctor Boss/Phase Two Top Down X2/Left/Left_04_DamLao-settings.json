@@ -1,0 +1,150 @@
+{
+  "animation": "Left_04_DamLao",
+  "direction": "Left",
+  "action": "dash",
+  "frames": 9,
+  "cellPixels": [
+    749,
+    564
+  ],
+  "sheetPixels": [
+    6741,
+    564
+  ],
+  "pivotPixelsFromTopLeft": [
+    336,
+    426
+  ],
+  "pivotNormalizedUnity": [
+    0.4485981308411215,
+    0.24468085106382975
+  ],
+  "frameDurationsMs": [
+    180,
+    110,
+    180,
+    40,
+    50,
+    60,
+    140,
+    130,
+    260
+  ],
+  "durationMs": 1150,
+  "loopInUnity": false,
+  "pixelsPerUnitSuggested": 110.93,
+  "knifeLengthMultiplier": 2,
+  "camera": "Elevated orthographic top-down 3/4",
+  "unityEvents": {
+    "BeginDash": {
+      "frame": 4,
+      "timeMs": 470
+    },
+    "StabHit": {
+      "frame": 5,
+      "timeMs": 510
+    },
+    "EndDash": {
+      "frame": 7,
+      "timeMs": 620
+    }
+  },
+  "sourceFootAnchors": [
+    [
+      222,
+      288
+    ],
+    [
+      139,
+      318
+    ],
+    [
+      202,
+      314
+    ],
+    [
+      128,
+      260
+    ],
+    [
+      262,
+      216
+    ],
+    [
+      280,
+      217
+    ],
+    [
+      134,
+      302
+    ],
+    [
+      152,
+      278
+    ],
+    [
+      197,
+      284
+    ]
+  ],
+  "sourceCellRectangles": [
+    [
+      0,
+      26,
+      544,
+      378
+    ],
+    [
+      545,
+      9,
+      1038,
+      381
+    ],
+    [
+      1039,
+      10,
+      1530,
+      344
+    ],
+    [
+      0,
+      382,
+      450,
+      666
+    ],
+    [
+      491,
+      406,
+      982,
+      666
+    ],
+    [
+      983,
+      405,
+      1535,
+      666
+    ],
+    [
+      23,
+      667,
+      510,
+      1024
+    ],
+    [
+      511,
+      666,
+      993,
+      1024
+    ],
+    [
+      993,
+      666,
+      1522,
+      1003
+    ]
+  ],
+  "sourceArtworkPreserved": true,
+  "layer": "Artwork",
+  "recommendedMaxTextureSize": 8192,
+  "previewMovementOnly": true
+}

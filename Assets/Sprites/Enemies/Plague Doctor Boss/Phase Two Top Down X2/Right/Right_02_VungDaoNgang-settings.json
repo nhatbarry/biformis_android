@@ -1,0 +1,141 @@
+{
+  "animation": "Right_02_VungDaoNgang",
+  "direction": "Right",
+  "action": "slash",
+  "frames": 9,
+  "cellPixels": [
+    749,
+    564
+  ],
+  "sheetPixels": [
+    6741,
+    564
+  ],
+  "pivotPixelsFromTopLeft": [
+    336,
+    426
+  ],
+  "pivotNormalizedUnity": [
+    0.4485981308411215,
+    0.24468085106382975
+  ],
+  "frameDurationsMs": [
+    160,
+    110,
+    160,
+    50,
+    60,
+    90,
+    100,
+    110,
+    220
+  ],
+  "durationMs": 1060,
+  "loopInUnity": false,
+  "pixelsPerUnitSuggested": 111.36,
+  "knifeLengthMultiplier": 2,
+  "camera": "Elevated orthographic top-down 3/4",
+  "unityEvents": {
+    "SlashHit": {
+      "frame": 5,
+      "timeMs": 480
+    }
+  },
+  "sourceFootAnchors": [
+    [
+      135,
+      354
+    ],
+    [
+      160,
+      367
+    ],
+    [
+      176,
+      353
+    ],
+    [
+      126,
+      305
+    ],
+    [
+      46,
+      307
+    ],
+    [
+      51,
+      306
+    ],
+    [
+      146,
+      312
+    ],
+    [
+      122,
+      308
+    ],
+    [
+      94,
+      308
+    ]
+  ],
+  "sourceCellRectangles": [
+    [
+      0,
+      13,
+      440,
+      435
+    ],
+    [
+      453,
+      9,
+      858,
+      435
+    ],
+    [
+      859,
+      23,
+      1290,
+      435
+    ],
+    [
+      0,
+      436,
+      478,
+      806
+    ],
+    [
+      479,
+      435,
+      914,
+      806
+    ],
+    [
+      915,
+      435,
+      1279,
+      806
+    ],
+    [
+      0,
+      806,
+      445,
+      1154
+    ],
+    [
+      445,
+      806,
+      888,
+      1186
+    ],
+    [
+      888,
+      806,
+      1294,
+      1202
+    ]
+  ],
+  "sourceArtworkPreserved": true,
+  "layer": "Artwork",
+  "recommendedMaxTextureSize": 8192
+}

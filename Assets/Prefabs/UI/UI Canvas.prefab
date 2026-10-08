@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 2487214155829461080}
   - component: {fileID: 584870253807077818}
   - component: {fileID: 1849661891298533061}
+  - component: {fileID: 5656082625264179846}
   m_Layer: 5
   m_Name: Player Avatar
   m_TagString: Untagged
@@ -261,6 +262,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5656082625264179846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3221555335552435235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc037720974e04eb118d798e8911c2, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Player.PlayerAvatarHealthBar
+  font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
 --- !u!1 &3991088014202356456
 GameObject:
   m_ObjectHideFlags: 0

@@ -1416,12 +1416,12 @@ MonoBehaviour:
   clips:
   - name: idle
     frames:
-    - {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -6561030935056219886, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 8634346976509192572, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 4023709547350312664, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -1633575573268472445, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 3926721986335232373, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: -1803261112779640042, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 7165841344694521523, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -1602805329317606587, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -1462281546053470030, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 8945776411000578418, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 2908879397827126349, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
     durations:
     - 0.1
     - 0.1
@@ -1432,13 +1432,43 @@ MonoBehaviour:
     loop: 1
     repeat: 0
     next: 
+  - name: idle_faded
+    frames:
+    - {fileID: 4067779396534034758, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -8163814525105365487, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 1465365235754925097, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 2421044812199887407, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -3622873280065245444, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -9003064594758518052, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    durations:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
+    loop: 1
+    repeat: 0
+    next: 
+  - name: fade
+    frames:
+    - {fileID: -243519277112143265, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -5399273733756576393, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: -6084803403973464558, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    durations:
+    - 0.12
+    - 0.12
+    - 0.16
+    loop: 0
+    repeat: 0
+    next: 
   - name: vanish
     frames:
-    - {fileID: -8535815304227403633, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 5236697204967630931, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 6537326634732262546, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: 4895297822662750871, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
-    - {fileID: -8171769383401927316, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+    - {fileID: -8330552291364265455, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 2839322056979491953, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 7459684828470464727, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 4019233841254421673, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
+    - {fileID: 1801670424926247494, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
     durations:
     - 0.11
     - 0.11
@@ -1468,7 +1498,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 9184304037435487149, guid: 3dc3b64f18d0af043a6dfb19b2f1bda6, type: 3}
+  m_Sprite: {fileID: -1803261112779640042, guid: aebf0760db4fa0a4da41b9e0b8ae8abf, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1968,7 +1998,6 @@ MonoBehaviour:
   bangInterval: 0.56
   bangIntervalRandom: 0.12
   knockText: {fileID: 1882981767}
-  stagePointer: {fileID: 1308474660}
   reachPrompt: {fileID: 623140567}
   reachHint: {fileID: 1579957766}
   reachSpeed: 160
@@ -5532,7 +5561,6 @@ GameObject:
   - component: {fileID: 1308474658}
   - component: {fileID: 1308474657}
   - component: {fileID: 1308474656}
-  - component: {fileID: 1308474660}
   m_Layer: 0
   m_Name: Stage Tap
   m_TagString: Untagged
@@ -5609,18 +5637,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1308474660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308474655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc77dda3b9e998b4eb33f0943de22528, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StagePointer
 --- !u!1 &1311855381
 GameObject:
   m_ObjectHideFlags: 0

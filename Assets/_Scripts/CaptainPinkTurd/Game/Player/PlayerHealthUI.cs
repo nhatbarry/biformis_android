@@ -71,6 +71,8 @@ namespace CaptainPinkTurd.Game.Player
 
         public void OnPlayerColorChangeEvent(EColor newColor)
         {
+            // Serialized colour events may still call the old, disabled health widget.
+            if (!isActiveAndEnabled) return;
             if (hpColors.TryGetValue(newColor, out var color))
             {
                 for(int i = 0; i < hpGroup.transform.childCount; i++)

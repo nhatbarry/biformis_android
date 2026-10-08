@@ -30,8 +30,18 @@ namespace CaptainPinkTurd.Core.Rendering
 
         /// <summary>The size each camera was authored with, so repeated passes never compound the shrink.</summary>
         private readonly Dictionary<Camera, float> authoredSizes = new();
+        private readonly HashSet<Camera> verticalFraming = new();
 
         private readonly List<Camera> targets = new();
+
+        /// <summary>A cinematic changes its authored lens; an open arena may preserve vertical floor depth.</summary>
+        public void SetAuthoredSize(Camera camera, float size, bool preserveVertical = false)
+        {
+            if (!camera) return;
+            authoredSizes[camera] = Mathf.Max(0.01f, size);
+            if (preserveVertical) verticalFraming.Add(camera);
+            else verticalFraming.Remove(camera);
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void AutoSpawn()
@@ -97,7 +107,7 @@ namespace CaptainPinkTurd.Core.Rendering
 
             // authored * DesignAspect is the half-width the game was framed around. Never grow past the
             // authored size, so a screen narrower than 16:9 crops horizontally rather than revealing more.
-            return Mathf.Min(authored, authored * DesignAspect / aspect);
+            return verticalFraming.Contains(camera) ? authored : Mathf.Min(authored, authored * DesignAspect / aspect);
         }
 
         /// <summary>Drops cameras that went away with an unloaded scene.</summary>
@@ -111,7 +121,11 @@ namespace CaptainPinkTurd.Core.Rendering
                 if (!key) dead.Add(key);
             }
 
-            foreach (var key in dead) authoredSizes.Remove(key);
+            foreach (var key in dead)
+            {
+                authoredSizes.Remove(key);
+                verticalFraming.Remove(key);
+            }
         }
     }
 }

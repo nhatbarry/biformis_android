@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
+using UnityEditor;
 
 namespace CaptainPinkTurd.Story.Tests
 {
@@ -65,11 +66,12 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         /// <summary>
-        /// At the end of Level 4 the player walks B up to A and takes the box. On a phone: hold a finger where B should
-        /// go, then tap once B stands next to A. A tap while B is still far away does nothing.
+        /// At the end of Level 4 the player walks B up to A and takes the box. On a phone the touch HUD comes up with
+        /// just its joystick and "!" button: steer B to A, and the button lights up; pressing it takes the box. A tap on
+        /// the stage, or the button while B is still far away, does nothing.
         /// </summary>
         [UnityTest, Timeout(180000)]
-        public IEnumerator TheBoxIsWalkedToAndTakenOnATouchScreen()
+        public IEnumerator TheBoxIsWalkedToAndTakenWithTheTouchControls()
         {
             LogAssert.ignoreFailingMessages = true;
             var data = UnityEditor.AssetDatabase.LoadAssetAtPath<Scene.Story.StoryData>("Assets/Game Data/Story/Story Data.asset");
@@ -77,7 +79,9 @@ namespace CaptainPinkTurd.Story.Tests
             while (data.Steps[step].knotName != "Level4_End") step++;
             SceneManager.LoadScene("Core");
             yield return WaitFor(() => GameObject.Find(StoryMenu.LEVEL_SELECT_BUTTON_NAME) != null, 40f, "main menu");
+            TouchHud.Ensure();
             yield return WaitFor(() => !Scene.SceneController.Instance.IsBusy, 10f, "menu transition");
+            Assert.IsNull(TouchHud.Find("Move Zone"), "the touch controls show in the menu");
             Object.FindAnyObjectByType<StoryMenu>().StartAtStep(step);
             yield return WaitFor(() => DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsPlaying, 40f, "the end of Level 4");
             linesShown = 0;
@@ -88,44 +92,35 @@ namespace CaptainPinkTurd.Story.Tests
             var a = stage.ReachTarget;
             var b = (RectTransform)a.parent.Find("B4");
             var box = (RectTransform)a.parent.Find("Box");
+            yield return null;
+
+            CollectionAssert.AreEquivalent(new[] { "Move Zone", "Interact" },
+                TouchHud.Shown("Move Zone", "Interact", "Run And Dash", "Switch Dimension", "Pause"), "the touch controls shown for walking B");
+            Assert.AreEqual("red_disabled", TouchHud.Clip("Interact"), "the button is lit while B is far from A");
 
             Tap(new Vector2(Screen.width * 0.95f, Screen.height / 2f), "while B is far from A");
-            yield return null;
-            Assert.IsTrue(stage.IsReaching, "a tap while B is far from A took the box");
+            yield return TouchHud.Tap("Interact");
+            Assert.IsTrue(stage.IsReaching, "a tap or the button while B is far from A took the box");
 
-            //hold a finger on A: B walks up to A, turns to it, and stops before walking into it
-            var finger = Press(RectTransformUtility.WorldToScreenPoint(null, a.position), "on A");
+            //push the joystick towards A: B walks up to it, turns to it, and stops before walking into it
+            var thumb = TouchHud.PushStick(Vector2.left);
             yield return WaitFor(() => b.anchoredPosition.x - a.anchoredPosition.x <= 76f, 6f, "B to walk up to A");
             yield return new WaitForSecondsRealtime(0.5f);
             Assert.GreaterOrEqual(b.anchoredPosition.x - a.anchoredPosition.x, 59.9f, "B walked into A");
             Assert.Less(b.localScale.x, 0f, "B doesn't face A");
-            ExecuteEvents.Execute(finger.pointerPress, finger, ExecuteEvents.pointerUpHandler);
+            TouchHud.LetGoOfStick(thumb);
+            Assert.AreEqual("red_ready", TouchHud.Clip("Interact"), "the button doesn't light up with B next to A");
 
-            yield return WaitFor(() => GameObject.Find("Take Prompt") != null, 2f, "the take prompt over B");
             Tap(new Vector2(Screen.width / 2f, Screen.height / 2f), "next to A");
             yield return null;
-            Assert.IsFalse(stage.IsReaching, "a tap with B next to A didn't take the box");
+            Assert.IsTrue(stage.IsReaching, "a tap on the stage took the box: only the button should");
+
+            yield return TouchHud.Tap("Interact");
+            Assert.IsFalse(stage.IsReaching, "the lit button didn't take the box");
             yield return new WaitForSecondsRealtime(0.2f);
             Assert.Less(Vector2.Distance(box.anchoredPosition, b.anchoredPosition + new Vector2(-18f, 4f)), 0.5f, "the box isn't in B's hand");
+            Assert.IsNull(TouchHud.Find("Move Zone"), "the touch controls stay up after the box is taken");
             yield return WaitFor(() => linesShown > 0, 15f, "the first line of the past");
-        }
-
-        //a finger put down (and kept) on the stage, as the event system delivers it
-        private static PointerEventData Press(Vector2 screenPoint, string where)
-        {
-            var eventSystem = EventSystem.current;
-            var pointer = new PointerEventData(eventSystem) { position = screenPoint, pointerId = 0 };
-            var hits = new List<RaycastResult>();
-            eventSystem.RaycastAll(pointer, hits);
-            Assert.IsNotEmpty(hits, $"a finger {where} hits nothing");
-            var target = ExecuteEvents.GetEventHandler<IPointerDownHandler>(hits[0].gameObject);
-            Assert.IsNotNull(target, $"a finger {where} lands on {hits[0].gameObject.name}, which doesn't take presses");
-            Assert.IsNotNull(target.GetComponent<StagePointer>(), $"a finger {where} goes to {target.name}, not the stage");
-            pointer.pointerCurrentRaycast = pointer.pointerPressRaycast = hits[0];
-            pointer.pointerPress = target;
-            pointer.pressPosition = screenPoint;
-            ExecuteEvents.Execute(target, pointer, ExecuteEvents.pointerDownHandler);
-            return pointer;
         }
 
         private IEnumerator OpenIntro()
@@ -156,7 +151,20 @@ namespace CaptainPinkTurd.Story.Tests
 
         private void OnLine(DialogueInfo info)
         {
-            if (info.line != null) linesShown++;
+            if (info.line == null) return;
+            linesShown++;
+            var style = Object.FindAnyObjectByType<DialogueSpeakerStyle>(FindObjectsInactive.Include);
+            if (!style) return;
+            var settings = new SerializedObject(style);
+            var portrait = settings.FindProperty("portraitFrame").objectReferenceValue as GameObject;
+            Assert.IsNotNull(portrait);
+            Assert.IsFalse(portrait.activeSelf, "dialogue must not reveal an avatar when the speaker changes");
+            var blocks=settings.FindProperty("textBlocks");
+            for(int i=0;i<blocks.arraySize;i++)
+            {
+                var block=blocks.GetArrayElementAtIndex(i).objectReferenceValue as RectTransform;
+                Assert.Less(block.offsetMin.x,30f,"text must reclaim the portrait column");
+            }
         }
 
         private static Vector2 PanelCentre()

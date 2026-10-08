@@ -128,8 +128,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: AnimationSystem::CaptainPinkTurd.AnimationSystem.BasicVfxAnimationController
   onAwakeEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   onEnableEvents:
     Value:
       m_PersistentCalls:
@@ -141,8 +143,10 @@ MonoBehaviour:
         m_Calls: []
     Key: 0
   onStartEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   spawnedFromPool: 0
   vfxAnimation: {fileID: 6951144708542005987, guid: 3a6bc966bdf25c947b806abf35e9d24f, type: 3}
   vfxSfx:
@@ -536,8 +540,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: RPGSystem::CaptainPinkTurd.RPG.PlayerAnimationController
   onAwakeEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   onEnableEvents:
     Value:
       m_PersistentCalls:
@@ -549,8 +555,10 @@ MonoBehaviour:
         m_Calls: []
     Key: 0
   onStartEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   spawnedFromPool: 0
   idleAnimationClips:
   - Value: {fileID: -1331522051837801268, guid: 061563945c8d5b444adc94291377af3a, type: 3}
@@ -572,7 +580,6 @@ MonoBehaviour:
     Key: 3
   spriteFlipDirections: 03000000
   currentMovementInput: {fileID: 11400000, guid: 8c16d940aae91804b838e76399cff9f1, type: 2}
-  currentPlayerSpeed: {fileID: 11400000, guid: bedb67a39e6f79441aa7b289b3c9099a, type: 2}
   directionMode: 0
   playerCurrentDirectionState: 0
 --- !u!114 &668147809688098349
@@ -5948,8 +5955,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: RPGSystem::CaptainPinkTurd.RPG.PlayerAnimationController
   onAwakeEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   onEnableEvents:
     Value:
       m_PersistentCalls:
@@ -5961,8 +5970,10 @@ MonoBehaviour:
         m_Calls: []
     Key: 0
   onStartEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   spawnedFromPool: 0
   idleAnimationClips:
   - Value: {fileID: -1331522051837801268, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
@@ -5984,7 +5995,6 @@ MonoBehaviour:
     Key: 3
   spriteFlipDirections: 03000000
   currentMovementInput: {fileID: 11400000, guid: 8c16d940aae91804b838e76399cff9f1, type: 2}
-  currentPlayerSpeed: {fileID: 11400000, guid: bedb67a39e6f79441aa7b289b3c9099a, type: 2}
   directionMode: 0
   playerCurrentDirectionState: 0
 --- !u!114 &406226696519497675
@@ -6430,8 +6440,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnitSystem::CaptainPinkTurd.UnitSystem.PlayerUnit
   onAwakeEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   onEnableEvents:
     Value:
       m_PersistentCalls:
@@ -6443,8 +6455,10 @@ MonoBehaviour:
         m_Calls: []
     Key: 0
   onStartEvents:
-    m_PersistentCalls:
-      m_Calls: []
+    Value:
+      m_PersistentCalls:
+        m_Calls: []
+    Key: 0
   spawnedFromPool: 0
   unitInfo: {fileID: 11400000, guid: 863e3985fd61c3d479ce6fb4d0060a02, type: 2}
   unitHealth: {fileID: 713105100355585551}
@@ -6485,7 +6499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnitSystem::CaptainPinkTurd.UnitSystem.UnitHealth
   unit: {fileID: 378778959457206378}
-  maxHealth: 3
+  maxHealth: 10
   invincibilityFrameDuration: 1
   invincibilityFrameAffectKnockback: 0
   onDamageImpactType: {fileID: 11400000, guid: da20da27d490bcc4f8b3c09ada4615f5, type: 2}
@@ -6880,6 +6894,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HP Group
       objectReference: {fileID: 0}
+    - target: {fileID: 2237824311678344508, guid: a1e6500bb54b0a3449dbb7d1d48d488f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3628652386698091059, guid: a1e6500bb54b0a3449dbb7d1d48d488f, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6894,6 +6912,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3628652386698091059, guid: a1e6500bb54b0a3449dbb7d1d48d488f, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4275547038437969329, guid: a1e6500bb54b0a3449dbb7d1d48d488f, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4275547038437969329, guid: a1e6500bb54b0a3449dbb7d1d48d488f, type: 3}
@@ -7002,7 +7024,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 7107832543921288692}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e8b8419f6334dc1adf835f4111ea58d, type: 3}
   m_Name: 

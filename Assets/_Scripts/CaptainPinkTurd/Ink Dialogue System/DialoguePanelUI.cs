@@ -40,6 +40,16 @@ namespace CaptainPinkTurd.InkDialogue
 
         private void Awake()
         {
+            if (portraitFrame) portraitFrame.SetActive(false);
+            // Reclaim the portrait's column while keeping the existing speaker and choice flow.
+            foreach (var text in new[] { dialogueText, speakerNameText })
+            {
+                if (!text) continue;
+                var rect = text.rectTransform;
+                var offset = rect.offsetMin;
+                offset.x = 24f;
+                rect.offsetMin = offset;
+            }
             DialogueFinished();
         }
 
@@ -181,11 +191,7 @@ namespace CaptainPinkTurd.InkDialogue
 
             if (portraitFrame)
             {
-                Sprite portrait = null;
-                bool hasPortrait = !noSpeaker && speakerPortraits != null && speakerPortraits.TryGetValue(speaker, out portrait) && portrait;
-
-                portraitFrame.SetActive(hasPortrait);
-                if (hasPortrait && portraitImage) portraitImage.sprite = portrait;
+                portraitFrame.SetActive(false);
             }
         }
 

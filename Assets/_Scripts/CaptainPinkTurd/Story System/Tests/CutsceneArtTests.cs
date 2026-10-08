@@ -55,6 +55,27 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         /// <summary>
+        /// Dialogue portraits are still pictures (the user's call): one frame per speaker, no talking mouth, no glint.
+        /// </summary>
+        [Test]
+        public void EveryDialoguePortraitIsAStillPicture()
+        {
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/Story/Story Dialogue System.prefab");
+            var style = prefab.GetComponentInChildren<DialogueSpeakerStyle>(true);
+            var animation = (StageActorAnimation)new SerializedObject(style).FindProperty("portraitAnimation").objectReferenceValue;
+            var clips = new SerializedObject(animation).FindProperty("clips");
+            Assert.Greater(clips.arraySize, 0, "no portraits");
+            for (int c = 0; c < clips.arraySize; c++)
+            {
+                var clip = clips.GetArrayElementAtIndex(c);
+                string clipName = clip.FindPropertyRelative("name").stringValue;
+                var frames = clip.FindPropertyRelative("frames");
+                Assert.AreEqual(1, frames.arraySize, $"portrait {clipName} is animated ({frames.arraySize} frames)");
+                Assert.IsNotNull(frames.GetArrayElementAtIndex(0).objectReferenceValue, $"portrait {clipName} has no picture");
+            }
+        }
+
+        /// <summary>
         /// In Level 4 A gets in alone, already hurt by the villain: the player's Blue form shows A_Bloody's frames
         /// (PlayerSpriteSwap in the level), while the prefab and its animations stay Blue Character's.
         /// </summary>

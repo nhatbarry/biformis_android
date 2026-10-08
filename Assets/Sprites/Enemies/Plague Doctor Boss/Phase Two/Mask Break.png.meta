@@ -1,0 +1,783 @@
+fileFormatVersion: 2
+guid: c16f71a7ff47979428f51f2df2138ba1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8206161748973562400
+    second: Mask Break_0
+  - first:
+      213: 6098772371260894013
+    second: Mask Break_1
+  - first:
+      213: 7726410611471905520
+    second: Mask Break_2
+  - first:
+      213: -5574609729954808742
+    second: Mask Break_3
+  - first:
+      213: -4965441548393010039
+    second: Mask Break_4
+  - first:
+      213: -2741569909332717826
+    second: Mask Break_5
+  - first:
+      213: 7236447395254458818
+    second: Mask Break_6
+  - first:
+      213: 5156413105239077752
+    second: Mask Break_7
+  - first:
+      213: 2349446315748945262
+    second: Mask Break_8
+  - first:
+      213: 900160489486321599
+    second: Mask Break_9
+  - first:
+      213: 8545485041535442534
+    second: Mask Break_10
+  - first:
+      213: 7274433359257727523
+    second: Mask Break_11
+  - first:
+      213: 2840344275135693720
+    second: Mask Break_12
+  - first:
+      213: -6600513859644748837
+    second: Mask Break_13
+  - first:
+      213: 4590655533869779994
+    second: Mask Break_14
+  - first:
+      213: 5749056574791113626
+    second: Mask Break_15
+  - first:
+      213: -4884639558453645808
+    second: Mask Break_16
+  - first:
+      213: 2847492319172130018
+    second: Mask Break_17
+  - first:
+      213: -7179285949303443075
+    second: Mask Break_18
+  - first:
+      213: 3564938189683590768
+    second: Mask Break_19
+  - first:
+      213: 5589571150140543934
+    second: Mask Break_20
+  - first:
+      213: -4185166613017290400
+    second: Mask Break_21
+  - first:
+      213: 7165835379054122484
+    second: Mask Break_22
+  - first:
+      213: 6286397286073820577
+    second: Mask Break_23
+  - first:
+      213: 5072003083251290985
+    second: Mask Break_24
+  - first:
+      213: 653907937058050403
+    second: Mask Break_25
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 12.8
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MaskBreak_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e730a025e48bc2a4987d056314fe970f
+      internalID: -749759412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_1
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5751be54ed9cf4479fb306fbdf7c17b
+      internalID: -1385221102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_2
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c8e5f8b19cb6fcf40b06c6b55e8aa53b
+      internalID: 305625608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_3
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ce33891c19ddd3542bcafb641ea05c9c
+      internalID: 939340062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_4
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a6b2de22ba458f4d8ad07aae492aebd
+      internalID: 169450262
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_5
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a381b1a58ae48429a615bf85ab8d0f
+      internalID: -1018159538
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a4b2c65ed7183234e96195e7d24d6f37
+      internalID: -454556060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_7
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 120
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 783fd3c466af0aa4d9806996b1b826e5
+      internalID: -1313141457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 325835bdb2797a04984be5f8689e245e
+      internalID: 1358822263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_9
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7d088e692829e9a428bcfe56ccab1cb1
+      internalID: 1040081575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_10
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2ccfbb4ace2a4046a8bf7e5fef14fbd
+      internalID: -1704596638
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_11
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43bdaf8a2afb5e34784d6adedbc0c615
+      internalID: 454896648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_12
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d022e8fe0846f9948bb6ecf040e67252
+      internalID: -1570955955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_13
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 469da751f75bfde44bebaaa064d0df97
+      internalID: 260896857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_14
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e21be8a56da58149a5eb8217ce14394
+      internalID: -1149543755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_15
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 80
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7987b729cdc5baf4bbc8300e8a6114df
+      internalID: 2106512216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 061ecb20c0af6e54c89c2363bc04eed0
+      internalID: 932089467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_17
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8352b51a3ca93d747bf257d2a03fc62d
+      internalID: -1503090366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_18
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4832372802fb214890614bfd1f0a302
+      internalID: 596853174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_19
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21ce69cd1494ad54fa301170e64a389a
+      internalID: 1646888686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_20
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5486271c2a3b6f4186e08b9d33a4209
+      internalID: 606354362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_21
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b9406428fd040694e8be6f67dfc331e0
+      internalID: 1013788235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_22
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 913e5d21c844c664eb8290ab680a59b3
+      internalID: -1276523255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_23
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 40
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 80136976f7ff7334da84f98453d48fdf
+      internalID: -897182853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MaskBreak_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 40
+        height: 40
+      alignment: 9
+      pivot: {x: 0.5, y: 0.05}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 88b345019ca599645ac5c2fa860a3091
+      internalID: 2076375168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 482d16e687cd21d4ab0d7adeb4bb53fa
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MaskBreak_0: -749759412
+      MaskBreak_1: -1385221102
+      MaskBreak_10: -1704596638
+      MaskBreak_11: 454896648
+      MaskBreak_12: -1570955955
+      MaskBreak_13: 260896857
+      MaskBreak_14: -1149543755
+      MaskBreak_15: 2106512216
+      MaskBreak_16: 932089467
+      MaskBreak_17: -1503090366
+      MaskBreak_18: 596853174
+      MaskBreak_19: 1646888686
+      MaskBreak_2: 305625608
+      MaskBreak_20: 606354362
+      MaskBreak_21: 1013788235
+      MaskBreak_22: -1276523255
+      MaskBreak_23: -897182853
+      MaskBreak_24: 2076375168
+      MaskBreak_3: 939340062
+      MaskBreak_4: 169450262
+      MaskBreak_5: -1018159538
+      MaskBreak_6: -454556060
+      MaskBreak_7: -1313141457
+      MaskBreak_8: 1358822263
+      MaskBreak_9: 1040081575
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
