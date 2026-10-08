@@ -31,6 +31,7 @@ namespace CaptainPinkTurd.Game
         private InputAction interactAction;
         private Collider2D opening;
         private bool isOpen;
+        private bool openRequested;
         private bool playerInReach;
         private bool entered;
 
@@ -61,6 +62,10 @@ namespace CaptainPinkTurd.Game
         {
             base.Start();
 
+            //OpenDoor can run before this Start (a level with no fight opens its door on load); closing here
+            //would dispose the opening animation's timer and leave the door shut for good
+            if (openRequested) return;
+
             PlayAnimation(Animator.StringToHash(doorCloseAnimation.name));
             isOpen = false;
         }
@@ -69,6 +74,7 @@ namespace CaptainPinkTurd.Game
 
         public void OpenDoor()
         {
+            openRequested = true;
             SoundManager.Instance.CreateSoundBuilder()
                 .WithPosition(transform.position).WithRandomPitch().Play(openSfx);
 

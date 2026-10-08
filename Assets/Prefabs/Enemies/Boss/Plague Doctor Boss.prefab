@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a260cb4981c41b8980da0e03896dcb9, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.PlagueDoctorBoss
   idle:
     frames:
@@ -171,7 +171,7 @@ MonoBehaviour:
     - {fileID: 1957459785, guid: af7420dc249237244ba6c236f6c56599, type: 3}
     - {fileID: 1946492212, guid: af7420dc249237244ba6c236f6c56599, type: 3}
     - {fileID: 1548441261, guid: af7420dc249237244ba6c236f6c56599, type: 3}
-    frameMilliseconds: aa000000b40000002c010000f00000002c010000320000004600000064000000a0000000780000009600000058020000
+    frameMilliseconds: aa000000b40000002c010000e00100005802000090010000300200005802000040010000400100004001000078000000
     bladeEndpoints: []
     bladeWidths: []
   redHair: {fileID: 21300000, guid: 76e4d367ec2093f127c2db6c2f9bbcd6, type: 3}
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aaa0ec109a663ed48a5657ec968e5d65, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossHazards
   redProjectile: {fileID: 21300000, guid: 1722a035a0024dc4ab6ea770a6e57231, type: 3}
   blueProjectile: {fileID: 21300000, guid: 7447737ece0227540b477983122a3e8e, type: 3}
@@ -332,7 +332,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afd5587ac946cbd45b3b4e1a4d6fd9d2, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossHealthBar
   font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
 --- !u!58 &2693195998859614186
@@ -408,7 +408,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1cb60beab36145438e0fabdc706df60, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossPhaseTwoPlaceholder
   horizontalSlash:
     frames:
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a0343dc767eabd4db0dcad47f7488c6, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossPhaseTwoEffects
   shotSpeed: 1200
   shotRadius: 0.34
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb3d69511b8ac74d8582adb311e6664, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossRoaming
 --- !u!114 &709900223344558889
 MonoBehaviour:
@@ -609,7 +609,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c8870798753496a9080905369384fd1, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossGroundPresentation
 --- !u!114 &7803043795907145300
 MonoBehaviour:
@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5741434c46db4b1f94280f5cf2e5190b, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Game::CaptainPinkTurd.Game.Enemy.BossDirectionalArt
   directions:
   - view: 0
