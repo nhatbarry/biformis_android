@@ -11,6 +11,7 @@ using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene.Manager;
 using CaptainPinkTurd.Scene.Story;
 using CaptainPinkTurd.Story.Cutscene;
+using CaptainPinkTurd.Story.Presentation;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -52,7 +53,7 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         [UnityTest, Timeout(90000)]
-        public IEnumerator BossVictoryStartsTheEndingWithoutADoor()
+        public IEnumerator BossVictoryBreaksTheArenaLikeGlassAndStartsTheEnding()
         {
             var data = AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
             UnityEngine.SceneManagement.SceneManager.LoadScene("Core");
@@ -73,8 +74,28 @@ namespace CaptainPinkTurd.Story.Tests
             boss.TakeDamage(new SDamageData(8, player.gameObject));
             boss.TakeDamage(new SDamageData(8, player.gameObject));
             Assert.AreEqual(1, deaths);
-            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Story Ending", 30f, "automatic ending after boss death");
+
+            //the arena breaks like glass in front of the two, who stay standing on the dark stage
+            var exit = Object.FindAnyObjectByType<BossFightStoryExit>();
+            yield return WaitUntil(() => exit.Shatter && GameObject.Find("Shatter Canvas"), 5f, "the glass shatter");
+            var shatter = exit.Shatter;
+            yield return WaitUntil(() => Object.FindObjectsByType<ShardGraphic>(FindObjectsSortMode.None).Length > 0, 3f, "the shards");
+            Assert.Greater(Object.FindObjectsByType<ShardGraphic>(FindObjectsSortMode.None).Length, 30, "the screen should break into many shards");
+            yield return WaitUntil(() => !shatter || shatter.Finished, 10f, "the shards to fly off");
+            if (shatter)
+            {
+                Assert.IsEmpty(Object.FindObjectsByType<ShardGraphic>(FindObjectsSortMode.None), "every shard should have left");
+                var canvas = shatter.transform.Find("Shatter Canvas");
+                var boss2 = (RectTransform)canvas.Find("Boss");
+                var player2 = (RectTransform)canvas.Find("Player");
+                Assert.AreEqual(Presentation.GlassShatter.BossStagePosition, boss2.anchoredPosition, "the boss stands where the ending opens");
+                Assert.AreEqual(Presentation.GlassShatter.PlayerStagePosition, player2.anchoredPosition, "the player stands where the ending opens");
+                Assert.AreEqual(-1f, player2.localScale.x, "the player faces the boss");
+            }
+
+            yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Story Cutscene", 30f, "the ending's cutscene after the boss");
             Assert.AreEqual(bossStep + 1, data.CurrentStepIndex);
+            Assert.AreEqual("Ending", data.CurrentStep.knotName);
             Assert.AreEqual(1f, Time.timeScale, "the last hit-stop must not freeze the cutscene");
         }
 

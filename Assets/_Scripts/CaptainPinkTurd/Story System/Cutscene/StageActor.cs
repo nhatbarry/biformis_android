@@ -13,7 +13,7 @@ namespace CaptainPinkTurd.Story.Cutscene
     {
         private static readonly HashSet<string> CharacterActorIds = new HashSet<string>(StringComparer.Ordinal)
         {
-            "A", "A4", "A_FB", "B", "B4", "B_Bed", "B_Fall", "B_FB", "B_Floor", "BSit",
+            "A", "A4", "A_End", "A_FB", "ABMerged", "B", "B4", "B_Bed", "B_End", "B_Fall", "B_FB", "B_Floor", "BossEnd", "BSit",
             "Captives", "Doctor", "Mom", "Teen", "TeenB", "Villain", "Villain_D", "Villain_Op"
         };
 

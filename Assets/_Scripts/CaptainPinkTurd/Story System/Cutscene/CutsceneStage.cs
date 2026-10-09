@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Extensions;
@@ -20,6 +21,7 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #cast:A,B,Teen | none                    which StageActors stand on stage
     ///   #fx:shake | flash | red | fade_black | fade_white | fade_in
     ///   #sfx:beep | stop | &lt;name in sounds&gt;     "beep" loops a heart monitor, "stop" ends any loop
+    ///   #music:&lt;name in music&gt; | stop            plays a music track (looping) or stops the one playing
     ///   #anim:ActorId:clip[:seconds]               plays a clip of an actor's StageActorAnimation, optionally after a delay
     ///                                              (e.g. anim:B_Bed:wake:1.2)
     ///   #move:ActorId:x[,y][:seconds]              slides an actor to a canvas position (instantly without seconds)
@@ -40,6 +42,9 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #pixel:RRGGBB[:seconds] | #pixel:in[:seconds]  covers the screen with blocks of a colour, or uncovers it
     ///   #alpha:ActorId:opacity[:seconds]           fades a whole actor (e.g. a shadow on the wall)
     ///   #shake:units[:seconds]                     shakes the stage (4 units = one art pixel)
+    ///   #follow:WorldId:WalkerId:minX,maxX | none  a camera on the walker (a child of the world actor): the world
+    ///                                              slides so the walker keeps its place on screen, within minX..maxX
+    ///                                              (the world's x); e.g. B walking through the ending's cage room
     ///   #struggle:ActorId:count                    a struggle the player taps (or presses Space / Interact) through:
     ///                                              each press plays the actor's "struggle" clip and fills a segment of
     ///                                              the meter; put #hold after it so the dialogue waits for the last one
@@ -118,6 +123,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         [SerializeField] private AudioSource oneShotSource;
         [SerializeField] private AudioSource loopSource;
         [SerializeField] private SerializeKeyValuePair<string, AudioClip>[] sounds;
+        [SerializeField] private SerializeKeyValuePair<string, AudioClip>[] music;
 
         private const string TalkClip = "talk";
         private const string DefaultReachPrompt = "stage.take";
@@ -134,6 +140,8 @@ namespace CaptainPinkTurd.Story.Cutscene
         private float reachMaxX, reachTime;
         private bool reachMoved;
         private float shakeEnds, shakeStrength;
+        private RectTransform followWorld, followWalker;
+        private float followMin, followMax, followScreenX;
         private AudioClip monitorBeepClip;
         private Tween villainTween;
         //pixel transitions: a cover of coloured blocks, and a frozen copy of the stage masked away block by block
@@ -240,6 +248,12 @@ namespace CaptainPinkTurd.Story.Cutscene
                     break;
                 case "pixel":
                     PixelTransition(value);
+                    break;
+                case "follow":
+                    Follow(value);
+                    break;
+                case "music":
+                    PlayMusic(value);
                     break;
                 default:
                     Debug.LogWarning($"Cutscene tag not handled: {tag}");
@@ -631,6 +645,33 @@ namespace CaptainPinkTurd.Story.Cutscene
             {
                 if (pair.Key && pair.Value.target) pair.Key.anchoredPosition = pair.Value.target.anchoredPosition + pair.Value.offset;
             }
+            if (followWorld && followWalker)
+            {
+                var position = followWorld.anchoredPosition;
+                position.x = Mathf.Clamp(followScreenX - followWalker.anchoredPosition.x, followMin, followMax);
+                followWorld.anchoredPosition = position;
+            }
+        }
+
+        //"World:Walker:minX,maxX" or "none"; the walker keeps the place on screen it has when this starts
+        private void Follow(string value)
+        {
+            followWorld = followWalker = null;
+            var parts = value.Split(':');
+            if (parts[0].Trim().Equals("none", StringComparison.OrdinalIgnoreCase)) return;
+            var world = parts.Length == 3 ? FindActor(parts[0]) : null;
+            var walker = world ? FindActor(parts[1]) : null;
+            var range = parts.Length == 3 ? parts[2].Split(',') : Array.Empty<string>();
+            if (!walker || walker.transform.parent != world.transform || range.Length != 2 ||
+                !TryParse(range[0], out followMin) || !TryParse(range[1], out followMax))
+            {
+                Debug.LogWarning($"Cutscene follow is not World:Walker:minX,maxX with the walker inside the world: {value}");
+                return;
+            }
+            followWorld = (RectTransform)world.transform;
+            followWalker = (RectTransform)walker.transform;
+            followWorld.DOKill();
+            followScreenX = followWorld.anchoredPosition.x + followWalker.anchoredPosition.x;
         }
 
         //a CanvasGroup, so the opacity survives the per-line tint that sets each graphic's colour
@@ -986,6 +1027,14 @@ namespace CaptainPinkTurd.Story.Cutscene
             {
                 Debug.LogWarning($"Unknown cutscene sound: {soundName}");
             }
+        }
+
+        private void PlayMusic(string trackName)
+        {
+            if (!MusicManager.HasInstance) return;
+            if (trackName.Equals("stop", StringComparison.OrdinalIgnoreCase)) MusicManager.Instance.StopCurrentTrack();
+            else if (music != null && music.TryGetValue(trackName, out AudioClip clip) && clip) MusicManager.Instance.Play(clip, loop: true);
+            else Debug.LogWarning($"Unknown cutscene music: {trackName}");
         }
 
         /// <summary>

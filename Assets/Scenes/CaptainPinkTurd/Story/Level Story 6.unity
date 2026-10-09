@@ -3890,6 +3890,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.BossFightStoryExit
   boss: {fileID: 5126970418836252189}
   level: {fileID: 3564836562178595604}
+  glow: {fileID: 21300000, guid: 17297b4a859e6dd43a1f0d50b1f4d697, type: 3}
+  bossPose:
+  - {fileID: 790992657, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  - {fileID: 67627080, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  - {fileID: 1695247350, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  - {fileID: 2144900197, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  - {fileID: 1330096367, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  - {fileID: -414021318, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
+  bossPoseSeconds:
+  - 0.24
+  - 0.28
+  - 0.36
+  - 0.28
+  - 0.3
+  - 0.34
+  redIdle: {fileID: -7473914920303841344, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+  blueIdle: {fileID: 6282971322427500452, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+  breakSfx: {fileID: 8300000, guid: 398d9e1ed08fe3b4891ac9a8ab7f3614, type: 3}
 --- !u!114 &174046833
 MonoBehaviour:
   m_ObjectHideFlags: 0

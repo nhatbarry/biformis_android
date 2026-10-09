@@ -38,6 +38,24 @@ namespace CaptainPinkTurd.Story.Tests
             Save(Capture((Vector2)player.transform.position + Offset, 90f / 32f, 224, 90), $"Next Scene - {level}.png");
         }
 
+        //the levels the brothers run back through at the end ("Ending Run - Level Story N.png", 224 x 90 around the
+        //player's start); Tools/ending_art.py world joins them with the cage room into the ending's EndWorld picture
+        [UnityTest]
+        public IEnumerator CaptureEndingRunPictures([Values("Level Story 2", "Level Story 3", "Level Story 4", "Level Story 5")] string level)
+        {
+            yield return StoryTestLoading.LoadLevelThroughCore(level);
+            yield return new WaitForSeconds(1f);
+
+            var player = Object.FindAnyObjectByType<PlayerUnit>();
+            foreach (var renderer in player.GetComponentsInChildren<Renderer>()) renderer.enabled = false;
+            foreach (var t in Object.FindObjectsByType<Transform>(FindObjectsSortMode.None))
+                if (t.name.StartsWith("Hint"))
+                    foreach (var renderer in t.GetComponentsInChildren<Renderer>()) renderer.enabled = false;
+            yield return null;
+
+            Save(Capture((Vector2)player.transform.position + Offset, 90f / 32f, 224, 90), $"Ending Run - {level}.png");
+        }
+
         //the whole level and the gameplay view at the start, for looking over the scenery
         [UnityTest]
         public IEnumerator CaptureLevelOverviews([Values("Level Story 1", "Level Story 2", "Level Story 3", "Level Story 4",

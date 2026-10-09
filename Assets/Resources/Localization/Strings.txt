@@ -26,6 +26,7 @@ cutscene.skip	Bỏ qua	Skip
 speaker.A	A	A
 speaker.B	B	B
 speaker.Villain	Phản diện	The Villain
+speaker.AB	A&B	A&B
 speaker.Teen	Thiếu niên	Teenager
 speaker.TeenB	Thiếu niên	Teenager
 speaker.Mom	Mẹ	Mother
@@ -76,3 +77,5 @@ stage.take	Space: nhận	Space: take
 stage.take_touch	Nút !: nhận	! button: take
 stage.hold	Space: nắm tay	Space: hold hands
 stage.hold_touch	Nút !: nắm tay	! button: hold hands
+stage.enter	Space: vào	Space: go in
+stage.enter_touch	Nút !: vào	! button: go in

@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -27,11 +28,13 @@ namespace CaptainPinkTurd.Story.Tests
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
             ["layout"] = new[] { "top", "bottom" },
+            ["music"] = new[] { "ending", "stop" },
         };
         private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none",
             "Room", "Lever", "Trapdoor", "CageFront", "Spotlight", "Captives", "Villain_Op", "Level1", "Shaft", "B_Fall", "Hospital",
             "Track", "B_FB", "A_FB", "Vignette", "Dungeon", "DRoom", "Door", "Gap", "Bed_D", "Bed_Empty", "Vent", "TeenB", "Villain_D",
-            "Caption", "DarkDungeon", "DarkRoom", "A4", "B4", "Bedroom", "WallShadow", "BSit", "Drown", "Montage", "CloseUp" };
+            "Caption", "DarkDungeon", "DarkRoom", "A4", "B4", "Bedroom", "WallShadow", "BSit", "Drown", "Montage", "CloseUp",
+            "EndGlow", "EndWorld", "A_End", "B_End", "BossEnd", "ABMerged" };
         //clips of the actors with a StageActorAnimation in the Story Cutscene scene (the Aseprite tags)
         private static readonly Dictionary<string, string[]> AnimClips = new()
         {
@@ -60,6 +63,10 @@ namespace CaptainPinkTurd.Story.Tests
             ["Drown"] = new[] { "intro", "loop" },
             ["Montage"] = new[] { "m1", "m2", "m3", "m4" },
             ["CloseUp"] = new[] { "hold_loop" },
+            ["A_End"] = new[] { "idle", "run" },
+            ["B_End"] = new[] { "idle", "run" },
+            ["BossEnd"] = new[] { "breathe", "dust" },
+            ["ABMerged"] = new[] { "flicker", "split" },
         };
         //who speaks each line of the team's preview GIFs (the lines themselves are the user's, copied verbatim)
         private static readonly string[] AfterLevel3Speakers =
@@ -92,6 +99,33 @@ namespace CaptainPinkTurd.Story.Tests
                 }
                 Assert.Greater(lines, 0, $"{inkPath}: knot {knot} has no lines");
             }
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheEndingOpensWhereTheGlassShatterLeftTheBossAndThePlayer(string inkPath)
+        {
+            //Level 6's glass shatter slides the boss and the player to these places, then the knot opens on them
+            var story = new Ink.Runtime.Story(AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text);
+            story.ChoosePathString("Ending");
+            //the opening's tags-only line rides on the first line (the boss's)
+            string first = story.Continue();
+            var tags = story.currentTags;
+            var boss = Presentation.GlassShatter.BossStagePosition;
+            var player = Presentation.GlassShatter.PlayerStagePosition;
+            Assert.Contains(FormattableString.Invariant($"move:BossEnd:{boss.x},{boss.y}"), tags, $"{inkPath}: {string.Join(" ", tags)}");
+            Assert.Contains(FormattableString.Invariant($"move:ABMerged:{player.x},{player.y}"), tags, $"{inkPath}: {string.Join(" ", tags)}");
+
+            //five lines each for the boss and A&B, taking turns, then A calls B home
+            var speakers = new List<string> { tags.First(tag => tag.StartsWith("speaker:"))["speaker:".Length..] };
+            Assert.IsNotEmpty(first.Trim());
+            while (story.canContinue)
+            {
+                if (story.Continue().Trim().Length > 0)
+                    speakers.Add(story.currentTags.First(tag => tag.StartsWith("speaker:"))["speaker:".Length..]);
+            }
+            var expected = Enumerable.Range(0, 10).Select(i => i % 2 == 0 ? "Villain" : "AB").Append("A");
+            CollectionAssert.AreEqual(expected, speakers, $"{inkPath}: speakers {string.Join(", ", speakers)}");
         }
 
         [TestCase(InkVi)]
@@ -349,6 +383,12 @@ namespace CaptainPinkTurd.Story.Tests
                 case "shake":
                     var shake = value.Split(':');
                     Assert.That(shake.Length is 1 or 2 && shake.All(IsNumber), $"{knot}: shake tag '{tag}' is not shake:units[:seconds]");
+                    break;
+                case "follow":
+                    var follow = value.Split(':');
+                    Assert.That(value == "none" || (follow.Length == 3 && CastIds.Contains(follow[0]) && CastIds.Contains(follow[1]) &&
+                                                    follow[2].Split(',').Length == 2 && follow[2].Split(',').All(IsNumber)),
+                        $"{knot}: follow tag '{tag}' is not follow:World:Walker:minX,maxX or follow:none");
                     break;
                 case "pixel":
                     var pixel = value.Split(':');

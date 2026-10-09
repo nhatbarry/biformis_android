@@ -1,0 +1,56 @@
+{
+  "animation": "Defeated_Empty_Hands_Breathe",
+  "frames": 6,
+  "cellPixels": [
+    604,
+    593
+  ],
+  "frameDurationsMs": [
+    240,
+    280,
+    360,
+    280,
+    300,
+    340
+  ],
+  "durationMs": 1800,
+  "pivotPixelsFromTopLeft": [
+    267,
+    480
+  ],
+  "pivotNormalizedUnity": [
+    0.4420529801324503,
+    0.1905564924114671
+  ],
+  "pixelsPerUnitSuggested": 156.16,
+  "loopInUnity": true,
+  "sourceRootAnchors": [
+    [
+      243,
+      455
+    ],
+    [
+      222,
+      456
+    ],
+    [
+      199,
+      455
+    ],
+    [
+      243,
+      423
+    ],
+    [
+      222,
+      423
+    ],
+    [
+      200,
+      424
+    ]
+  ],
+  "emptyHands": true,
+  "lastFrameFullyTransparent": false,
+  "exportPreservesSourceRGBA": true
+}

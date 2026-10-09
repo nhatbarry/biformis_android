@@ -12,34 +12,22 @@ using UnityEngine.UI;
 namespace CaptainPinkTurd.Story.Presentation
 {
     /// <summary>
-    /// The final story sequence: the prison scenes dissolve, B's second personality removes its mask, the two
-    /// brothers separate, and the scene resolves in the hospital. Artwork is exported from Scene_KetThuc.zip.
+    /// The story's last scene: the heart monitor in the dark, the hospital room, A waking at B's bedside, THE END.
+    /// What leads here (the boss's glass shatter, the talk in the dark, the run home through the levels and the door
+    /// of light) is the ink knot "Ending" in the Story Cutscene scene. Artwork is exported from Scene_KetThuc.zip.
     /// </summary>
     public class EndingSequence : MonoBehaviour
     {
         [SerializeField] private StoryData storyData;
         [SerializeField] private TMP_FontAsset font;
         [SerializeField] private AudioClip music;
-        [SerializeField] private AudioSource sfxSource;
-        [SerializeField] private AudioClip burstSfx;
-
-        [Header("B's in-game sprite")]
-        [SerializeField] private Sprite bIdle;
-        [SerializeField] private Sprite[] bWalk;
 
         private const int Scale = 4;
         private const float FrameSeconds = 0.1f;
 
         private RectTransform stage;
-        private Image whiteBase;
-        private Image worldBackground;
         private Image whiteOverlay;
         private Image blackOverlay;
-        private Image flashOverlay;
-        private Image villainBody;
-        private Image splitB;
-        private Image splitA;
-        private Image splitMerged;
         private Image hospitalRoom;
         private Image kneelingA;
         private Image portrait;
@@ -49,21 +37,13 @@ namespace CaptainPinkTurd.Story.Presentation
         private TMP_Text lineText;
         private TMP_Text continueText;
 
-        private Sprite[] villainFrames;
-        private Sprite[] villainPortraitFrames;
-        private Sprite[] aPortraitFrames;
-        private Sprite[] aBloodyFrames;
         private Sprite[] hospitalFrames;
         private Sprite[] kneelingFrames;
 
         private readonly List<FrameTrack> tracks = new();
-        private readonly List<FlyingPixel> flyingPixels = new();
-        private readonly List<BurstPixelGraphic> worldBursts = new();
         private readonly List<Sprite> runtimeSprites = new();
         private InputAction advanceAction;
         private bool advanceRequested;
-        private float shakeUntil;
-        private Vector2 stageHome;
         private TMP_Text theEndText;
 
         private sealed class FrameTrack
@@ -77,26 +57,14 @@ namespace CaptainPinkTurd.Story.Presentation
             public bool loop;
         }
 
-        private sealed class FlyingPixel
-        {
-            public Image image;
-            public Vector2 origin;
-            public Vector2 velocity;
-            public float delay;
-            public float duration;
-            public float born;
-        }
-
         private IEnumerator Start()
         {
             if (music) MusicManager.Instance.Play(music, loop: true);
             LoadArt();
             BuildStage();
 
-            yield return new WaitForSecondsRealtime(0.4f);
-            yield return BurstWorlds();
-            yield return MaskBreak();
-            yield return SeparateBrothers();
+            //the cutscene before ends in white; this scene starts in the dark of the heart monitor
+            blackOverlay.color = Color.black;
             yield return HospitalEnding();
 
             if (StoryFlow.IsStoryRunning) StoryFlow.Advance(storyData);
@@ -132,25 +100,10 @@ namespace CaptainPinkTurd.Story.Presentation
 
                 track.image.sprite = track.frames[track.first + frame];
             }
-
-            if (Time.unscaledTime < shakeUntil && stage)
-            {
-                stage.anchoredPosition = stageHome + UnityEngine.Random.insideUnitCircle * 5f;
-            }
-            else if (stage)
-            {
-                stage.anchoredPosition = stageHome;
-            }
-
-            UpdateFlyingPixels(now);
         }
 
         private void LoadArt()
         {
-            villainFrames = LoadAtlas("Villain_MaskBreak", 40, 40, 8, 25);
-            villainPortraitFrames = LoadAtlas("Villain_Portrait_End", 40, 40, 5, 5);
-            aPortraitFrames = LoadAtlas("A_Portrait", 40, 40, 6, 6);
-            aBloodyFrames = LoadAtlas("A_Bloody", 28, 28, 8, 46);
             hospitalFrames = LoadAtlas("Hospital_End_Room", 160, 90, 5, 20);
             kneelingFrames = LoadAtlas("A_Kneel_Bedside", 18, 18, 3, 9);
         }
@@ -183,38 +136,11 @@ namespace CaptainPinkTurd.Story.Presentation
             stage = (RectTransform)new GameObject("Stage", typeof(RectTransform)).transform;
             stage.SetParent(canvas.transform, false);
             OverlayCanvas.Stretch(stage);
-            stageHome = stage.anchoredPosition;
 
-            whiteBase = OverlayCanvas.CreateImage(stage, "White", Color.white, true);
-            whiteBase.gameObject.SetActive(false);
             whiteOverlay = OverlayCanvas.CreateImage(stage, "White Fade", Color.white, true);
             whiteOverlay.color = new Color(1f, 1f, 1f, 0f);
             blackOverlay = OverlayCanvas.CreateImage(stage, "Black Fade", Color.black, true);
             blackOverlay.color = new Color(0f, 0f, 0f, 0f);
-            flashOverlay = OverlayCanvas.CreateImage(stage, "Flash", Color.white, true);
-            flashOverlay.color = new Color(1f, 1f, 1f, 0f);
-
-            var cageRoom = Resources.Load<Texture2D>("Story Ending/Explode_BG_1_CageRoom");
-            if (cageRoom)
-            {
-                worldBackground = OverlayCanvas.CreateImage(stage, "World Background", Color.white, true);
-                worldBackground.sprite = CreateRuntimeSprite(cageRoom, new Rect(0, 0, cageRoom.width, cageRoom.height), new Vector2(0.5f, 0.5f), 16f);
-            }
-
-            whiteBase.transform.SetAsFirstSibling();
-            if (worldBackground) worldBackground.transform.SetAsLastSibling();
-
-            villainBody = CreateImage(stage, "Villain", Vector2.zero, new Vector2(120f, 144f));
-            villainBody.transform.localScale = new Vector3(-1f, 1f, 1f);
-            villainBody.gameObject.SetActive(false);
-
-            splitMerged = CreateImage(stage, "Merged Brothers", Vector2.zero, new Vector2(96f, 112f));
-            splitB = CreateImage(stage, "B", ArtPosition(28f, 53f), new Vector2(92f, 104f));
-            splitA = CreateImage(stage, "A", ArtPosition(48f, 53f), new Vector2(92f, 104f));
-            splitMerged.gameObject.SetActive(false);
-            splitB.gameObject.SetActive(false);
-            splitA.gameObject.SetActive(false);
-
             hospitalRoom = CreateImage(stage, "Hospital Room", Vector2.zero, new Vector2(640f, 360f));
             hospitalRoom.gameObject.SetActive(false);
             kneelingA = CreateImage(stage, "A at bedside", ArtPosition(100f, 40f), new Vector2(72f, 72f));
@@ -223,7 +149,6 @@ namespace CaptainPinkTurd.Story.Presentation
             BuildDialoguePanel(stage);
             whiteOverlay.transform.SetAsLastSibling();
             blackOverlay.transform.SetAsLastSibling();
-            flashOverlay.transform.SetAsLastSibling();
             theEndText.transform.SetAsLastSibling();
 
             advanceAction = new InputAction("Ending Continue", InputActionType.Button, "<Pointer>/press");
@@ -331,232 +256,6 @@ namespace CaptainPinkTurd.Story.Presentation
         private static Vector2 ArtPosition(float xFromLeft, float yFromTop) =>
             new Vector2((xFromLeft - 80f) * Scale, (45f - yFromTop) * Scale);
 
-        private IEnumerator BurstWorlds()
-        {
-            var dungeon = Resources.Load<Texture2D>("Story Ending/Explode_BG_2_Dungeon");
-            if (dungeon && worldBackground)
-            {
-                worldBackground.sprite = CreateRuntimeSprite(dungeon, new Rect(0, 0, dungeon.width, dungeon.height), new Vector2(0.5f, 0.5f), 16f);
-                yield return new WaitForSecondsRealtime(0.6f);
-            }
-            if (dungeon) SpawnBurst(dungeon);
-            yield return new WaitForSecondsRealtime(1.9f);
-
-            var cage = Resources.Load<Texture2D>("Story Ending/Explode_BG_1_CageRoom");
-            if (cage && worldBackground)
-                worldBackground.sprite = CreateRuntimeSprite(cage, new Rect(0, 0, cage.width, cage.height), new Vector2(0.5f, 0.5f), 16f);
-            if (cage) SpawnBurst(cage);
-            if (sfxSource && burstSfx) sfxSource.PlayOneShot(burstSfx);
-            yield return Fade(whiteOverlay, 1f, 0.5f);
-            yield return new WaitForSecondsRealtime(1.2f);
-            whiteOverlay.color = new Color(1f, 1f, 1f, 0f);
-            ClearWorldBurstPixels();
-            if (worldBackground) worldBackground.gameObject.SetActive(false);
-            whiteBase.gameObject.SetActive(true);
-        }
-
-        private void ClearWorldBurstPixels()
-        {
-            foreach (var burst in worldBursts)
-            {
-                if (burst) Destroy(burst.gameObject);
-            }
-            worldBursts.Clear();
-        }
-
-        private void SpawnBurst(Texture2D texture)
-        {
-            var graphic = new GameObject("World Burst", typeof(RectTransform)).AddComponent<BurstPixelGraphic>();
-            graphic.transform.SetParent(stage, false);
-            OverlayCanvas.Stretch(graphic.rectTransform);
-            graphic.Initialize(texture, 4, Scale);
-            worldBursts.Add(graphic);
-        }
-
-        private void UpdateFlyingPixels(float now)
-        {
-            for (int i = flyingPixels.Count - 1; i >= 0; i--)
-            {
-                var particle = flyingPixels[i];
-                if (!particle.image)
-                {
-                    flyingPixels.RemoveAt(i);
-                    continue;
-                }
-
-                float t = now - particle.born - particle.delay;
-                if (t < 0f) continue;
-                float p = Mathf.Clamp01(t / particle.duration);
-                particle.image.rectTransform.anchoredPosition = particle.origin + particle.velocity * t + Vector2.up * (240f * t * t);
-                var color = particle.image.color;
-                color.a = 1f - p;
-                particle.image.color = color;
-                if (p >= 1f)
-                {
-                    Destroy(particle.image.gameObject);
-                    flyingPixels.RemoveAt(i);
-                }
-            }
-        }
-
-        private IEnumerator MaskBreak()
-        {
-            yield return new WaitForSecondsRealtime(0.4f);
-            villainBody.gameObject.SetActive(true);
-            SetBodyFrame(0);
-            villainBody.color = new Color(1f, 1f, 1f, 0f);
-            yield return Fade(villainBody, 1f, 0.9f);
-            yield return new WaitForSecondsRealtime(0.35f);
-
-            yield return Say("Villain", "Lại muốn quay về à? Ngoài kia chỉ có đau đớn thôi.", "Want to go back again? There's nothing out there but pain.", villainPortraitFrames, 0, 1, 0.1f, new Color(0.82f, 0.66f, 0.52f));
-            yield return Say("B", "Tôi biết.", "I know.", villainPortraitFrames, 0, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
-            yield return Crack(1);
-            yield return Say("Villain", "Vậy tại sao? Ở đây ngươi chẳng phải đau gì nữa.", "Then why? You don't have to hurt here.", villainPortraitFrames, 1, 1, 0.1f, new Color(0.82f, 0.66f, 0.52f));
-            yield return Crack(2);
-            yield return Say("B", "Vì nỗi đau đó là của tôi. Cậu bé ngã trên đường chạy năm ấy cũng là tôi.", "Because that pain is mine. I was the boy who fell on the track all those years ago.", villainPortraitFrames, 2, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
-            yield return Crack(3);
-
-            yield return new WaitForSecondsRealtime(0.45f);
-            SetPortrait(villainPortraitFrames, 4);
-            SetBodyRange(10, 7, false);
-            flashOverlay.color = Color.white;
-            yield return Fade(flashOverlay, 0f, 0.18f);
-            shakeUntil = Time.unscaledTime + 0.28f;
-            SpawnDissolvePixels(true);
-            SetBodyRange(17, 3, false);
-            yield return new WaitForSecondsRealtime(1.05f);
-
-            yield return Say("B", "...Tôi chỉ muốn cậu không phải khổ nữa thôi.", "...I only wanted to spare you from suffering.", villainPortraitFrames, 4, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
-            yield return Say("B", "Tôi biết. Cảm ơn cậu, vì đã chịu đựng thay tôi suốt thời gian qua.", "I know. Thank you for carrying my pain all this time.", villainPortraitFrames, 4, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
-            yield return Say("B", "Lần này đừng chạy trốn nữa nhé.", "This time, don't run away.", villainPortraitFrames, 4, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
-
-            yield return new WaitForSecondsRealtime(0.25f);
-            SpawnDissolvePixels(false);
-            yield return Fade(villainBody, 0f, 0.7f);
-            villainBody.gameObject.SetActive(false);
-            yield return new WaitForSecondsRealtime(1.3f);
-        }
-
-        private IEnumerator Crack(int step)
-        {
-            int portraitFrame = Mathf.Clamp(step, 1, 3);
-            SetPortrait(villainPortraitFrames, portraitFrame);
-            SetBodyRange(step == 1 ? 1 : step == 2 ? 3 : 5, step == 3 ? 5 : 2, false);
-            shakeUntil = Time.unscaledTime + 0.14f;
-            yield return new WaitForSecondsRealtime(step == 3 ? 0.45f : 0.2f);
-            SetBodyFrame(0);
-        }
-
-        private void SetBodyFrame(int frame)
-        {
-            StopTrack(villainBody);
-            if (villainFrames != null && frame < villainFrames.Length) villainBody.sprite = villainFrames[frame];
-        }
-
-        private void SetBodyRange(int first, int count, bool loop)
-        {
-            AddTrack(villainBody, villainFrames, first, count, 0.08f, loop);
-        }
-
-        private void SetPortrait(Sprite[] frames, int frame)
-        {
-            if (frames != null && frame >= 0 && frame < frames.Length) portrait.sprite = frames[frame];
-        }
-
-        private void SpawnDissolvePixels(bool maskOnly)
-        {
-            var colors = maskOnly
-                ? new[] { new Color(0.91f, 0.86f, 0.78f), new Color(0.74f, 0.70f, 0.64f), new Color(0.14f, 0.14f, 0.14f) }
-                : new[] { new Color(0.14f, 0.14f, 0.14f), new Color(0.22f, 0.22f, 0.22f), new Color(0.37f, 0.37f, 0.36f) };
-            Vector2 basePosition = villainBody.rectTransform.anchoredPosition;
-            float now = Time.unscaledTime;
-            for (int i = 0; i < 84; i++)
-            {
-                var image = OverlayCanvas.CreateImage(stage, "Dissolving Pixel", colors[UnityEngine.Random.Range(0, colors.Length)], false);
-                float size = UnityEngine.Random.Range(4f, 10f);
-                Place(image.rectTransform, basePosition + new Vector2(UnityEngine.Random.Range(-38f, 38f), UnityEngine.Random.Range(-64f, 54f)), Vector2.one * size);
-                flyingPixels.Add(new FlyingPixel
-                {
-                    image = image,
-                    origin = image.rectTransform.anchoredPosition,
-                    velocity = new Vector2(UnityEngine.Random.Range(20f, 100f), UnityEngine.Random.Range(80f, 180f)),
-                    delay = UnityEngine.Random.Range(0f, 0.25f),
-                    duration = maskOnly ? 0.7f : 1.3f,
-                    born = now,
-                });
-            }
-        }
-
-        private IEnumerator SeparateBrothers()
-        {
-            splitMerged.sprite = aBloodyFrames.Length > 31 ? aBloodyFrames[31] : null;
-            splitMerged.gameObject.SetActive(true);
-            float flicker = 0.14f;
-            for (float elapsed = 0f; elapsed < 0.9f; elapsed += flicker)
-            {
-                splitMerged.sprite = bIdle;
-                yield return new WaitForSecondsRealtime(flicker);
-                splitMerged.sprite = aBloodyFrames.Length > 31 ? aBloodyFrames[31] : null;
-                flicker = Mathf.Lerp(0.14f, 0.06f, Mathf.Clamp01(elapsed / 0.9f));
-            }
-
-            flashOverlay.color = Color.white;
-            yield return Fade(flashOverlay, 0f, 0.2f);
-            splitMerged.gameObject.SetActive(false);
-            splitB.sprite = bIdle;
-            splitA.sprite = aBloodyFrames.Length > 1 ? aBloodyFrames[1] : null;
-            splitB.gameObject.SetActive(true);
-            splitA.gameObject.SetActive(true);
-            yield return new WaitForSecondsRealtime(0.65f);
-            yield return Say("A", "Anh ơi! Về thôi!", "Come on, big brother! Let's go home!", aPortraitFrames, 2, 4, 0.11f, new Color(0.58f, 0.83f, 0.87f));
-
-            var debris = SpawnCollapseTiles();
-            splitB.transform.SetAsLastSibling();
-            splitA.transform.SetAsLastSibling();
-            blackOverlay.transform.SetAsLastSibling();
-            AddTrack(splitB, bWalk, 0, bWalk != null ? bWalk.Length : 0, 1f / 8f, true);
-            AddTrack(splitA, aBloodyFrames, 7, 8, 0.1f, true);
-            float start = Time.unscaledTime;
-            float duration = 3.8f;
-            while (Time.unscaledTime - start < duration)
-            {
-                float p = Mathf.Clamp01((Time.unscaledTime - start) / duration);
-                float front = -20f + p * 200f;
-                for (int i = 0; i < debris.Count; i++)
-                {
-                    var cell = debris[i];
-                    if (cell.image && cell.image.rectTransform.anchoredPosition.x < front + UnityEngine.Random.Range(0f, 32f))
-                        cell.image.gameObject.SetActive(false);
-                }
-
-                splitB.rectTransform.anchoredPosition = ArtPosition(28f + p * 150f, 53f);
-                splitA.rectTransform.anchoredPosition = ArtPosition(48f + p * 146f - Mathf.Max(0f, 14f - p * 60f), 53f);
-                blackOverlay.color = new Color(0f, 0f, 0f, p * 0.85f);
-                if (UnityEngine.Random.value < 0.05f) shakeUntil = Time.unscaledTime + 0.08f;
-                yield return null;
-            }
-
-            yield return Fade(blackOverlay, 1f, 0.6f);
-            splitB.gameObject.SetActive(false);
-            splitA.gameObject.SetActive(false);
-            foreach (var cell in debris) if (cell.image) Destroy(cell.image.gameObject);
-        }
-
-        private List<FlyingPixel> SpawnCollapseTiles()
-        {
-            var blocks = new List<FlyingPixel>();
-            for (int y = 0; y < 360; y += 16)
-            {
-                for (int x = 0; x < 640; x += 16)
-                {
-                    var image = OverlayCanvas.CreateImage(stage, "Collapsing White Pixel", Color.white, false);
-                    Place(image.rectTransform, new Vector2(x + 8f - 320f, 180f - y - 8f), Vector2.one * 16f);
-                    blocks.Add(new FlyingPixel { image = image });
-                }
-            }
-            return blocks;
-        }
-
         private IEnumerator HospitalEnding()
         {
             yield return new WaitForSecondsRealtime(0.2f);
@@ -590,9 +289,9 @@ namespace CaptainPinkTurd.Story.Presentation
             SetAtlasFrame(kneelingA, kneelingFrames, 4);
             yield return new WaitForSecondsRealtime(0.6f);
             AddTrack(kneelingA, kneelingFrames, 5, 4, 0.12f, true);
-            yield return Say("A", "Anh...?", "Brother...?", aPortraitFrames, 2, 4, 0.11f, new Color(0.58f, 0.83f, 0.87f));
+            yield return Say("A", "Anh...?", "Brother...?", new Color(0.58f, 0.83f, 0.87f));
             SetAtlasFrame(kneelingA, kneelingFrames, 4);
-            yield return Say("B", "Ừ. Anh về rồi.", "Yeah. I'm home.", villainPortraitFrames, 4, 1, 0.1f, new Color(0.95f, 0.32f, 0.35f));
+            yield return Say("B", "Ừ. Anh về rồi.", "Yeah. I'm home.", new Color(0.95f, 0.32f, 0.35f));
 
             yield return new WaitForSecondsRealtime(1.1f);
             yield return Fade(whiteOverlay, 1f, 1.6f);
@@ -604,16 +303,9 @@ namespace CaptainPinkTurd.Story.Presentation
             yield return new WaitForSecondsRealtime(2.5f);
         }
 
-        private IEnumerator Say(string speaker, string vietnamese, string english, Sprite[] portraitFrames, int portraitFrame,
-            int portraitFrameCount, float portraitFrameSeconds, Color nameColor)
+        private IEnumerator Say(string speaker, string vietnamese, string english, Color nameColor)
         {
-            return Say(speaker, Localization.CurrentLanguage == ELanguage.Vietnamese ? vietnamese : english,
-                portraitFrames, portraitFrame, portraitFrameCount, portraitFrameSeconds, nameColor);
-        }
-
-        private IEnumerator Say(string speaker, string line, Sprite[] portraitFrames, int portraitFrame,
-            int portraitFrameCount, float portraitFrameSeconds, Color nameColor)
-        {
+            string line = Localization.CurrentLanguage == ELanguage.Vietnamese ? vietnamese : english;
             dialogueGroup.alpha = 1f;
             speakerText.text = speaker == "Villain" ? (Localization.CurrentLanguage == ELanguage.Vietnamese ? "Phản diện" : "The Villain") : speaker;
             speakerText.color = nameColor;
@@ -642,7 +334,7 @@ namespace CaptainPinkTurd.Story.Presentation
         private IEnumerator Fade(Graphic graphic, float alpha, float duration)
         {
             if (!graphic) yield break;
-            if (graphic == whiteOverlay || graphic == blackOverlay || graphic == flashOverlay)
+            if (graphic == whiteOverlay || graphic == blackOverlay)
                 graphic.transform.SetAsLastSibling();
             Color color = graphic.color;
             float from = color.a;

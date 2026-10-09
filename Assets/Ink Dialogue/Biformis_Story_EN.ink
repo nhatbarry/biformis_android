@@ -154,3 +154,29 @@ Now it's my turn. #speaker:A
 }
 ~ corridorBarkIndex = corridorBarkIndex + 1
 -> DONE
+
+
+// ---------------------------------------------------------------------
+// ENDING - after the boss of Level 6 falls. The level breaks like glass (GlassShatter, in Level 6), the defeated boss
+// stands breathing in the dark, A&B (flickering red / blue) talk with it, then split into A and B; the boss turns to
+// dust; A calls his brother home; the two run back through Levels 5 - 4 - 3 - 2 to the opening's cage room, where the
+// player walks B up to A waiting by the door of light and presses ! (Space / E). Then the "Story Ending" scene.
+// PLACEHOLDER DIALOGUE: the ten "......" lines (5 the boss's, 5 A&B's) await the final text; only the words change.
+// ---------------------------------------------------------------------
+=== Ending ===
+#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+Come on, big brother! Let's go home! #speaker:A
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE

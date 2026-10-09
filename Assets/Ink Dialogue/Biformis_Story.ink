@@ -8,6 +8,7 @@
 //   A        - người em (hình thái Xanh)
 //   B        - người anh (hình thái Đỏ)
 //   Villain  - Phản diện (nhân cách thứ hai của B) - khi không đứng trên sân khấu thì màn hình ửng đỏ khi nói
+//   AB       - A&B, hai anh em còn dính làm một (cảnh kết thúc)
 //   Teen     - Thiếu niên (chính là A, dùng hình Blue Character)
 //   Mom      - Mẹ
 //   Doctor   - Bác sĩ
@@ -38,6 +39,9 @@
 //       Hồi ức hai anh em (WhiteRoom_3): Track, Vignette, B_FB (idle | run | hesitate | reach | touch | hold),
 //         A_FB (idle | run | reach | wait | hold), Drown = đuối nước (intro | loop), Montage = lớn lên (m1 | m2 | m3 | m4),
 //         CloseUp = cận cảnh nắm tay
+//       Kết thúc (Ending): EndGlow = nền tối có vùng sáng, BossEnd = boss bại trận (breathe | dust),
+//         ABMerged = A&B nháy đỏ / xanh (flicker | split), EndWorld = ảnh dài để chạy qua các màn, trong đó có
+//         A_End, B_End (idle | run)
 //         Ai có clip talk thì tự diễn talk trong lúc chữ chạy (trừ khi đang diễn clip khác, vd Mẹ đang khóc)
 //   #move:Nhân vật:x[,y][:giây]              dời nhân vật tới toạ độ x (hoặc x,y) (đơn vị canvas, 0 = giữa màn hình)
 //   #struggle:Nhân vật:số lần                người chơi chạm / bấm Space / E đủ số lần để vùng vẫy (có thanh tiến độ)
@@ -57,6 +61,9 @@
 //   #sfx:beep | stop | thud                  beep = máy đo nhịp tim (lặp), stop = tắt âm lặp
 //   #pixel:cut[:giây]                       chuyển cảnh ô pixel 2x2: cảnh đang có vỡ dần thành ô, lộ cảnh mà các tag sau dựng
 //   #pixel:RRGGBB[:giây] | #pixel:in[:giây]  phủ màn hình bằng ô màu, hoặc gỡ ô ra
+//   #follow:Thế giới:Nhân vật:x nhỏ nhất,x lớn nhất | none   camera theo nhân vật (nằm trong actor Thế giới):
+//                                           Thế giới trượt để nhân vật giữ nguyên chỗ trên màn hình
+//   #music:ending | stop                     bật nhạc kết thúc (lặp) / tắt nhạc đang chạy
 //   #layout:top | bottom                     khung thoại ở trên / dưới màn hình, giữ tới khi đổi (mỗi cảnh bắt đầu ở dưới)
 // =====================================================================
 
@@ -241,7 +248,33 @@ Giờ đến lượt em. #speaker:A
 
 
 // ---------------------------------------------------------------------
-// MÀN 5 - MÀN CUỐI: đếm ngược, không có thoại.
-// KẾT THÚC: không có thoại - làm bằng hiệu ứng trong scene "Story Ending"
-// (các màn nổ thành pixel, nhân cách thứ hai vẫy tay rồi tan biến, A và B cùng bước ra khỏi màn hình).
+// MÀN 5 - đếm ngược, không có thoại. MÀN 6 - đánh boss, không có thoại.
 // ---------------------------------------------------------------------
+
+// ---------------------------------------------------------------------
+// KẾT THÚC - sau khi hạ boss ở Màn 6. Màn chơi vỡ như kính (GlassShatter, chạy trong Màn 6), boss bại trận đứng thở
+// trong bóng tối, A&B (nháy đỏ / xanh) nói chuyện với hắn, rồi tách thành A và B; boss tan thành bụi; A gọi anh về;
+// hai anh em chạy qua Màn 5 - 4 - 3 - 2 về phòng giam của cảnh mở đầu; người chơi đi B tới chỗ A đứng chờ ở cánh cửa
+// ánh sáng và bấm ! (Space / E). Sau đó là scene "Story Ending" (bệnh viện).
+// THOẠI TẠM: 10 dòng "......" (5 của boss, 5 của A&B) chờ thoại chính thức - chỉ cần thay chữ, giữ nguyên tag.
+// EndWorld (ảnh dài: phòng giam | Màn 2 | 3 | 4 | 5 | khoảng tối): x = 0 khi phòng giam nằm giữa màn hình, -4304 khi
+// khoảng tối nằm giữa. A_End / B_End nằm trong EndWorld: toạ độ của họ = toạ độ trên màn hình - x của EndWorld.
+// Vị trí boss (-150,-58) và A&B (150,-22) khớp với GlassShatter.BossStagePosition / PlayerStagePosition.
+// ---------------------------------------------------------------------
+=== Ending ===
+#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+Anh ơi! Về thôi! #speaker:A
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE

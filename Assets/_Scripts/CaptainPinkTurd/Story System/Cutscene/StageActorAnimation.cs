@@ -30,6 +30,10 @@ namespace CaptainPinkTurd.Story.Cutscene
 
         [Tooltip("Canvas units per art pixel. 0 leaves the Image's layout alone (e.g. a portrait that fills its frame).")]
         [SerializeField] private float unitsPerPixel = 5f;
+        [Tooltip("0: every frame's pixels are unitsPerPixel. Otherwise a frame imported at another pixels-per-unit is " +
+                 "scaled by this / its own, so clips drawn at different resolutions (the defeated boss's breathing and " +
+                 "dust sheets) stand at the same size")]
+        [SerializeField] private float referencePixelsPerUnit;
         [Tooltip("Played whenever the actor comes on stage")]
         [SerializeField] private string defaultClip;
         [SerializeField] private Clip[] clips;
@@ -145,7 +149,8 @@ namespace CaptainPinkTurd.Story.Cutscene
 
             var rect = (RectTransform)transform;
             rect.pivot = sprite.pivot / sprite.rect.size;
-            rect.sizeDelta = sprite.rect.size * unitsPerPixel;
+            float scale = referencePixelsPerUnit > 0f ? referencePixelsPerUnit / sprite.pixelsPerUnit : 1f;
+            rect.sizeDelta = sprite.rect.size * (unitsPerPixel * scale);
         }
 
         private Clip Find(string clipName)

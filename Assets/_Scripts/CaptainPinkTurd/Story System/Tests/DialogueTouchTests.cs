@@ -191,6 +191,96 @@ namespace CaptainPinkTurd.Story.Tests
             yield return WaitFor(() => SceneManager.GetActiveScene().name == "Level Story Corridor", 30f, "the corridor after the memory");
         }
 
+        [UnityTest, Timeout(180000)]
+        public IEnumerator TheEndingIsLeftThroughTheDoorOfLightWithTheTouchControls()
+        {
+            LogAssert.ignoreFailingMessages = true;
+            var data = UnityEditor.AssetDatabase.LoadAssetAtPath<Scene.Story.StoryData>("Assets/Game Data/Story/Story Data.asset");
+            int step = 0;
+            while (data.Steps[step].knotName != "Ending") step++;
+            SceneManager.LoadScene("Core");
+            yield return WaitFor(() => GameObject.Find(StoryMenu.LEVEL_SELECT_BUTTON_NAME) != null, 40f, "main menu");
+            TouchHud.Ensure();
+            yield return WaitFor(() => !Scene.SceneController.Instance.IsBusy, 10f, "menu transition");
+            Object.FindAnyObjectByType<StoryMenu>().StartAtStep(step);
+            yield return WaitFor(() => DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsPlaying, 40f, "the ending");
+
+            var manager = DialogueManager.Instance;
+            var stage = Object.FindAnyObjectByType<CutsceneStage>();
+            var speakers = new List<string>();
+            void Heard(DialogueInfo info)
+            {
+                if (info.line != null) speakers.Add(info.speaker);
+            }
+            manager.OnDisplayDialogue.Subscribe(Heard);
+            bool sawSplit = false, sawDust = false, brothersOnScreen = true;
+            var screen = (RectTransform)stage.GetComponentInParent<Canvas>().rootCanvas.transform;
+            float end = Time.realtimeSinceStartup + 90f;
+            try
+            {
+                while (!stage.IsReaching)
+                {
+                    Assert.Less(Time.realtimeSinceStartup, end, "B was never handed over to walk to the door");
+                    var merged = GameObject.Find("ABMerged");
+                    sawSplit |= merged && merged.GetComponent<StageActorAnimation>().CurrentClip == "split";
+                    var boss = GameObject.Find("BossEnd");
+                    sawDust |= boss && boss.GetComponent<StageActorAnimation>().CurrentClip == "dust";
+                    //once apart, the brothers stay in view all the way (their x is the world's, not its picture's centre)
+                    foreach (var name in new[] { "A_End", "B_End" })
+                    {
+                        var brother = GameObject.Find(name);
+                        if (brother) brothersOnScreen &= OnScreen((RectTransform)brother.transform, screen);
+                    }
+                    manager.RequestContinue();
+                    yield return null;
+                    yield return null;
+                }
+            }
+            finally { manager.OnDisplayDialogue.Unsubscribe(Heard); }
+
+            CollectionAssert.AreEqual(Enumerable.Range(0, 10).Select(i => i % 2 == 0 ? "Villain" : "AB").Append("A"), speakers,
+                "the boss and A&B take turns, then A calls B home");
+            Assert.IsTrue(sawSplit, "A&B should flicker apart");
+            Assert.IsTrue(sawDust, "the boss should turn to dust");
+            Assert.IsTrue(brothersOnScreen, "A and B left the screen after they split");
+            Assert.IsNull(GameObject.Find("BossEnd"), "the boss is gone before the brothers run");
+
+            //the run ends in the cage room: A waits by the door, B is the player's to walk
+            var world = (RectTransform)GameObject.Find("EndWorld").transform;
+            var a = stage.ReachTarget;
+            var b = stage.ReachWalker;
+            Assert.AreEqual("A_End", a.name);
+            Assert.AreEqual("B_End", b.name);
+            Assert.AreEqual(0f, world.anchoredPosition.x, 0.5f, "the run should stop with the cage room on screen");
+            Assert.Greater(b.anchoredPosition.x, a.anchoredPosition.x + 100f, "B should start well away from A and the door");
+
+            yield return null; //the HUD draws its buttons in its own Update
+            Assert.AreEqual("red_disabled", TouchHud.Clip("Interact"), "the button is lit while B is far from the door");
+            yield return TouchHud.Tap("Interact");
+            Assert.IsTrue(stage.IsReaching, "the button opened the door while B was far from it");
+
+            float bOnScreen = world.anchoredPosition.x + b.anchoredPosition.x;
+            yield return TouchHud.TakeTheBox(stage);
+            Assert.IsFalse(stage.IsReaching, "the lit button didn't take B through the door");
+            Assert.IsTrue(OnScreen(a, screen) && OnScreen(b, screen), "A and B should be in view at the door");
+            Assert.Greater(world.anchoredPosition.x, 100f, "the camera should follow B along the room towards the door");
+            Assert.AreEqual(bOnScreen, world.anchoredPosition.x + b.anchoredPosition.x, 4f, "B keeps its place on screen while the room slides");
+            var label = new SerializedObject(Object.FindObjectsByType<LocalizedText>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .First(text => text.name == "Take Prompt"));
+            Assert.AreEqual("stage.enter", label.FindProperty("key").stringValue, "the prompt should say B goes in");
+
+            yield return WaitFor(() => SceneManager.GetActiveScene().name == "Story Ending", 30f, "the hospital after the door");
+        }
+
+        //the rect's centre lies inside the stage (the screen)
+        private static bool OnScreen(RectTransform rect, RectTransform screen)
+        {
+            var corners = new Vector3[4];
+            screen.GetWorldCorners(corners);
+            var centre = rect.TransformPoint(rect.rect.center);
+            return centre.x > corners[0].x && centre.x < corners[2].x && centre.y > corners[0].y && centre.y < corners[2].y;
+        }
+
         private IEnumerator OpenIntro()
         {
             SceneManager.LoadScene("Core");
