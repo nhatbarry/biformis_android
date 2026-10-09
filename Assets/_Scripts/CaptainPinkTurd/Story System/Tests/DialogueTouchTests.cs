@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Story.Cutscene;
 using NUnit.Framework;
@@ -121,6 +123,72 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.Less(Vector2.Distance(box.anchoredPosition, b.anchoredPosition + new Vector2(-18f, 4f)), 0.5f, "the box isn't in B's hand");
             Assert.IsNull(TouchHud.Find("Move Zone"), "the touch controls stay up after the box is taken");
             yield return WaitFor(() => linesShown > 0, 15f, "the first line of the past");
+        }
+
+        /// <summary>
+        /// The brothers' memory after the end of Level 4: A holds out a hand first, and only then is the player handed B,
+        /// to walk up with the joystick and take the hand with the lit "!" button. The drowning's lines stand at the top,
+        /// the joined hands get their close-up, and the story moves on to the corridor.
+        /// </summary>
+        [UnityTest, Timeout(240000)]
+        public IEnumerator TheBrothersHandsAreJoinedWithTheTouchControls()
+        {
+            LogAssert.ignoreFailingMessages = true;
+            var data = UnityEditor.AssetDatabase.LoadAssetAtPath<Scene.Story.StoryData>("Assets/Game Data/Story/Story Data.asset");
+            int step = 0;
+            while (data.Steps[step].knotName != "Level4_End") step++;
+            SceneManager.LoadScene("Core");
+            yield return WaitFor(() => GameObject.Find(StoryMenu.LEVEL_SELECT_BUTTON_NAME) != null, 40f, "main menu");
+            TouchHud.Ensure();
+            yield return WaitFor(() => !Scene.SceneController.Instance.IsBusy, 10f, "menu transition");
+            Object.FindAnyObjectByType<StoryMenu>().StartAtStep(step);
+            yield return WaitFor(() => DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsPlaying, 40f, "the end of Level 4");
+
+            var manager = DialogueManager.Instance;
+            var stage = Object.FindAnyObjectByType<CutsceneStage>();
+            var panel = (RectTransform)Object.FindAnyObjectByType<DialoguePanelUI>().transform;
+            bool drowningLineAtTop = false, drowningLineAtBottom = false;
+            float end = Time.realtimeSinceStartup + 150f;
+            //read on (the box is taken on the way) until B is handed over for the hands
+            while (!(stage.IsReaching && stage.ReachWalker.name == "B_FB"))
+            {
+                Assert.Less(Time.realtimeSinceStartup, end, "the brothers' hands never came");
+                if (stage.IsReaching) yield return TouchHud.TakeTheBox(stage);
+                var drown = GameObject.Find("Drown");
+                if (drown && !manager.IsStaging && manager.DialogueIsPlaying)
+                {
+                    drowningLineAtTop |= panel.pivot.y > 0.5f;
+                    drowningLineAtBottom |= panel.pivot.y < 0.5f;
+                }
+                manager.RequestContinue();
+                yield return null;
+                yield return null;
+            }
+            Assert.IsTrue(drowningLineAtTop && !drowningLineAtBottom, "the drowning's lines should stand at the top, off A");
+            Assert.Less(panel.pivot.y, 0.5f, "the panel goes back to the bottom after the drowning");
+            var cut = GameObject.Find("Pixel Cut");
+            Assert.IsTrue(!cut || cut.transform.childCount == 0, "a pixel cut left its frozen pictures behind");
+
+            var a = stage.ReachTarget;
+            var b = stage.ReachWalker;
+            yield return null; //the HUD draws its buttons in its own Update
+            Assert.AreEqual("A_FB", a.name);
+            Assert.AreEqual("wait", a.GetComponent<StageActorAnimation>().CurrentClip, "A should hold out a hand before B moves");
+            Assert.AreEqual("red_disabled", TouchHud.Clip("Interact"), "the button is lit while B is far from A");
+            yield return TouchHud.Tap("Interact");
+            Assert.IsTrue(stage.IsReaching, "the button took the hand while B was far from A");
+
+            yield return TouchHud.TakeTheBox(stage);
+            Assert.IsFalse(stage.IsReaching, "the lit button didn't take the hand");
+            var label = new SerializedObject(Object.FindObjectsByType<LocalizedText>(FindObjectsInactive.Include, FindObjectsSortMode.None)
+                .First(text => text.name == "Take Prompt"));
+            Assert.AreEqual("stage.hold", label.FindProperty("key").stringValue, "the prompt should say what B does");
+            Assert.AreEqual("stage.hold_touch", label.FindProperty("touchKey").stringValue, "the prompt should say what B does");
+
+            var closeUp = a.parent.Find("CloseUp");
+            yield return WaitFor(() => closeUp.gameObject.activeInHierarchy, 5f, "the close-up of the joined hands");
+            Assert.AreEqual(48f, a.anchoredPosition.x - b.anchoredPosition.x, 0.01f, "B should stand where the two hands meet");
+            yield return WaitFor(() => SceneManager.GetActiveScene().name == "Level Story Corridor", 30f, "the corridor after the memory");
         }
 
         private IEnumerator OpenIntro()

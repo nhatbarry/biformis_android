@@ -26,11 +26,12 @@ namespace CaptainPinkTurd.Story.Tests
             ["bg"] = new[] { "white", "black", "hospital", "past" },
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
+            ["layout"] = new[] { "top", "bottom" },
         };
         private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none",
             "Room", "Lever", "Trapdoor", "CageFront", "Spotlight", "Captives", "Villain_Op", "Level1", "Shaft", "B_Fall", "Hospital",
             "Track", "B_FB", "A_FB", "Vignette", "Dungeon", "DRoom", "Door", "Gap", "Bed_D", "Bed_Empty", "Vent", "TeenB", "Villain_D",
-            "Caption", "DarkDungeon", "DarkRoom", "A4", "B4", "Bedroom", "WallShadow", "BSit" };
+            "Caption", "DarkDungeon", "DarkRoom", "A4", "B4", "Bedroom", "WallShadow", "BSit", "Drown", "Montage", "CloseUp" };
         //clips of the actors with a StageActorAnimation in the Story Cutscene scene (the Aseprite tags)
         private static readonly Dictionary<string, string[]> AnimClips = new()
         {
@@ -54,6 +55,11 @@ namespace CaptainPinkTurd.Story.Tests
             ["B4"] = new[] { "idle", "run" },
             ["Bedroom"] = new[] { "idle", "bang" },
             ["BSit"] = new[] { "hug", "rock", "up", "shiver", "slam", "down" },
+            ["A_FB"] = new[] { "idle", "run", "reach", "wait", "hold" },
+            ["B_FB"] = new[] { "idle", "run", "hesitate", "reach", "touch", "hold" },
+            ["Drown"] = new[] { "intro", "loop" },
+            ["Montage"] = new[] { "m1", "m2", "m3", "m4" },
+            ["CloseUp"] = new[] { "hold_loop" },
         };
         //who speaks each line of the team's preview GIFs (the lines themselves are the user's, copied verbatim)
         private static readonly string[] AfterLevel3Speakers =
@@ -62,6 +68,8 @@ namespace CaptainPinkTurd.Story.Tests
             "TeenB", "B", "TeenB", "B", "TeenB", "B", "Villain", "B", "Villain", "A", "B", "A", "Villain", "A", "Villain", //the dungeon
         };
         private static readonly string[] Level4EndSpeakers = { "A", "A", "B", "A", "B", "A", "B", "B", "A", "Doctor", "Mom", "Doctor" };
+        //the Scene_HoiUc_AnhEm preview's eight lines (placeholders until the final dialogue), L2 in two parts like the preview
+        private static readonly string[] BrothersMemorySpeakers = { "A", "A", "A", "B", "A", "A", "B", "A", "A" };
 
         private static StoryData Data => AssetDatabase.LoadAssetAtPath<StoryData>(StoryDataPath);
 
@@ -169,6 +177,37 @@ namespace CaptainPinkTurd.Story.Tests
             var hospital = lines[9].tags;
             Assert.Less(hospital.IndexOf("cast:Caption"), hospital.IndexOf("cast:Hospital,Mom,Doctor"), "the beeps come before the hospital");
             Assert.Contains("anim:Mom:cry", lines[12].tags, $"{inkPath}: Mom cries after the doctor's last line");
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void TheBrothersMemoryFollowsItsPack(string inkPath)
+        {
+            var lines = Lines(inkPath, "WhiteRoom_3");
+            CollectionAssert.AreEqual(BrothersMemorySpeakers, lines.Take(BrothersMemorySpeakers.Length).Select(l => l.speaker).ToArray(),
+                $"{inkPath}: speakers of the brothers' memory");
+            //track -> drowning (panel at the top, off A) -> track -> montage -> track
+            Assert.Contains("cast:Track,B_FB,A_FB,Vignette", lines[0].tags, $"{inkPath}: it opens on the track");
+            Assert.Contains("cast:Drown", lines[1].tags, $"{inkPath}: the drowning comes with L2a");
+            Assert.Contains("layout:top", lines[1].tags, $"{inkPath}: the drowning's lines stand at the top");
+            Assert.Contains("layout:bottom", lines[3].tags, $"{inkPath}: back on the track the panel goes down again");
+            Assert.Contains("anim:Montage:m1", lines[4].tags, $"{inkPath}: the montage comes with L4");
+            var montage = lines[5].tags;
+            Assert.Less(montage.IndexOf("anim:Montage:m2"), montage.IndexOf("anim:Montage:m3"), "m2 before m3");
+            Assert.Less(montage.IndexOf("anim:Montage:m4"), montage.IndexOf("cast:Track,B_FB,A_FB,Vignette"), "m4 before the track");
+            foreach (var line in lines.Take(BrothersMemorySpeakers.Length))
+            {
+                int cut = line.tags.FindIndex(t => t.StartsWith("pixel:cut"));
+                if (cut >= 0) Assert.Less(cut, line.tags.FindIndex(t => t.StartsWith("cast:")), $"{inkPath}: the pixel cut must freeze the stage before the cast changes: {line.text}");
+            }
+            //after the last line: A holds out a hand first, B hesitates, then the player walks B over and takes it
+            var hands = lines[BrothersMemorySpeakers.Length].tags;
+            int aReach = hands.IndexOf("anim:A_FB:reach"), hesitate = hands.IndexOf("anim:B_FB:hesitate");
+            int reach = hands.IndexOf("reach:B_FB:A_FB:-120:stage.hold"), hold = hands.IndexOf("hold");
+            int bReach = hands.IndexOf("anim:B_FB:reach"), closeUp = hands.IndexOf("cast:CloseUp");
+            Assert.That(aReach >= 0 && aReach < hesitate && hesitate < reach && reach < hold && hold < bReach && bReach < closeUp,
+                $"{inkPath}: hand-holding order: {string.Join(" ", hands)}");
+            Assert.AreEqual(BrothersMemorySpeakers.Length + 1, lines.Count, $"{inkPath}: nothing should follow the close-up");
         }
 
         [Test]
@@ -298,7 +337,9 @@ namespace CaptainPinkTurd.Story.Tests
                     break;
                 case "reach":
                     var reach = value.Split(':');
-                    Assert.That(reach.Length == 3 && CastIds.Contains(reach[1]) && IsNumber(reach[2]), $"{knot}: reach tag '{tag}' is not reach:Walker:Target:maxX");
+                    Assert.That(reach.Length is 3 or 4 && CastIds.Contains(reach[1]) && IsNumber(reach[2]), $"{knot}: reach tag '{tag}' is not reach:Walker:Target:maxX[:promptKey]");
+                    if (reach.Length == 4)
+                        Assert.IsTrue(Localization.TryGet(reach[3], out _) && Localization.TryGet(reach[3] + "_touch", out _), $"{knot}: prompt {reach[3]} (and _touch) not in the localization table");
                     Assert.IsTrue(AnimClips[reach[0]].Contains("idle") && AnimClips[reach[0]].Contains("run"), $"{knot}: {reach[0]} can't walk (no idle/run clips)");
                     break;
                 case "alpha":
@@ -308,6 +349,12 @@ namespace CaptainPinkTurd.Story.Tests
                 case "shake":
                     var shake = value.Split(':');
                     Assert.That(shake.Length is 1 or 2 && shake.All(IsNumber), $"{knot}: shake tag '{tag}' is not shake:units[:seconds]");
+                    break;
+                case "pixel":
+                    var pixel = value.Split(':');
+                    Assert.That(pixel.Length is 1 or 2 && (pixel.Length == 1 || IsNumber(pixel[1])) &&
+                                (pixel[0] is "cut" or "in" || (pixel[0].Length == 6 && ColorUtility.TryParseHtmlString("#" + pixel[0], out _))),
+                        $"{knot}: pixel tag '{tag}' is not pixel:cut|in|RRGGBB[:seconds]");
                     break;
                 default:
                     Assert.IsTrue(StageTagValues.ContainsKey(key), $"{knot}: unknown tag {tag}");

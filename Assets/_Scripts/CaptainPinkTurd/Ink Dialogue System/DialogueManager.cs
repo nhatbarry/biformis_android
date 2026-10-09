@@ -38,8 +38,10 @@ namespace CaptainPinkTurd.InkDialogue
         private Animator layoutAnimator;
 
         public const string DEFAULT_SPEAKER = "Default";
+        public const string DEFAULT_LAYOUT = "bottom";
 
         private string currentSpeaker = DEFAULT_SPEAKER;
+        private string currentLayout = DEFAULT_LAYOUT;
         private int currentChoiceIndex = -1;
         
         //very specific guard that prevent when interact input from InteractionDetector2D trigger
@@ -141,6 +143,7 @@ namespace CaptainPinkTurd.InkDialogue
             
             //reset portrait, layout and speaker
             currentSpeaker = DEFAULT_SPEAKER;
+            currentLayout = DEFAULT_LAYOUT;
             //layoutAnimator.Play("left");
             
             //start listening for variables
@@ -238,7 +241,8 @@ namespace CaptainPinkTurd.InkDialogue
             {
                 speaker = currentSpeaker,
                 line = dialogueLine,
-                choices = story.currentChoices
+                choices = story.currentChoices,
+                layout = currentLayout
             });
         }
 
@@ -352,6 +356,7 @@ namespace CaptainPinkTurd.InkDialogue
                         //portraitAnimator.Play(tagValue);
                         break;
                     case LAYOUT_TAG:
+                        currentLayout = tagValue; //kept until changed, like the speaker
                         if (layoutAnimator) layoutAnimator.Play(tagValue);
                         break;
                     default:

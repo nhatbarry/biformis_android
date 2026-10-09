@@ -5,6 +5,7 @@ using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Core.InputPaths;
+using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.InkDialogue;
 using DG.Tweening;
 using UnityEngine;
@@ -29,10 +30,14 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #knock:ActorId:level                       one weaker knock: "bang" once and the knock text at that opacity
     ///   #attach:ActorId:TargetId:dx,dy | :none     keeps an actor (a prop) at another's position plus an offset, e.g. a box
     ///                                              in someone's hand, until attached elsewhere or to none
-    ///   #reach:ActorId:TargetId:maxX               the player walks the actor (left/right keys, A/D, a stick - on phones
+    ///   #reach:ActorId:TargetId:maxX[:promptKey]   the player walks the actor (left/right keys, A/D, a stick - on phones
     ///                                              the touch HUD's joystick, shown for it) up to the target, then acts
     ///                                              with Interact (E / Space, the HUD's "!" button, lit once close
-    ///                                              enough); taps on the stage don't count; put #hold after it
+    ///                                              enough); taps on the stage don't count; put #hold after it. The
+    ///                                              prompt reads promptKey / promptKey_touch (default stage.take)
+    ///   #pixel:cut[:seconds]                       freezes what is on stage, then dissolves that picture away in 2x2 art
+    ///                                              pixel blocks over whatever the following tags put on stage
+    ///   #pixel:RRGGBB[:seconds] | #pixel:in[:seconds]  covers the screen with blocks of a colour, or uncovers it
     ///   #alpha:ActorId:opacity[:seconds]           fades a whole actor (e.g. a shadow on the wall)
     ///   #shake:units[:seconds]                     shakes the stage (4 units = one art pixel)
     ///   #struggle:ActorId:count                    a struggle the player taps (or presses Space / Interact) through:
@@ -94,6 +99,13 @@ namespace CaptainPinkTurd.Story.Cutscene
         [Tooltip("How far above the walker's centre the prompt and hint stand")]
         [SerializeField] private float reachPromptHeight = 76f;
 
+        [Header("Pixel Transition")]
+        [Tooltip("Canvas units per block (2 art pixels, like the team's preview)")]
+        [SerializeField] private float pixelBlockSize = 8f;
+        [Tooltip("How many steps a pixel transition takes")]
+        [SerializeField] private int pixelSteps = 8;
+        [SerializeField] private float pixelTime = 0.56f;
+
         [Header("Struggle")]
         [Tooltip("Shown during a struggle; its child Images are the segments, filled left to right")]
         [SerializeField] private RectTransform struggleMeter;
@@ -108,6 +120,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         [SerializeField] private SerializeKeyValuePair<string, AudioClip>[] sounds;
 
         private const string TalkClip = "talk";
+        private const string DefaultReachPrompt = "stage.take";
         private readonly HashSet<string> castOnStage = new(StringComparer.OrdinalIgnoreCase);
         private readonly List<StageActorAnimation> talking = new();
         private StageActorAnimation struggler;
@@ -123,6 +136,11 @@ namespace CaptainPinkTurd.Story.Cutscene
         private float shakeEnds, shakeStrength;
         private AudioClip monitorBeepClip;
         private Tween villainTween;
+        //pixel transitions: a cover of coloured blocks, and a frozen copy of the stage masked away block by block
+        private RawImage pixelCover, pixelCutMask;
+        private Texture2D pixelCoverTexture, pixelCutTexture;
+        private float[] pixelOrder;
+        private Tween pixelCoverTween, pixelCutTween;
 
         private void Awake()
         {
@@ -155,6 +173,8 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             DOTween.Kill(this);
             if (reachWalker) EndReach();
+            if (pixelCoverTexture) Destroy(pixelCoverTexture);
+            if (pixelCutTexture) Destroy(pixelCutTexture);
 
             if (!DialogueManager.HasInstance) return;
             DialogueManager.Instance.OnStageTag.Unsubscribe(HandleStageTag);
@@ -217,6 +237,9 @@ namespace CaptainPinkTurd.Story.Cutscene
                     break;
                 case "shake":
                     ShakeTag(value);
+                    break;
+                case "pixel":
+                    PixelTransition(value);
                     break;
                 default:
                     Debug.LogWarning($"Cutscene tag not handled: {tag}");
@@ -643,7 +666,7 @@ namespace CaptainPinkTurd.Story.Cutscene
 
         // ------------------------------------------------------------------ reach
 
-        //"Walker:Target:maxX": the walker stays on its side of the target, can't pass it, nor go beyond maxX
+        //"Walker:Target:maxX[:promptKey]": the walker stays on its side of the target, can't pass it, nor go beyond maxX
         private void StartReach(string value)
         {
             var parts = value.Split(':');
@@ -651,13 +674,17 @@ namespace CaptainPinkTurd.Story.Cutscene
             reachTarget = parts.Length > 1 ? FindActor(parts[1]) : null;
             if (!reachWalker || !reachTarget || parts.Length < 3 || !TryParse(parts[2], out reachMaxX))
             {
-                Debug.LogWarning($"Cutscene reach is not Walker:Target:maxX: {value}");
+                Debug.LogWarning($"Cutscene reach is not Walker:Target:maxX[:promptKey]: {value}");
                 reachWalker = reachTarget = null;
                 DialogueManager.Instance.ReleaseStageHold();
                 return;
             }
             reachMoved = false;
             reachTime = 0f;
+            //what the walker does once close: take the box, hold a hand...
+            string prompt = parts.Length > 3 ? parts[3].Trim() : DefaultReachPrompt;
+            var label = reachPrompt ? reachPrompt.GetComponentInChildren<LocalizedText>(true) : null;
+            if (label) label.SetKeys(prompt, prompt + "_touch");
             //on phones the touch HUD (otherwise only in levels) brings its joystick and "!" button, in B's red
             InteractPrompt.ShowCutsceneControls(EColor.Red);
         }
@@ -665,6 +692,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         /// <summary>A reach is waiting for the player to walk up to its target and act.</summary>
         public bool IsReaching => reachWalker;
         public RectTransform ReachTarget => reachTarget ? (RectTransform)reachTarget.transform : null;
+        public RectTransform ReachWalker => reachWalker ? (RectTransform)reachWalker.transform : null;
 
         private bool ReachNear() =>
             Mathf.Abs(((RectTransform)reachWalker.transform).anchoredPosition.x - ((RectTransform)reachTarget.transform).anchoredPosition.x) <= reachNearDistance + 0.01f;
@@ -758,6 +786,155 @@ namespace CaptainPinkTurd.Story.Cutscene
             if (reachHint) reachHint.gameObject.SetActive(false);
             InteractPrompt.SetInReach(this, false);
             InteractPrompt.HideCutsceneControls();
+        }
+
+        // ------------------------------------------------------------------ pixel transition
+
+        //"cut[:seconds]", "in[:seconds]" or "RRGGBB[:seconds]"; the blocks go in one fixed random order, a step at a time
+        private void PixelTransition(string value)
+        {
+            if (!shakeTarget) return;
+            var parts = value.Split(':');
+            string mode = parts[0].Trim();
+            float seconds = pixelTime;
+            if (parts.Length > 1) TryParse(parts[1], out seconds);
+            EnsurePixelLayers();
+
+            if (mode.Equals("cut", StringComparison.OrdinalIgnoreCase))
+            {
+                if (pixelCutTween != null && pixelCutTween.IsActive()) pixelCutTween.Complete();
+                FreezeStage();
+                pixelCutTween = PixelTween(pixelCutTexture, false, seconds,
+                    () => DestroyChildren(pixelCutMask.transform, pixelCutMask.gameObject));
+                return;
+            }
+
+            bool cover = !mode.Equals("in", StringComparison.OrdinalIgnoreCase);
+            if (cover)
+            {
+                if (!ColorUtility.TryParseHtmlString("#" + mode, out Color color))
+                {
+                    Debug.LogWarning($"Cutscene pixel is not cut|in|RRGGBB[:seconds]: {value}");
+                    return;
+                }
+                pixelCover.color = color;
+            }
+            if (pixelCoverTween != null && pixelCoverTween.IsActive()) pixelCoverTween.Kill();
+            pixelCover.gameObject.SetActive(true);
+            //covering grows the blocks from none, uncovering takes them away from all
+            pixelCoverTween = PixelTween(pixelCoverTexture, cover, seconds, cover ? null : () => pixelCover.gameObject.SetActive(false));
+        }
+
+        private Tween PixelTween(Texture2D texture, bool growing, float seconds, TweenCallback done)
+        {
+            int shown = -1;
+            void Step(float progress)
+            {
+                int step = Mathf.CeilToInt(progress * pixelSteps);
+                if (step == shown) return;
+                shown = step;
+                float level = (float)step / pixelSteps;
+                FillBlocks(texture, growing ? level : 1f - level);
+            }
+            Step(0f);
+            if (seconds <= 0f)
+            {
+                Step(1f);
+                done?.Invoke();
+                return null;
+            }
+            return DOVirtual.Float(0f, 1f, seconds, Step).SetEase(Ease.Linear).SetUpdate(true).SetId(this).OnComplete(done);
+        }
+
+        //a block is opaque while its place in the order is below the level
+        private void FillBlocks(Texture2D texture, float level)
+        {
+            var pixels = new Color32[pixelOrder.Length];
+            for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color32(255, 255, 255, (byte)(pixelOrder[i] < level ? 255 : 0));
+            texture.SetPixels32(pixels);
+            texture.Apply();
+        }
+
+        //one block grid over the whole stage, wide screens included, lined up with the art's 2x2 pixels
+        private void EnsurePixelLayers()
+        {
+            if (pixelCover) return;
+            var size = shakeTarget.rect.size;
+            //wide enough for any phone (up to 2.5:1), so a later resize or rotation never leaves the sides uncovered
+            size.x = Mathf.Max(size.x, size.y * 2.5f);
+            int columns = 2 * Mathf.CeilToInt(size.x / pixelBlockSize / 2f);
+            int rows = 2 * Mathf.CeilToInt((size.y / pixelBlockSize - 1f) / 2f) + 1;
+            var random = new System.Random(7);
+            var order = new int[columns * rows];
+            for (int i = 0; i < order.Length; i++) order[i] = i;
+            for (int i = order.Length - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                (order[i], order[j]) = (order[j], order[i]);
+            }
+            pixelOrder = new float[order.Length];
+            for (int i = 0; i < order.Length; i++) pixelOrder[order[i]] = (i + 0.5f) / order.Length;
+
+            var gridSize = new Vector2(columns, rows) * pixelBlockSize;
+            pixelCutMask = CreateBlockLayer("Pixel Cut", gridSize, columns, rows, out pixelCutTexture);
+            pixelCutMask.gameObject.AddComponent<Mask>().showMaskGraphic = false;
+            pixelCover = CreateBlockLayer("Pixel Cover", gridSize, columns, rows, out pixelCoverTexture);
+            pixelCover.gameObject.SetActive(false);
+        }
+
+        private RawImage CreateBlockLayer(string layerName, Vector2 size, int columns, int rows, out Texture2D texture)
+        {
+            var rect = new GameObject(layerName, typeof(RectTransform)).GetComponent<RectTransform>();
+            rect.SetParent(shakeTarget, false);
+            rect.sizeDelta = size;
+            texture = new Texture2D(columns, rows, TextureFormat.RGBA32, false)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp,
+            };
+            var image = rect.gameObject.AddComponent<RawImage>();
+            image.texture = texture;
+            image.raycastTarget = false;
+            FillBlocks(texture, 0f);
+            return image;
+        }
+
+        //copies of every picture on stage as it is this frame, in drawing order, under the block mask
+        private void FreezeStage()
+        {
+            var cut = (RectTransform)pixelCutMask.transform;
+            cut.gameObject.SetActive(true);
+            cut.SetAsLastSibling();
+            pixelCover.transform.SetAsLastSibling();
+            foreach (var source in shakeTarget.GetComponentsInChildren<Image>())
+            {
+                if (!source.enabled || source.transform.IsChildOf(cut)) continue;
+                var copy = new GameObject(source.name, typeof(RectTransform)).GetComponent<RectTransform>();
+                copy.SetParent(cut, false);
+                var from = source.rectTransform;
+                copy.pivot = from.pivot;
+                copy.sizeDelta = from.rect.size;
+                copy.SetPositionAndRotation(from.position, from.rotation);
+                var scale = from.lossyScale;
+                var parentScale = cut.lossyScale;
+                copy.localScale = new Vector3(scale.x / parentScale.x, scale.y / parentScale.y, 1f);
+
+                var image = copy.gameObject.AddComponent<Image>();
+                image.sprite = source.sprite;
+                image.type = source.type;
+                image.preserveAspect = source.preserveAspect;
+                image.material = source.material;
+                image.raycastTarget = false;
+                var color = source.color;
+                color.a *= source.canvasRenderer.GetInheritedAlpha();
+                image.color = color;
+            }
+        }
+
+        private static void DestroyChildren(Transform parent, GameObject hide)
+        {
+            for (int i = parent.childCount - 1; i >= 0; i--) Destroy(parent.GetChild(i).gameObject);
+            hide.SetActive(false);
         }
 
         //is any part of the rect inside the stage (the visible screen)?

@@ -103,6 +103,7 @@ namespace CaptainPinkTurd.InkDialogue
             choiceGroup.RemoveAllLayoutElements();
             currentChoiceButtons.Clear();
             graphicRaycaster.enabled = true;
+            SetLayout(DialogueManager.DEFAULT_LAYOUT);
         }
         private void DisplayDialogue(DialogueInfo dialogueInfo)
         {
@@ -113,6 +114,7 @@ namespace CaptainPinkTurd.InkDialogue
             }
 
             graphicRaycaster.enabled = true; //a line with choices may have turned it off
+            SetLayout(dialogueInfo.layout);
             SetHiddenObjectsActive(false);
             SetSpeakerName(dialogueInfo.speaker);
             typewriterText.StartTyping(dialogueInfo.speaker, dialogueInfo.line, dialogueText.alignment, () =>
@@ -193,6 +195,19 @@ namespace CaptainPinkTurd.InkDialogue
             {
                 portraitFrame.SetActive(false);
             }
+        }
+
+        //"top" mirrors the panel to the top edge (same margin), anything else puts it back at the bottom
+        private void SetLayout(string layout)
+        {
+            var panel = (RectTransform)transform;
+            float edge = layout == "top" ? 1f : 0f;
+            if (Mathf.Approximately(panel.pivot.y, edge)) return;
+
+            panel.anchorMin = new Vector2(panel.anchorMin.x, edge);
+            panel.anchorMax = new Vector2(panel.anchorMax.x, edge);
+            panel.pivot = new Vector2(panel.pivot.x, edge);
+            panel.anchoredPosition = new Vector2(panel.anchoredPosition.x, -panel.anchoredPosition.y);
         }
 
         private void SetHiddenObjectsActive(bool active)

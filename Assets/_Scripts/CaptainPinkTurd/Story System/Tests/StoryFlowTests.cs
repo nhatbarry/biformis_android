@@ -237,7 +237,7 @@ namespace CaptainPinkTurd.Story.Tests
             var stage = Object.FindAnyObjectByType<CutsceneStage>();
             while (DialogueManager.Instance.DialogueIsPlaying)
             {
-                //the end of Level 4 waits for the player to walk B up to A: the touch joystick, then the "!" button
+                //a reach (the end of Level 4's box, the brothers' hands) waits for the player to walk B up to A: the touch joystick, then the "!" button
                 if (stage && stage.IsReaching) yield return TouchHud.TakeTheBox(stage);
                 //while the stage holds the dialogue a press only goes to the stage (e.g. the opening's struggle),
                 //so those don't count towards the line limit

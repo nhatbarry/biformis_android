@@ -124,19 +124,25 @@ This second personality can make his wishes come true. So, I'm sorry to say it h
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
-<i>(Back in the white room. A and B face each other.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B #fade:in:0.8 #wait:0.8
-It's been a few years since then. #speaker:A
-Then one day the doctor said you were showing signs of improvement.
-They took the chance to help me get into your mind and bring you back.
-Do you remember? When I was little, I nearly drowned at the beach, and I've been afraid ever since.
+// PLACEHOLDER DIALOGUE: the lines (not starting with #) are the Scene_HoiUc_AnhEm preview's, waiting for the final dialogue.
+// Replacing each line's words is enough; the tags-only line above a line is its staging and stays as it is.
+// Track (Track, B_FB, A_FB) -> drowning (Drown, panel at the top) -> track -> growing up (Montage m1-m4) -> track
+// -> A steps closer and holds out a hand; B looks down, pulls back twice -> the player walks B over, Space / E / ! -> hands close-up.
+#sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
+Do you still remember that summer? The time I nearly drowned. #speaker:A
+#layout:top #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+I kept sinking, water filled my nose, I couldn't see anything. #speaker:A
+Then you dove in. You pulled me up. #speaker:A
+#layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
 [speed=0.4]... #speaker:B
-But I don't regret it one bit, because from then on you always stayed right beside me whenever we went swimming. #speaker:A
-Seeing you like that made me so happy. I don't want the caring brother who always worried I'd drown to disappear.
-No matter what, those memories are what made me who I am now.
-Isn't it beautiful, the things that make us different?
-I just want to be myself, and I want you to be yourself too, even if it hurts a little.
-Let's go home. I'll help you through this, like you once helped me. I believe you can do it.
-<i>(The two hold hands.)</i> #speaker:Narrator #fx:flash
+#pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
+Since that day, wherever you went, I followed. #speaker:A
+#pixel:cut:0.48 #anim:Montage:m2 #wait:2.4 #pixel:cut:0.48 #anim:Montage:m3 #wait:2.5 #pixel:cut:0.48 #anim:Montage:m4 #wait:2.9 #pixel:cut:0.7 #cast:Track,B_FB,A_FB,Vignette #wait:1.2
+I've grown up and I'm still the same. Still tagging along after you. #speaker:A
+I'm not the brother I was back then. #speaker:B
+It's okay. Back then you pulled me up. #speaker:A
+Now it's my turn. #speaker:A
+#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
 -> DONE
 
 

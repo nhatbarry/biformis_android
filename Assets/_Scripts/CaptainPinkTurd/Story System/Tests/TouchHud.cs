@@ -87,18 +87,19 @@ namespace CaptainPinkTurd.Story.Tests
         }
 
         /// <summary>
-        /// The end of Level 4 on a phone: steer B to A with the joystick, then tap the "!" button once it lights up.
+        /// A cutscene's reach on a phone (the end of Level 4's box, the brothers' hands): steer the walker to its target with
+        /// the joystick, then tap the "!" button once it lights up.
         /// </summary>
         public static IEnumerator TakeTheBox(CutsceneStage stage, float timeoutSeconds = 10f)
         {
             Assert.IsTrue(stage.IsReaching, "nothing to walk up to");
             var target = stage.ReachTarget;
-            var walker = (RectTransform)target.parent.Find("B4");
+            var walker = stage.ReachWalker;
             var thumb = PushStick(walker.anchoredPosition.x > target.anchoredPosition.x ? Vector2.left : Vector2.right);
             float end = Time.realtimeSinceStartup + timeoutSeconds;
             while (Clip("Interact") == null || !Clip("Interact").EndsWith("ready"))
             {
-                if (Time.realtimeSinceStartup > end) Assert.Fail($"the interact button never lit up (B at {walker.anchoredPosition.x}, A at {target.anchoredPosition.x})");
+                if (Time.realtimeSinceStartup > end) Assert.Fail($"the interact button never lit up ({walker.name} at {walker.anchoredPosition.x}, {target.name} at {target.anchoredPosition.x})");
                 yield return null;
             }
             LetGoOfStick(thumb);

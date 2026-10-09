@@ -35,6 +35,12 @@ namespace CaptainPinkTurd.Core.Localization
             Refresh();
         }
 
+        public void SetKeys(string newKey, string newTouchKey)
+        {
+            touchKey = newTouchKey;
+            SetKey(newKey);
+        }
+
         public void Refresh()
         {
             if (!text) text = GetComponent<TMP_Text>();
