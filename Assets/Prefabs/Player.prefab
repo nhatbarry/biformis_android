@@ -6499,7 +6499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnitSystem::CaptainPinkTurd.UnitSystem.UnitHealth
   unit: {fileID: 378778959457206378}
-  maxHealth: 3
+  maxHealth: 10
   invincibilityFrameDuration: 1
   invincibilityFrameAffectKnockback: 0
   onDamageImpactType: {fileID: 11400000, guid: da20da27d490bcc4f8b3c09ada4615f5, type: 2}
