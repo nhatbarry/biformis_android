@@ -6,12 +6,14 @@ using CaptainPinkTurd.Core.Base;
 using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Utilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CaptainPinkTurd.SpawnSystem
 {
     public class PositionBasedSpawner : MonoBehaviour
     {
         [SerializeField] private SerializeKeyValuePair<Transform, GameObjectBase>[] spawnedObjectPositionPair;
+        [SerializeField] private ObjectPoolManager.PoolType poolType = ObjectPoolManager.PoolType.GameObject;
         [SerializeField] private float secondsBetweenSpawns = 0.3f;
         [SerializeField] private SoundData spawnSfx;
         
@@ -26,7 +28,27 @@ namespace CaptainPinkTurd.SpawnSystem
         /// </summary>
         public event Action<GameObjectBase> OnObjectSpawned;
 
-        
+        private void OnEnable()
+        {
+            SceneManager.activeSceneChanged += OnActiveSceneChanged;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
+        }
+
+        //For removing the leftover objects when active scene change mid gameplay (may need to improve on this later)
+        private void OnActiveSceneChanged(Scene currentScene, Scene newScene)
+        {
+            if (gameObject.scene == newScene) return;
+            
+            foreach (var spawnObj in SpawnedObjects)
+            {
+                ObjectPoolManager.Instance.ReturnObjectToPool(spawnObj.gameObject);
+            }
+        }
+
         public IEnumerator SpawnAllPair()
         {
             SoundManager.Instance.CreateSoundBuilder().WithPosition(transform.position).WithRandomPitch().Play(spawnSfx);
@@ -39,7 +61,7 @@ namespace CaptainPinkTurd.SpawnSystem
                 if (request.Cancel) continue;
                 
                 var spawnObj = ObjectPoolManager.Instance.SpawnObject(
-                    objectPositionPair.Value.gameObject, objectPositionPair.Key.position, Quaternion.identity).GetComponent<GameObjectBase>();
+                    objectPositionPair.Value.gameObject, objectPositionPair.Key.position, Quaternion.identity, poolType).GetComponent<GameObjectBase>();
                 spawnObj.SetSpawnedFromPool(true);
                 SpawnedObjects.Add(spawnObj);
                 OnObjectSpawned?.Invoke(spawnObj);
