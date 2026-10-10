@@ -35,12 +35,12 @@ speaker.Box	Chiếc hộp đen	Black box
 speaker.System		
 speaker.Narrator		
 # --- Story level titles ---		
-level.1	Màn 1 · Chạy trốn	Level 1 · Escape
-level.2	Màn 2 · Kiệt sức	Level 2 · Exhausted
-level.3	Màn 3 · Giấc mơ	Level 3 · The Dream
-level.4	Màn 4 · Chỉ có A	Level 4 · Only A
+level.1	Màn 1	Level 1
+level.2	Màn 2 	Level 2 
+level.3	Màn 3 	Level 3 
+level.4	Màn 4 	Level 4 
 level.corridor	Hành lang	The Corridor
-level.5	Màn 5 · Sụp đổ	Level 5 · Collapse
+level.5	Màn 5	Level 5 
 level.6	Màn 6	Level 6
 level.4.subtitle	A đang xâm nhập vào tâm trí B. Không thể đổi màu.	A is breaking into B's mind. You can't switch colours.
 level.5.subtitle	Thoát ra trước khi mọi thứ sụp đổ!	Get out before everything collapses!
