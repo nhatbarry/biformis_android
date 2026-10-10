@@ -26,6 +26,8 @@ namespace CaptainPinkTurd.Game
         [SerializeField] private SoundData crushSfx;
         [SerializeField] private LayerMask crushKillLayers;
         
+        private const float HeadOnContactThreshold = 0.5f;
+
         private Vector3 startPoint;
         private SoundBuilder movingSfxBuilder;
         
@@ -106,10 +108,25 @@ namespace CaptainPinkTurd.Game
             SoundManager.Instance.CreateSoundBuilder().WithPosition(rb.position).WithRandomPitch().Play(crushSfx);
             damageable.TakeDamage(new SDamageData(damageable.MaxHealth, gameObject));
         }
+        private bool IsHeadOnContact(Collision2D other)
+        {
+            Vector2 moveDir = GetMoveDirection();
+
+            for (int i = 0; i < other.contactCount; i++)
+            {
+                //sign-agnostic: the normal's side depends on which collider is "first", only its alignment with the movement matters
+                if (Mathf.Abs(Vector2.Dot(other.GetContact(i).normal, moveDir)) > HeadOnContactThreshold) return true;
+            }
+
+            return false;
+        }
+
         private void OnCollisionEnter2D(Collision2D other)
         {
             if (!blockingLayer.Contains(other.gameObject.layer) || !isMoving) return;
             //Debug.Log($"Collision with {other.gameObject.name}");
+
+            if (!IsHeadOnContact(other)) return; //a flush edge or corner grazed while sliding is not an obstacle
 
             OnMovingStop();
 
