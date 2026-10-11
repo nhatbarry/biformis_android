@@ -40,6 +40,7 @@ namespace CaptainPinkTurd.Game.Player
             base.OnEnable();
 
             isDashing.OnValueChanged += OnDash;
+            CheatEnergyPulse.EnsureAttached(this);
         }
         protected override void OnDisable()
         {

@@ -157,6 +157,20 @@ Now it's my turn. #speaker:A
 
 
 // ---------------------------------------------------------------------
+// BEFORE LEVEL 6 - A&B run through the pipe, meet the masked villain, then the boss summons the arena.
+// BossEntranceSequence stages this inside Level 6 with no scene load during the summon.
+// PLACEHOLDER DIALOGUE: replace these six lines, preserving speaker/layout tags.
+// ---------------------------------------------------------------------
+=== BeforeBoss ===
+...... #speaker:Villain #layout:bottom
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+-> DONE
+
+// ---------------------------------------------------------------------
 // ENDING - after the boss of Level 6 falls. The level breaks like glass (GlassShatter, in Level 6), the defeated boss
 // stands breathing in the dark, A&B (flickering red / blue) talk with it, then split into A and B; the boss turns to
 // dust; A calls his brother home; the two run back through Levels 5 - 4 - 3 - 2 to the opening's cage room, where the

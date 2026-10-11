@@ -333,3 +333,11 @@ Boss phase 2 dùng bộ top-down dao ×2 do người dùng gửi: 20 Aseprite, m
 ### Ngoại lệ khung hình boss top-down (2026-10-08)
 
 Riêng Level Story 6 gọi SetAuthoredSize(..., preserveVertical: true), giữ chiều dọc 6.5 trên màn hình rộng để arena không biến thành một dải ngang. Sàn 64×48 đủ che vùng camera rộng hơn; phạm vi di chuyển vẫn giới hạn trong arena 16×10 và chừa chỗ phía trên cho thân boss/HP. Màn cũ giữ công thức cố định chiều ngang. Camera vẫn đứng yên, zoom chuyển phase vẫn dùng cùng chế độ framing và giữ nguyên cách ẩn Canvas/virtual gamepad.
+
+### Menu tạm dừng và cheat năng lượng (2026-10-11)
+
+`PauseMenuSettings` mở rộng prefab `Pause Popup`: giữ bảng điểm và ba nút cũ, thêm bảng bên cạnh dùng đúng hình nền, icon và slider Master/Music/SFX của menu chính. Cả hai menu dùng chung `AudioManager`; slider đọc lại âm lượng mỗi lần mở. Nền tối phủ toàn màn hình, hai bảng tự thu nhỏ nếu màn hình thiếu chỗ.
+
+Ô `cheat` bật/tắt `CheatSettings.Enabled`, mặc định tắt khi bắt đầu phiên Play mới và giữ lựa chọn khi đổi màn trong cùng phiên. Khi bật, HUD hiện nút đầu lâu phía trên đổi màu, bên trái Dash. Nút giả lập `<Gamepad>/leftShoulder` (`MobileControlPaths.CheatPulse`); bàn phím dùng `K`. Ẩn nút bằng `CanvasGroup` và nhả riêng input đầu lâu, giữ nguyên gamepad/joystick đang cầm.
+
+`CheatEnergyPulse` gắn vào player lúc enable. Mỗi lần bấm gây ngay 1 sát thương cho từng kẻ địch sống của bản đồ hiện tại, kể cả quái ngoài màn hình, sau tường bên trong bản đồ và quái đang hoạt động trong pool Core; loại bỏ quái tắt, bản đồ khác, player và hazard. Sóng lan đến đường biên giới hạn không gian màn chơi (`Map Bound`, hoặc `BossArenaController.PlayArea` trong arena); phần sóng chạm đường biên tan thành các tia sáng bị hấp thụ. `CheatPulseVisual` vẽ bằng mesh, dùng thời gian gameplay nên pause dừng cả sóng và hoạt ảnh hấp thụ. Cheat bỏ qua cooldown nhận sát thương bằng cờ tùy chọn `SDamageData.IgnoreInvincibility`, giữ hệ thống điểm/chết hiện tại và không bỏ qua pha biến hình của boss. Không kích hoạt trong pause, cutscene, lúc player chết hoặc bị khóa để chạy cinematic.

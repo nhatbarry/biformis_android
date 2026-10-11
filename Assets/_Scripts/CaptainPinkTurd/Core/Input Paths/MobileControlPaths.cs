@@ -26,6 +26,9 @@ namespace CaptainPinkTurd.Core.InputPaths
         public const string Interact = "<Gamepad>/buttonNorth";
         public const string SwitchDimension = "<Gamepad>/rightShoulder";
 
+        /// <summary>The optional skull energy pulse, also bound to K on desktop.</summary>
+        public const string CheatPulse = "<Gamepad>/leftShoulder";
+
         /// <summary>
         /// Opens and closes the pause menu, exactly as the Escape key does on desktop.
         /// </summary>

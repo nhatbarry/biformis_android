@@ -252,8 +252,19 @@ Giờ đến lượt em. #speaker:A
 
 
 // ---------------------------------------------------------------------
-// MÀN 5 - đếm ngược, không có thoại. MÀN 6 - đánh boss, không có thoại.
+// MÀN 5 - đếm ngược. Trước trận boss Màn 6: A&B chạy trong đường ống,
+// phản diện xuất hiện, nói chuyện rồi phẩy tay triệu hồi sàn đấu.
+// BossEntranceSequence dựng cảnh ngay trong Màn 6; không chuyển scene/loading khi triệu hồi.
+// THOẠI TẠM: thay sáu dòng dưới đây, giữ speaker và layout.
 // ---------------------------------------------------------------------
+=== BeforeBoss ===
+...... #speaker:Villain #layout:bottom
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+-> DONE
 
 // ---------------------------------------------------------------------
 // KẾT THÚC - sau khi hạ boss ở Màn 6. Màn chơi vỡ như kính (GlassShatter, chạy trong Màn 6), boss bại trận đứng thở

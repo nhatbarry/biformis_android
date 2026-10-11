@@ -8,7 +8,12 @@
         "GUID:531fc6e738769e744ab78e19a5152e71",
         "GUID:4379980e305684f4bbea58f0a9e24506",
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:2bafac87e7f4b9b418d9448d219b01ab"
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:43aa4c0ecf728254aa645ccc48be9e8f",
+        "GUID:72fc3dc73c8e49f4793a58fadc644119",
+        "GUID:68095ea3c6785fb4b8d30267c6aa893e",
+        "GUID:e98deedda116a3b41bd4dc7d9a4907f0",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

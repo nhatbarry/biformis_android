@@ -209,8 +209,10 @@ namespace CaptainPinkTurd.Story.Tests
             string tags = string.Join(" ", first);
             foreach (var tag in new[] { "reach:B4:A4:-56", "hold", "attach:Box:B4:-18,4", "cast:Bedroom,WallShadow,BSit" })
                 Assert.Contains(tag, first, $"{inkPath}: staging before the past: {tags}");
-            Assert.Less(first.IndexOf("reach:B4:A4:-56"), first.IndexOf("hold"), "the hold waits for the reach");
-            Assert.Less(first.IndexOf("hold"), first.IndexOf("cast:Bedroom,WallShadow,BSit"), "the past starts after the box");
+            int reachIndex = first.IndexOf("reach:B4:A4:-56");
+            int reachHoldIndex = first.IndexOf("hold", reachIndex + 1); // the entrance has its own earlier hold
+            Assert.Greater(reachHoldIndex, reachIndex, "the hold waits for the reach");
+            Assert.Less(reachHoldIndex, first.IndexOf("cast:Bedroom,WallShadow,BSit"), "the past starts after the box");
             //"Anh! Anh ơi!" comes after B beats his head; the hospital after the beeps
             Assert.Contains("anim:BSit:down", lines[8].tags, $"{inkPath}: A's last cry comes after the slams");
             var hospital = lines[9].tags;
@@ -367,6 +369,9 @@ namespace CaptainPinkTurd.Story.Tests
                     break;
                 case "cast":
                     foreach (var id in value.Split(',')) Assert.Contains(id.Trim(), CastIds, $"{knot}: unknown actor {id}");
+                    break;
+                case "entrance":
+                    Assert.AreEqual("A4", value, $"{knot}: unsupported entrance actor {value}");
                     break;
                 case "move":
                     var move = value.Split(':');

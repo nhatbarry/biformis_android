@@ -63,6 +63,8 @@ namespace CaptainPinkTurd.MobileControls
         [SerializeField] private Vector2 runPosition = new(-16f, 48f);
         [Tooltip("Switch form - the J key on desktop.")]
         [SerializeField] private Vector2 dimensionPosition = new(-44f, 14f);
+        [Tooltip("Optional skull energy pulse, above switch-form and to the left of dash.")]
+        [SerializeField] private Vector2 cheatPosition = new(-44f, 48f);
         [Tooltip("From the top-right corner.")]
         [SerializeField] private Vector2 pausePosition = new(-10f, -10f);
 
@@ -84,6 +86,10 @@ namespace CaptainPinkTurd.MobileControls
         private HudSpriteAnimation stickBaseArt, stickKnobArt;
         private Control interact, run, dimension, pause;
         private CanvasGroup interactVisibility;
+        private GameObject cheatRoot;
+        private MobileHudButton cheatPress;
+        private CheatSkullGraphic cheatArt;
+        private CanvasGroup cheatVisibility;
 
         private PopupManager popupManager;
         private bool menuOpen;
@@ -158,6 +164,7 @@ namespace CaptainPinkTurd.MobileControls
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
             InteractPrompt.CutsceneControlsChanged += RefreshVisibility;
+            CheatSettings.Changed += OnCheatChanged;
             if (art && art.onDimensionChange) art.onDimensionChange.Subscribe(this);
             RefreshVisibility();
         }
@@ -167,6 +174,7 @@ namespace CaptainPinkTurd.MobileControls
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
             InteractPrompt.CutsceneControlsChanged -= RefreshVisibility;
+            CheatSettings.Changed -= OnCheatChanged;
             if (art && art.onDimensionChange) art.onDimensionChange.Unsubscribe(this);
         }
 
@@ -229,6 +237,28 @@ namespace CaptainPinkTurd.MobileControls
                 ? art.swap.Find(form == EColor.Blue ? "to_blue" : "to_red")
                 : art.swap.Find(t + (dimension.Pressed ? "pressed" : "idle")));
             pause.art.Play(art.pause.Find(t + (menuOpen ? "play" : "pause") + (pause.Pressed ? "_pressed" : "")));
+            cheatArt.Show(theme, cheatPress.IsPressed, controlOpacity);
+            RefreshCheatVisibility();
+        }
+
+        private void OnCheatChanged(bool enabled)
+        {
+            if (!enabled && cheatRoot)
+            {
+                // Hiding via CanvasGroup keeps the shared gamepad and any held joystick alive.
+                cheatRoot.GetComponent<OnScreenButton>().OnPointerUp(null);
+                cheatPress.OnPointerUp(null);
+            }
+            RefreshCheatVisibility();
+        }
+
+        private void RefreshCheatVisibility()
+        {
+            if (!cheatVisibility) return;
+            bool show = CheatSettings.Enabled && !inCutscene;
+            cheatVisibility.alpha = show ? 1f : 0f;
+            cheatVisibility.blocksRaycasts = show;
+            cheatVisibility.interactable = show;
         }
 
         /// <summary>
@@ -249,6 +279,7 @@ namespace CaptainPinkTurd.MobileControls
             run.root.SetActive(!inCutscene);
             dimension.root.SetActive(!inCutscene);
             pause.root.SetActive(!inCutscene);
+            RefreshCheatVisibility();
 
             bool show = level || inCutscene;
             if (canvasRoot.activeSelf == show) return;
@@ -320,6 +351,7 @@ namespace CaptainPinkTurd.MobileControls
                 runPosition, new Vector2(1f, 0f));
             dimension = BuildButton(gameplay, "Switch Dimension", MobileControlPaths.SwitchDimension, ButtonSize,
                 dimensionPosition, new Vector2(1f, 0f));
+            BuildCheatButton(gameplay);
 
             // Outside the gameplay group: it has to stay reachable while the pause menu is up.
             pause = BuildButton(safeArea, "Pause", MobileControlPaths.Pause, PauseSize,
@@ -354,6 +386,27 @@ namespace CaptainPinkTurd.MobileControls
 
             stick = zone.gameObject.AddComponent<FloatingOnScreenStick>();
             stick.Configure(stickBase, knob, MobileControlPaths.Move, movementRange * unit, deadZone, stickRest * unit);
+        }
+
+        private void BuildCheatButton(RectTransform parent)
+        {
+            var button = CreateChild("Cheat Pulse", parent);
+            button.anchorMin = button.anchorMax = new Vector2(1f, 0f);
+            button.pivot = new Vector2(0.5f, 0.5f);
+            button.sizeDelta = Vector2.one * ButtonSize * art.unitsPerPixel;
+            button.anchoredPosition = cheatPosition * art.unitsPerPixel;
+
+            var touchArea = button.gameObject.AddComponent<Image>();
+            touchArea.color = Color.clear;
+            var graphic = CreateChild("Skull Art", button);
+            Stretch(graphic);
+            cheatArt = graphic.gameObject.AddComponent<CheatSkullGraphic>();
+            cheatArt.raycastTarget = false;
+            cheatRoot = button.gameObject;
+            cheatVisibility = cheatRoot.AddComponent<CanvasGroup>();
+            cheatRoot.AddComponent<OnScreenButton>().controlPath = MobileControlPaths.CheatPulse;
+            cheatPress = cheatRoot.AddComponent<MobileHudButton>();
+            RefreshCheatVisibility();
         }
 
         /// <summary>One button: a full-size touch area with the animated art inside it.</summary>

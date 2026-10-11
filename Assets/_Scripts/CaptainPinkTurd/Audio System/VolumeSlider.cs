@@ -9,6 +9,8 @@ namespace CaptainPinkTurd.AudioSystem
         [SerializeField] private EVolumeType volumeType;
         
         private Slider slider;
+
+        public EVolumeType VolumeType => volumeType;
         
         private void Awake()
         {
@@ -19,6 +21,7 @@ namespace CaptainPinkTurd.AudioSystem
         }
         private void OnEnable()
         {
+            Refresh();
             slider.onValueChanged.AddListener(OnValueChanged);
         }
         private void OnDisable()
@@ -27,16 +30,31 @@ namespace CaptainPinkTurd.AudioSystem
         }
         private void Start()
         {
+            Refresh();
+        }
+
+        public void Configure(EVolumeType type)
+        {
+            volumeType = type;
+            if (slider) Refresh();
+        }
+
+        private void Refresh()
+        {
+            // Reopening pause or the menu must show the current shared settings, without writing them back.
+            var audio = AudioManager.TryGetInstance();
+            if (!audio) return;
+
             switch (volumeType)
             {
                 case EVolumeType.Master:
-                    slider.value = AudioManager.Instance.GetMasterVolume();
+                    slider.SetValueWithoutNotify(audio.GetMasterVolume());
                     break;
                 case EVolumeType.Music:
-                    slider.value = AudioManager.Instance.GetMusicVolume();
+                    slider.SetValueWithoutNotify(audio.GetMusicVolume());
                     break;
                 case EVolumeType.SFX:
-                    slider.value = AudioManager.Instance.GetSFXVolume();
+                    slider.SetValueWithoutNotify(audio.GetSFXVolume());
                     break;
             }
         }
