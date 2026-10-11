@@ -1,0 +1,13 @@
+﻿Các âm thanh được tách từ src.wav
+
+- 11 câu omedetou, đánh số theo thứ tự xuất hiện.
+- Các biến thể lời chúc được ghi rõ trong tên file.
+- sound_phu.wav: âm thanh phụ không có lời trong đoạn gốc.
+- arigatou.wav: lời cảm ơn ở cuối phần hội thoại.
+- vo_tay_dau.wav: vỗ tay ở đầu đoạn, đã giảm nhạc nền.
+- tieng_nen.wav: phần nền của toàn bộ đoạn.
+
+Định dạng: WAV PCM 16-bit, stereo, 48 kHz.
+Mỗi đoạn lời nói đã được lọc nền, cân mức âm lượng và làm mượt mép cắt.
+Do giọng, tiếng vỗ tay và nhạc đã trộn trong file nguồn, các bản tách có thể còn một ít âm lẫn hoặc hiệu ứng xử lý.
+Mốc cắt chi tiết nằm trong moc_cat.csv.

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CaptainPinkTurd.AudioSystem;
+using CaptainPinkTurd.Core.CustomDataStructure;
+using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene;
@@ -22,7 +24,10 @@ namespace CaptainPinkTurd.Story.Presentation
         [SerializeField] private TMP_FontAsset font;
         [SerializeField] private AudioClip music;
         [SerializeField] private GameObject dialogueSystemPrefab;
-
+        [SerializeField] private SoundData clappingSfx;
+        [SerializeField] private SoundData crowdCheeringSfx;
+        [SerializeField] private SerializeKeyValuePair<string, SoundData>[] omedetouSounds;
+        
         private const int Scale = 4;
         private const float FrameSeconds = 0.1f;
 
@@ -51,7 +56,8 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private IEnumerator Start()
         {
-            if (music) MusicManager.Instance.Play(music, loop: true);
+            if (music) MusicManager.Instance.Play(music);
+            SoundManager.Instance.CreateSoundBuilder().Play(crowdCheeringSfx);
             LoadArt();
             BuildStage();
             if (!DialogueManager.HasInstance)
@@ -198,6 +204,7 @@ namespace CaptainPinkTurd.Story.Presentation
         private void ShowRedFinalDialogue(string actorId)
         {
             if (dialogueManager.DialogueIsPlaying) dialogueManager.ExitDialogue();
+            
             string knot = actorId switch
             {
                 "blue" => "RedFinal_Blue",
@@ -211,7 +218,22 @@ namespace CaptainPinkTurd.Story.Presentation
                 "red" => "RedFinal_Thanks",
                 _ => null,
             };
-            if (knot != null) dialogueManager.EnterDialogue(knot);
+
+            if (actorId == "blue")
+            {
+                SoundManager.Instance.CreateSoundBuilder().Play(clappingSfx);
+            }
+            else if (actorId == "red")
+            {
+                SoundManager.Instance.StopAll();
+            }
+            if (knot != null)
+            {
+                if(omedetouSounds.TryGetValue(actorId, out var sound)) 
+                    SoundManager.Instance.CreateSoundBuilder().Play(sound);
+                
+                dialogueManager.EnterDialogue(knot);
+            }
         }
 
         private IEnumerator PlayHospitalDialogue(string knot)

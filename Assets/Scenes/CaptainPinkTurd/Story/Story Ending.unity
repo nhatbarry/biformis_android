@@ -248,41 +248,282 @@ MonoBehaviour:
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.EndingSequence
   storyData: {fileID: 11400000, guid: 057367ad00ca37348bed39e0f9a5333e, type: 2}
   font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
-  music: {fileID: 8300000, guid: 9c1e3346a86a23c4989678ed9c7db33c, type: 3}
+  music: {fileID: 8300000, guid: ce1828eaa603440d396149ac3b02032d, type: 3}
   dialogueSystemPrefab: {fileID: 3537303796505033562, guid: d0e125f7492ad844b8a08c72d709fa84, type: 3}
-  sfxSource: {fileID: 177485327}
-  burstSfx: {fileID: 8300000, guid: e8bb5ad39bf7d8043a9e85682d0e23ad, type: 3}
-  bIdle: {fileID: -2910097611548476761, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  bWalk:
-  - {fileID: -2636450776483796285, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: -1308124554260208930, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: 6298133307347014431, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: -4609557876383358121, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: 3775258416962328884, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: 2259352748193174772, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: 1019722438331303788, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  - {fileID: -4570098426001573207, guid: 061563945c8d5b444adc94291377af3a, type: 3}
-  aIdle: {fileID: 1076456310461215284, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  aWalk:
-  - {fileID: -5146978420049335097, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: 2508605287775653051, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -5234878808755950358, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -1345658578818155049, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -1978689298283876719, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -1490300877632387258, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -1413548750149210365, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  - {fileID: -1023088769533491071, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
-  secondPersonalityTint: {r: 0.35, g: 0.05, b: 0.12, a: 1}
-  characterHeight: 96
-  debrisColors:
-  - {r: 0.18, g: 0, b: 0.38, a: 1}
-  - {r: 0.07, g: 0.03, b: 0.2, a: 1}
-  - {r: 0.95, g: 0.33, b: 0.33, a: 1}
-  - {r: 0.56, g: 0.89, b: 0.8, a: 1}
-  - {r: 0.24, g: 0.45, b: 0.5, a: 1}
-  - {r: 0.1, g: 0.12, b: 0.2, a: 1}
-  debrisColumns: 32
-  debrisRows: 18
+  clappingSfx:
+    clip: {fileID: 8300000, guid: 46cdfb412369648eb823055d765e4e35, type: 3}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 1
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  crowdCheeringSfx:
+    clip: {fileID: 8300000, guid: 304ed69f288a4449696cab37b85a3c38, type: 3}
+    overrideMixerGroup: 0
+    mixerGroup: {fileID: 0}
+    loop: 0
+    playOnAwake: 0
+    frequentSound: 0
+    mute: 0
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 128
+    volume: 1
+    pitch: 1
+    panStereo: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    spread: 0
+    minDistance: 1
+    maxDistance: 500
+    ignoreListenerVolume: 0
+    ignoreListenerPause: 0
+    rolloffMode: 0
+  omedetouSounds:
+  - Value:
+      clip: {fileID: 8300000, guid: 4ad720fa9535c4e378e4ae0781726f45, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: blue
+  - Value:
+      clip: {fileID: 8300000, guid: 68c6fe6c7c62049e9ab7e54277ab176b, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: mom
+  - Value:
+      clip: {fileID: 8300000, guid: e906ba6d12a6f4dea8b0fdd67252c4c9, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: doctor
+  - Value:
+      clip: {fileID: 8300000, guid: 516d76ba6275644339a2b7042d19e4d3, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: green
+  - Value:
+      clip: {fileID: 8300000, guid: e22ca162707ee4fffbc71651d1287720, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: bunny
+  - Value:
+      clip: {fileID: 8300000, guid: 75d983864030d4f72a6542f793a03a78, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: reaper
+  - Value:
+      clip: {fileID: 8300000, guid: 4444142eff0424bb1a34c5ceffafedac, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: teen
+  - Value:
+      clip: {fileID: 8300000, guid: a8ff6bd71fe2141589cf49fabd1edc42, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: pink
+  - Value:
+      clip: {fileID: 8300000, guid: e28a429f7a1ba4a008b21e33007a83a0, type: 3}
+      overrideMixerGroup: 0
+      mixerGroup: {fileID: 0}
+      loop: 0
+      playOnAwake: 0
+      frequentSound: 0
+      mute: 0
+      bypassEffects: 0
+      bypassListenerEffects: 0
+      bypassReverbZones: 0
+      priority: 128
+      volume: 1
+      pitch: 1
+      panStereo: 0
+      spatialBlend: 0
+      reverbZoneMix: 1
+      dopplerLevel: 1
+      spread: 0
+      minDistance: 1
+      maxDistance: 500
+      ignoreListenerVolume: 0
+      ignoreListenerPause: 0
+      rolloffMode: 0
+    Key: red
 --- !u!4 &177485329
 Transform:
   m_ObjectHideFlags: 0
