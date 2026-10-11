@@ -249,6 +249,7 @@ MonoBehaviour:
   storyData: {fileID: 11400000, guid: 057367ad00ca37348bed39e0f9a5333e, type: 2}
   font: {fileID: 11400000, guid: 98c43e0bdcc9fdf4482e6adf2a3a3358, type: 2}
   music: {fileID: 8300000, guid: 9c1e3346a86a23c4989678ed9c7db33c, type: 3}
+  dialogueSystemPrefab: {fileID: 3537303796505033562, guid: d0e125f7492ad844b8a08c72d709fa84, type: 3}
   sfxSource: {fileID: 177485327}
   burstSfx: {fileID: 8300000, guid: e8bb5ad39bf7d8043a9e85682d0e23ad, type: 3}
   bIdle: {fileID: -2910097611548476761, guid: 061563945c8d5b444adc94291377af3a, type: 3}

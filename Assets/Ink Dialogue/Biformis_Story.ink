@@ -8,9 +8,14 @@
 //   A        - người em (hình thái Xanh)
 //   B        - người anh (hình thái Đỏ)
 //   Villain  - Phản diện (nhân cách thứ hai của B) - khi không đứng trên sân khấu thì màn hình ửng đỏ khi nói
+//   AB       - A&B, hai anh em còn dính làm một (cảnh kết thúc)
 //   Teen     - Thiếu niên (chính là A, dùng hình Blue Character)
 //   Mom      - Mẹ
 //   Doctor   - Bác sĩ
+//   Zoro     - Kiếm sĩ xanh trong cảnh kết thúc
+//   Usagi    - Thỏ trong cảnh kết thúc
+//   CaptainPinkTurd - Nhân vật hồng trong cảnh kết thúc
+//   Reaper   - Reaper trong cảnh kết thúc
 //   System   - Thông báo hệ thống (không hiện tên)
 //   Narrator - Dẫn truyện cho các chỉ dẫn sân khấu (không hiện tên)
 //
@@ -35,6 +40,12 @@
 //         B4 = B (idle | run), Box = chiếc hộp ký ức
 //       Quá khứ: Bedroom = phòng ngủ (idle | bang = cửa rung), WallShadow = bóng mỏ chim trên tường,
 //         BSit = B ngồi (hug | rock | up | shiver | slam | down)
+//       Hồi ức hai anh em (WhiteRoom_3): Track, Vignette, B_FB (idle | run | hesitate | reach | touch | hold),
+//         A_FB (idle | run | reach | wait | hold), Drown = đuối nước (intro | loop), Montage = lớn lên (m1 | m2 | m3 | m4),
+//         CloseUp = cận cảnh nắm tay
+//       Kết thúc (Ending): EndGlow = nền tối có vùng sáng, BossEnd = boss bại trận (breathe | dust),
+//         ABMerged = A&B nháy đỏ / xanh (flicker | split), EndWorld = ảnh dài để chạy qua các màn, trong đó có
+//         A_End, B_End (idle | run)
 //         Ai có clip talk thì tự diễn talk trong lúc chữ chạy (trừ khi đang diễn clip khác, vd Mẹ đang khóc)
 //   #move:Nhân vật:x[,y][:giây]              dời nhân vật tới toạ độ x (hoặc x,y) (đơn vị canvas, 0 = giữa màn hình)
 //   #struggle:Nhân vật:số lần                người chơi chạm / bấm Space / E đủ số lần để vùng vẫy (có thanh tiến độ)
@@ -44,14 +55,20 @@
 //   #banging:Door:on|off                     A đập cửa liên tục: cửa rung, màn hình giật, chữ RẦM! khi cửa ngoài khung
 //   #knock:Door:độ đậm                       một tiếng cộc... yếu (độ đậm 0-1 của chữ)
 //   #attach:Vật:Nhân vật:dx,dy | #attach:Vật:none   vật đi theo nhân vật, lệch dx,dy (vd chiếc hộp trên tay)
-//   #reach:Nhân vật:Mục tiêu:x tối đa        người chơi tự đi nhân vật tới sát mục tiêu (phím trái/phải, A/D, giữ ngón tay
-//                                           về phía muốn đi) rồi bấm Space / E / chạm để làm; đặt #hold ngay sau
+//   #reach:Nhân vật:Mục tiêu:x tối đa[:key] người chơi tự đi nhân vật tới sát mục tiêu (phím trái/phải, A/D, giữ ngón tay
+//                                           về phía muốn đi) rồi bấm Space / E / chạm để làm; đặt #hold ngay sau.
+//                                           key = chữ nhắc trong Strings.txt (key / key_touch), mặc định stage.take
 //   #alpha:Nhân vật:độ đậm[:giây]            làm mờ / hiện một nhân vật (vd bóng trên tường)
 //   #shake:độ mạnh[:giây]                    rung màn hình (đơn vị canvas, 4 = 1 pixel)
 //   #wait:giây                               ẩn khung thoại, chờ cho sân khấu diễn; các tag sau nó chạy khi hết chờ
 //   #fx:shake | flash | red | fade_black | fade_white | fade_in
 //   #sfx:beep | stop | thud                  beep = máy đo nhịp tim (lặp), stop = tắt âm lặp
-// Không dùng tag #layout: layoutAnimator trong DialogueManager đang null.
+//   #pixel:cut[:giây]                       chuyển cảnh ô pixel 2x2: cảnh đang có vỡ dần thành ô, lộ cảnh mà các tag sau dựng
+//   #pixel:RRGGBB[:giây] | #pixel:in[:giây]  phủ màn hình bằng ô màu, hoặc gỡ ô ra
+//   #follow:Thế giới:Nhân vật:x nhỏ nhất,x lớn nhất | none   camera theo nhân vật (nằm trong actor Thế giới):
+//                                           Thế giới trượt để nhân vật giữ nguyên chỗ trên màn hình
+//   #music:ending | stop                     bật nhạc kết thúc (lặp) / tắt nhạc đang chạy
+//   #layout:top | bottom                     khung thoại chung ở dưới; riêng montage Red Final ở viền trên
 // =====================================================================
 
 // Số phút Màn 5 cho phép (khớp với LevelCountdown trong scene Màn 5).
@@ -169,10 +186,10 @@ Với tình hình này, tôi không thể nói trước rằng cậu A có xâm 
 
 
 // ---------------------------------------------------------------------
-// KẾT THÚC MÀN 4 -> QUÁ KHỨ -> BỆNH VIỆN -> PHÒNG TRẮNG
+// KẾT THÚC MÀN 4 -> QUÁ KHỨ -> BỆNH VIỆN -> HỒI ỨC HAI ANH EM
 // ---------------------------------------------------------------------
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
@@ -196,19 +213,25 @@ Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở 
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
-<i>(Quay trở lại căn phòng trắng. A và B đối diện nhau.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B #fade:in:0.8 #wait:0.8
-Từ đó cũng được vài năm rồi. #speaker:A
-Bỗng nhiên một ngày bác sĩ nói anh có chuyển biến tích cực.
-Họ đã chớp lấy cơ hội này để giúp em xâm nhập vào não anh và đưa anh trở lại.
-Anh có nhớ không? Hồi còn bé, em từng suýt chết đuối khi đi biển nên sinh ra chứng sợ hãi đến tận bây giờ.
+// THOẠI GIỮ CHỖ: các câu (không bắt đầu bằng #) chép nguyên từ preview của bộ Scene_HoiUc_AnhEm, chờ thoại chính thức.
+// Thay chữ của từng câu là đủ; mỗi dòng chỉ có tag phía trên một câu là dàn cảnh của nó, không cần sửa.
+// Sân tập (Track, B_FB, A_FB) -> đuối nước (Drown, khung thoại ở dưới) -> sân tập -> lớn lên (Montage m1-m4) -> sân tập
+// -> A bước lại, chìa tay; B cúi nhìn, rụt tay hai lần -> người chơi đưa B tới và bấm Space / E / nút ! -> cận cảnh nắm tay.
+#sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
+Anh còn nhớ mùa hè năm đó không? Cái lần em suýt chết đuối ấy. #speaker:A
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+Em chìm dần, nước tràn vào mũi, chẳng thấy gì nữa. #speaker:A
+Rồi anh lao xuống. Anh kéo em lên. #speaker:A
+#layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
 [speed=0.4]... #speaker:B
-Nhưng mà em không hối hận chút nào đâu, vì từ lúc đó anh đã luôn đi sát bên cạnh em mỗi lần tắm biển. #speaker:A
-Thấy anh như vậy, em vui lắm. Em không muốn người anh trai ân cần luôn lo em bị đuối nước đó sẽ biến mất.
-Dù có thế nào, những ký ức đó cũng đã tạo nên bản thân em của hiện tại mà.
-Thứ khiến chúng ta trở nên khác biệt hoá ra lại đẹp đẽ như vậy nhỉ?
-Em chỉ muốn là chính em thôi và em cũng mong anh là chính anh nữa, có đau khổ một chút cũng được.
-Quay về thôi. Em sẽ giúp anh vượt qua như anh đã từng giúp em trước đây. Em tin anh sẽ làm được.
-<i>(Hai người nắm tay nhau.)</i> #speaker:Narrator #fx:flash
+#pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
+Từ hôm đó, anh đi đâu là em theo đó. #speaker:A
+#pixel:cut:0.48 #anim:Montage:m2 #wait:2.4 #pixel:cut:0.48 #anim:Montage:m3 #wait:2.5 #pixel:cut:0.48 #anim:Montage:m4 #wait:2.9 #pixel:cut:0.7 #cast:Track,B_FB,A_FB,Vignette #wait:1.2
+Lớn rồi mà em vẫn thế. Vẫn cứ bám theo anh. #speaker:A
+Anh chẳng còn là người anh hồi đó nữa đâu. #speaker:B
+Không sao. Hồi đó anh kéo em lên rồi. #speaker:A
+Giờ đến lượt em. #speaker:A
+#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
 -> DONE
 
 
@@ -229,7 +252,84 @@ Quay về thôi. Em sẽ giúp anh vượt qua như anh đã từng giúp em tr�
 
 
 // ---------------------------------------------------------------------
-// MÀN 5 - MÀN CUỐI: đếm ngược, không có thoại.
-// KẾT THÚC: không có thoại - làm bằng hiệu ứng trong scene "Story Ending"
-// (các màn nổ thành pixel, nhân cách thứ hai vẫy tay rồi tan biến, A và B cùng bước ra khỏi màn hình).
+// MÀN 5 - đếm ngược, không có thoại. MÀN 6 - đánh boss, không có thoại.
 // ---------------------------------------------------------------------
+
+// ---------------------------------------------------------------------
+// KẾT THÚC - sau khi hạ boss ở Màn 6. Màn chơi vỡ như kính (GlassShatter, chạy trong Màn 6), boss bại trận đứng thở
+// trong bóng tối, A&B (nháy đỏ / xanh) nói chuyện với hắn, rồi tách thành A và B; boss tan thành bụi; A gọi anh về;
+// hai anh em chạy qua Màn 5 - 4 - 3 - 2 về phòng giam của cảnh mở đầu; người chơi đi B tới chỗ A đứng chờ ở cánh cửa
+// ánh sáng và bấm ! (Space / E). Sau đó là scene "Story Ending" (bệnh viện).
+// THOẠI TẠM: 10 dòng "......" (5 của boss, 5 của A&B) chờ thoại chính thức - chỉ cần thay chữ, giữ nguyên tag.
+// EndWorld (ảnh dài: phòng giam | Màn 2 | 3 | 4 | 5 | khoảng tối): x = 0 khi phòng giam nằm giữa màn hình, -4304 khi
+// khoảng tối nằm giữa. A_End / B_End nằm trong EndWorld: toạ độ của họ = toạ độ trên màn hình - x của EndWorld.
+// Vị trí boss (-150,-58) và A&B (150,-22) khớp với GlassShatter.BossStagePosition / PlayerStagePosition.
+// ---------------------------------------------------------------------
+=== Ending ===
+#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+Anh ơi! Về thôi! #speaker:A
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE
+
+
+// ---------------------------------------------------------------------
+// CẢNH KẾT THÚC RED FINAL - mỗi câu được gọi khi nhân vật bắt đầu nói.
+// Các knot độc lập để không đổi thời gian animation của montage; khung thoại ở viền trên.
+// Zoro nói trước, Usagi nói sau trong cùng cảnh cận. Sau lời cảm ơn của B,
+// màn hình trắng dần rồi chuyển sang bệnh viện; không có đoạn bíp cuối.
+// ---------------------------------------------------------------------
+=== RedFinal_Blue ===
+chúc mừng #speaker:A #layout:top
+-> DONE
+
+=== RedFinal_Mom ===
+chúc mừng #speaker:Mom #layout:top
+-> DONE
+
+=== RedFinal_Doctor ===
+chúc mừng #speaker:Doctor #layout:top
+-> DONE
+
+=== RedFinal_Zoro ===
+chúc mừng #speaker:Zoro #layout:top
+-> DONE
+
+=== RedFinal_Usagi ===
+Unaa~ #speaker:Usagi #layout:top
+-> DONE
+
+=== RedFinal_Reaper ===
+grrr #speaker:Reaper #layout:top
+-> DONE
+
+=== RedFinal_Teen ===
+chúc mừng #speaker:TeenB #layout:top
+-> DONE
+
+=== RedFinal_Pink ===
+prrfffff #speaker:CaptainPinkTurd #layout:top
+-> DONE
+
+=== RedFinal_Thanks ===
+cảm ơn mọi người #speaker:B #layout:top
+-> DONE
+
+=== HospitalEnding_A ===
+Anh...? #speaker:A
+-> DONE
+
+=== HospitalEnding_B ===
+Ừ. Anh về rồi. #speaker:B
+-> DONE

@@ -46,6 +46,9 @@ MonoBehaviour:
   - type: 0
     sceneName: Level Story 6
     knotName: 
+  - type: 1
+    sceneName: Story Cutscene
+    knotName: Ending
   - type: 0
     sceneName: Story Ending
     knotName: 

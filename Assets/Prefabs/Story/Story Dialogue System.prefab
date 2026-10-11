@@ -1525,6 +1525,8 @@ MonoBehaviour:
     Key: TeenB
   - Value: {r: 0.78431374, g: 0.627451, b: 0.47843137, a: 1}
     Key: Villain
+  - Value: {r: 0.84313726, g: 0.72156864, b: 0.9529412, a: 1}
+    Key: AB
   - Value: {r: 0.9490196, g: 0.76862746, b: 0.3372549, a: 1}
     Key: Mom
   - Value: {r: 0.58431375, g: 0.8784314, b: 0.8, a: 1}

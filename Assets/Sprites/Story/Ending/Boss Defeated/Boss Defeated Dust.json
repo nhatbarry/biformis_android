@@ -1,0 +1,96 @@
+{
+  "animation": "Upright_Dust_Dissolve",
+  "frames": 12,
+  "cellPixels": [
+    426,
+    439
+  ],
+  "frameDurationsMs": [
+    280,
+    100,
+    100,
+    110,
+    110,
+    120,
+    110,
+    110,
+    120,
+    100,
+    120,
+    450
+  ],
+  "durationMs": 1830,
+  "pivotPixelsFromTopLeft": [
+    192,
+    381
+  ],
+  "pivotNormalizedUnity": [
+    0.4507042253521127,
+    0.13211845102505693
+  ],
+  "pixelsPerUnitSuggested": 131.84,
+  "loopInUnity": false,
+  "sourceRootAnchors": [
+    [
+      168,
+      356
+    ],
+    [
+      162,
+      356
+    ],
+    [
+      157,
+      357
+    ],
+    [
+      152,
+      356
+    ],
+    [
+      168,
+      329
+    ],
+    [
+      163,
+      329
+    ],
+    [
+      157,
+      329
+    ],
+    [
+      152,
+      329
+    ],
+    [
+      168,
+      327
+    ],
+    [
+      162,
+      327
+    ],
+    [
+      157,
+      327
+    ],
+    [
+      152,
+      327
+    ]
+  ],
+  "emptyHands": true,
+  "lastFrameFullyTransparent": true,
+  "exportPreservesSourceRGBA": true,
+  "unityEvents": {
+    "StartDissolve": {
+      "frame": 2,
+      "timeMs": 280
+    },
+    "BossGone": {
+      "frame": 12,
+      "timeMs": 1380
+    }
+  }
+}

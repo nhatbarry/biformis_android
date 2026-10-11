@@ -1,0 +1,508 @@
+fileFormatVersion: 2
+guid: bc33721c72caf4543a5c324ea78d7d86
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 7579316526545317200
+    second: Boss Defeated Dust_0
+  - first:
+      213: -6297670622314423621
+    second: Boss Defeated Dust_1
+  - first:
+      213: 7420145672396654197
+    second: Boss Defeated Dust_2
+  - first:
+      213: 6109654273959898026
+    second: Boss Defeated Dust_3
+  - first:
+      213: -8611942009829162047
+    second: Boss Defeated Dust_4
+  - first:
+      213: -7311929134945414555
+    second: Boss Defeated Dust_5
+  - first:
+      213: 5879505622544702765
+    second: Boss Defeated Dust_6
+  - first:
+      213: -1820510934697451878
+    second: Boss Defeated Dust_7
+  - first:
+      213: -712436984395073013
+    second: Boss Defeated Dust_8
+  - first:
+      213: -9120227177979974389
+    second: Boss Defeated Dust_9
+  - first:
+      213: 5585415249008885499
+    second: Boss Defeated Dust_10
+  - first:
+      213: 6917323372855743288
+    second: Boss Defeated Dust_11
+  - first:
+      213: -2413814404722813171
+    second: Boss Defeated Dust_12
+  - first:
+      213: 5270027355492724957
+    second: Boss Defeated Dust_13
+  - first:
+      213: 3558647561671735736
+    second: Boss Defeated Dust_14
+  - first:
+      213: 6258422425621316393
+    second: Boss Defeated Dust_15
+  - first:
+      213: 2740174371735309238
+    second: Boss Defeated Dust_16
+  - first:
+      213: -5132790812199980229
+    second: Boss Defeated Dust_17
+  - first:
+      213: 7397689749233565463
+    second: Boss Defeated Dust_18
+  - first:
+      213: -4592648520591428989
+    second: Boss Defeated Dust_19
+  - first:
+      213: -5129767223974518910
+    second: Boss Defeated Dust_20
+  - first:
+      213: 1013535593579243136
+    second: Boss Defeated Dust_21
+  - first:
+      213: 7334972316306289204
+    second: Boss Defeated Dust_22
+  - first:
+      213: 2948719745746521672
+    second: Boss Defeated Dust_23
+  - first:
+      213: 5227370317125168690
+    second: Boss Defeated Dust_24
+  - first:
+      213: -8329860975368757810
+    second: Boss Defeated Dust_25
+  - first:
+      213: -3415936500447446484
+    second: Boss Defeated Dust_26
+  - first:
+      213: -5439640857467378610
+    second: Boss Defeated Dust_27
+  - first:
+      213: -8908029320139138580
+    second: Boss Defeated Dust_28
+  - first:
+      213: -1540850047593205724
+    second: Boss Defeated Dust_29
+  - first:
+      213: 4900636764901454254
+    second: Boss Defeated Dust_30
+  - first:
+      213: -6948775115267197667
+    second: Boss Defeated Dust_31
+  - first:
+      213: -7660289268785185819
+    second: Boss Defeated Dust_32
+  - first:
+      213: -5740320079970986227
+    second: Boss Defeated Dust_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 131.84
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Dust_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8527c17bd6d3a64eaa2c78a00d12341
+      internalID: 1962012847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_1
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9a52160d9087b54896e6f97e4ab970a
+      internalID: 962938837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_2
+      rect:
+        serializedVersion: 2
+        x: 852
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adc9c1d141f9ca54195ad2c3d0289ccd
+      internalID: -172076322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_3
+      rect:
+        serializedVersion: 2
+        x: 1278
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ddf74f911a209948b8331063b06cab3
+      internalID: 1445803750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_4
+      rect:
+        serializedVersion: 2
+        x: 1704
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4fc0fb19bcde39b479fe29a7eac36f5b
+      internalID: -200991798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_5
+      rect:
+        serializedVersion: 2
+        x: 2130
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67a761756a06a754d89b8ecd0b3b3aba
+      internalID: -1558019263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_6
+      rect:
+        serializedVersion: 2
+        x: 2556
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7923e1828f3a61746a3e099c56d41712
+      internalID: 1990668472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_7
+      rect:
+        serializedVersion: 2
+        x: 2982
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac3bca042ae1a754ba803cd9d9fbe47c
+      internalID: -953286574
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_8
+      rect:
+        serializedVersion: 2
+        x: 3408
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3661d2e94b08c6419382339da889cb9
+      internalID: -2019614041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_9
+      rect:
+        serializedVersion: 2
+        x: 3834
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ce498a82343c50459c6d414d327727f
+      internalID: 1224188582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_10
+      rect:
+        serializedVersion: 2
+        x: 4260
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6be9aed3d2520f6468819de0fbee6e14
+      internalID: -1426821886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dust_11
+      rect:
+        serializedVersion: 2
+        x: 4686
+        y: 0
+        width: 426
+        height: 439
+      alignment: 9
+      pivot: {x: 0.45070422, y: 0.13211845}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b2a435b3496b5a4c845aeb80d7f93ac
+      internalID: -269653308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: acff843b63dad66499c5baf064413c4a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Dust_0: 1962012847
+      Dust_1: 962938837
+      Dust_10: -1426821886
+      Dust_11: -269653308
+      Dust_2: -172076322
+      Dust_3: 1445803750
+      Dust_4: -200991798
+      Dust_5: -1558019263
+      Dust_6: 1990668472
+      Dust_7: -953286574
+      Dust_8: -2019614041
+      Dust_9: 1224188582
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,355 @@
+fileFormatVersion: 2
+guid: fa5d190715ed9bf4ca1aec68bb864400
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7645902420047197758
+    second: Boss Defeated Breathe_0
+  - first:
+      213: -7549791803219251118
+    second: Boss Defeated Breathe_1
+  - first:
+      213: 1168291966856301153
+    second: Boss Defeated Breathe_2
+  - first:
+      213: 3264871940524822675
+    second: Boss Defeated Breathe_3
+  - first:
+      213: -7303328340299369641
+    second: Boss Defeated Breathe_4
+  - first:
+      213: -8036177643290154138
+    second: Boss Defeated Breathe_5
+  - first:
+      213: 4537409270639441779
+    second: Boss Defeated Breathe_6
+  - first:
+      213: 2093623853323656883
+    second: Boss Defeated Breathe_7
+  - first:
+      213: 2781457605697013858
+    second: Boss Defeated Breathe_8
+  - first:
+      213: 8564980614282477127
+    second: Boss Defeated Breathe_9
+  - first:
+      213: -2023604642274596876
+    second: Boss Defeated Breathe_10
+  - first:
+      213: 2461857144053694824
+    second: Boss Defeated Breathe_11
+  - first:
+      213: -2046250989733765329
+    second: Boss Defeated Breathe_12
+  - first:
+      213: -7223714887148967135
+    second: Boss Defeated Breathe_13
+  - first:
+      213: -2662261923596755856
+    second: Boss Defeated Breathe_14
+  - first:
+      213: 2959755243225175609
+    second: Boss Defeated Breathe_15
+  - first:
+      213: 6716331269470897188
+    second: Boss Defeated Breathe_16
+  - first:
+      213: 3879644995365190991
+    second: Boss Defeated Breathe_17
+  - first:
+      213: 2948223347571346428
+    second: Boss Defeated Breathe_18
+  - first:
+      213: 3270471978560807656
+    second: Boss Defeated Breathe_19
+  - first:
+      213: 1184088163145994044
+    second: Boss Defeated Breathe_20
+  - first:
+      213: -7572063394637527238
+    second: Boss Defeated Breathe_21
+  - first:
+      213: 8272487006920804103
+    second: Boss Defeated Breathe_22
+  - first:
+      213: 4014284525456719082
+    second: Boss Defeated Breathe_23
+  - first:
+      213: -2141367208121274941
+    second: Boss Defeated Breathe_24
+  - first:
+      213: -3423489778707512773
+    second: Boss Defeated Breathe_25
+  - first:
+      213: -3201563803362709839
+    second: Boss Defeated Breathe_26
+  - first:
+      213: -159311959689026141
+    second: Boss Defeated Breathe_27
+  - first:
+      213: 7098213485993769896
+    second: Boss Defeated Breathe_28
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 156.16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: 4
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 1
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Breathe_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b225e5eae98261341b85ca06dc727a5c
+      internalID: 790992657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breathe_1
+      rect:
+        serializedVersion: 2
+        x: 604
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b2fee2e9227c4747930fd8c2a2dc93b
+      internalID: 67627080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breathe_2
+      rect:
+        serializedVersion: 2
+        x: 1208
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5220889568da97c4ca4f60b1dd92efb1
+      internalID: 1695247350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breathe_3
+      rect:
+        serializedVersion: 2
+        x: 1812
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1d8bef75267cc348aafbdf022ffcd3c
+      internalID: 2144900197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breathe_4
+      rect:
+        serializedVersion: 2
+        x: 2416
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73eec8b723e889040ad28d77e2c66fd2
+      internalID: 1330096367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breathe_5
+      rect:
+        serializedVersion: 2
+        x: 3020
+        y: 0
+        width: 604
+        height: 593
+      alignment: 9
+      pivot: {x: 0.442053, y: 0.1905565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c8a612fd2c02f346ba17afe32789703
+      internalID: -414021318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: c69eff13eecb384439a48638d421aa78
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Breathe_0: 790992657
+      Breathe_1: 67627080
+      Breathe_2: 1695247350
+      Breathe_3: 2144900197
+      Breathe_4: 1330096367
+      Breathe_5: -414021318
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

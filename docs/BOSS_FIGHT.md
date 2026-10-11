@@ -2,7 +2,7 @@
 
 Kiểm tra bộ dao ×2 ngày 2026-10-08: 37/37 PlayMode test qua (`Logs/boss-topdown-x2-tests.xml`), gồm phát animation đi bộ, cả 4 đòn ở cả 4 hướng, đủ 180 frame, cue tụ lực mới, màu/va chạm/tàn ảnh, hai phase, chuyển phase/UI, camera, mobile và timescale. Đã xem ảnh chụp các hướng trong game; 20/20 nguồn Aseprite giống byte trong ZIP. Chưa kiểm tra APK trên thiết bị.
 
-Boss có 15 HP: phase 1 hiển thị 7/7, bất tử khi đóng băng và triệu hồi 5 loại quái, sau đó phase 2 hiển thị 8/8. Quái chết hết mới phá băng. Thắng boss tự chuyển sang Ending, không có cửa. Arena không có tường, camera cố định và giới hạn vị trí di chuyển trong khung chơi.
+Boss có 15 HP: phase 1 hiển thị 7/7, bất tử khi đóng băng và triệu hồi 5 loại quái, sau đó phase 2 hiển thị 8/8. Quái chết hết mới phá băng. Thắng boss: màn chơi vỡ như kính (`GlassShatter`), boss và người chơi đứng lại trên nền tối rồi chuyển sang cutscene `Ending`, không có cửa. Arena không có tường, camera cố định và giới hạn vị trí di chuyển trong khung chơi.
 
 Arena được chỉnh theo mặt sàn top-down: vùng thiết kế 16×10 thay cho dải 18×7,
 giữ chiều dọc camera 6.5 kể cả điện thoại rộng. Chừa khoảng trên cho thân boss,

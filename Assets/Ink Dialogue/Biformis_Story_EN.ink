@@ -100,7 +100,7 @@ At this point, I can't say whether A will be able to get in or not.
 
 
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
@@ -124,19 +124,25 @@ This second personality can make his wishes come true. So, I'm sorry to say it h
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
-<i>(Back in the white room. A and B face each other.)</i> #speaker:Narrator #sfx:stop #bg:white #cast:A,B #fade:in:0.8 #wait:0.8
-It's been a few years since then. #speaker:A
-Then one day the doctor said you were showing signs of improvement.
-They took the chance to help me get into your mind and bring you back.
-Do you remember? When I was little, I nearly drowned at the beach, and I've been afraid ever since.
+// PLACEHOLDER DIALOGUE: the lines (not starting with #) are the Scene_HoiUc_AnhEm preview's, waiting for the final dialogue.
+// Replacing each line's words is enough; the tags-only line above a line is its staging and stays as it is.
+// Track (Track, B_FB, A_FB) -> drowning (Drown, panel at the bottom) -> track -> growing up (Montage m1-m4) -> track
+// -> A steps closer and holds out a hand; B looks down, pulls back twice -> the player walks B over, Space / E / ! -> hands close-up.
+#sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
+Do you still remember that summer? The time I nearly drowned. #speaker:A
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+I kept sinking, water filled my nose, I couldn't see anything. #speaker:A
+Then you dove in. You pulled me up. #speaker:A
+#layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
 [speed=0.4]... #speaker:B
-But I don't regret it one bit, because from then on you always stayed right beside me whenever we went swimming. #speaker:A
-Seeing you like that made me so happy. I don't want the caring brother who always worried I'd drown to disappear.
-No matter what, those memories are what made me who I am now.
-Isn't it beautiful, the things that make us different?
-I just want to be myself, and I want you to be yourself too, even if it hurts a little.
-Let's go home. I'll help you through this, like you once helped me. I believe you can do it.
-<i>(The two hold hands.)</i> #speaker:Narrator #fx:flash
+#pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
+Since that day, wherever you went, I followed. #speaker:A
+#pixel:cut:0.48 #anim:Montage:m2 #wait:2.4 #pixel:cut:0.48 #anim:Montage:m3 #wait:2.5 #pixel:cut:0.48 #anim:Montage:m4 #wait:2.9 #pixel:cut:0.7 #cast:Track,B_FB,A_FB,Vignette #wait:1.2
+I've grown up and I'm still the same. Still tagging along after you. #speaker:A
+I'm not the brother I was back then. #speaker:B
+It's okay. Back then you pulled me up. #speaker:A
+Now it's my turn. #speaker:A
+#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
 -> DONE
 
 
@@ -147,4 +153,81 @@ Let's go home. I'll help you through this, like you once helped me. I believe yo
 - else: We have to hurry. #speaker:A
 }
 ~ corridorBarkIndex = corridorBarkIndex + 1
+-> DONE
+
+
+// ---------------------------------------------------------------------
+// ENDING - after the boss of Level 6 falls. The level breaks like glass (GlassShatter, in Level 6), the defeated boss
+// stands breathing in the dark, A&B (flickering red / blue) talk with it, then split into A and B; the boss turns to
+// dust; A calls his brother home; the two run back through Levels 5 - 4 - 3 - 2 to the opening's cage room, where the
+// player walks B up to A waiting by the door of light and presses ! (Space / E). Then the "Story Ending" scene.
+// PLACEHOLDER DIALOGUE: the ten "......" lines (5 the boss's, 5 A&B's) await the final text; only the words change.
+// ---------------------------------------------------------------------
+=== Ending ===
+#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+...... #speaker:Villain
+...... #speaker:AB
+#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+Come on, big brother! Let's go home! #speaker:A
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE
+
+
+// ---------------------------------------------------------------------
+// RED FINAL ENDING - each line starts when its actor begins speaking.
+// Independent knots preserve the montage's animation timing; dialogue sits at the top edge. Zoro speaks
+// first, then Usagi within the same closeup. After B's thanks, the screen
+// fades to white and reveals the hospital, with no final beep sequence.
+// ---------------------------------------------------------------------
+=== RedFinal_Blue ===
+Congratulations #speaker:A #layout:top
+-> DONE
+
+=== RedFinal_Mom ===
+Congratulations #speaker:Mom #layout:top
+-> DONE
+
+=== RedFinal_Doctor ===
+Congratulations #speaker:Doctor #layout:top
+-> DONE
+
+=== RedFinal_Zoro ===
+Congratulations #speaker:Zoro #layout:top
+-> DONE
+
+=== RedFinal_Usagi ===
+Unaa~ #speaker:Usagi #layout:top
+-> DONE
+
+=== RedFinal_Reaper ===
+grrr #speaker:Reaper #layout:top
+-> DONE
+
+=== RedFinal_Teen ===
+Congratulations #speaker:TeenB #layout:top
+-> DONE
+
+=== RedFinal_Pink ===
+prrfffff #speaker:CaptainPinkTurd #layout:top
+-> DONE
+
+=== RedFinal_Thanks ===
+Thank you, everyone #speaker:B #layout:top
+-> DONE
+
+=== HospitalEnding_A ===
+Brother...? #speaker:A
+-> DONE
+
+=== HospitalEnding_B ===
+Yeah. I'm home. #speaker:B
 -> DONE

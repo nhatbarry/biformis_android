@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Core.InputPaths;
+using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.InkDialogue;
 using DG.Tweening;
 using UnityEngine;
@@ -19,8 +21,10 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #cast:A,B,Teen | none                    which StageActors stand on stage
     ///   #fx:shake | flash | red | fade_black | fade_white | fade_in
     ///   #sfx:beep | stop | &lt;name in sounds&gt;     "beep" loops a heart monitor, "stop" ends any loop
+    ///   #music:&lt;name in music&gt; | stop            plays a music track (looping) or stops the one playing
     ///   #anim:ActorId:clip[:seconds]               plays a clip of an actor's StageActorAnimation, optionally after a delay
     ///                                              (e.g. anim:B_Bed:wake:1.2)
+    ///   #entrance:A4 #hold                        breaks the closed door and plays A's wounded arrival before the box appears
     ///   #move:ActorId:x[,y][:seconds]              slides an actor to a canvas position (instantly without seconds)
     ///   #flip:ActorId:on|off                       mirrors an actor (faces the other way)
     ///   #fade:RRGGBB[:seconds] | #fade:in[:seconds]  fades the whole screen to a colour, or back from it
@@ -29,12 +33,19 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #knock:ActorId:level                       one weaker knock: "bang" once and the knock text at that opacity
     ///   #attach:ActorId:TargetId:dx,dy | :none     keeps an actor (a prop) at another's position plus an offset, e.g. a box
     ///                                              in someone's hand, until attached elsewhere or to none
-    ///   #reach:ActorId:TargetId:maxX               the player walks the actor (left/right keys, A/D, a stick - on phones
+    ///   #reach:ActorId:TargetId:maxX[:promptKey]   the player walks the actor (left/right keys, A/D, a stick - on phones
     ///                                              the touch HUD's joystick, shown for it) up to the target, then acts
     ///                                              with Interact (E / Space, the HUD's "!" button, lit once close
-    ///                                              enough); taps on the stage don't count; put #hold after it
+    ///                                              enough); taps on the stage don't count; put #hold after it. The
+    ///                                              prompt reads promptKey / promptKey_touch (default stage.take)
+    ///   #pixel:cut[:seconds]                       freezes what is on stage, then dissolves that picture away in 2x2 art
+    ///                                              pixel blocks over whatever the following tags put on stage
+    ///   #pixel:RRGGBB[:seconds] | #pixel:in[:seconds]  covers the screen with blocks of a colour, or uncovers it
     ///   #alpha:ActorId:opacity[:seconds]           fades a whole actor (e.g. a shadow on the wall)
     ///   #shake:units[:seconds]                     shakes the stage (4 units = one art pixel)
+    ///   #follow:WorldId:WalkerId:minX,maxX | none  a camera on the walker (a child of the world actor): the world
+    ///                                              slides so the walker keeps its place on screen, within minX..maxX
+    ///                                              (the world's x); e.g. B walking through the ending's cage room
     ///   #struggle:ActorId:count                    a struggle the player taps (or presses Space / Interact) through:
     ///                                              each press plays the actor's "struggle" clip and fills a segment of
     ///                                              the meter; put #hold after it so the dialogue waits for the last one
@@ -94,6 +105,13 @@ namespace CaptainPinkTurd.Story.Cutscene
         [Tooltip("How far above the walker's centre the prompt and hint stand")]
         [SerializeField] private float reachPromptHeight = 76f;
 
+        [Header("Pixel Transition")]
+        [Tooltip("Canvas units per block (2 art pixels, like the team's preview)")]
+        [SerializeField] private float pixelBlockSize = 8f;
+        [Tooltip("How many steps a pixel transition takes")]
+        [SerializeField] private int pixelSteps = 8;
+        [SerializeField] private float pixelTime = 0.56f;
+
         [Header("Struggle")]
         [Tooltip("Shown during a struggle; its child Images are the segments, filled left to right")]
         [SerializeField] private RectTransform struggleMeter;
@@ -106,8 +124,10 @@ namespace CaptainPinkTurd.Story.Cutscene
         [SerializeField] private AudioSource oneShotSource;
         [SerializeField] private AudioSource loopSource;
         [SerializeField] private SerializeKeyValuePair<string, AudioClip>[] sounds;
+        [SerializeField] private SerializeKeyValuePair<string, AudioClip>[] music;
 
         private const string TalkClip = "talk";
+        private const string DefaultReachPrompt = "stage.take";
         private readonly HashSet<string> castOnStage = new(StringComparer.OrdinalIgnoreCase);
         private readonly List<StageActorAnimation> talking = new();
         private StageActorAnimation struggler;
@@ -121,12 +141,22 @@ namespace CaptainPinkTurd.Story.Cutscene
         private float reachMaxX, reachTime;
         private bool reachMoved;
         private float shakeEnds, shakeStrength;
+        private RectTransform followWorld, followWalker;
+        private float followMin, followMax, followScreenX;
         private AudioClip monitorBeepClip;
         private Tween villainTween;
+        //pixel transitions: a cover of coloured blocks, and a frozen copy of the stage masked away block by block
+        private RawImage pixelCover, pixelCutMask;
+        private Texture2D pixelCoverTexture, pixelCutTexture;
+        private float[] pixelOrder;
+        private Tween pixelCoverTween, pixelCutTween;
+        private Level4CutscenePresentation level4Presentation;
 
         private void Awake()
         {
             SetCast(Array.Empty<string>());
+            level4Presentation = gameObject.AddComponent<Level4CutscenePresentation>();
+            level4Presentation.Initialize(actors, Shake);
             if (villainOverlay) SetAlpha(villainOverlay, 0f);
             if (fadeOverlay) SetAlpha(fadeOverlay, 0f);
             if (struggleMeter) struggleMeter.gameObject.SetActive(false);
@@ -155,6 +185,8 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             DOTween.Kill(this);
             if (reachWalker) EndReach();
+            if (pixelCoverTexture) Destroy(pixelCoverTexture);
+            if (pixelCutTexture) Destroy(pixelCutTexture);
 
             if (!DialogueManager.HasInstance) return;
             DialogueManager.Instance.OnStageTag.Unsubscribe(HandleStageTag);
@@ -188,6 +220,9 @@ namespace CaptainPinkTurd.Story.Cutscene
                 case "anim":
                     PlayAnimation(value);
                     break;
+                case "entrance":
+                    level4Presentation.BeginEntrance(value);
+                    break;
                 case "move":
                     MoveActor(value);
                     break;
@@ -217,6 +252,15 @@ namespace CaptainPinkTurd.Story.Cutscene
                     break;
                 case "shake":
                     ShakeTag(value);
+                    break;
+                case "pixel":
+                    PixelTransition(value);
+                    break;
+                case "follow":
+                    Follow(value);
+                    break;
+                case "music":
+                    PlayMusic(value);
                     break;
                 default:
                     Debug.LogWarning($"Cutscene tag not handled: {tag}");
@@ -405,6 +449,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             castOnStage.Clear();
             foreach (var id in ids) castOnStage.Add(id.Trim());
+            if (level4Presentation) level4Presentation.PrepareCast(castOnStage);
 
             foreach (var actor in actors)
             {
@@ -608,6 +653,33 @@ namespace CaptainPinkTurd.Story.Cutscene
             {
                 if (pair.Key && pair.Value.target) pair.Key.anchoredPosition = pair.Value.target.anchoredPosition + pair.Value.offset;
             }
+            if (followWorld && followWalker)
+            {
+                var position = followWorld.anchoredPosition;
+                position.x = Mathf.Clamp(followScreenX - followWalker.anchoredPosition.x, followMin, followMax);
+                followWorld.anchoredPosition = position;
+            }
+        }
+
+        //"World:Walker:minX,maxX" or "none"; the walker keeps the place on screen it has when this starts
+        private void Follow(string value)
+        {
+            followWorld = followWalker = null;
+            var parts = value.Split(':');
+            if (parts[0].Trim().Equals("none", StringComparison.OrdinalIgnoreCase)) return;
+            var world = parts.Length == 3 ? FindActor(parts[0]) : null;
+            var walker = world ? FindActor(parts[1]) : null;
+            var range = parts.Length == 3 ? parts[2].Split(',') : Array.Empty<string>();
+            if (!walker || walker.transform.parent != world.transform || range.Length != 2 ||
+                !TryParse(range[0], out followMin) || !TryParse(range[1], out followMax))
+            {
+                Debug.LogWarning($"Cutscene follow is not World:Walker:minX,maxX with the walker inside the world: {value}");
+                return;
+            }
+            followWorld = (RectTransform)world.transform;
+            followWalker = (RectTransform)walker.transform;
+            followWorld.DOKill();
+            followScreenX = followWorld.anchoredPosition.x + followWalker.anchoredPosition.x;
         }
 
         //a CanvasGroup, so the opacity survives the per-line tint that sets each graphic's colour
@@ -643,7 +715,7 @@ namespace CaptainPinkTurd.Story.Cutscene
 
         // ------------------------------------------------------------------ reach
 
-        //"Walker:Target:maxX": the walker stays on its side of the target, can't pass it, nor go beyond maxX
+        //"Walker:Target:maxX[:promptKey]": the walker stays on its side of the target, can't pass it, nor go beyond maxX
         private void StartReach(string value)
         {
             var parts = value.Split(':');
@@ -651,13 +723,17 @@ namespace CaptainPinkTurd.Story.Cutscene
             reachTarget = parts.Length > 1 ? FindActor(parts[1]) : null;
             if (!reachWalker || !reachTarget || parts.Length < 3 || !TryParse(parts[2], out reachMaxX))
             {
-                Debug.LogWarning($"Cutscene reach is not Walker:Target:maxX: {value}");
+                Debug.LogWarning($"Cutscene reach is not Walker:Target:maxX[:promptKey]: {value}");
                 reachWalker = reachTarget = null;
                 DialogueManager.Instance.ReleaseStageHold();
                 return;
             }
             reachMoved = false;
             reachTime = 0f;
+            //what the walker does once close: take the box, hold a hand...
+            string prompt = parts.Length > 3 ? parts[3].Trim() : DefaultReachPrompt;
+            var label = reachPrompt ? reachPrompt.GetComponentInChildren<LocalizedText>(true) : null;
+            if (label) label.SetKeys(prompt, prompt + "_touch");
             //on phones the touch HUD (otherwise only in levels) brings its joystick and "!" button, in B's red
             InteractPrompt.ShowCutsceneControls(EColor.Red);
         }
@@ -665,6 +741,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         /// <summary>A reach is waiting for the player to walk up to its target and act.</summary>
         public bool IsReaching => reachWalker;
         public RectTransform ReachTarget => reachTarget ? (RectTransform)reachTarget.transform : null;
+        public RectTransform ReachWalker => reachWalker ? (RectTransform)reachWalker.transform : null;
 
         private bool ReachNear() =>
             Mathf.Abs(((RectTransform)reachWalker.transform).anchoredPosition.x - ((RectTransform)reachTarget.transform).anchoredPosition.x) <= reachNearDistance + 0.01f;
@@ -760,6 +837,155 @@ namespace CaptainPinkTurd.Story.Cutscene
             InteractPrompt.HideCutsceneControls();
         }
 
+        // ------------------------------------------------------------------ pixel transition
+
+        //"cut[:seconds]", "in[:seconds]" or "RRGGBB[:seconds]"; the blocks go in one fixed random order, a step at a time
+        private void PixelTransition(string value)
+        {
+            if (!shakeTarget) return;
+            var parts = value.Split(':');
+            string mode = parts[0].Trim();
+            float seconds = pixelTime;
+            if (parts.Length > 1) TryParse(parts[1], out seconds);
+            EnsurePixelLayers();
+
+            if (mode.Equals("cut", StringComparison.OrdinalIgnoreCase))
+            {
+                if (pixelCutTween != null && pixelCutTween.IsActive()) pixelCutTween.Complete();
+                FreezeStage();
+                pixelCutTween = PixelTween(pixelCutTexture, false, seconds,
+                    () => DestroyChildren(pixelCutMask.transform, pixelCutMask.gameObject));
+                return;
+            }
+
+            bool cover = !mode.Equals("in", StringComparison.OrdinalIgnoreCase);
+            if (cover)
+            {
+                if (!ColorUtility.TryParseHtmlString("#" + mode, out Color color))
+                {
+                    Debug.LogWarning($"Cutscene pixel is not cut|in|RRGGBB[:seconds]: {value}");
+                    return;
+                }
+                pixelCover.color = color;
+            }
+            if (pixelCoverTween != null && pixelCoverTween.IsActive()) pixelCoverTween.Kill();
+            pixelCover.gameObject.SetActive(true);
+            //covering grows the blocks from none, uncovering takes them away from all
+            pixelCoverTween = PixelTween(pixelCoverTexture, cover, seconds, cover ? null : () => pixelCover.gameObject.SetActive(false));
+        }
+
+        private Tween PixelTween(Texture2D texture, bool growing, float seconds, TweenCallback done)
+        {
+            int shown = -1;
+            void Step(float progress)
+            {
+                int step = Mathf.CeilToInt(progress * pixelSteps);
+                if (step == shown) return;
+                shown = step;
+                float level = (float)step / pixelSteps;
+                FillBlocks(texture, growing ? level : 1f - level);
+            }
+            Step(0f);
+            if (seconds <= 0f)
+            {
+                Step(1f);
+                done?.Invoke();
+                return null;
+            }
+            return DOVirtual.Float(0f, 1f, seconds, Step).SetEase(Ease.Linear).SetUpdate(true).SetId(this).OnComplete(done);
+        }
+
+        //a block is opaque while its place in the order is below the level
+        private void FillBlocks(Texture2D texture, float level)
+        {
+            var pixels = new Color32[pixelOrder.Length];
+            for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color32(255, 255, 255, (byte)(pixelOrder[i] < level ? 255 : 0));
+            texture.SetPixels32(pixels);
+            texture.Apply();
+        }
+
+        //one block grid over the whole stage, wide screens included, lined up with the art's 2x2 pixels
+        private void EnsurePixelLayers()
+        {
+            if (pixelCover) return;
+            var size = shakeTarget.rect.size;
+            //wide enough for any phone (up to 2.5:1), so a later resize or rotation never leaves the sides uncovered
+            size.x = Mathf.Max(size.x, size.y * 2.5f);
+            int columns = 2 * Mathf.CeilToInt(size.x / pixelBlockSize / 2f);
+            int rows = 2 * Mathf.CeilToInt((size.y / pixelBlockSize - 1f) / 2f) + 1;
+            var random = new System.Random(7);
+            var order = new int[columns * rows];
+            for (int i = 0; i < order.Length; i++) order[i] = i;
+            for (int i = order.Length - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                (order[i], order[j]) = (order[j], order[i]);
+            }
+            pixelOrder = new float[order.Length];
+            for (int i = 0; i < order.Length; i++) pixelOrder[order[i]] = (i + 0.5f) / order.Length;
+
+            var gridSize = new Vector2(columns, rows) * pixelBlockSize;
+            pixelCutMask = CreateBlockLayer("Pixel Cut", gridSize, columns, rows, out pixelCutTexture);
+            pixelCutMask.gameObject.AddComponent<Mask>().showMaskGraphic = false;
+            pixelCover = CreateBlockLayer("Pixel Cover", gridSize, columns, rows, out pixelCoverTexture);
+            pixelCover.gameObject.SetActive(false);
+        }
+
+        private RawImage CreateBlockLayer(string layerName, Vector2 size, int columns, int rows, out Texture2D texture)
+        {
+            var rect = new GameObject(layerName, typeof(RectTransform)).GetComponent<RectTransform>();
+            rect.SetParent(shakeTarget, false);
+            rect.sizeDelta = size;
+            texture = new Texture2D(columns, rows, TextureFormat.RGBA32, false)
+            {
+                filterMode = FilterMode.Point,
+                wrapMode = TextureWrapMode.Clamp,
+            };
+            var image = rect.gameObject.AddComponent<RawImage>();
+            image.texture = texture;
+            image.raycastTarget = false;
+            FillBlocks(texture, 0f);
+            return image;
+        }
+
+        //copies of every picture on stage as it is this frame, in drawing order, under the block mask
+        private void FreezeStage()
+        {
+            var cut = (RectTransform)pixelCutMask.transform;
+            cut.gameObject.SetActive(true);
+            cut.SetAsLastSibling();
+            pixelCover.transform.SetAsLastSibling();
+            foreach (var source in shakeTarget.GetComponentsInChildren<Image>())
+            {
+                if (!source.enabled || source.transform.IsChildOf(cut)) continue;
+                var copy = new GameObject(source.name, typeof(RectTransform)).GetComponent<RectTransform>();
+                copy.SetParent(cut, false);
+                var from = source.rectTransform;
+                copy.pivot = from.pivot;
+                copy.sizeDelta = from.rect.size;
+                copy.SetPositionAndRotation(from.position, from.rotation);
+                var scale = from.lossyScale;
+                var parentScale = cut.lossyScale;
+                copy.localScale = new Vector3(scale.x / parentScale.x, scale.y / parentScale.y, 1f);
+
+                var image = copy.gameObject.AddComponent<Image>();
+                image.sprite = source.sprite;
+                image.type = source.type;
+                image.preserveAspect = source.preserveAspect;
+                image.material = source.material;
+                image.raycastTarget = false;
+                var color = source.color;
+                color.a *= source.canvasRenderer.GetInheritedAlpha();
+                image.color = color;
+            }
+        }
+
+        private static void DestroyChildren(Transform parent, GameObject hide)
+        {
+            for (int i = parent.childCount - 1; i >= 0; i--) Destroy(parent.GetChild(i).gameObject);
+            hide.SetActive(false);
+        }
+
         //is any part of the rect inside the stage (the visible screen)?
         private bool OnScreen(RectTransform rect)
         {
@@ -809,6 +1035,14 @@ namespace CaptainPinkTurd.Story.Cutscene
             {
                 Debug.LogWarning($"Unknown cutscene sound: {soundName}");
             }
+        }
+
+        private void PlayMusic(string trackName)
+        {
+            if (!MusicManager.HasInstance) return;
+            if (trackName.Equals("stop", StringComparison.OrdinalIgnoreCase)) MusicManager.Instance.StopCurrentTrack();
+            else if (music != null && music.TryGetValue(trackName, out AudioClip clip) && clip) MusicManager.Instance.Play(clip, loop: true);
+            else Debug.LogWarning($"Unknown cutscene music: {trackName}");
         }
 
         /// <summary>

@@ -1,0 +1,338 @@
+{
+  "source": "red-rescues-blue-preview.gif",
+  "sourceWidth": 1672,
+  "sourceHeight": 941,
+  "frameWidth": 640,
+  "frameHeight": 360,
+  "resample": "Lanczos (whole frame, no crop)",
+  "coordinateOrigin": "top-left",
+  "totalDuration": 4.0,
+  "clips": [
+    {
+      "name": "intro",
+      "loop": true,
+      "frames": [
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 720,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 720,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 720,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 720,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 1080,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 1080,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 1080,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 1080,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 1440,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 1440,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 1440,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 1440,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 1800,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 1800,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 1800,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 1800,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 2160,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 2160,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 2160,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 2160,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 2520,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 2520,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 2520,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 2520,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 2880,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 2880,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 2880,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 2880,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 0,
+          "y": 3240,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 640,
+          "y": 3240,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1280,
+          "y": 3240,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        },
+        {
+          "texture": "Story Cutscene/Level4/RescueAtlas",
+          "x": 1920,
+          "y": 3240,
+          "width": 640,
+          "height": 360,
+          "duration": 0.1
+        }
+      ]
+    }
+  ]
+}
