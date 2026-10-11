@@ -1,0 +1,520 @@
+{
+  "version": 5,
+  "canvas": {
+    "width": 320,
+    "height": 180
+  },
+  "timeUnit": "milliseconds",
+  "coordinateOrigin": "top-left",
+  "worldAnchor": "bottom-center of world sprite canvas",
+  "closeAnchor": "center of scaled frame canvas",
+  "totalDurationMs": 26120,
+  "timeline": [
+    {
+      "startMs": 0,
+      "endMs": 120,
+      "id": "flash",
+      "description": "Flash trắng",
+      "side": "Toàn màn hình",
+      "actors": []
+    },
+    {
+      "startMs": 120,
+      "endMs": 1320,
+      "id": "reveal",
+      "description": "Hiện dần toàn cảnh",
+      "side": "Toàn màn hình",
+      "actors": []
+    },
+    {
+      "startMs": 1320,
+      "endMs": 4320,
+      "id": "wide_hold",
+      "description": "Giữ toàn cảnh; chín nhân vật đứng yên",
+      "side": "Toàn màn hình",
+      "actors": []
+    },
+    {
+      "startMs": 4320,
+      "endMs": 6920,
+      "id": "blue",
+      "description": "Blue",
+      "side": "Trái",
+      "actors": [
+        {
+          "id": "blue",
+          "name": "Blue",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 85,
+          "centerY": 96,
+          "left": 1,
+          "top": 12,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        }
+      ]
+    },
+    {
+      "startMs": 6920,
+      "endMs": 9520,
+      "id": "mom",
+      "description": "Mom",
+      "side": "Phải",
+      "actors": [
+        {
+          "id": "mom",
+          "name": "Mom",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 235,
+          "centerY": 96,
+          "left": 151,
+          "top": 12,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        }
+      ]
+    },
+    {
+      "startMs": 9520,
+      "endMs": 12120,
+      "id": "doctor",
+      "description": "Doctor",
+      "side": "Trái",
+      "actors": [
+        {
+          "id": "doctor",
+          "name": "Doctor",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 85,
+          "centerY": 96,
+          "left": 1,
+          "top": 12,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        }
+      ]
+    },
+    {
+      "startMs": 12120,
+      "endMs": 14720,
+      "id": "green_bunny",
+      "description": "Kiếm sĩ xanh + Thỏ Usagi",
+      "side": "Phải",
+      "actors": [
+        {
+          "id": "green",
+          "name": "Kiếm sĩ xanh",
+          "scale": 1.35,
+          "width": 130,
+          "height": 130,
+          "centerX": 170,
+          "centerY": 115,
+          "left": 105,
+          "top": 50,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        },
+        {
+          "id": "bunny",
+          "name": "Thỏ Usagi",
+          "scale": 1.15,
+          "width": 110,
+          "height": 110,
+          "centerX": 266,
+          "centerY": 125,
+          "left": 211,
+          "top": 70,
+          "animation": "dance",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            100,
+            80,
+            120,
+            100,
+            100,
+            80,
+            120,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 800,
+          "sequenceDurationMs": 800
+        }
+      ]
+    },
+    {
+      "startMs": 14720,
+      "endMs": 17320,
+      "id": "reaper",
+      "description": "Reaper",
+      "side": "Trái",
+      "actors": [
+        {
+          "id": "reaper",
+          "name": "Reaper",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 85,
+          "centerY": 96,
+          "left": 1,
+          "top": 12,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        }
+      ]
+    },
+    {
+      "startMs": 17320,
+      "endMs": 19920,
+      "id": "teen",
+      "description": "Teen Memory",
+      "side": "Phải",
+      "actors": [
+        {
+          "id": "teen",
+          "name": "Teen Memory",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 235,
+          "centerY": 96,
+          "left": 151,
+          "top": 12,
+          "animation": "clap_talk",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            180,
+            100,
+            80,
+            100,
+            180,
+            100,
+            80,
+            100
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 920,
+          "sequenceDurationMs": 920
+        }
+      ]
+    },
+    {
+      "startMs": 19920,
+      "endMs": 22520,
+      "id": "pink",
+      "description": "Hồng đội mũ hải tặc",
+      "side": "Trái",
+      "actors": [
+        {
+          "id": "pink",
+          "name": "Hồng đội mũ hải tặc",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 85,
+          "centerY": 96,
+          "left": 1,
+          "top": 12,
+          "animation": "bob",
+          "frames": 8,
+          "columns": 4,
+          "rows": 2,
+          "frameDurationsMs": [
+            140,
+            140,
+            140,
+            140,
+            140,
+            140,
+            140,
+            140
+          ],
+          "animationLoopFrom": 0,
+          "oneTimePrefixDurationMs": 0,
+          "tailLoopDurationMs": 1120,
+          "sequenceDurationMs": 1120
+        }
+      ]
+    },
+    {
+      "startMs": 22520,
+      "endMs": 26120,
+      "id": "red",
+      "description": "Red",
+      "side": "Giữa",
+      "actors": [
+        {
+          "id": "red",
+          "name": "Red",
+          "scale": 1.75,
+          "width": 168,
+          "height": 168,
+          "centerX": 160,
+          "centerY": 90,
+          "left": 76,
+          "top": 6,
+          "animation": "look_talk",
+          "frames": 12,
+          "columns": 4,
+          "rows": 3,
+          "frameDurationsMs": [
+            120,
+            180,
+            500,
+            120,
+            180,
+            500,
+            200,
+            160,
+            200,
+            160,
+            200,
+            160
+          ],
+          "animationLoopFrom": 6,
+          "oneTimePrefixDurationMs": 1600,
+          "tailLoopDurationMs": 1080,
+          "sequenceDurationMs": 2680
+        }
+      ],
+      "phases": [
+        {
+          "startMs": 22520,
+          "endMs": 23320,
+          "description": "Nhìn sang trái màn hình"
+        },
+        {
+          "startMs": 23320,
+          "endMs": 24120,
+          "description": "Nhìn sang phải màn hình"
+        },
+        {
+          "startMs": 24120,
+          "endMs": 26120,
+          "description": "Nhìn thẳng, miệng chuyển nhẹ; chỉ lặp phần này"
+        }
+      ]
+    }
+  ],
+  "world": [
+    {
+      "id": "red",
+      "slot": 0,
+      "x": 136,
+      "y": 119,
+      "worldScale": 1,
+      "face": "down",
+      "name": "Red",
+      "left": 104,
+      "top": 55,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "blue",
+      "slot": 1,
+      "x": 56,
+      "y": 94,
+      "worldScale": 1,
+      "face": "right",
+      "name": "Blue",
+      "left": 24,
+      "top": 30,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "mom",
+      "slot": 2,
+      "x": 135,
+      "y": 77,
+      "worldScale": 1,
+      "face": "down",
+      "name": "Mom",
+      "left": 103,
+      "top": 13,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "doctor",
+      "slot": 3,
+      "x": 225,
+      "y": 87,
+      "worldScale": 1,
+      "face": "left",
+      "name": "Doctor",
+      "left": 193,
+      "top": 23,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "teen",
+      "slot": 4,
+      "x": 270,
+      "y": 123,
+      "worldScale": 1,
+      "face": "left",
+      "name": "Teen Memory",
+      "left": 238,
+      "top": 59,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "pink",
+      "slot": 5,
+      "x": 220,
+      "y": 162,
+      "worldScale": 1,
+      "face": "up-left",
+      "name": "Hồng đội mũ hải tặc",
+      "left": 188,
+      "top": 98,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "green",
+      "slot": 6,
+      "x": 149,
+      "y": 175,
+      "worldScale": 1,
+      "face": "up",
+      "name": "Kiếm sĩ xanh",
+      "left": 117,
+      "top": 111,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "bunny",
+      "slot": 7,
+      "x": 61,
+      "y": 158,
+      "worldScale": 1,
+      "face": "up-right",
+      "name": "Thỏ Usagi",
+      "left": 29,
+      "top": 94,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    },
+    {
+      "id": "reaper",
+      "slot": 8,
+      "x": 205,
+      "y": 126,
+      "worldScale": 1,
+      "face": "left",
+      "name": "Reaper",
+      "left": 173,
+      "top": 62,
+      "pivot": "bottom-center",
+      "canvasWidth": 64,
+      "canvasHeight": 64
+    }
+  ]
+}

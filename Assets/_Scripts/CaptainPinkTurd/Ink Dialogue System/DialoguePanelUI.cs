@@ -37,20 +37,20 @@ namespace CaptainPinkTurd.InkDialogue
         [SerializeField] private SerializeKeyValuePair<string, Sprite>[] speakerPortraits;
 
         private readonly Dictionary<int, DialogueChoiceButton> currentChoiceButtons = new();
+        private string activeLayout = DialogueManager.DEFAULT_LAYOUT;
 
         private void Awake()
         {
             if (portraitFrame) portraitFrame.SetActive(false);
-            // Reclaim the portrait's column while keeping the existing speaker and choice flow.
-            foreach (var text in new[] { dialogueText, speakerNameText })
-            {
-                if (!text) continue;
-                var rect = text.rectTransform;
-                var offset = rect.offsetMin;
-                offset.x = 24f;
-                rect.offsetMin = offset;
-            }
+            DialoguePanelStyle.Apply((RectTransform)transform, contentParent.transform as RectTransform,
+                speakerNameText, dialogueText, contentParent.transform.Find("Continue Icon") as RectTransform);
             DialogueFinished();
+        }
+
+        private void LateUpdate()
+        {
+            // Canvas scaling and phone safe areas can change after Awake or a device rotation.
+            DialoguePanelStyle.SetLayout((RectTransform)transform, activeLayout);
         }
 
         private void OnEnable()
@@ -82,6 +82,9 @@ namespace CaptainPinkTurd.InkDialogue
         }
         private void DialogueFinished()
         {
+            // Timed finale cues can close before the player finishes a line. Finish its callback
+            // before clearing the panel so the old coroutine cannot write into the next cue.
+            if (typewriterText && typewriterText.IsTyping) typewriterText.SkipTyping();
             contentParent.SetActive(false);
             ResetPanel();
         }
@@ -112,6 +115,8 @@ namespace CaptainPinkTurd.InkDialogue
                 typewriterText.SkipTyping();
                 return;
             }
+
+            if (dialogueInfo.line == null) return; // A continue request can arrive after typing finished.
 
             graphicRaycaster.enabled = true; //a line with choices may have turned it off
             SetLayout(dialogueInfo.layout);
@@ -188,6 +193,7 @@ namespace CaptainPinkTurd.InkDialogue
                     Localization.TryGet("speaker." + speaker, out var localizedName) ? localizedName : speaker;
 
                 speakerNameText.text = displayName;
+                speakerNameText.color = DialoguePanelStyle.SpeakerColor(speaker);
                 speakerNameText.gameObject.SetActive(!string.IsNullOrEmpty(displayName));
             }
 
@@ -197,17 +203,11 @@ namespace CaptainPinkTurd.InkDialogue
             }
         }
 
-        //"top" mirrors the panel to the top edge (same margin), anything else puts it back at the bottom
+        // The finale opts into #layout:top; story and hospital dialogue use the default bottom edge.
         private void SetLayout(string layout)
         {
-            var panel = (RectTransform)transform;
-            float edge = layout == "top" ? 1f : 0f;
-            if (Mathf.Approximately(panel.pivot.y, edge)) return;
-
-            panel.anchorMin = new Vector2(panel.anchorMin.x, edge);
-            panel.anchorMax = new Vector2(panel.anchorMax.x, edge);
-            panel.pivot = new Vector2(panel.pivot.x, edge);
-            panel.anchoredPosition = new Vector2(panel.anchoredPosition.x, -panel.anchoredPosition.y);
+            activeLayout = layout == "top" ? "top" : DialogueManager.DEFAULT_LAYOUT;
+            DialoguePanelStyle.SetLayout((RectTransform)transform, activeLayout);
         }
 
         private void SetHiddenObjectsActive(bool active)

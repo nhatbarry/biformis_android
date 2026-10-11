@@ -57,7 +57,7 @@ namespace CaptainPinkTurd.Story.Cutscene
             ShowPortrait(speaker);
             if (speakerNameText)
             {
-                speakerNameText.color = speaker != null && nameColors.TryGetValue(speaker, out Color color) ? color : defaultNameColor;
+                speakerNameText.color = DialoguePanelStyle.SpeakerColor(speaker);
             }
         }
 
@@ -73,10 +73,10 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             if (portraitFrame) portraitFrame.SetActive(false);
 
-            //the blocks stretch across the panel: only their left edge moves, the right edge stays put
+            // DialoguePanelStyle owns the shared layout; portraits never reserve a text column.
             foreach (var block in textBlocks)
             {
-                if (block) block.offsetMin = new Vector2(textLeft, block.offsetMin.y);
+                if (block) block.offsetMin = new Vector2(DialoguePanelStyle.TextPadding, block.offsetMin.y);
             }
         }
 

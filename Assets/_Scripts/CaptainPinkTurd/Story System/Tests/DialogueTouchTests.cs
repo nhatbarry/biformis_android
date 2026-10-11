@@ -127,7 +127,7 @@ namespace CaptainPinkTurd.Story.Tests
 
         /// <summary>
         /// The brothers' memory after the end of Level 4: A holds out a hand first, and only then is the player handed B,
-        /// to walk up with the joystick and take the hand with the lit "!" button. The drowning's lines stand at the top,
+        /// to walk up with the joystick and take the hand with the lit "!" button. The drowning uses the shared bottom panel,
         /// the joined hands get their close-up, and the story moves on to the corridor.
         /// </summary>
         [UnityTest, Timeout(240000)]
@@ -164,8 +164,8 @@ namespace CaptainPinkTurd.Story.Tests
                 yield return null;
                 yield return null;
             }
-            Assert.IsTrue(drowningLineAtTop && !drowningLineAtBottom, "the drowning's lines should stand at the top, off A");
-            Assert.Less(panel.pivot.y, 0.5f, "the panel goes back to the bottom after the drowning");
+            Assert.IsTrue(drowningLineAtBottom && !drowningLineAtTop, "the drowning's lines should use the shared bottom panel");
+            Assert.Less(panel.pivot.y, 0.5f, "the panel stays at the bottom after the drowning");
             var cut = GameObject.Find("Pixel Cut");
             Assert.IsTrue(!cut || cut.transform.childCount == 0, "a pixel cut left its frozen pictures behind");
 
@@ -203,6 +203,8 @@ namespace CaptainPinkTurd.Story.Tests
             TouchHud.Ensure();
             yield return WaitFor(() => !Scene.SceneController.Instance.IsBusy, 10f, "menu transition");
             Object.FindAnyObjectByType<StoryMenu>().StartAtStep(step);
+            yield return WaitFor(() => SceneManager.GetActiveScene().name == "Story Cutscene" &&
+                Object.FindAnyObjectByType<CutsceneStage>() != null, 40f, "the ending cutscene scene and stage");
             yield return WaitFor(() => DialogueManager.HasInstance && DialogueManager.Instance.DialogueIsPlaying, 40f, "the ending");
 
             var manager = DialogueManager.Instance;
@@ -214,7 +216,8 @@ namespace CaptainPinkTurd.Story.Tests
             }
             manager.OnDisplayDialogue.Subscribe(Heard);
             bool sawSplit = false, sawDust = false, brothersOnScreen = true;
-            var screen = (RectTransform)stage.GetComponentInParent<Canvas>().rootCanvas.transform;
+            var backdrop = (Image)new SerializedObject(stage).FindProperty("backdrop").objectReferenceValue;
+            var screen = (RectTransform)backdrop.canvas.rootCanvas.transform;
             float end = Time.realtimeSinceStartup + 90f;
             try
             {

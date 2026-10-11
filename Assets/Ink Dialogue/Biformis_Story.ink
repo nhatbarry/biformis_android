@@ -12,6 +12,10 @@
 //   Teen     - Thiếu niên (chính là A, dùng hình Blue Character)
 //   Mom      - Mẹ
 //   Doctor   - Bác sĩ
+//   Zoro     - Kiếm sĩ xanh trong cảnh kết thúc
+//   Usagi    - Thỏ trong cảnh kết thúc
+//   CaptainPinkTurd - Nhân vật hồng trong cảnh kết thúc
+//   Reaper   - Reaper trong cảnh kết thúc
 //   System   - Thông báo hệ thống (không hiện tên)
 //   Narrator - Dẫn truyện cho các chỉ dẫn sân khấu (không hiện tên)
 //
@@ -64,7 +68,7 @@
 //   #follow:Thế giới:Nhân vật:x nhỏ nhất,x lớn nhất | none   camera theo nhân vật (nằm trong actor Thế giới):
 //                                           Thế giới trượt để nhân vật giữ nguyên chỗ trên màn hình
 //   #music:ending | stop                     bật nhạc kết thúc (lặp) / tắt nhạc đang chạy
-//   #layout:top | bottom                     khung thoại ở trên / dưới màn hình, giữ tới khi đổi (mỗi cảnh bắt đầu ở dưới)
+//   #layout:top | bottom                     khung thoại chung ở dưới; riêng montage Red Final ở viền trên
 // =====================================================================
 
 // Số phút Màn 5 cho phép (khớp với LevelCountdown trong scene Màn 5).
@@ -185,7 +189,7 @@ Với tình hình này, tôi không thể nói trước rằng cậu A có xâm 
 // KẾT THÚC MÀN 4 -> QUÁ KHỨ -> BỆNH VIỆN -> HỒI ỨC HAI ANH EM
 // ---------------------------------------------------------------------
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
@@ -211,11 +215,11 @@ Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở 
 === WhiteRoom_3 ===
 // THOẠI GIỮ CHỖ: các câu (không bắt đầu bằng #) chép nguyên từ preview của bộ Scene_HoiUc_AnhEm, chờ thoại chính thức.
 // Thay chữ của từng câu là đủ; mỗi dòng chỉ có tag phía trên một câu là dàn cảnh của nó, không cần sửa.
-// Sân tập (Track, B_FB, A_FB) -> đuối nước (Drown, khung thoại ở trên) -> sân tập -> lớn lên (Montage m1-m4) -> sân tập
+// Sân tập (Track, B_FB, A_FB) -> đuối nước (Drown, khung thoại ở dưới) -> sân tập -> lớn lên (Montage m1-m4) -> sân tập
 // -> A bước lại, chìa tay; B cúi nhìn, rụt tay hai lần -> người chơi đưa B tới và bấm Space / E / nút ! -> cận cảnh nắm tay.
 #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Anh còn nhớ mùa hè năm đó không? Cái lần em suýt chết đuối ấy. #speaker:A
-#layout:top #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
 Em chìm dần, nước tràn vào mũi, chẳng thấy gì nữa. #speaker:A
 Rồi anh lao xuống. Anh kéo em lên. #speaker:A
 #layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
@@ -277,4 +281,55 @@ Giờ đến lượt em. #speaker:A
 Anh ơi! Về thôi! #speaker:A
 #flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
 #follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE
+
+
+// ---------------------------------------------------------------------
+// CẢNH KẾT THÚC RED FINAL - mỗi câu được gọi khi nhân vật bắt đầu nói.
+// Các knot độc lập để không đổi thời gian animation của montage; khung thoại ở viền trên.
+// Zoro nói trước, Usagi nói sau trong cùng cảnh cận. Sau lời cảm ơn của B,
+// màn hình trắng dần rồi chuyển sang bệnh viện; không có đoạn bíp cuối.
+// ---------------------------------------------------------------------
+=== RedFinal_Blue ===
+chúc mừng #speaker:A #layout:top
+-> DONE
+
+=== RedFinal_Mom ===
+chúc mừng #speaker:Mom #layout:top
+-> DONE
+
+=== RedFinal_Doctor ===
+chúc mừng #speaker:Doctor #layout:top
+-> DONE
+
+=== RedFinal_Zoro ===
+chúc mừng #speaker:Zoro #layout:top
+-> DONE
+
+=== RedFinal_Usagi ===
+Unaa~ #speaker:Usagi #layout:top
+-> DONE
+
+=== RedFinal_Reaper ===
+grrr #speaker:Reaper #layout:top
+-> DONE
+
+=== RedFinal_Teen ===
+chúc mừng #speaker:TeenB #layout:top
+-> DONE
+
+=== RedFinal_Pink ===
+prrfffff #speaker:CaptainPinkTurd #layout:top
+-> DONE
+
+=== RedFinal_Thanks ===
+cảm ơn mọi người #speaker:B #layout:top
+-> DONE
+
+=== HospitalEnding_A ===
+Anh...? #speaker:A
+-> DONE
+
+=== HospitalEnding_B ===
+Ừ. Anh về rồi. #speaker:B
 -> DONE

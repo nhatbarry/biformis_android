@@ -22,6 +22,11 @@ namespace CaptainPinkTurd.Story.Tests
         private const string InkEn = "Assets/Ink Dialogue/Biformis_Story_EN.json";
 
         private static readonly string[] BarkKnots = { "Bark_Hurt", "Bark_Pain", "Corridor_Bark" };
+        private static readonly string[] EndingKnots =
+        {
+            "RedFinal_Blue", "RedFinal_Mom", "RedFinal_Doctor", "RedFinal_Zoro", "RedFinal_Usagi",
+            "RedFinal_Reaper", "RedFinal_Teen", "RedFinal_Pink", "RedFinal_Thanks", "HospitalEnding_A", "HospitalEnding_B"
+        };
         private static readonly Dictionary<string, string[]> StageTagValues = new()
         {
             ["bg"] = new[] { "white", "black", "hospital", "past" },
@@ -85,7 +90,7 @@ namespace CaptainPinkTurd.Story.Tests
         public void EveryKnotTheStoryUsesRunsWithKnownTags(string inkPath)
         {
             var json = AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath).text;
-            var knots = Data.Steps.Where(s => s.type == EStoryStepType.Cutscene).Select(s => s.knotName).Concat(BarkKnots);
+            var knots = Data.Steps.Where(s => s.type == EStoryStepType.Cutscene).Select(s => s.knotName).Concat(BarkKnots).Concat(EndingKnots);
 
             foreach (var knot in knots)
             {
@@ -220,11 +225,11 @@ namespace CaptainPinkTurd.Story.Tests
             var lines = Lines(inkPath, "WhiteRoom_3");
             CollectionAssert.AreEqual(BrothersMemorySpeakers, lines.Take(BrothersMemorySpeakers.Length).Select(l => l.speaker).ToArray(),
                 $"{inkPath}: speakers of the brothers' memory");
-            //track -> drowning (panel at the top, off A) -> track -> montage -> track
+            //track -> drowning -> track -> montage -> track; all dialogue stays at the bottom
             Assert.Contains("cast:Track,B_FB,A_FB,Vignette", lines[0].tags, $"{inkPath}: it opens on the track");
             Assert.Contains("cast:Drown", lines[1].tags, $"{inkPath}: the drowning comes with L2a");
-            Assert.Contains("layout:top", lines[1].tags, $"{inkPath}: the drowning's lines stand at the top");
-            Assert.Contains("layout:bottom", lines[3].tags, $"{inkPath}: back on the track the panel goes down again");
+            Assert.Contains("layout:bottom", lines[1].tags, $"{inkPath}: the drowning uses the shared bottom panel");
+            Assert.Contains("layout:bottom", lines[3].tags, $"{inkPath}: the track keeps the shared bottom panel");
             Assert.Contains("anim:Montage:m1", lines[4].tags, $"{inkPath}: the montage comes with L4");
             var montage = lines[5].tags;
             Assert.Less(montage.IndexOf("anim:Montage:m2"), montage.IndexOf("anim:Montage:m3"), "m2 before m3");
@@ -247,9 +252,56 @@ namespace CaptainPinkTurd.Story.Tests
         [Test]
         public void BothLanguagesHaveTheSameLineCountPerKnot()
         {
-            foreach (var knot in Data.Steps.Where(s => s.type == EStoryStepType.Cutscene).Select(s => s.knotName))
+            foreach (var knot in Data.Steps.Where(s => s.type == EStoryStepType.Cutscene).Select(s => s.knotName).Concat(EndingKnots))
             {
                 Assert.AreEqual(CountLines(InkVi, knot), CountLines(InkEn, knot), $"knot {knot} differs between languages");
+            }
+        }
+
+        [TestCase(InkVi)]
+        [TestCase(InkEn)]
+        public void FinalReunionAndHospitalSpeechAreAuthoredInInk(string inkPath)
+        {
+            bool english = inkPath == InkEn;
+            string congratulations = english ? "Congratulations" : "chúc mừng";
+            var expected = new (string speaker, string text)[]
+            {
+                ("A", congratulations), ("Mom", congratulations), ("Doctor", congratulations), ("Zoro", congratulations),
+                ("Usagi", "Unaa~"), ("Reaper", "grrr"), ("TeenB", congratulations), ("CaptainPinkTurd", "prrfffff"),
+                ("B", english ? "Thank you, everyone" : "cảm ơn mọi người"),
+                ("A", english ? "Brother...?" : "Anh...?"), ("B", english ? "Yeah. I'm home." : "Ừ. Anh về rồi.")
+            };
+            for (int i = 0; i < EndingKnots.Length; i++)
+            {
+                var lines = Lines(inkPath, EndingKnots[i]).Where(line => line.text.Length > 0).ToArray();
+                Assert.AreEqual(1, lines.Length, $"{inkPath}: {EndingKnots[i]} must show one timed line");
+                Assert.AreEqual(expected[i].speaker, lines[0].speaker, EndingKnots[i]);
+                Assert.AreEqual(expected[i].text, lines[0].text, EndingKnots[i]);
+                if (i < 9) Assert.Contains("layout:top", lines[0].tags, EndingKnots[i] + " must place finale dialogue at the top");
+                else Assert.IsFalse(lines[0].tags.Contains("layout:top"), EndingKnots[i] + " must keep hospital dialogue at the bottom");
+                Assert.IsFalse(lines[0].tags.Any(tag => tag.StartsWith("sfx:beep")), EndingKnots[i] + " reintroduces the heart monitor");
+            }
+        }
+
+        [TestCase(ELanguage.Vietnamese)]
+        [TestCase(ELanguage.English)]
+        public void RenamedCharactersHaveTheRequestedDisplayNames(ELanguage language)
+        {
+            ELanguage previous = Localization.CurrentLanguage;
+            bool hadPreference = PlayerPrefs.HasKey("language");
+            try
+            {
+                Localization.SetLanguage(language);
+                foreach (var expected in new[] { ("Zoro", "Zoro"), ("Usagi", "Usagi"), ("CaptainPinkTurd", "Captain Pink Turd") })
+                {
+                    Assert.IsTrue(Localization.TryGet("speaker." + expected.Item1, out string name), expected.Item1);
+                    Assert.AreEqual(expected.Item2, name, $"{language}: {expected.Item1}");
+                }
+            }
+            finally
+            {
+                Localization.SetLanguage(previous);
+                if (!hadPreference) { PlayerPrefs.DeleteKey("language"); PlayerPrefs.Save(); }
             }
         }
 

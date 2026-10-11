@@ -64,6 +64,28 @@ namespace CaptainPinkTurd.Story.Cutscene
         public string CurrentClip => current?.name;
         public string DefaultClip => defaultClip;
 
+        /// <summary>Installs exported frame assets without changing the actor's authored layout.</summary>
+        public void Configure(Clip[] replacement, string initialClip, float pixelSize)
+        {
+            clips = replacement;
+            defaultClip = initialClip;
+            unitsPerPixel = pixelSize;
+            referencePixelsPerUnit = 0f;
+            current = null;
+            queuedClip = null;
+            if (isActiveAndEnabled) StartClip(defaultClip);
+        }
+
+        public Clip GetClip(string clipName) => Find(clipName);
+
+        public void AddClip(Clip clip)
+        {
+            var updated = new System.Collections.Generic.List<Clip>(clips ?? Array.Empty<Clip>());
+            updated.RemoveAll(existing => existing.name.Equals(clip.name, StringComparison.OrdinalIgnoreCase));
+            updated.Add(clip);
+            clips = updated.ToArray();
+        }
+
         public void Play(string clipName, float delay = 0f)
         {
             queuedClip = null;

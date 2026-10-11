@@ -1,0 +1,127 @@
+{
+  "source": "outputs/level4-A-bloody-recovery-source.png",
+  "frameWidth": 32,
+  "frameHeight": 32,
+  "coordinateOrigin": "top-left",
+  "groundY": 24,
+  "standingHeight": 17,
+  "clips": [
+    {
+      "name": "fall",
+      "loop": false,
+      "next": "prone",
+      "frames": [
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 0,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "duration": 0.16
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 32,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "duration": 0.16
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 64,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "duration": 0.18
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 96,
+          "y": 0,
+          "width": 32,
+          "height": 32,
+          "duration": 0.18
+        }
+      ]
+    },
+    {
+      "name": "prone",
+      "loop": true,
+      "next": "",
+      "frames": [
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 0,
+          "y": 32,
+          "width": 32,
+          "height": 32,
+          "duration": 0.1
+        }
+      ]
+    },
+    {
+      "name": "getup",
+      "loop": false,
+      "next": "idle",
+      "frames": [
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 32,
+          "y": 32,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 64,
+          "y": 32,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 96,
+          "y": 32,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 0,
+          "y": 64,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 32,
+          "y": 64,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 64,
+          "y": 64,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        },
+        {
+          "texture": "Story Cutscene/Level4/ARecoveryAtlas",
+          "x": 96,
+          "y": 64,
+          "width": 32,
+          "height": 32,
+          "duration": 0.28
+        }
+      ]
+    }
+  ]
+}

@@ -31,6 +31,10 @@ speaker.Teen	Thiếu niên	Teenager
 speaker.TeenB	Thiếu niên	Teenager
 speaker.Mom	Mẹ	Mother
 speaker.Doctor	Bác sĩ	Doctor
+speaker.Zoro	Zoro	Zoro
+speaker.Usagi	Usagi	Usagi
+speaker.CaptainPinkTurd	Captain Pink Turd	Captain Pink Turd
+speaker.Reaper	Reaper	Reaper
 speaker.Box	Chiếc hộp đen	Black box
 speaker.System		
 speaker.Narrator		

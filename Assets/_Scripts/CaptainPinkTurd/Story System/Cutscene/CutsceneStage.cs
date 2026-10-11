@@ -24,6 +24,7 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #music:&lt;name in music&gt; | stop            plays a music track (looping) or stops the one playing
     ///   #anim:ActorId:clip[:seconds]               plays a clip of an actor's StageActorAnimation, optionally after a delay
     ///                                              (e.g. anim:B_Bed:wake:1.2)
+    ///   #entrance:A4 #hold                        breaks the closed door and plays A's wounded arrival before the box appears
     ///   #move:ActorId:x[,y][:seconds]              slides an actor to a canvas position (instantly without seconds)
     ///   #flip:ActorId:on|off                       mirrors an actor (faces the other way)
     ///   #fade:RRGGBB[:seconds] | #fade:in[:seconds]  fades the whole screen to a colour, or back from it
@@ -149,10 +150,13 @@ namespace CaptainPinkTurd.Story.Cutscene
         private Texture2D pixelCoverTexture, pixelCutTexture;
         private float[] pixelOrder;
         private Tween pixelCoverTween, pixelCutTween;
+        private Level4CutscenePresentation level4Presentation;
 
         private void Awake()
         {
             SetCast(Array.Empty<string>());
+            level4Presentation = gameObject.AddComponent<Level4CutscenePresentation>();
+            level4Presentation.Initialize(actors, Shake);
             if (villainOverlay) SetAlpha(villainOverlay, 0f);
             if (fadeOverlay) SetAlpha(fadeOverlay, 0f);
             if (struggleMeter) struggleMeter.gameObject.SetActive(false);
@@ -215,6 +219,9 @@ namespace CaptainPinkTurd.Story.Cutscene
                     break;
                 case "anim":
                     PlayAnimation(value);
+                    break;
+                case "entrance":
+                    level4Presentation.BeginEntrance(value);
                     break;
                 case "move":
                     MoveActor(value);
@@ -442,6 +449,7 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             castOnStage.Clear();
             foreach (var id in ids) castOnStage.Add(id.Trim());
+            if (level4Presentation) level4Presentation.PrepareCast(castOnStage);
 
             foreach (var actor in actors)
             {

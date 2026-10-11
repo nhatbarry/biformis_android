@@ -165,6 +165,7 @@ namespace CaptainPinkTurd.InkDialogue
             stageHeld = false;
             IsStaging = false;
             DialogueIsPlaying = false;
+            DialogueIsTyping = false;
             inkDialogueVariables.StopListening(story);
             story.ResetState();
             OnDialogueEnd.Raise();

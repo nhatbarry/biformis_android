@@ -100,7 +100,7 @@ At this point, I can't say whether A will be able to get in or not.
 
 
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:run #move:A4:-440:1.3 #wait:1.3 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
@@ -126,11 +126,11 @@ This second personality can make his wishes come true. So, I'm sorry to say it h
 === WhiteRoom_3 ===
 // PLACEHOLDER DIALOGUE: the lines (not starting with #) are the Scene_HoiUc_AnhEm preview's, waiting for the final dialogue.
 // Replacing each line's words is enough; the tags-only line above a line is its staging and stays as it is.
-// Track (Track, B_FB, A_FB) -> drowning (Drown, panel at the top) -> track -> growing up (Montage m1-m4) -> track
+// Track (Track, B_FB, A_FB) -> drowning (Drown, panel at the bottom) -> track -> growing up (Montage m1-m4) -> track
 // -> A steps closer and holds out a hand; B looks down, pulls back twice -> the player walks B over, Space / E / ! -> hands close-up.
 #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Do you still remember that summer? The time I nearly drowned. #speaker:A
-#layout:top #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
 I kept sinking, water filled my nose, I couldn't see anything. #speaker:A
 Then you dove in. You pulled me up. #speaker:A
 #layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
@@ -179,4 +179,55 @@ Now it's my turn. #speaker:A
 Come on, big brother! Let's go home! #speaker:A
 #flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
 #follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+-> DONE
+
+
+// ---------------------------------------------------------------------
+// RED FINAL ENDING - each line starts when its actor begins speaking.
+// Independent knots preserve the montage's animation timing; dialogue sits at the top edge. Zoro speaks
+// first, then Usagi within the same closeup. After B's thanks, the screen
+// fades to white and reveals the hospital, with no final beep sequence.
+// ---------------------------------------------------------------------
+=== RedFinal_Blue ===
+Congratulations #speaker:A #layout:top
+-> DONE
+
+=== RedFinal_Mom ===
+Congratulations #speaker:Mom #layout:top
+-> DONE
+
+=== RedFinal_Doctor ===
+Congratulations #speaker:Doctor #layout:top
+-> DONE
+
+=== RedFinal_Zoro ===
+Congratulations #speaker:Zoro #layout:top
+-> DONE
+
+=== RedFinal_Usagi ===
+Unaa~ #speaker:Usagi #layout:top
+-> DONE
+
+=== RedFinal_Reaper ===
+grrr #speaker:Reaper #layout:top
+-> DONE
+
+=== RedFinal_Teen ===
+Congratulations #speaker:TeenB #layout:top
+-> DONE
+
+=== RedFinal_Pink ===
+prrfffff #speaker:CaptainPinkTurd #layout:top
+-> DONE
+
+=== RedFinal_Thanks ===
+Thank you, everyone #speaker:B #layout:top
+-> DONE
+
+=== HospitalEnding_A ===
+Brother...? #speaker:A
+-> DONE
+
+=== HospitalEnding_B ===
+Yeah. I'm home. #speaker:B
 -> DONE
