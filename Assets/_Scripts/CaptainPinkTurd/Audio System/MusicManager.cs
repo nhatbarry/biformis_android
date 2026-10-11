@@ -7,13 +7,14 @@ namespace CaptainPinkTurd.AudioSystem
     public class MusicManager : PersistentSingleton<MusicManager>
     {
         [SerializeField] private List<AudioClip> initialPlaylist;
-        [SerializeField, Min(0f)] private float fadeSeconds = 1f;
+        [SerializeField, Min(0f)] private float fadeSeconds = 1.5f;
+        [SerializeField, Min(0f)] private float stopFadeSeconds = 0.75f;
 
         private sealed class MusicVoice
         {
             public AudioSource source;
             public float startTime, endTime;
-            public float fadeFrom, fadeTo, fadeElapsed;
+            public float fadeFrom, fadeTo, fadeElapsed, fadeDuration;
             public bool fading;
         }
 
@@ -68,27 +69,42 @@ namespace CaptainPinkTurd.AudioSystem
                 return;
             }
 
-            current = null;
-            foreach (var voice in voices) FadeOut(voice);
+            // A cue can return while its previous voice is still fading out. Recover that
+            // voice so a stop/play pair or an interrupted transition keeps its musical position.
+            MusicVoice returning = null;
+            foreach (var voice in voices)
+            {
+                if (voice.source.clip == clip && voice.source.isPlaying)
+                {
+                    returning = voice;
+                    break;
+                }
+            }
+            foreach (var voice in voices)
+                if (voice != returning) FadeOut(voice, fadeSeconds);
 
-            current = GetAvailableVoice();
+            current = returning ?? GetAvailableVoice();
             var source = current.source;
-            source.clip = clip;
             source.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup;
             source.loop = loop;
-            source.volume = 0f;
             current.startTime = trimmedStart;
             current.endTime = trimmedEnd;
-            source.Play();
-            if (current.startTime > 0f) source.time = current.startTime;
-            BeginFade(current, 1f);
+            if (returning == null)
+            {
+                source.clip = clip;
+                source.volume = 0f;
+                source.timeSamples = Mathf.Clamp(Mathf.RoundToInt(trimmedStart * clip.frequency), 0, clip.samples - 1);
+                source.Play();
+            }
+            else KeepLoopInRange(current);
+            BeginFade(current, 1f, fadeSeconds);
         }
 
         public void StopCurrentTrack()
         {
             playlistStopped = true;
             current = null;
-            foreach (var voice in voices) FadeOut(voice);
+            foreach (var voice in voices) FadeOut(voice, stopFadeSeconds);
         }
 
         private MusicVoice GetAvailableVoice()
@@ -107,18 +123,19 @@ namespace CaptainPinkTurd.AudioSystem
             return available;
         }
 
-        private void FadeOut(MusicVoice voice)
+        private void FadeOut(MusicVoice voice, float duration)
         {
-            if (!voice.source.isPlaying || (voice.fading && voice.fadeTo == 0f)) return;
-            BeginFade(voice, 0f);
+            if (!voice.source.isPlaying) return;
+            BeginFade(voice, 0f, duration);
         }
 
-        private void BeginFade(MusicVoice voice, float target)
+        private void BeginFade(MusicVoice voice, float target, float duration)
         {
             voice.fadeFrom = voice.source.volume;
             voice.fadeTo = target;
             voice.fadeElapsed = 0f;
-            voice.fading = fadeSeconds > 0f;
+            voice.fadeDuration = duration;
+            voice.fading = duration > 0f;
             if (voice.fading) return;
             voice.source.volume = target;
             if (target == 0f) voice.source.Stop();
@@ -145,8 +162,13 @@ namespace CaptainPinkTurd.AudioSystem
 
                 if (!voice.fading) continue;
                 voice.fadeElapsed += Time.unscaledDeltaTime;
-                float fraction = fadeSeconds > 0f ? Mathf.Clamp01(voice.fadeElapsed / fadeSeconds) : 1f;
-                voice.source.volume = Mathf.Lerp(voice.fadeFrom, voice.fadeTo, fraction.ToLogarithmicFraction());
+                float fraction = Mathf.Clamp01(voice.fadeElapsed / voice.fadeDuration);
+                // Equal-power crossfade: steady combined energy, with gentle starts/ends.
+                // Interpolating power also keeps interrupted fades continuous at their current volume.
+                float angle = Mathf.SmoothStep(0f, 1f, fraction) * Mathf.PI * 0.5f;
+                float blend = Mathf.Sin(angle);
+                voice.source.volume = Mathf.Sqrt(Mathf.Lerp(voice.fadeFrom * voice.fadeFrom,
+                    voice.fadeTo * voice.fadeTo, blend * blend));
                 if (fraction < 1f) continue;
                 voice.fading = false;
                 if (voice.fadeTo == 0f) voice.source.Stop();

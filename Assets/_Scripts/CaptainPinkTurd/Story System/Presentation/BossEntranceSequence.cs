@@ -57,7 +57,6 @@ namespace CaptainPinkTurd.Story.Presentation
         private Vector2 playerPosition;
         private LevelTitleCard title;
         private bool titleWasEnabled, gated, closing;
-        private bool entranceMusicStarted;
         private RectTransform stage;
         private RawImage pipe;
         private Image mergedActor, bossActor;
@@ -209,7 +208,6 @@ namespace CaptainPinkTurd.Story.Presentation
             if (entranceMusic && MusicManager.HasInstance)
             {
                 MusicManager.Instance.Play(entranceMusic, loop: true);
-                entranceMusicStarted = true;
             }
 
             CurrentStage = EStage.Running;
@@ -438,11 +436,8 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private void Complete()
         {
-            if (entranceMusicStarted)
-            {
-                entranceMusicStarted = false;
-                if (MusicManager.HasInstance) MusicManager.Instance.StopCurrentTrack();
-            }
+            // BossFightStoryExit hands over to phase one on the next frame; let its
+            // Play call crossfade directly from the entrance cue.
             IsPlaying = false;
             Finished = true;
             CurrentStage = EStage.Finished;
