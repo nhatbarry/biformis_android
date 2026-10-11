@@ -112,7 +112,7 @@ namespace CaptainPinkTurd.InkDialogue
         {
             if (typewriterText.IsTyping)
             {
-                typewriterText.SkipTyping();
+                if (!DialogueManager.Instance.IsTimelineControlled) typewriterText.SkipTyping();
                 return;
             }
 
@@ -212,6 +212,7 @@ namespace CaptainPinkTurd.InkDialogue
 
         private void SetHiddenObjectsActive(bool active)
         {
+            active &= !DialogueManager.HasInstance || !DialogueManager.Instance.IsTimelineControlled;
             foreach (GameObject go in objectsHiddenWhileTyping)
             {
                 go.SetActive(active);

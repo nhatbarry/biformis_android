@@ -8,6 +8,7 @@ VAR corridorBarkIndex = 0
 
 
 === Intro ===
+#music:mo_dau
 Damn it! We're back here again? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 I thought we'd run so far away. #speaker:A
 Hello there! We meet again! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
@@ -33,9 +34,11 @@ It hurts. #speaker:B
 
 
 === Level2_End ===
+#music:stop
 -> WhiteRoom_1
 
 === WhiteRoom_1 ===
+#music:phong_trang
 Are you okay? #speaker:Teen #bg:white #cast:B_Bed,Teen #move:Teen:-84 #wait:1.8 #anim:B_Bed:wake #wait:2.6
 Who are you? What are you doing here? #speaker:B
 I got injured training for the school track team. #speaker:Teen
@@ -63,6 +66,7 @@ What is he even talking about... #speaker:B #anim:Villain:walk #move:Villain:60:
 
 
 === AfterLevel3 ===
+#music:hoi_tuong_1
 I had a really strange dream just now. #speaker:B #bg:F6F0E4:0 #fade:F6F0E4:0 #cast:Track,B_FB,A_FB,Vignette #fade:in:0.9 #wait:0.9
 Did you dream about those things again? #speaker:A
 How do you know what I dreamed about? #speaker:B
@@ -80,11 +84,11 @@ So how do you feel? #speaker:TeenB
 I don't know what I'm supposed to feel. I'm just tired. #speaker:B
 Are you going to forget me? #speaker:TeenB
 I don't know. #speaker:B
-Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D #anim:Villain_D:appear #wait:0.36 #anim:TeenB:idle_faded
+Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
 Stop talking. #speaker:B
 It's just one press of a button. Come with me already. #speaker:Villain
-Hey. Are you there? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D,Gap #anim:Gap:glow
-A? #speaker:B
+Hey. Are you there? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D,Gap #anim:Gap:glow
+David? #speaker:B
 Don't listen to him. Please. #speaker:A
 Get lost! Do you want to watch him suffer? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
 Open the door for me. #speaker:A
@@ -93,17 +97,20 @@ Still so stubborn? Then die. #speaker:Villain #anim:Villain_D:walk #move:Villain
 -> Hospital_1
 
 === Hospital_1 ===
+#music:benh_vien
 Can my boy wake up, doctor? #speaker:Mom #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 His mind is resisting very strongly. #speaker:Doctor
-At this point, I can't say whether A will be able to get in or not.
+At this point, I can't say whether David will be able to get in or not.
 -> DONE
 
 
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#music:stop
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
+#music:hoi_tuong_2
 Hey! Come eat, dinner's ready! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
 Hey... #speaker:A
 Why do you think we've been like this since the day we were born? The kind of thing that can get hurt at any moment. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
@@ -117,6 +124,7 @@ Hey! Are you okay?! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #ani
 -> Hospital_2
 
 === Hospital_2 ===
+#music:hoi_tuong_2
 It seems your son has created a second personality. #speaker:Doctor #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 W... what do you mean, doctor? #speaker:Mom
 This second personality can make his wishes come true. So, I'm sorry to say it has taken control. Your son no longer cares about his real life. #speaker:Doctor
@@ -124,18 +132,19 @@ This second personality can make his wishes come true. So, I'm sorry to say it h
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
+#music:hoi_tuong_2
 // PLACEHOLDER DIALOGUE: the lines (not starting with #) are the Scene_HoiUc_AnhEm preview's, waiting for the final dialogue.
 // Replacing each line's words is enough; the tags-only line above a line is its staging and stays as it is.
 // Track (Track, B_FB, A_FB) -> drowning (Drown, panel at the bottom) -> track -> growing up (Montage m1-m4) -> track
 // -> A steps closer and holds out a hand; B looks down, pulls back twice -> the player walks B over, Space / E / ! -> hands close-up.
-#sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
+#layout:top #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Do you still remember that summer? The time I nearly drowned. #speaker:A
 #layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
 I kept sinking, water filled my nose, I couldn't see anything. #speaker:A
 Then you dove in. You pulled me up. #speaker:A
-#layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
+#layout:top #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
 [speed=0.4]... #speaker:B
-#pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
+#layout:top #pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
 Since that day, wherever you went, I followed. #speaker:A
 #pixel:cut:0.48 #anim:Montage:m2 #wait:2.4 #pixel:cut:0.48 #anim:Montage:m3 #wait:2.5 #pixel:cut:0.48 #anim:Montage:m4 #wait:2.9 #pixel:cut:0.7 #cast:Track,B_FB,A_FB,Vignette #wait:1.2
 I've grown up and I'm still the same. Still tagging along after you. #speaker:A
@@ -178,7 +187,7 @@ Now it's my turn. #speaker:A
 // PLACEHOLDER DIALOGUE: the ten "......" lines (5 the boss's, 5 A&B's) await the final text; only the words change.
 // ---------------------------------------------------------------------
 === Ending ===
-#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+#music:ending:0:12.85 #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
 ...... #speaker:Villain
 ...... #speaker:AB
 ...... #speaker:Villain
@@ -191,7 +200,7 @@ Now it's my turn. #speaker:A
 ...... #speaker:AB
 #anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
 Come on, big brother! Let's go home! #speaker:A
-#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending:0:12.85 #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
 #follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
 -> DONE
 

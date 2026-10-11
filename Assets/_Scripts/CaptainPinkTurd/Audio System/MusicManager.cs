@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using CaptainPinkTurd.Core.DesignPattern.Singleton;
-using CaptainPinkTurd.Core.Extensions;
 using UnityEngine;
 
 namespace CaptainPinkTurd.AudioSystem
@@ -8,17 +7,25 @@ namespace CaptainPinkTurd.AudioSystem
     public class MusicManager : PersistentSingleton<MusicManager>
     {
         [SerializeField] private List<AudioClip> initialPlaylist;
-        
-        private AudioSource current;
-        private AudioSource previous;
-        private const float crossFadeTime = 1.0f;
-        private float fading;
-        
+        [SerializeField, Min(0f)] private float fadeSeconds = 1f;
+
+        private sealed class MusicVoice
+        {
+            public AudioSource source;
+            public float startTime, endTime;
+            public float fadeFrom, fadeTo, fadeElapsed;
+            public bool fading;
+        }
+
+        private MusicVoice current;
+        private readonly List<MusicVoice> voices = new();
+        private bool playlistStopped;
         private readonly Queue<AudioClip> playlist = new();
 
         private void Start()
         {
-            foreach (var clip in initialPlaylist) 
+            if (initialPlaylist == null) return;
+            foreach (var clip in initialPlaylist)
             {
                 AddToPlaylist(clip);
             }
@@ -26,8 +33,9 @@ namespace CaptainPinkTurd.AudioSystem
 
         public void AddToPlaylist(AudioClip clip)
         {
+            if (!clip) return;
             playlist.Enqueue(clip);
-            if (!current && !previous) 
+            if (!playlistStopped && (current == null || !current.source.isPlaying))
             {
                 PlayNextTrack();
             }
@@ -43,63 +51,109 @@ namespace CaptainPinkTurd.AudioSystem
             }
         }
 
-        public void Play(AudioClip clip, bool loop = false) 
+        public void Play(AudioClip clip, bool loop = false, float startTime = 0f, float endTime = 0f)
         {
             if (!clip) return;
-            if (current && current.clip == clip && current.isPlaying) return;
-
-            if (previous)
+            playlistStopped = false;
+            float trimmedStart = Mathf.Clamp(startTime, 0f, Mathf.Max(0f, clip.length - 0.01f));
+            float trimmedEnd = endTime > 0f
+                ? Mathf.Clamp(endTime, trimmedStart + 0.01f, clip.length)
+                : clip.length;
+            if (current != null && current.source.clip == clip && current.source.isPlaying)
             {
-                previous.Stop();
-                previous = null;
+                current.source.loop = loop;
+                current.startTime = trimmedStart;
+                current.endTime = trimmedEnd;
+                KeepLoopInRange(current);
+                return;
             }
 
-            previous = current;
+            current = null;
+            foreach (var voice in voices) FadeOut(voice);
 
-            current = gameObject.GetOrAdd<AudioSource>();
-            current.clip = clip;
-            current.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup; // Set mixer group
-            current.loop = loop; // For playlist functionality, we want tracks to play once
-            current.volume = 0;
-            current.bypassListenerEffects = true;
-            current.Play();
-
-            fading = 0.001f;
+            current = GetAvailableVoice();
+            var source = current.source;
+            source.clip = clip;
+            source.outputAudioMixerGroup = AudioManager.Instance.MusicMixerGroup;
+            source.loop = loop;
+            source.volume = 0f;
+            current.startTime = trimmedStart;
+            current.endTime = trimmedEnd;
+            source.Play();
+            if (current.startTime > 0f) source.time = current.startTime;
+            BeginFade(current, 1f);
         }
-        public void StopCurrentTrack() => current?.Stop();
 
-        private void Update() 
+        public void StopCurrentTrack()
         {
-            HandleCrossFade();
+            playlistStopped = true;
+            current = null;
+            foreach (var voice in voices) FadeOut(voice);
+        }
 
-            if (current && !current.isPlaying && playlist.Count > 0) 
+        private MusicVoice GetAvailableVoice()
+        {
+            foreach (var voice in voices)
             {
-                PlayNextTrack(); 
+                if (!voice.source.isPlaying) return voice;
             }
+
+            var source = gameObject.AddComponent<AudioSource>();
+            source.playOnAwake = false;
+            source.spatialBlend = 0f;
+            source.bypassListenerEffects = true;
+            var available = new MusicVoice { source = source };
+            voices.Add(available);
+            return available;
         }
 
-        private void HandleCrossFade() 
+        private void FadeOut(MusicVoice voice)
         {
-            if (fading <= 0f) return;
-            
-            fading += Time.deltaTime;
+            if (!voice.source.isPlaying || (voice.fading && voice.fadeTo == 0f)) return;
+            BeginFade(voice, 0f);
+        }
 
-            float fraction = Mathf.Clamp01(fading / crossFadeTime);
+        private void BeginFade(MusicVoice voice, float target)
+        {
+            voice.fadeFrom = voice.source.volume;
+            voice.fadeTo = target;
+            voice.fadeElapsed = 0f;
+            voice.fading = fadeSeconds > 0f;
+            if (voice.fading) return;
+            voice.source.volume = target;
+            if (target == 0f) voice.source.Stop();
+        }
 
-            // Logarithmic fade
-            float logFraction = fraction.ToLogarithmicFraction();
+        private static void KeepLoopInRange(MusicVoice voice)
+        {
+            if (!voice.source.loop) return;
+            float time = voice.source.time;
+            if (time < voice.startTime)
+                voice.source.time = voice.startTime;
+            else if (time >= voice.endTime)
+                voice.source.time = voice.startTime + Mathf.Repeat(time - voice.endTime, voice.endTime - voice.startTime);
+        }
 
-            if (previous) previous.volume = 1.0f - logFraction;
-            if (current) current.volume = logFraction;
+        private void Update()
+        {
+            foreach (var voice in voices)
+            {
+                if (!voice.source.isPlaying) continue;
 
-            if (!(fraction >= 1)) return;
-            
-            fading = 0.0f;
-            
-            if (!previous || previous == current) return; // will need to come back to this shit later
-            
-            previous.Stop();
-            previous = null;
+                // Skip trimmed intros and silent tails on every repeat without restarting at story transitions.
+                KeepLoopInRange(voice);
+
+                if (!voice.fading) continue;
+                voice.fadeElapsed += Time.unscaledDeltaTime;
+                float fraction = fadeSeconds > 0f ? Mathf.Clamp01(voice.fadeElapsed / fadeSeconds) : 1f;
+                voice.source.volume = Mathf.Lerp(voice.fadeFrom, voice.fadeTo, fraction.ToLogarithmicFraction());
+                if (fraction < 1f) continue;
+                voice.fading = false;
+                if (voice.fadeTo == 0f) voice.source.Stop();
+            }
+
+            if (!playlistStopped && current != null && !current.source.isPlaying && playlist.Count > 0)
+                PlayNextTrack();
         }
     }
 }

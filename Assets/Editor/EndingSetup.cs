@@ -27,7 +27,7 @@ public static class EndingSetup
     private const string BlueCharacter = "Assets/Animations/Blue Character.aseprite";
     private const string CutsceneScene = "Assets/Scenes/CaptainPinkTurd/Story/Story Cutscene.unity";
     private const string BossScene = "Assets/Scenes/CaptainPinkTurd/Story/Level Story 6.unity";
-    private const string EndingMusicGuid = "9c1e3346a86a23c4989678ed9c7db33c"; //the old ending's music (Story Ending scene)
+    private const string EndingMusicGuid = "6e89979fc28e8434f955edf8fa659d28"; // chay_ve.wav
     private const string GlassBreakSfx = "Assets/Ink Dialogue/SFX_break_glass.wav"; //the user's glass break
 
     //Tools/ending_art.py: black 240 | room 160 | 4 levels x 224 | dark 200; the room's centre is the world's x = 0
@@ -110,9 +110,23 @@ public static class EndingSetup
         for (int i = 0; i < actors.Count; i++) actorList.GetArrayElementAtIndex(i).objectReferenceValue = actors[i];
 
         var musicList = stageData.FindProperty("music");
-        musicList.arraySize = 1;
-        musicList.GetArrayElementAtIndex(0).FindPropertyRelative("Key").stringValue = "ending";
-        musicList.GetArrayElementAtIndex(0).FindPropertyRelative("Value").objectReferenceValue = music;
+        SerializedProperty endingTrack = null;
+        for (int i = 0; i < musicList.arraySize; i++)
+        {
+            var entry = musicList.GetArrayElementAtIndex(i);
+            if (entry.FindPropertyRelative("Key").stringValue == "ending")
+            {
+                endingTrack = entry;
+                break;
+            }
+        }
+        if (endingTrack == null)
+        {
+            int musicIndex = musicList.arraySize++;
+            endingTrack = musicList.GetArrayElementAtIndex(musicIndex);
+            endingTrack.FindPropertyRelative("Key").stringValue = "ending";
+        }
+        endingTrack.FindPropertyRelative("Value").objectReferenceValue = music;
         stageData.ApplyModifiedPropertiesWithoutUndo();
         EditorSceneManager.MarkSceneDirty(scene);
         EditorSceneManager.SaveScene(scene);

@@ -50,6 +50,7 @@ namespace CaptainPinkTurd.Game
         {
             switchDimensionAction.Enable();
             switchDimensionAction.performed += DimensionSwitch;
+            SceneManager.sceneLoaded += OnGameplaySceneLoaded;
             
             OnGameOver.Subscribe(OnGameOverEvents);
         }
@@ -57,6 +58,7 @@ namespace CaptainPinkTurd.Game
         {
             switchDimensionAction.performed -= DimensionSwitch;
             switchDimensionAction.Disable();
+            SceneManager.sceneLoaded -= OnGameplaySceneLoaded;
             
             OnGameOver.Unsubscribe(OnGameOverEvents);
         }
@@ -127,10 +129,29 @@ namespace CaptainPinkTurd.Game
             isDimensionLocked = false;
         }
 
+        private void OnGameplaySceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+        {
+            if (!scene.name.StartsWith("Level")) return;
+
+            // Switching is disabled at game over, while dimension locks belong to the old level.
+            // Rebuild both only when gameplay content loads, so neither can leak into the next level or a retry.
+            switchDimensionAction.Enable();
+            isDimensionLocked = false;
+            foreach (var dimensionLock in FindObjectsByType<DimensionLock>(FindObjectsSortMode.None))
+            {
+                if (!dimensionLock.isActiveAndEnabled || dimensionLock.gameObject.scene != scene)
+                    continue;
+                isDimensionLocked = true;
+                currentDimension = dimensionLock.LockedDimension;
+                break;
+            }
+            onDimensionChange.Raise(currentDimension);
+        }
+
         public void OnLevelSceneLoaded()
         {
             onDimensionChange.Raise(currentDimension);
-            
+
             playerUnit = FindAnyObjectByType<PlayerUnit>();
 
             if (!playerUnit || !playerUnit.TryGetComponent(out IDamageable playerDamageable)) return;

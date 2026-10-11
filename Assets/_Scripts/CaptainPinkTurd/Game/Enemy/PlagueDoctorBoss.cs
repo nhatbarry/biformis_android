@@ -116,6 +116,7 @@ namespace CaptainPinkTurd.Game.Enemy
         public IReadOnlyList<GameObject> SummonedEnemies => minions;
         public GameEvent<SDamageData> OnTakeDamage { get; } = new();
         public GameEvent<SDamageData> OnDeath { get; } = new();
+        public GameEvent OnPhaseTwoStarted { get; } = new();
         public GameEvent OnPhaseTwoReady { get; } = new();
         public Transform GetTransform() => transform;
 
@@ -474,6 +475,7 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private IEnumerator RevealPhaseTwo(bool skipIce)
         {
+            OnPhaseTwoStarted.Raise();
             var arena = FindAnyObjectByType<BossArenaController>();
             if (arena)
             {

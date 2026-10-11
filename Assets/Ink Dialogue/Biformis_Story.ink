@@ -80,6 +80,7 @@ VAR corridorBarkIndex = 0
 // MỞ ĐẦU - Cảnh 1: Bắt đầu
 // ---------------------------------------------------------------------
 === Intro ===
+#music:mo_dau
 Khốn kiếp! Lại quay lại rồi à? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 Em nhớ là bọn mình đã chạy xa lắm rồi mà. #speaker:A
 Xin chào! Chúng ta lại gặp nhau rồi! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
@@ -114,9 +115,11 @@ Thôi được rồi, ta sẽ cho hai người thêm một cơ hội. Đừng co
 // -> CẢNH - CĂN PHÒNG TRẮNG (lần 1)
 // ---------------------------------------------------------------------
 === Level2_End ===
+#music:stop
 -> WhiteRoom_1
 
 === WhiteRoom_1 ===
+#music:phong_trang
 Anh có sao không? #speaker:Teen #bg:white #cast:B_Bed,Teen #move:Teen:-84 #wait:1.8 #anim:B_Bed:wake #wait:2.6
 Em là ai? Em làm gì ở đây? #speaker:B
 Em đang luyện tập cho đội điền kinh của trường thì bị chấn thương. #speaker:Teen
@@ -148,6 +151,7 @@ Ngươi có tin là chỉ cần một công tắc, ta có thể ban cho ngươi 
 // CẢNH - SAU MÀN 3 -> CĂN PHÒNG TRẮNG (lần 2) -> BỆNH VIỆN
 // ---------------------------------------------------------------------
 === AfterLevel3 ===
+#music:hoi_tuong_1
 Hồi nãy anh mơ thấy một giấc mơ lạ lắm. #speaker:B #bg:F6F0E4:0 #fade:F6F0E4:0 #cast:Track,B_FB,A_FB,Vignette #fade:in:0.9 #wait:0.9
 Anh lại mơ thấy những chuyện đó nữa à? #speaker:A
 Sao em biết anh mơ thấy gì? #speaker:B
@@ -165,11 +169,11 @@ Vậy anh thấy sao? #speaker:TeenB
 Anh không biết mình nên có cảm xúc gì. Anh chỉ thấy mệt thôi. #speaker:B
 Anh sẽ quên em sao? #speaker:TeenB
 Anh không biết. #speaker:B
-Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D #anim:Villain_D:appear #wait:0.36 #anim:TeenB:idle_faded
+Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
 Đừng nói nữa. #speaker:B
 Chỉ cần một nút ấn thôi mà. Mau đi theo ta đi rồi. #speaker:Villain
-Anh ơi. Anh có ở đó không? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,TeenB,Villain_D,Gap #anim:Gap:glow
-A? #speaker:B
+Anh ơi. Anh có ở đó không? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D,Gap #anim:Gap:glow
+David? #speaker:B
 Anh ơi. Đừng có nghe hắn. Xin anh đấy. #speaker:A
 Cút đi! Ngươi muốn nhìn hắn đau khổ sao? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
 Mở cửa ra cho ta. #speaker:A
@@ -178,9 +182,10 @@ Vẫn còn cố chấp à? Vậy thì chết đi. #speaker:Villain #anim:Villain
 -> Hospital_1
 
 === Hospital_1 ===
+#music:benh_vien
 Thằng bé có thể tỉnh lại không bác sĩ? #speaker:Mom #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 Tâm trí cậu ấy đang chống cự rất mạnh. #speaker:Doctor
-Với tình hình này, tôi không thể nói trước rằng cậu A có xâm nhập vào được hay không.
+Với tình hình này, tôi không thể nói trước rằng David có xâm nhập vào được hay không.
 // -> BẮT ĐẦU MÀN 4.
 -> DONE
 
@@ -189,10 +194,12 @@ Với tình hình này, tôi không thể nói trước rằng cậu A có xâm 
 // KẾT THÚC MÀN 4 -> QUÁ KHỨ -> BỆNH VIỆN -> HỒI ỨC HAI ANH EM
 // ---------------------------------------------------------------------
 === Level4_End ===
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#music:stop
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
+#music:hoi_tuong_2
 Anh ơi! Ra ăn cơm đi! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
 Anh... #speaker:A
 Cậu nghĩ tại sao chúng ta từ khi sinh ra đã như vậy rồi nhỉ? Kiểu có thể bị thương bất cứ lúc nào ấy. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
@@ -206,6 +213,7 @@ Anh! Anh ơi! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit
 -> Hospital_2
 
 === Hospital_2 ===
+#music:hoi_tuong_2
 Có vẻ con trai bà đã tự tạo ra một nhân cách thứ hai. #speaker:Doctor #bg:black:0 #cast:Hospital,Mom,Doctor #fade:in:1 #wait:1
 L... là sao ạ bác sĩ? #speaker:Mom
 Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở thành sự thật. Vì vậy, thật tiếc khi phải nói rằng nó đã chiếm quyền kiểm soát. Con trai bà không còn thiết tha gì đời sống thật nữa. #speaker:Doctor
@@ -213,18 +221,19 @@ Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở 
 -> WhiteRoom_3
 
 === WhiteRoom_3 ===
+#music:hoi_tuong_2
 // THOẠI GIỮ CHỖ: các câu (không bắt đầu bằng #) chép nguyên từ preview của bộ Scene_HoiUc_AnhEm, chờ thoại chính thức.
 // Thay chữ của từng câu là đủ; mỗi dòng chỉ có tag phía trên một câu là dàn cảnh của nó, không cần sửa.
 // Sân tập (Track, B_FB, A_FB) -> đuối nước (Drown, khung thoại ở dưới) -> sân tập -> lớn lên (Montage m1-m4) -> sân tập
 // -> A bước lại, chìa tay; B cúi nhìn, rụt tay hai lần -> người chơi đưa B tới và bấm Space / E / nút ! -> cận cảnh nắm tay.
-#sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
+#layout:top #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Anh còn nhớ mùa hè năm đó không? Cái lần em suýt chết đuối ấy. #speaker:A
 #layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
 Em chìm dần, nước tràn vào mũi, chẳng thấy gì nữa. #speaker:A
 Rồi anh lao xuống. Anh kéo em lên. #speaker:A
-#layout:bottom #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
+#layout:top #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
 [speed=0.4]... #speaker:B
-#pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
+#layout:top #pixel:cut:0.56 #cast:Montage #anim:Montage:m1 #wait:0.56
 Từ hôm đó, anh đi đâu là em theo đó. #speaker:A
 #pixel:cut:0.48 #anim:Montage:m2 #wait:2.4 #pixel:cut:0.48 #anim:Montage:m3 #wait:2.5 #pixel:cut:0.48 #anim:Montage:m4 #wait:2.9 #pixel:cut:0.7 #cast:Track,B_FB,A_FB,Vignette #wait:1.2
 Lớn rồi mà em vẫn thế. Vẫn cứ bám theo anh. #speaker:A
@@ -277,7 +286,7 @@ Giờ đến lượt em. #speaker:A
 // Vị trí boss (-150,-58) và A&B (150,-22) khớp với GlassShatter.BossStagePosition / PlayerStagePosition.
 // ---------------------------------------------------------------------
 === Ending ===
-#music:stop #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
+#music:ending:0:12.85 #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
 ...... #speaker:Villain
 ...... #speaker:AB
 ...... #speaker:Villain
@@ -290,7 +299,7 @@ Giờ đến lượt em. #speaker:A
 ...... #speaker:AB
 #anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
 Anh ơi! Về thôi! #speaker:A
-#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
+#flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending:0:12.85 #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
 #follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
 -> DONE
 

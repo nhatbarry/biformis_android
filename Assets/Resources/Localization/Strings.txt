@@ -28,12 +28,12 @@ speaker.B	Adam	Adam
 speaker.Villain	Bishop	Bishop
 speaker.AB	David & Adam	David & Adam
 speaker.Teen	Thiếu niên bí ẩn	Mysterious Teenager
-speaker.TeenB	Adam Thời Trẻ	Teen Adam
+speaker.TeenB	Adam thời trẻ	Teen Adam
 speaker.Mom	Mẹ	Mother
 speaker.Doctor	Bác sĩ	Doctor
 speaker.Zoro	Zoro	Zoro
 speaker.Usagi	Usagi	Usagi
-speaker.CaptainPinkTurd	CaptainPinkTurd	CaptainPinkTurd
+speaker.CaptainPinkTurd	Captain Pink Turd	Captain Pink Turd
 speaker.Reaper	Reaper	Reaper
 speaker.Box	Chiếc hộp đen	Black box
 speaker.System		
@@ -46,7 +46,7 @@ level.4	Màn 4 	Level 4
 level.corridor	Hành lang	The Corridor
 level.5	Màn 5	Level 5 
 level.6	Màn 6	Level 6
-level.4.subtitle	A đang xâm nhập vào tâm trí B. Không thể đổi màu.	A is breaking into B's mind. You can't switch colours.
+level.4.subtitle	David đang xâm nhập vào tâm trí Adam. Không thể đổi màu.	David is breaking into Adam's mind. You can't switch colours.
 level.5.subtitle	Thoát ra trước khi mọi thứ sụp đổ!	Get out before everything collapses!
 level.5.timer	Sụp đổ sau	Collapse in
 # --- Level 1 hints (touch = shown on phones instead) ---		
@@ -54,8 +54,8 @@ hint.move	WASD / phím mũi tên: di chuyển	WASD / arrow keys: move
 hint.move.touch	Kéo ở nửa trái màn hình để di chuyển	Drag on the left half of the screen to move
 hint.sprint	Giữ SHIFT: chạy nhanh · Nhấn SHIFT: lướt	Hold SHIFT: sprint · Tap SHIFT: dash
 hint.sprint.touch	Giữ nút chạy: chạy nhanh · Chạm: lướt	Hold the run button: sprint · Tap: dash
-hint.switch	J: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	J: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
-hint.switch.touch	Nút đổi màu: đổi giữa B (Đỏ) và A (Xanh) · Cùng màu thì đi xuyên tường và đạn	Colour button: switch between B (Red) and A (Blue) · Walls and bullets of your colour let you through
+hint.switch	J: đổi giữa Adam (Đỏ) và David (Xanh) · Cùng màu thì đi xuyên tường và đạn	J: switch between Adam (Red) and David (Blue) · Walls and bullets of your colour let you through
+hint.switch.touch	Nút đổi màu: đổi giữa Adam (Đỏ) và David (Xanh) · Cùng màu thì đi xuyên tường và đạn	Colour button: switch between Adam (Red) and David (Blue) · Walls and bullets of your colour let you through
 hint.attack	Lao vào kẻ địch để phá huỷ chúng	Ram into enemies to destroy them
 hint.door	Hạ hết kẻ địch để mở cửa · Đứng ở cửa rồi nhấn E để qua màn	Destroy every enemy to open the door · Stand at it and press E to go through
 hint.door.touch	Hạ hết kẻ địch để mở cửa · Đứng ở cửa rồi bấm nút ! để qua màn	Destroy every enemy to open the door · Stand at it and tap the ! button to go through

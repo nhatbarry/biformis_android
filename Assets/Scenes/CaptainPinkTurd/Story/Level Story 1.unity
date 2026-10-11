@@ -83488,6 +83488,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9169980295592035535, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
+      propertyPath: levelTheme
+      value: 
+      objectReference: {fileID: 8300000, guid: afed487387c55574c942cef0bb3d1fab, type: 3}
+    - target: {fileID: 9169980295592035535, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
       propertyPath: storyData
       value: 
       objectReference: {fileID: 11400000, guid: 057367ad00ca37348bed39e0f9a5333e, type: 2}

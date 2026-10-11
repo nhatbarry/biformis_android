@@ -21,7 +21,7 @@ namespace CaptainPinkTurd.Story.Cutscene
     ///   #cast:A,B,Teen | none                    which StageActors stand on stage
     ///   #fx:shake | flash | red | fade_black | fade_white | fade_in
     ///   #sfx:beep | stop | &lt;name in sounds&gt;     "beep" loops a heart monitor, "stop" ends any loop
-    ///   #music:&lt;name in music&gt; | stop            plays a music track (looping) or stops the one playing
+    ///   #music:&lt;name in music&gt;[:start[:end]] | stop  loops the track between optional times (seconds), or stops it
     ///   #anim:ActorId:clip[:seconds]               plays a clip of an actor's StageActorAnimation, optionally after a delay
     ///                                              (e.g. anim:B_Bed:wake:1.2)
     ///   #entrance:A4 #hold                        breaks the closed door and plays A's wounded arrival before the box appears
@@ -1037,11 +1037,27 @@ namespace CaptainPinkTurd.Story.Cutscene
             }
         }
 
-        private void PlayMusic(string trackName)
+        private void PlayMusic(string value)
         {
             if (!MusicManager.HasInstance) return;
-            if (trackName.Equals("stop", StringComparison.OrdinalIgnoreCase)) MusicManager.Instance.StopCurrentTrack();
-            else if (music != null && music.TryGetValue(trackName, out AudioClip clip) && clip) MusicManager.Instance.Play(clip, loop: true);
+            var parts = value.Split(':');
+            string trackName = parts[0].Trim();
+            if (trackName.Equals("stop", StringComparison.OrdinalIgnoreCase))
+            {
+                MusicManager.Instance.StopCurrentTrack();
+                return;
+            }
+
+            float startTime = 0f, endTime = 0f;
+            if (parts.Length > 3 || (parts.Length > 1 && !TryParse(parts[1], out startTime)) ||
+                (parts.Length > 2 && !TryParse(parts[2], out endTime)))
+            {
+                Debug.LogWarning($"Invalid cutscene music range: {value}");
+                return;
+            }
+
+            if (music != null && music.TryGetValue(trackName, out AudioClip clip) && clip)
+                MusicManager.Instance.Play(clip, loop: true, startTime: startTime, endTime: endTime);
             else Debug.LogWarning($"Unknown cutscene music: {trackName}");
         }
 

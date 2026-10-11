@@ -1,4 +1,5 @@
 using System.Collections;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.Struct;
 using CaptainPinkTurd.Game.Enemy;
 using CaptainPinkTurd.Game.Player;
@@ -17,6 +18,11 @@ namespace CaptainPinkTurd.Story
         [SerializeField] private PlagueDoctorBoss boss;
         [SerializeField] private LevelManager level;
 
+        [Header("Boss music")]
+        [SerializeField] private AudioClip phaseOneMusic;
+        [SerializeField, Min(0f)] private float phaseOneMusicStartTime = 69f;
+        [SerializeField] private AudioClip phaseTwoMusic;
+
         [Header("Glass shatter (set by Biformis > Ending > Build Ending)")]
         [SerializeField] private Sprite glow;
         [Tooltip("The defeated boss breathing: the pose it takes once the glass breaks")]
@@ -34,14 +40,36 @@ namespace CaptainPinkTurd.Story
         {
             completed = false;
             boss.OnDeath.Subscribe(OnBossDeath);
+            boss.OnPhaseTwoStarted.Subscribe(PlayPhaseTwoMusic);
         }
 
-        private void OnDisable() => boss.OnDeath.Unsubscribe(OnBossDeath);
+        private void OnDisable()
+        {
+            boss.OnDeath.Unsubscribe(OnBossDeath);
+            boss.OnPhaseTwoStarted.Unsubscribe(PlayPhaseTwoMusic);
+        }
+
+        private IEnumerator Start()
+        {
+            yield return null; // Let the level manager finish its startup before taking over music.
+            var entrance = FindAnyObjectByType<BossEntranceSequence>();
+            while (entrance && !entrance.Finished) yield return null;
+            if (!completed && isActiveAndEnabled && boss && boss.Phase == PlagueDoctorBoss.EPhase.Hooded &&
+                phaseOneMusic && MusicManager.HasInstance)
+                MusicManager.Instance.Play(phaseOneMusic, loop: true, startTime: phaseOneMusicStartTime);
+        }
+
+        private void PlayPhaseTwoMusic()
+        {
+            if (!completed && phaseTwoMusic && MusicManager.HasInstance)
+                MusicManager.Instance.Play(phaseTwoMusic, loop: true);
+        }
 
         private void OnBossDeath(SDamageData damage)
         {
             if (completed) return;
             completed = true;
+            if (MusicManager.HasInstance) MusicManager.Instance.StopCurrentTrack();
             StartCoroutine(BreakThenLeave());
         }
 

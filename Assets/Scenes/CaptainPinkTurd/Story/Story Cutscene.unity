@@ -2336,7 +2336,21 @@ MonoBehaviour:
   - Value: {fileID: 8300000, guid: fc0a92857b614be449eab7e7e7010ba8, type: 3}
     Key: thud
   music:
-  - Value: {fileID: 8300000, guid: 9c1e3346a86a23c4989678ed9c7db33c, type: 3}
+  - Value: {fileID: 8300000, guid: 548c36d648d3fa546a9668bf0a6a75ba, type: 3}
+    Key: hoi_tuong_2
+  - Value: {fileID: 8300000, guid: 8129ebcd19fe8674db5b73ae748b7b46, type: 3}
+    Key: dua_hop
+  - Value: {fileID: 8300000, guid: 58600e9684d23a146987c1c36a540b9a, type: 3}
+    Key: benh_vien
+  - Value: {fileID: 8300000, guid: c2b71eac4dae57b4ebe34e607524880a, type: 3}
+    Key: sau_man_3_bs_xuat_hien
+  - Value: {fileID: 8300000, guid: e3619d7cc0e44d440b06cf0f89ee7186, type: 3}
+    Key: hoi_tuong_1
+  - Value: {fileID: 8300000, guid: c329be9b804ce564a9e0ffe44b19ca06, type: 3}
+    Key: phong_trang
+  - Value: {fileID: 8300000, guid: fc29d87cd41dc4847807804293e7120f, type: 3}
+    Key: mo_dau
+  - Value: {fileID: 8300000, guid: 6e89979fc28e8434f955edf8fa659d28, type: 3}
     Key: ending
 --- !u!114 &362944438
 MonoBehaviour:

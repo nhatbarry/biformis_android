@@ -75,6 +75,8 @@ namespace CaptainPinkTurd.InkDialogue
         //raised for every continue input (tap, Interact) while the stage holds the dialogue, so the stage can use it
         public GameEvent OnStageInput { get; private set; }
         public bool DialogueIsTyping { get; internal set; }
+        // Authored cutscene cues replace each line; player input and reading timers must not skip those cues.
+        public bool IsTimelineControlled { get; set; }
 
         private TextAsset ActiveInkJson =>
             Localization.CurrentLanguage == ELanguage.English && inkJsonEnglish ? inkJsonEnglish : inkJson;
@@ -149,7 +151,7 @@ namespace CaptainPinkTurd.InkDialogue
             //start listening for variables
             inkDialogueVariables.SyncVariablesAndStartListening(story);
             
-            ContinueOrExitStory(default);
+            AdvanceDialogue();
             
             firstFrameDialogueGuard = true;
             StartCoroutine(CoroutineUtils.WaitForNextFrames(() =>
@@ -179,6 +181,12 @@ namespace CaptainPinkTurd.InkDialogue
         //if race condition ever happens to input in the future, then you should implement an input events and context to your input assembly and
         //follow the same structure as the guy who made this system
         private void ContinueOrExitStory(InputAction.CallbackContext ctx)
+        {
+            if (IsTimelineControlled) return;
+            AdvanceDialogue();
+        }
+
+        private void AdvanceDialogue()
         {
             if (!DialogueIsPlaying || firstFrameDialogueGuard) return;
             if (IsStaging)
@@ -252,7 +260,7 @@ namespace CaptainPinkTurd.InkDialogue
         /// </summary>
         private void Update()
         {
-            if (!autoAdvance || !DialogueIsPlaying || DialogueIsTyping || IsStaging || story.currentChoices.Count > 0) return;
+            if (IsTimelineControlled || !autoAdvance || !DialogueIsPlaying || DialogueIsTyping || IsStaging || story.currentChoices.Count > 0) return;
 
             lineIdleTime += Time.unscaledDeltaTime;
             if (lineIdleTime < lineReadingTime) return;

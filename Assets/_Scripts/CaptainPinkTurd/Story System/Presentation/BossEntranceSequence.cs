@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Game.Enemy;
 using CaptainPinkTurd.Game.Player;
 using CaptainPinkTurd.InkDialogue;
@@ -27,6 +28,7 @@ namespace CaptainPinkTurd.Story.Presentation
         [SerializeField] private Sprite pipeBackground;
         [SerializeField] private GameObject dialoguePrefab;
         [SerializeField] private Shader revealShader;
+        [SerializeField] private AudioClip entranceMusic;
         [SerializeField] private StageActorAnimation.Clip redRun, blueRun, redIdle, blueIdle, bossIdle, bossCast;
         [SerializeField, Min(0.1f)] private float runSeconds = 2f;
         [SerializeField, Min(0.01f)] private float bossAppearanceSeconds = 0.6f;
@@ -55,6 +57,7 @@ namespace CaptainPinkTurd.Story.Presentation
         private Vector2 playerPosition;
         private LevelTitleCard title;
         private bool titleWasEnabled, gated, closing;
+        private bool entranceMusicStarted;
         private RectTransform stage;
         private RawImage pipe;
         private Image mergedActor, bossActor;
@@ -202,6 +205,12 @@ namespace CaptainPinkTurd.Story.Presentation
         {
             var controller = SceneController.TryGetInstance();
             while (controller && controller.IsBusy) yield return null;
+
+            if (entranceMusic && MusicManager.HasInstance)
+            {
+                MusicManager.Instance.Play(entranceMusic, loop: true);
+                entranceMusicStarted = true;
+            }
 
             CurrentStage = EStage.Running;
             float runFrom = -stage.rect.width * 0.5f - 60f;
@@ -429,6 +438,11 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private void Complete()
         {
+            if (entranceMusicStarted)
+            {
+                entranceMusicStarted = false;
+                if (MusicManager.HasInstance) MusicManager.Instance.StopCurrentTrack();
+            }
             IsPlaying = false;
             Finished = true;
             CurrentStage = EStage.Finished;

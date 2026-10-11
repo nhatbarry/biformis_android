@@ -3890,6 +3890,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.BossFightStoryExit
   boss: {fileID: 5126970418836252189}
   level: {fileID: 3564836562178595604}
+  phaseOneMusic: {fileID: 8300000, guid: 600e9ab2303b68e4c8ae64ebd2f15e88, type: 3}
+  phaseOneMusicStartTime: 69
+  phaseTwoMusic: {fileID: 8300000, guid: 06bdde59b0c552a4f8ccf3e6be1dad1b, type: 3}
   glow: {fileID: 21300000, guid: 17297b4a859e6dd43a1f0d50b1f4d697, type: 3}
   bossPose:
   - {fileID: 790992657, guid: fa5d190715ed9bf4ca1aec68bb864400, type: 3}
@@ -62094,6 +62097,7 @@ MonoBehaviour:
   pipeBackground: {fileID: 21300000, guid: 84f8e6c8d704c3740be03910fb1f519a, type: 3}
   dialoguePrefab: {fileID: 3537303796505033562, guid: d0e125f7492ad844b8a08c72d709fa84, type: 3}
   revealShader: {fileID: 4800000, guid: b976450a93bb442c853de23eea17d747, type: 3}
+  entranceMusic: {fileID: 8300000, guid: 9a6589cc418218d4c9b24e983cfd4688, type: 3}
   redRun:
     name: run
     frames:
@@ -65633,6 +65637,10 @@ PrefabInstance:
     - target: {fileID: 4108975754366707165, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169980295592035535, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
+      propertyPath: levelTheme
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9169980295592035535, guid: d34c0911cf4d7224895898bd51b74bf3, type: 3}
       propertyPath: storyData

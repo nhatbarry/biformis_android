@@ -26,6 +26,7 @@ namespace CaptainPinkTurd.Scene.Manager
         [SerializeField] private VoidEvent onRestart;
         
         [SerializeField] private AudioClip levelTheme;
+        [SerializeField, Min(0f)] private float levelThemeStartTime;
 
         [Header("Story Mode")]
         [Tooltip("Story levels advance to the next story step instead of a random level, and restart themselves on death")]
@@ -42,7 +43,7 @@ namespace CaptainPinkTurd.Scene.Manager
 
         private void Start()
         {
-            MusicManager.Instance.Play(levelTheme, loop: true);
+            MusicManager.Instance.Play(levelTheme, loop: true, startTime: levelThemeStartTime);
         }
 
         public void NextLevel()

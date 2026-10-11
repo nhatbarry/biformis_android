@@ -33,7 +33,7 @@ namespace CaptainPinkTurd.Story.Tests
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
             ["sfx"] = new[] { "beep", "stop", "thud" },
             ["layout"] = new[] { "top", "bottom" },
-            ["music"] = new[] { "ending", "stop" },
+            ["music"] = new[] { "mo_dau", "phong_trang", "hoi_tuong_1", "sau_man_3_bs_xuat_hien", "benh_vien", "dua_hop", "hoi_tuong_2", "ending", "stop" },
         };
         private static readonly string[] CastIds = { "A", "B", "B_Bed", "B_Floor", "Level3", "Teen", "Villain", "Mom", "Doctor", "Box", "none",
             "Room", "Lever", "Trapdoor", "CageFront", "Spotlight", "Captives", "Villain_Op", "Level1", "Shaft", "B_Fall", "Hospital",
@@ -227,11 +227,11 @@ namespace CaptainPinkTurd.Story.Tests
             var lines = Lines(inkPath, "WhiteRoom_3");
             CollectionAssert.AreEqual(BrothersMemorySpeakers, lines.Take(BrothersMemorySpeakers.Length).Select(l => l.speaker).ToArray(),
                 $"{inkPath}: speakers of the brothers' memory");
-            //track -> drowning -> track -> montage -> track; all dialogue stays at the bottom
+            //track -> drowning -> track -> montage -> track; only drowning keeps the bottom panel
             Assert.Contains("cast:Track,B_FB,A_FB,Vignette", lines[0].tags, $"{inkPath}: it opens on the track");
             Assert.Contains("cast:Drown", lines[1].tags, $"{inkPath}: the drowning comes with L2a");
             Assert.Contains("layout:bottom", lines[1].tags, $"{inkPath}: the drowning uses the shared bottom panel");
-            Assert.Contains("layout:bottom", lines[3].tags, $"{inkPath}: the track keeps the shared bottom panel");
+            Assert.Contains("layout:top", lines[3].tags, $"{inkPath}: the track places dialogue above the brothers");
             Assert.Contains("anim:Montage:m1", lines[4].tags, $"{inkPath}: the montage comes with L4");
             var montage = lines[5].tags;
             Assert.Less(montage.IndexOf("anim:Montage:m2"), montage.IndexOf("anim:Montage:m3"), "m2 before m3");
@@ -452,6 +452,12 @@ namespace CaptainPinkTurd.Story.Tests
                     Assert.That(pixel.Length is 1 or 2 && (pixel.Length == 1 || IsNumber(pixel[1])) &&
                                 (pixel[0] is "cut" or "in" || (pixel[0].Length == 6 && ColorUtility.TryParseHtmlString("#" + pixel[0], out _))),
                         $"{knot}: pixel tag '{tag}' is not pixel:cut|in|RRGGBB[:seconds]");
+                    break;
+                case "music":
+                    var music = value.Split(':');
+                    Assert.That(music.Length is >= 1 and <= 3 && music.Skip(1).All(IsNumber),
+                        $"{knot}: music tag '{tag}' is not music:name[:start[:end]]");
+                    Assert.Contains(music[0], StageTagValues["music"], $"{knot}: unknown music value {music[0]}");
                     break;
                 default:
                     Assert.IsTrue(StageTagValues.ContainsKey(key), $"{knot}: unknown tag {tag}");

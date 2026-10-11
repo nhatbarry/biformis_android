@@ -38,6 +38,8 @@ namespace CaptainPinkTurd.Story.Presentation
         private TMP_Text theEndText;
         private DialogueManager dialogueManager;
         private GameObject dialogueSystemInstance;
+        private bool previousTimelineControl;
+        private bool timelineControlActive;
         private Sprite[] hospitalFrames;
         private Sprite[] kneelingFrames;
         private readonly List<FrameTrack> tracks = new();
@@ -73,8 +75,18 @@ namespace CaptainPinkTurd.Story.Presentation
             //Core's loading overlay draws above this canvas. Preserve the first flash until it has gone.
             var sceneController = SceneController.TryGetInstance();
             while (sceneController && sceneController.IsBusy) yield return null;
-            yield return redFinal.Play();
-            redFinal.SpeakerChanged -= ShowRedFinalDialogue;
+            previousTimelineControl = dialogueManager.IsTimelineControlled;
+            timelineControlActive = true;
+            dialogueManager.IsTimelineControlled = true;
+            try
+            {
+                yield return redFinal.Play();
+            }
+            finally
+            {
+                redFinal.SpeakerChanged -= ShowRedFinalDialogue;
+                RestoreDialogueControl();
+            }
 
             //Keep the last Red picture behind the white dissolve. The hospital appears only under full white.
             yield return Fade(whiteOverlay, 1f, 1.6f);
@@ -86,8 +98,16 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private void OnDestroy()
         {
+            RestoreDialogueControl();
             if (dialogueManager && dialogueManager.DialogueIsPlaying) dialogueManager.ExitDialogue();
             foreach (var sprite in runtimeSprites) if (sprite) Destroy(sprite);
+        }
+
+        private void RestoreDialogueControl()
+        {
+            if (!timelineControlActive) return;
+            if (dialogueManager) dialogueManager.IsTimelineControlled = previousTimelineControl;
+            timelineControlActive = false;
         }
 
         private void Update()
@@ -175,6 +195,7 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private IEnumerator HospitalEnding()
         {
+            if (MusicManager.HasInstance) MusicManager.Instance.StopCurrentTrack();
             hospitalRoom.gameObject.SetActive(true);
             SetAtlasFrame(hospitalRoom, hospitalFrames, 0);
             kneelingA.gameObject.SetActive(true);

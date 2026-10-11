@@ -10,6 +10,8 @@ namespace CaptainPinkTurd.Game
     {
         [SerializeField] private EColor lockedDimension = EColor.Blue;
 
+        public EColor LockedDimension => lockedDimension;
+
         private void Start()
         {
             GameManager.Instance.LockDimension(lockedDimension);
