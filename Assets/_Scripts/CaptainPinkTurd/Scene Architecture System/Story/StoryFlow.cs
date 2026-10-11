@@ -11,9 +11,11 @@ namespace CaptainPinkTurd.Scene.Story
     public static class StoryFlow
     {
         public static bool IsStoryRunning { get; private set; }
+        public static bool IsReloadingCurrentStep { get; private set; }
 
         public static void StartNew(StoryData data)
         {
+            IsReloadingCurrentStep = false;
             data.SetStep(0);
             Save();
             IsStoryRunning = true;
@@ -25,6 +27,7 @@ namespace CaptainPinkTurd.Scene.Story
         /// </summary>
         public static void StartAt(StoryData data, int step)
         {
+            IsReloadingCurrentStep = false;
             data.SetStep(Mathf.Clamp(step, 0, data.Steps.Count - 1));
             Save();
             IsStoryRunning = true;
@@ -33,6 +36,7 @@ namespace CaptainPinkTurd.Scene.Story
 
         public static void Continue(StoryData data)
         {
+            IsReloadingCurrentStep = false;
             if (!data.HasProgress)
             {
                 StartNew(data);
@@ -45,6 +49,7 @@ namespace CaptainPinkTurd.Scene.Story
 
         public static void Advance(StoryData data)
         {
+            IsReloadingCurrentStep = false;
             int next = data.CurrentStepIndex + 1;
             if (next >= data.Steps.Count)
             {
@@ -61,6 +66,7 @@ namespace CaptainPinkTurd.Scene.Story
 
         public static void ReloadCurrent(StoryData data)
         {
+            IsReloadingCurrentStep = true;
             LoadInSession(data.CurrentStep.sceneName);
         }
 
@@ -78,7 +84,11 @@ namespace CaptainPinkTurd.Scene.Story
                 .Perform();
         }
 
-        public static void Stop() => IsStoryRunning = false;
+        public static void Stop()
+        {
+            IsStoryRunning = false;
+            IsReloadingCurrentStep = false;
+        }
 
         private static void LoadFromMenu(string sceneName)
         {
@@ -109,6 +119,6 @@ namespace CaptainPinkTurd.Scene.Story
 
         //Enter Play Mode Options may skip the domain reload, so drop static state between play sessions
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-        private static void ResetStaticState() => IsStoryRunning = false;
+        private static void ResetStaticState() => Stop();
     }
 }

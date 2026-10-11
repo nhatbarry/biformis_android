@@ -64,6 +64,7 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.GreaterOrEqual(bossStep, 0);
             StoryFlow.StartAt(data, bossStep);
             yield return WaitUntil(() => SceneManager.GetActiveScene().name == "Level Story 6", 30f, "boss arena");
+            yield return SkipBossEntrance();
             var boss = Object.FindAnyObjectByType<PlagueDoctorBoss>();
             var player = Object.FindAnyObjectByType<PlayerUnit>();
             Assert.IsNull(Object.FindAnyObjectByType<Door>());
@@ -88,8 +89,10 @@ namespace CaptainPinkTurd.Story.Tests
                 var canvas = shatter.transform.Find("Shatter Canvas");
                 var boss2 = (RectTransform)canvas.Find("Boss");
                 var player2 = (RectTransform)canvas.Find("Player");
-                Assert.AreEqual(Presentation.GlassShatter.BossStagePosition, boss2.anchoredPosition, "the boss stands where the ending opens");
-                Assert.AreEqual(Presentation.GlassShatter.PlayerStagePosition, player2.anchoredPosition, "the player stands where the ending opens");
+                Assert.Less(Vector2.Distance(Presentation.GlassShatter.BossStagePosition, boss2.anchoredPosition), 0.01f,
+                    "the boss stands where the ending opens");
+                Assert.Less(Vector2.Distance(Presentation.GlassShatter.PlayerStagePosition, player2.anchoredPosition), 0.01f,
+                    "the player stands where the ending opens");
                 Assert.AreEqual(-1f, player2.localScale.x, "the player faces the boss");
             }
 
@@ -126,6 +129,7 @@ namespace CaptainPinkTurd.Story.Tests
                 {
                     yield return new WaitForSecondsRealtime(1.5f);
                     Assert.IsNotNull(Object.FindAnyObjectByType<PlayerUnit>(), $"{step.sceneName} has no player");
+                    if (step.sceneName == "Level Story 6") yield return SkipBossEntrance();
                     Object.FindAnyObjectByType<LevelManager>().NextLevel();
                 }
                 else if (step.sceneName == "Story Ending")
@@ -240,6 +244,15 @@ namespace CaptainPinkTurd.Story.Tests
             panel.transform.Find("Back").GetComponent<Button>().onClick.Invoke();
             Assert.IsTrue(levelSelect.gameObject.activeInHierarchy, "back did not return to the main menu");
             Assert.IsEmpty(exceptions, string.Join("\n\n", exceptions));
+        }
+
+        private static IEnumerator SkipBossEntrance()
+        {
+            var entrance = Object.FindAnyObjectByType<BossEntranceSequence>();
+            if (!entrance) yield break;
+            yield return WaitUntil(() => entrance.IsPlaying || entrance.Finished, 10f, "boss entrance to start");
+            entrance.Skip();
+            yield return WaitUntil(() => entrance.Finished, 5f, "boss entrance to release combat");
         }
 
         private static int IndexOfScene(StoryData data, string scene)

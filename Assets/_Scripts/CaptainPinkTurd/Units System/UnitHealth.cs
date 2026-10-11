@@ -72,7 +72,7 @@ namespace CaptainPinkTurd.UnitSystem
         public void TakeDamage(SDamageData damageData)
         {
             //if damage is healing then ignore invincibility frame
-            if(IsInvincibilityFrameOn && damageData.Amount > 0) return; 
+            if(IsInvincibilityFrameOn && damageData.Amount > 0 && !damageData.IgnoreInvincibility) return;
 
             TriggerInvincibilityFrame();
 

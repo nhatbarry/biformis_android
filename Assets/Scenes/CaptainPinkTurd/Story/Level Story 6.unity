@@ -62062,6 +62062,195 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 925272103319992130, guid: 0f476cecd0a57c54c8f6ad0e22e54d38, type: 3}
   m_PrefabInstance: {fileID: 1085547231}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1095643917
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1095643919}
+  - component: {fileID: 1095643918}
+  m_Layer: 0
+  m_Name: Boss Entrance Sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1095643918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095643917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b492f00170454793806dab50c57d0dd8, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Presentation.BossEntranceSequence
+  pipeBackground: {fileID: 21300000, guid: 84f8e6c8d704c3740be03910fb1f519a, type: 3}
+  dialoguePrefab: {fileID: 3537303796505033562, guid: d0e125f7492ad844b8a08c72d709fa84, type: 3}
+  revealShader: {fileID: 4800000, guid: b976450a93bb442c853de23eea17d747, type: 3}
+  redRun:
+    name: run
+    frames:
+    - {fileID: -2636450776483796285, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -1308124554260208930, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 6298133307347014431, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -4609557876383358121, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 3775258416962328884, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 2259352748193174772, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 1019722438331303788, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -4570098426001573207, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -4570098426001573207, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    durations:
+    - 0.099999905
+    - 0.10000014
+    - 0.099999905
+    - 0.099999905
+    - 0.099999905
+    - 0.10000038
+    - 0.099999905
+    - 0.09000003
+    - 0.01
+    loop: 1
+    repeat: 0
+    next:
+  blueRun:
+    name: run
+    frames:
+    - {fileID: -5146978420049335097, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: 2508605287775653051, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -5234878808755950358, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1345658578818155049, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1978689298283876719, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1490300877632387258, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1413548750149210365, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1023088769533491071, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -1023088769533491071, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    durations:
+    - 0.099999905
+    - 0.10000014
+    - 0.099999905
+    - 0.099999905
+    - 0.099999905
+    - 0.10000038
+    - 0.099999905
+    - 0.09000003
+    - 0.01
+    loop: 1
+    repeat: 0
+    next:
+  redIdle:
+    name: idle
+    frames:
+    - {fileID: -7473914920303841344, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 4813486369206732519, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -2562804073229818141, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: 3019333503576017334, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -5743521599308003733, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -7960788746529650032, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    - {fileID: -7960788746529650032, guid: 061563945c8d5b444adc94291377af3a, type: 3}
+    durations:
+    - 0.10000014
+    - 0.099999905
+    - 0.10000014
+    - 0.099999905
+    - 0.099999905
+    - 0.09000003
+    - 0.01
+    loop: 1
+    repeat: 0
+    next:
+  blueIdle:
+    name: idle
+    frames:
+    - {fileID: 6282971322427500452, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -8138513407625092068, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: 6470886934641082623, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: 503210117613983894, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -7704275543623763826, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -662206628752481953, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    - {fileID: -662206628752481953, guid: ac5806b678f6f6a458eee1abd902fc1c, type: 3}
+    durations:
+    - 0.10000014
+    - 0.099999905
+    - 0.10000014
+    - 0.099999905
+    - 0.099999905
+    - 0.09000003
+    - 0.01
+    loop: 1
+    repeat: 0
+    next:
+  bossIdle:
+    name: idle
+    frames:
+    - {fileID: 2313931537111432082, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    - {fileID: 1147683183052837499, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    - {fileID: -5472545657653111624, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    - {fileID: -6622807657185079199, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    - {fileID: 2917555610375034216, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    - {fileID: 5040485165528225686, guid: f8d85c8de98b570875b546d9764cce81, type: 3}
+    durations:
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
+    loop: 1
+    repeat: 0
+    next:
+  bossCast:
+    name: cast
+    frames:
+    - {fileID: 7527457031995657854, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: -6603570601511510185, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: 2042516606282381990, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: 158774546787512485, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: -7859045605228163302, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: 8041900166470196766, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: -8471554929129725727, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: -8055283802429963998, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: 8570585123780721560, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    - {fileID: -6513523045338732725, guid: bad418057d5193c5cd562c17654fc4d2, type: 3}
+    durations:
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.2
+    - 0.03
+    - 0.03
+    - 0.04
+    - 0.1
+    - 0.12
+    - 0.22
+    loop: 0
+    repeat: 0
+    next:
+  runSeconds: 2
+  bossAppearanceSeconds: 0.6
+  summonSeconds: 1.6
+  flickerSeconds: 0.14
+--- !u!4 &1095643919
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095643917}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1137775439
 GameObject:
   m_ObjectHideFlags: 0
@@ -65663,3 +65852,4 @@ SceneRoots:
   - {fileID: 1042235754}
   - {fileID: 174046834}
   - {fileID: 1686859571}
+  - {fileID: 1095643919}

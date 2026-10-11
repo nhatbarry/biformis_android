@@ -111,7 +111,7 @@ namespace CaptainPinkTurd.Game.Enemy
         public int PhaseMaximumHealth => Phase == EPhase.Shattering || Phase == EPhase.Revealing || Phase == EPhase.RedHaired || Phase == EPhase.Dead ? 8 : 7;
         public int PhaseHealth => PhaseMaximumHealth == 8 ? CurrentHealth : Mathf.Max(0, CurrentHealth - 8);
         public bool IsFrozen => Phase == EPhase.Freezing || Phase == EPhase.Frozen || Phase == EPhase.Shattering;
-        public bool IsInvulnerable => (Phase != EPhase.Hooded && Phase != EPhase.RedHaired) || Time.time < nextDamageTime;
+        public bool IsInvulnerable => !isActiveAndEnabled || (Phase != EPhase.Hooded && Phase != EPhase.RedHaired) || Time.time < nextDamageTime;
         public float VisualLift { get; private set; }
         public IReadOnlyList<GameObject> SummonedEnemies => minions;
         public GameEvent<SDamageData> OnTakeDamage { get; } = new();
@@ -192,7 +192,9 @@ namespace CaptainPinkTurd.Game.Enemy
 
         public void TakeDamage(SDamageData damageData)
         {
-            if (IsInvulnerable || damageData.Amount <= 0 || !damageData.Source ||
+            // Cheat ignores hit cooldowns; the ice/reveal transitions must still finish normally.
+            bool combatPhase = Phase == EPhase.Hooded || Phase == EPhase.RedHaired;
+            if (!isActiveAndEnabled || !combatPhase || (!damageData.IgnoreInvincibility && IsInvulnerable) || damageData.Amount <= 0 || !damageData.Source ||
                 !damageData.Source.GetComponentInParent<PlayerUnit>()) return;
             bool hooded = Phase == EPhase.Hooded;
             CurrentHealth = Mathf.Max(hooded ? 8 : 0, CurrentHealth - damageData.Amount);
@@ -225,7 +227,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private void PlayHitFeedback(SDamageData damageData)
         {
             // Reuse the same damage SFX, impact prefab, shake profile and knockback as the old enemies.
-            if (damageData.Source.transform.TryGetComponentInHierarchy(out IDamageable damageable))
+            if (!damageData.IgnoreInvincibility && damageData.Source.transform.TryGetComponentInHierarchy(out IDamageable damageable))
             {
                 Vector2 away = (damageData.Source.transform.position - transform.position).normalized;
                 if (away.sqrMagnitude < 0.01f) away = Vector2.down;

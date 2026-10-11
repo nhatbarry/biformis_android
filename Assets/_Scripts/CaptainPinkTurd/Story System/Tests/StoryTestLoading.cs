@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using CaptainPinkTurd.Scene;
+using CaptainPinkTurd.Scene.Story;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ namespace CaptainPinkTurd.Story.Tests
     {
         public static IEnumerator LoadLevelThroughCore(string level)
         {
+            StoryFlow.Stop(); //this helper opens raw gameplay, independent of story state left by another test
             LogAssert.ignoreFailingMessages = true;
             SceneManager.LoadScene("Core");
             yield return WaitFor(() => SceneManager.GetSceneByName("MainMenu").isLoaded, 30f, "main menu");

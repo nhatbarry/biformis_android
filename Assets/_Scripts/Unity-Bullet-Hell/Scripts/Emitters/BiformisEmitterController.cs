@@ -183,10 +183,18 @@ namespace CaptainPinkTurd.BulletHell
         
         public void TakeDamage(SDamageData damageData)
         {
-            if (damageSource) return;
+            if (CurrentHealth <= 0 || (damageSource && !damageData.IgnoreInvincibility)) return;
+            // An extra cheat hit can arrive during an existing hit reaction. That reaction already owns
+            // the queued death/score callback, so only update HP and keep one completion.
+            if (damageSource && damageData.IgnoreInvincibility)
+            {
+                if (ScoreConfig.useMultiplier) ScoreConfig.runtimeMultiplier = CurrentHealth;
+                CurrentHealth = Mathf.Max(0, CurrentHealth - damageData.Amount);
+                return;
+            }
             
             damageSource = damageData.Source;
-            if(damageData.Source.transform.TryGetComponentInHierarchy(out IDamageable damageable))
+            if(!damageData.IgnoreInvincibility && damageData.Source.transform.TryGetComponentInHierarchy(out IDamageable damageable))
             {
                 var knockbackDir = (damageData.Source.transform.position - transform.position).normalized;
                 damageable.WithKnockback(knockbackDir * knockbackForce, 0);
