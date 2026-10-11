@@ -231,7 +231,7 @@ Congratulations #speaker:TeenB #layout:top
 -> DONE
 
 === RedFinal_Pink ===
-prrfffff #speaker:CaptainPinkTurd #layout:top
+*fart* #speaker:CaptainPinkTurd #layout:top
 -> DONE
 
 === RedFinal_Thanks ===
