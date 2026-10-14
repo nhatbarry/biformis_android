@@ -20,6 +20,7 @@ namespace CaptainPinkTurd.AudioSystem
 
         private MusicVoice current;
         private readonly List<MusicVoice> voices = new();
+        private MusicLoopCatalog loopCatalog;
         private bool playlistStopped;
         private readonly Queue<AudioClip> playlist = new();
 
@@ -60,6 +61,11 @@ namespace CaptainPinkTurd.AudioSystem
             float trimmedEnd = endTime > 0f
                 ? Mathf.Clamp(endTime, trimmedStart + 0.01f, clip.length)
                 : clip.length;
+            if (loop)
+            {
+                if (!loopCatalog) loopCatalog = Resources.Load<MusicLoopCatalog>("Music Loop Ranges");
+                if (loopCatalog) loopCatalog.Trim(clip, ref trimmedStart, ref trimmedEnd);
+            }
             if (current != null && current.source.clip == clip && current.source.isPlaying)
             {
                 current.source.loop = loop;
@@ -105,6 +111,13 @@ namespace CaptainPinkTurd.AudioSystem
             playlistStopped = true;
             current = null;
             foreach (var voice in voices) FadeOut(voice, stopFadeSeconds);
+        }
+
+        public bool IsPlaying(AudioClip clip)
+        {
+            foreach (var voice in voices)
+                if (voice.source.clip == clip && voice.source.isPlaying) return true;
+            return false;
         }
 
         private MusicVoice GetAvailableVoice()

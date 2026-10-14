@@ -11,16 +11,16 @@ VAR corridorBarkIndex = 0
 #music:mo_dau
 Damn it! We're back here again? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 I thought we'd run so far away. #speaker:A
-Hello there! We meet again! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
+Hello there! We meet again! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #sfx:appear #wait:0.8
 Turn us back! I don't want to do this anymore! #speaker:B
 We'll give you your money back! Please, let us go! #speaker:A
 Sorry! I'm afraid I can't let the two of you go right now. Besides, I have no way of separating you two. #speaker:Villain
 What? #speaker:B
 I have an idea. Why don't you two just accept it? What good does it do to keep suffering over it? #speaker:Villain
 You lunatic! You're the one who did all this. Stop preaching at us! #speaker:B
-How shallow. Let me tell you, listening to me will gain you far more than you lose. #speaker:Villain #anim:Villain_Op:press_remote #wait:0.7 #anim:Captives:merge #wait:1.2
+How shallow. Let me tell you, listening to me will gain you far more than you lose. #speaker:Villain #anim:Villain_Op:press_remote #sfx:remote:0.12 #wait:0.7 #anim:Captives:merge #sfx:merge #wait:1.2
 Very well, I'll give you two one more chance. Don't think of this as a punishment. Think of it as a lesson I've prepared for you both.
-#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-152:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #anim:Trapdoor:open:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #wait:1.6 #cast:Level1,B_Fall #wait:4.8
+#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-180:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #sfx:lever:0.25 #anim:Trapdoor:open:0.34 #sfx:trapdoor:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #sfx:fall #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #sfx:thud #wait:1.6 #cast:Level1,B_Fall #wait:4.8
 -> DONE
 
 
@@ -48,7 +48,7 @@ You don't know why you're here? #speaker:B
 No. But it's so warm and comfortable here. #speaker:Teen
 I feel like I could run as fast as flying here.
 Wouldn't it be great if it were like this out there too?
-Getting shot must really hurt, huh? #speaker:Villain #anim:Teen:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
+Getting shot must really hurt, huh? #speaker:Villain #anim:Teen:vanish #sfx:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
 What do you actually want? #speaker:B
 Who knows. I just hope you come to see the truth soon. #speaker:Villain
 Follow me and you won't lose a thing.
@@ -61,7 +61,7 @@ No more helplessness, no more regret, no more discrimination. #bg:86262F:1.5
 Then even getting shot wouldn't be scary, would it? #bg:641621:1.5
 In short, my mission is to bring that day closer to mankind.
 Would you believe that with just one switch, I could give you that dream life?
-What is he even talking about... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
+What is he even talking about... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #sfx:stab:0.35 #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
 -> DONE
 
 
@@ -84,13 +84,13 @@ So how do you feel? #speaker:TeenB
 I don't know what I'm supposed to feel. I'm just tired. #speaker:B
 Are you going to forget me? #speaker:TeenB
 I don't know. #speaker:B
-Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
+Stop hesitating. Do you want to go back to being that lonely failure? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #sfx:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
 Stop talking. #speaker:B
 It's just one press of a button. Come with me already. #speaker:Villain
 Hey. Are you there? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D,Gap #anim:Gap:glow
 David? #speaker:B
 Don't listen to him. Please. #speaker:A
-Get lost! Do you want to watch him suffer? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
+Get lost! Do you want to watch him suffer? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open #sfx:vent
 Open the door for me. #speaker:A
 Still so stubborn? Then die. #speaker:Villain #anim:Villain_D:walk #move:Villain_D:-480:0.7 #wait:0.7 #banging:Door:off #anim:Villain_D:touch_door
 #knock:Door:0.9 #wait:0.9 #knock:Door:0.6 #wait:1.3 #knock:Door:0.3 #wait:1.8 #anim:Gap:glow_fade #wait:1.8 #anim:Gap:blood_seep #wait:3.85 #anim:Villain_D:idle #wait:0.5 #flip:Villain_D:off #anim:Villain_D:walk #move:Villain_D:128:2.4 #wait:0.3 #move:Dungeon:-320:2.1 #wait:2.1 #anim:Villain_D:idle #wait:1.5 #fade:060103:1.2 #wait:1.2 #cast:Caption #sfx:beep #wait:2.2
@@ -106,12 +106,12 @@ At this point, I can't say whether David will be able to get in or not.
 
 === Level4_End ===
 #music:stop
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #sfx:box_pickup #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
 #music:hoi_tuong_2
-Hey! Come eat, dinner's ready! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
+Hey! Come eat, dinner's ready! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #sfx:door_knock #wait:0.45 #anim:Bedroom:bang #sfx:door_knock #wait:0.45
 Hey... #speaker:A
 Why do you think we've been like this since the day we were born? The kind of thing that can get hurt at any moment. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
 Who are you talking to? #speaker:A #alpha:WallShadow:0.5
@@ -119,7 +119,7 @@ It would be so nice not to have this body. #speaker:B #alpha:WallShadow:1
 What's wrong with you? Don't scare me! #speaker:A #banging:Bedroom:on
 The kids at school were talking about me again. Ugh, I want to split my head open to show them how much they've made me suffer. #speaker:B #anim:BSit:shiver
 Why are there so many people in this world? Why is everyone so different? It's not fair! Why is everyone after me? Get out! Get out! #speaker:B #anim:BSit:rock
-Hey! Are you okay?! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
+Hey! Are you okay?! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
 #fade:08060A:1 #wait:1 #banging:Bedroom:off #cast:Caption #sfx:beep #wait:1.8
 -> Hospital_2
 
@@ -139,7 +139,7 @@ This second personality can make his wishes come true. So, I'm sorry to say it h
 // -> A steps closer and holds out a hand; B looks down, pulls back twice -> the player walks B over, Space / E / ! -> hands close-up.
 #layout:top #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Do you still remember that summer? The time I nearly drowned. #speaker:A
-#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #sfx:splash:0:0.6 #wait:1.2
 I kept sinking, water filled my nose, I couldn't see anything. #speaker:A
 Then you dove in. You pulled me up. #speaker:A
 #layout:top #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
@@ -151,7 +151,7 @@ I've grown up and I'm still the same. Still tagging along after you. #speaker:A
 I'm not the brother I was back then. #speaker:B
 It's okay. Back then you pulled me up. #speaker:A
 Now it's my turn. #speaker:A
-#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
+#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #sfx:cloth #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
 -> DONE
 
 
@@ -168,15 +168,13 @@ Now it's my turn. #speaker:A
 // ---------------------------------------------------------------------
 // BEFORE LEVEL 6 - A&B run through the pipe, meet the masked villain, then the boss summons the arena.
 // BossEntranceSequence stages this inside Level 6 with no scene load during the summon.
-// PLACEHOLDER DIALOGUE: replace these six lines, preserving speaker/layout tags.
+// Adam recognizes Bishop as his own creation and asks to leave; Bishop blocks his way.
 // ---------------------------------------------------------------------
 === BeforeBoss ===
-...... #speaker:Villain #layout:bottom
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
+You are... #speaker:B #layout:bottom
+Figured it out, huh? You created me. #speaker:Villain
+It's time for me to go! Please let me leave. #speaker:B
+It won't be that easy! #speaker:Villain
 -> DONE
 
 // ---------------------------------------------------------------------
@@ -184,24 +182,24 @@ Now it's my turn. #speaker:A
 // stands breathing in the dark, A&B (flickering red / blue) talk with it, then split into A and B; the boss turns to
 // dust; A calls his brother home; the two run back through Levels 5 - 4 - 3 - 2 to the opening's cage room, where the
 // player walks B up to A waiting by the door of light and presses ! (Space / E). Then the "Story Ending" scene.
-// PLACEHOLDER DIALOGUE: the ten "......" lines (5 the boss's, 5 A&B's) await the final text; only the words change.
+// Adam chooses to keep his memories and his life, thanks Bishop for protecting him, and says goodbye.
 // ---------------------------------------------------------------------
 === Ending ===
 #music:ending:0:12.85 #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+My body is growing weaker... #speaker:Villain
+That means you're really determined to leave, aren't you? #speaker:Villain
+Yes! #speaker:B
+My life is full of good memories, bitter lessons, joy, and sorrow. #speaker:B
+Those are the things that have guided me in my search for the meaning of my life. #speaker:B
+If I let this ordeal make me forget them, wouldn't that mean giving up on myself and the promising future ahead? #speaker:B
+... #speaker:Villain
+Thank you for protecting me all this time! #speaker:B
+Goodbye! #speaker:B
+Goodbye! #speaker:Villain
+#anim:ABMerged:split #sfx:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #sfx:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
 Come on, big brother! Let's go home! #speaker:A
 #flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending:0:12.85 #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
-#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+#follow:none #sfx:portal #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
 -> DONE
 
 
@@ -240,7 +238,7 @@ Congratulations #speaker:TeenB #layout:top
 -> DONE
 
 === RedFinal_Pink ===
-*fart* #speaker:CaptainPinkTurd #layout:top
+\*fart\* #speaker:CaptainPinkTurd #layout:top
 -> DONE
 
 === RedFinal_Thanks ===

@@ -165,7 +165,7 @@ namespace CaptainPinkTurd.Story.Tests
                 yield return null;
             }
             Assert.IsTrue(drowningLineAtBottom && !drowningLineAtTop, "the drowning's lines should use the shared bottom panel");
-            Assert.Less(panel.pivot.y, 0.5f, "the panel stays at the bottom after the drowning");
+            Assert.Greater(panel.pivot.y, 0.5f, "the track restores dialogue above the brothers after the drowning");
             var cut = GameObject.Find("Pixel Cut");
             Assert.IsTrue(!cut || cut.transform.childCount == 0, "a pixel cut left its frozen pictures behind");
 

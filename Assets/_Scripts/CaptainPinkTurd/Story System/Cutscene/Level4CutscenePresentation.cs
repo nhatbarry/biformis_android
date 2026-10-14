@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.InkDialogue;
 using UnityEngine;
 using UnityEngine.UI;
@@ -46,9 +47,11 @@ namespace CaptainPinkTurd.Story.Cutscene
         private Coroutine entrance;
         private float breakTime = -1f;
         private bool roomWasCast;
+        private AudioSource effectsSource;
 
         public void Initialize(StageActor[] stageActors, Action<float, float> shakeStage)
         {
+            effectsSource = StorySfx.CreateSource(gameObject, "Wounded Entrance SFX");
             foreach (var actor in stageActors)
                 if (actor) actors[actor.ActorId] = actor;
             actors.TryGetValue("A4", out a);
@@ -115,6 +118,7 @@ namespace CaptainPinkTurd.Story.Cutscene
             for (int beat = 0; beat < 4; beat++)
             {
                 shake?.Invoke(3f + beat * 2f, 0.2f + beat * 0.035f);
+                StorySfx.Play(effectsSource, beat == 3 ? "door_break" : "door_bang", 0.65f + beat * 0.1f);
                 if (beat == 3)
                 {
                     breakTime = Time.unscaledTime;
@@ -138,6 +142,7 @@ namespace CaptainPinkTurd.Story.Cutscene
             aAnimation.Play("fall");
             yield return Slide(rect, new Vector2(-504f, -28f), ClipSeconds("fall"));
             shake?.Invoke(4f, 0.2f);
+            StorySfx.Play(effectsSource, "thud", 0.7f);
             aAnimation.Play("prone");
             yield return new WaitForSecondsRealtime(0.65f);
             aAnimation.Play("getup");
@@ -182,6 +187,7 @@ namespace CaptainPinkTurd.Story.Cutscene
             {
                 StopCoroutine(entrance);
                 entrance = null;
+                if (effectsSource) effectsSource.Stop();
                 if (aAnimation) aAnimation.Play("idle");
             }
         }

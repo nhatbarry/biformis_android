@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.TypewriterAudioInfo
   speaker: Doctor
   typingSoundClips:
-  - {fileID: 8300000, guid: a514d42bbc83b2c4db22d345dd9b106e, type: 3}
-  minPitch: 0.8
-  maxPitch: 0.88
-  stopAudioSource: 1
+  - {fileID: 8300000, guid: 40d089c5b42853f7b06475c57229e03b, type: 3}
+  - {fileID: 8300000, guid: 8813b894b81255c7b57961a7243eb467, type: 3}
+  minPitch: 0.97
+  maxPitch: 1.03
+  stopAudioSource: 0
   soundFrequency:
     serializedVersion: 2
     m_Curve:

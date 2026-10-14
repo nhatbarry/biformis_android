@@ -67,6 +67,7 @@ namespace CaptainPinkTurd.Story.Presentation
         private float animationElapsed, runElapsed, idleElapsed, castElapsed;
         private float bossStageUnitsPerWorld;
         private float revealRadiusLimit;
+        private AudioSource sfxSource;
 
         public bool IsPlaying { get; private set; }
         public bool Finished { get; private set; }
@@ -96,6 +97,7 @@ namespace CaptainPinkTurd.Story.Presentation
             }
 
             IsPlaying = true;
+            sfxSource = StorySfx.CreateSource(gameObject, "Boss Entrance SFX");
             GateGameplay();
             BuildStage();
         }
@@ -212,14 +214,21 @@ namespace CaptainPinkTurd.Story.Presentation
 
             CurrentStage = EStage.Running;
             float runFrom = -stage.rect.width * 0.5f - 60f;
+            float nextFootstep = 0f;
             for (float elapsed = 0f; elapsed < runSeconds; elapsed += Time.unscaledDeltaTime)
             {
                 runElapsed = elapsed;
                 ShowMerged(true, new Vector2(Mathf.Lerp(runFrom, -100f, Mathf.Clamp01(elapsed / runSeconds)), FloorY));
+                if (elapsed >= nextFootstep)
+                {
+                    StorySfx.Play(sfxSource, "footsteps_metal", 0.42f);
+                    nextFootstep = elapsed + 0.22f;
+                }
                 yield return null;
             }
 
             CurrentStage = EStage.BossAppearing;
+            StorySfx.Play(sfxSource, "appear", 0.75f);
             for (float elapsed = 0f; elapsed < bossAppearanceSeconds; elapsed += Time.unscaledDeltaTime)
             {
                 bossActor.color = new Color(1f, 1f, 1f, Mathf.SmoothStep(0f, 1f, elapsed / bossAppearanceSeconds));
@@ -289,6 +298,8 @@ namespace CaptainPinkTurd.Story.Presentation
         private IEnumerator RevealArena()
         {
             CurrentStage = EStage.Revealing;
+            // The native cast has finished; the sound lands when the arena begins expanding from the hand gesture.
+            StorySfx.Play(sfxSource, "summon", 0.8f);
             Vector2 playerFrom = mergedActor.rectTransform.anchoredPosition;
             Vector2 bossFrom = bossActor.rectTransform.anchoredPosition;
             for (float elapsed = 0f; elapsed < summonSeconds; elapsed += Time.unscaledDeltaTime)
@@ -441,6 +452,7 @@ namespace CaptainPinkTurd.Story.Presentation
             IsPlaying = false;
             Finished = true;
             CurrentStage = EStage.Finished;
+            if (sfxSource) sfxSource.Stop();
             CloseDialogue();
             RestoreGameplay();
             DestroyPresentation();
@@ -507,6 +519,7 @@ namespace CaptainPinkTurd.Story.Presentation
             IsPlaying = false;
             Finished = true;
             CurrentStage = EStage.Finished;
+            if (sfxSource) sfxSource.Stop();
             CloseDialogue();
             RestoreGameplay();
             DestroyPresentation();

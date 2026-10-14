@@ -20,6 +20,7 @@ namespace CaptainPinkTurd.Core.Utilities
         [SerializeField] private TypewriterAudioInfo defaultAudioInfo;
         [SerializeField] private TypewriterAudioInfo[] audioInfos;
         [SerializeField] private bool makePredictable;
+        [SerializeField, Range(0f, 1f)] private float voiceVolume = 0.28f;
 
         private TypewriterAudioInfo currentAudioInfo;
         private Dictionary<string, TypewriterAudioInfo> audioInfoDictionary;
@@ -28,43 +29,52 @@ namespace CaptainPinkTurd.Core.Utilities
         private Action onTypingEnd;
 
         private bool isTyping;
-        private string currentLine;
+        private bool playTypingAudio;
         
         public bool IsTyping => isTyping;
         
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f;
+            audioSource.volume = voiceVolume;
             currentAudioInfo = defaultAudioInfo;
             InitializeAudioInfoDictionary();
         }
+        private void OnDisable() => StopTyping();
+
         private void InitializeAudioInfoDictionary() 
         {
-            audioInfoDictionary = new Dictionary<string, TypewriterAudioInfo>
-            {
-                { defaultAudioInfo.speaker, defaultAudioInfo }
-            };
+            audioInfoDictionary = new Dictionary<string, TypewriterAudioInfo>();
+            if (defaultAudioInfo && !string.IsNullOrEmpty(defaultAudioInfo.speaker))
+                audioInfoDictionary[defaultAudioInfo.speaker] = defaultAudioInfo;
 
-            if (audioInfos == null || audioInfoDictionary.Count == 0) return;
+            if (audioInfos == null) return;
             foreach (var audioInfo in audioInfos) 
             {
-                audioInfoDictionary.Add(audioInfo.speaker, audioInfo);
+                if (audioInfo && !string.IsNullOrEmpty(audioInfo.speaker))
+                    audioInfoDictionary[audioInfo.speaker] = audioInfo;
+            }
+            // The pink teenager is B in the memory, while Teen is the younger A.
+            // The joined A&B figure uses B's lower tone in the boss conversation.
+            if (audioInfoDictionary.TryGetValue("B", out var b))
+            {
+                audioInfoDictionary["TeenB"] = b;
+                audioInfoDictionary["AB"] = b;
             }
         }
         public void SetTextUIActive(bool active) => textUI.gameObject.SetActive(active);
-        public void StartTyping(string speaker, string line, TextAlignmentOptions textAlignment, Action onTypingEnd = null)
+        public void StartTyping(string speaker, string line, TextAlignmentOptions textAlignment,
+            Action onTypingEnd = null, bool playTypingAudio = true)
         {
+            StopTyping();
             SetTextUIActive(true);
-            currentLine = line;
-
-            if (typingCoroutine != null)
-            {
-                StopCoroutine(typingCoroutine);
-            }
             this.onTypingEnd = onTypingEnd;
+            this.playTypingAudio = playTypingAudio;
 
             textUI.alignment = textAlignment;
-            typingCoroutine = StartCoroutine(TypeText(speaker, line));
+            typingCoroutine = StartCoroutine(TypeText(speaker, line ?? ""));
         }
 
         private IEnumerator TypeText(string speaker, string line)
@@ -78,6 +88,7 @@ namespace CaptainPinkTurd.Core.Utilities
 
             float currentSpeed = typingSpeed;
             int visibleCharIndex = 0;
+            int voicedCharIndex = 0;
 
             SetCurrentAudioInfo(speaker);
             foreach (var token in tokens)
@@ -85,10 +96,13 @@ namespace CaptainPinkTurd.Core.Utilities
                 switch (token.type)
                 {
                     case TypewriterTokenType.Character:
-                        if (visibleCharIndex % Mathf.CeilToInt(currentAudioInfo.soundFrequency.Evaluate(currentSpeed)) == 0 &&
-                            !char.IsWhiteSpace(token.character))
+                        // Count spoken letters, not punctuation/spacing or the characters of a TMP tag.
+                        if (char.IsLetterOrDigit(token.character))
                         {
-                            PlayVoice(textUI.text[visibleCharIndex]);
+                            int frequency = currentAudioInfo && currentAudioInfo.soundFrequency != null
+                                ? Mathf.Max(1, Mathf.CeilToInt(currentAudioInfo.soundFrequency.Evaluate(currentSpeed))) : 2;
+                            if (playTypingAudio && voicedCharIndex % frequency == 0) PlayVoice(token.character);
+                            voicedCharIndex++;
                         }
                         visibleCharIndex++;
                         textUI.maxVisibleCharacters = visibleCharIndex;
@@ -106,8 +120,11 @@ namespace CaptainPinkTurd.Core.Utilities
                 }
             }
 
-            onTypingEnd?.Invoke();
             isTyping = false;
+            typingCoroutine = null;
+            var completed = onTypingEnd;
+            onTypingEnd = null;
+            completed?.Invoke();
         }
         private List<DialogueToken> ParseLine(string line, out string cleanText)
         {
@@ -225,27 +242,26 @@ namespace CaptainPinkTurd.Core.Utilities
 
         private void SetCurrentAudioInfo(string speaker) 
         {
-            if (audioInfoDictionary.TryGetValue(speaker, out var audioInfo)) 
+            if (!string.IsNullOrEmpty(speaker) && audioInfoDictionary.TryGetValue(speaker, out var audioInfo))
             {
                 currentAudioInfo = audioInfo;
             }
             else 
             {
-                Debug.LogWarning("Failed to find audio info for speaker: " + speaker);
+                // Never let an unknown speaker inherit the previous character's voice.
+                currentAudioInfo = defaultAudioInfo;
             }
         }
         private void PlayVoice(char currentCharacter)
         {
-            if (currentAudioInfo.stopAudioSource)
-            {
-                audioSource.Stop();
-            }
+            if (!currentAudioInfo || currentAudioInfo.typingSoundClips == null ||
+                currentAudioInfo.typingSoundClips.Length == 0 || audioSource.isPlaying) return;
 
             AudioClip soundClip = null;
             if (makePredictable)
             {
                 //sound clip
-                int hashCode = currentCharacter.GetHashCode();
+                int hashCode = currentCharacter;
                 int predictableIndex = hashCode % currentAudioInfo.typingSoundClips.Length;
                 soundClip =  currentAudioInfo.typingSoundClips[predictableIndex];
                 
@@ -272,17 +288,42 @@ namespace CaptainPinkTurd.Core.Utilities
                 audioSource.pitch = Random.Range(currentAudioInfo.minPitch, currentAudioInfo.maxPitch);
             }
             
-            audioSource.PlayOneShot(soundClip);
+            // Short clips have their own attack/release envelope. Let each blip finish instead of
+            // restarting/cutting it at the next letter, which clicks and stacks voices at high speed.
+            if (!soundClip) return;
+            audioSource.clip = soundClip;
+            audioSource.Play();
         }
 
         public void SkipTyping()
         {
             if (!isTyping) return;
 
-            StopCoroutine(typingCoroutine);
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            StopVoice();
             textUI.maxVisibleCharacters = textUI.text.Length;
-            onTypingEnd?.Invoke();
             isTyping = false;
+            var completed = onTypingEnd;
+            onTypingEnd = null;
+            completed?.Invoke();
+        }
+
+        /// <summary>Cancel a hidden/disabled panel without firing a stale line's completion callback.</summary>
+        public void StopTyping()
+        {
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+            isTyping = false;
+            onTypingEnd = null;
+            StopVoice();
+        }
+
+        private void StopVoice()
+        {
+            if (!audioSource) return;
+            audioSource.Stop();
+            audioSource.clip = null;
         }
     }
     public enum TypewriterTokenType

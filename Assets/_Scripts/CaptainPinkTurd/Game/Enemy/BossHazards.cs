@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.Enum;
 using CaptainPinkTurd.Core.Interfaces;
 using CaptainPinkTurd.Core.Struct;
@@ -67,6 +68,8 @@ namespace CaptainPinkTurd.Game.Enemy
         private Material unlit;
         private BossArenaController arena;
         private int redLayer, blueLayer;
+        private AudioSource lightningSfxSource;
+        private float nextLightningSoundTime;
 
         public int ActiveProjectileCount => projectiles.Count;
         public int ActiveStrikeCount => strikes.Count;
@@ -104,6 +107,7 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private void Awake()
         {
+            lightningSfxSource = StorySfx.CreateSource(gameObject, "Boss Lightning SFX");
             unlit = projectileMaterial ? projectileMaterial : GetComponent<SpriteRenderer>().sharedMaterial;
             redLayer = LayerMask.NameToLayer("Red");
             blueLayer = LayerMask.NameToLayer("Blue");
@@ -233,6 +237,12 @@ namespace CaptainPinkTurd.Game.Enemy
                     if (!strike.hit)
                     {
                         strike.hit = true;
+                        // Three bolts in the same wave land together; keep one impact sound for that wave.
+                        if (Time.time >= nextLightningSoundTime)
+                        {
+                            StorySfx.Play(lightningSfxSource, "lightning", 0.8f);
+                            nextLightningSoundTime = Time.time + 0.12f;
+                        }
                         if (HurtsPlayer(strike.color) && Vector2.Distance(HitboxPosition, strike.position) <= strikeRadius + HitboxRadius)
                             HitPlayer(strike.color);
                     }
@@ -297,6 +307,8 @@ namespace CaptainPinkTurd.Game.Enemy
 
         public void ClearHazards()
         {
+            if (lightningSfxSource) lightningSfxSource.Stop();
+            nextLightningSoundTime = 0f;
             ClearProjectiles();
             foreach (var strike in strikes) if (strike.root) Destroy(strike.root);
             strikes.Clear();

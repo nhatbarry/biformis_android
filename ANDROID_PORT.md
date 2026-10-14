@@ -303,7 +303,7 @@ Thư mục `Tests/` có `defineConstraints: UNITY_INCLUDE_TESTS` nên **không v
 | Nút Interact | Dùng để qua cửa và nhận hộp (§6) |
 | Package name | Vẫn là mặc định |
 | Tablet / màn hẹp hơn 16:9 | Chạy được nhưng thấy hẹp hơn PC (§8) |
-| Rung phản hồi (haptic) | Chưa làm — NiceVibrations đã có sẵn trong project |
+| Rung phản hồi (haptic) | Đã nối NiceVibrations vào SFX đập/đạp cửa và đập đầu; cần thử cảm giác rung trên điện thoại thật |
 
 ---
 
@@ -341,3 +341,14 @@ Riêng Level Story 6 gọi SetAuthoredSize(..., preserveVertical: true), giữ c
 Ô `cheat` bật/tắt `CheatSettings.Enabled`, mặc định tắt khi bắt đầu phiên Play mới và giữ lựa chọn khi đổi màn trong cùng phiên. Khi bật, HUD hiện nút đầu lâu phía trên đổi màu, bên trái Dash. Nút giả lập `<Gamepad>/leftShoulder` (`MobileControlPaths.CheatPulse`); bàn phím dùng `K`. Ẩn nút bằng `CanvasGroup` và nhả riêng input đầu lâu, giữ nguyên gamepad/joystick đang cầm.
 
 `CheatEnergyPulse` gắn vào player lúc enable. Mỗi lần bấm gây ngay 1 sát thương cho từng kẻ địch sống của bản đồ hiện tại, kể cả quái ngoài màn hình, sau tường bên trong bản đồ và quái đang hoạt động trong pool Core; loại bỏ quái tắt, bản đồ khác, player và hazard. Sóng lan đến đường biên giới hạn không gian màn chơi (`Map Bound`, hoặc `BossArenaController.PlayArea` trong arena); phần sóng chạm đường biên tan thành các tia sáng bị hấp thụ. `CheatPulseVisual` vẽ bằng mesh, dùng thời gian gameplay nên pause dừng cả sóng và hoạt ảnh hấp thụ. Cheat bỏ qua cooldown nhận sát thương bằng cờ tùy chọn `SDamageData.IgnoreInvincibility`, giữ hệ thống điểm/chết hiện tại và không bỏ qua pha biến hình của boss. Không kích hoạt trong pause, cutscene, lúc player chết hoặc bị khóa để chạy cinematic.
+
+
+### Cảnh mở đầu, rung Android và nhạc cốt truyện (2026-10-12)
+
+Bishop mở đầu đứng tại (-212,24), đi tới (-180,24); Lever đặt tại (0,20). Tay giật cần khớp với giá đỡ trên tường, chân giữ độ cao cũ. Hai bản Ink và JSON cùng dùng đích mới; pivot/canvas của sprite giữ nguyên.
+
+Tay Bishop được chỉnh trực tiếp ở `Villain_PlagueDoctor.aseprite` (26 frame lộ tay) và hai sheet boss `Cast.png` / `Walk Throw.png` (5 frame mỗi sheet): bàn tay 3×3 pixel có ngón cái, tay áo rộng và khuỷu tay gập. Mặt nạ, chân, khóa áo, đầu ngón chạm đạo cụ, chi tiết remote/cần, palette, bounding box và timing giữ nguyên. `Tools/fix_bishop_sleeves.py` mặc định xuất preview/kiểm tra; `--apply` ghi source và tạo backup. Các pose đã hợp tỷ lệ và nhân vật sau biến hình không cần sửa.
+
+`StorySfx.Play` gọi NiceVibrations ngay khi phát cue: door_bang/door_break/door_slam rung mạnh, door_knock nhẹ, thud dùng cho đập đầu. Delay của Ink và mỗi cú đập cửa lặp đều đi qua cùng điểm phát; nhánh chỉ chạy trên thiết bị Android. Plugin AAR có quyền VIBRATE, nhánh Android đã compile; cảm giác rung cần thử trên máy thật.
+
+`Music Loop Ranges` trong Resources giữ vùng có nhạc của chín bản ghi, bỏ khoảng lặng dài khi lặp. Các mốc bắt đầu 42.7/69 giây và đoạn Ink ngắn vẫn có hiệu lực. Nhạc chúc mừng phát trọn bản một lần; giữ hình Red cuối đến khi bản ghi kết thúc rồi mới chuyển bệnh viện, không fade/stop sớm. Chi tiết và lệnh kiểm tra WAV ở docs/MUSIC_LOOPS.md.

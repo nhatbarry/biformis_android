@@ -48,6 +48,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private bool started, meleeHit, dashing, savedFeet, savedTrigger, auraFinished;
         private float dashBegan, dashDuration;
         private readonly List<EColor> auraColours = new(4);
+        private AudioSource attackSfxSource;
         private static readonly int BladeTint = Shader.PropertyToID("_BladeTint");
         private static readonly int BladeEndpoints = Shader.PropertyToID("_BladeEndpoints");
         private static readonly int BladeAtlasScale = Shader.PropertyToID("_BladeAtlasScale");
@@ -76,6 +77,7 @@ namespace CaptainPinkTurd.Game.Enemy
         }
         private void Awake()
         {
+            attackSfxSource = StorySfx.CreateSource(gameObject, "Boss Phase Two SFX");
             boss = GetComponent<PlagueDoctorBoss>();
             rules = GetComponent<BossHazards>();
             effects = GetComponent<BossPhaseTwoEffects>();
@@ -222,10 +224,12 @@ namespace CaptainPinkTurd.Game.Enemy
         }
         private void RaiseCues(EAction action, int frame)
         {
+            if (frame == 1 && (action == EAction.RangedCharge || action == EAction.VerticalSlash))
+                StorySfx.Play(attackSfxSource, "charge", 0.55f);
             if (action == EAction.HorizontalSlash && frame == 4)
             {
                 warning.gameObject.SetActive(false);
-                PlayAttackSound();
+                PlayAttackSound("slash");
                 effects.ShowSlash(body.position + Vector2.up * 0.25f, aim, slashRange, CurrentColour);
                 OnSkillCue.Raise(ECue.SlashHit);
             }
@@ -233,7 +237,7 @@ namespace CaptainPinkTurd.Game.Enemy
             {
                 warning.gameObject.SetActive(false);
                 effects.HideCharge();
-                PlayAttackSound();
+                PlayAttackSound("volley");
                 LockedTarget = rules.PlayerHitPosition;
                 var ground = body.position + Vector2.up * 0.25f;
                 var direction = (LockedTarget - ground).normalized;
@@ -250,7 +254,7 @@ namespace CaptainPinkTurd.Game.Enemy
                 if (frame == 3)
                 {
                     warning.gameObject.SetActive(false);
-                    PlayAttackSound();
+                    PlayAttackSound("dash");
                     LastDashOrigin = body.position;
                     LastDashEnd = ClampDash(LockedTarget + aim * dashOvershoot);
                     dashBegan = Time.time;
@@ -273,7 +277,7 @@ namespace CaptainPinkTurd.Game.Enemy
             if (action == EAction.VerticalSlash && frame == 5)
             {
                 effects.HideCharge();
-                PlayAttackSound();
+                PlayAttackSound("cleave");
                 LockedTarget = rules.PlayerHitPosition;
                 aim = (LockedTarget - (body.position + Vector2.up * 0.25f)).normalized;
                 var releaseClip = Clip(action);
@@ -348,8 +352,16 @@ namespace CaptainPinkTurd.Game.Enemy
             }
             sprite.SetPropertyBlock(blade);
         }
-        private void PlayAttackSound()
+        private void PlayAttackSound(string cue)
         {
+            if (StorySfx.Play(attackSfxSource, cue, 0.85f))
+            {
+                // The previous release used SoundBuilder.WithRandomPitch, sharing Unity's RNG
+                // with combat choices. Retain its pitch/draw so replacing the clip cannot change
+                // subsequent actions. Newly added charge cues do not consume this legacy draw.
+                if (attackSfx?.clip) attackSfxSource.pitch = attackSfx.pitch + Random.Range(-0.05f, 0.05f);
+                return;
+            }
             if (attackSfx?.clip) SoundManager.Instance.CreateSoundBuilder().WithPosition(transform.position).WithRandomPitch().Play(attackSfx);
         }
         private void Update()
@@ -358,6 +370,7 @@ namespace CaptainPinkTurd.Game.Enemy
         }
         private void StopCombat()
         {
+            if (attackSfxSource) attackSfxSource.Stop();
             started = false;
             if (life != null) StopCoroutine(life);
             if (attack != null) StopCoroutine(attack);

@@ -205,6 +205,52 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.AreEqual(1, music.GetComponents<AudioSource>().Count(candidate => candidate.isPlaying && candidate.clip == clip));
         }
 
+        [UnityTest, Timeout(10000)]
+        public IEnumerator LevelMusicSkipsItsRecordedQuietTailAndPreservesAuthoredSections()
+        {
+            SetFadeSeconds(0f);
+            var clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Musics/lv3-4.wav");
+            Assert.IsNotNull(clip);
+            const float authoredStart = 42.7f;
+            music.Play(clip, true, authoredStart);
+            var source = SourceFor(clip);
+            Assert.AreEqual(authoredStart, source.time, 0.03f, "the level's established musical cue must stay intact");
+
+            // The recording has over ten seconds of very quiet outro/silence after this boundary.
+            source.time = 267.5f;
+            yield return null;
+            Assert.IsTrue(source.isPlaying);
+            Assert.That(source.time, Is.InRange(authoredStart, authoredStart + 1f),
+                "the level should repeat its musical body instead of playing the long quiet tail");
+
+            music.Play(clip, true, authoredStart, 100f);
+            source.time = 100.1f;
+            yield return null;
+            Assert.That(source.time, Is.InRange(authoredStart, authoredStart + 1f),
+                "a shorter section explicitly requested by a story cue must retain its own end");
+        }
+
+        [UnityTest, Timeout(10000)]
+        public IEnumerator CelebrationOneShotPlaysItsFullRecordingWithoutAProgrammedFadeOut()
+        {
+            SetFadeSeconds(0f);
+            var clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Audio/Musics/Congratulation_Eva.wav");
+            Assert.IsNotNull(clip);
+            music.Play(clip);
+            var source = SourceFor(clip);
+            Assert.IsFalse(source.loop, "the full celebration recording should play once");
+            source.time = 30f;
+            yield return null;
+            Assert.IsTrue(music.IsPlaying(clip));
+            Assert.GreaterOrEqual(source.time, 30f, "the full recording's outro must not be trimmed");
+            Assert.AreEqual(1f, source.volume, 0.001f, "the music manager must not fade the celebration voice early");
+            source.time = clip.length - 0.25f;
+            yield return null;
+            Assert.IsTrue(music.IsPlaying(clip), "the ending must wait until the recording has actually finished");
+            yield return WaitUntil(() => !music.IsPlaying(clip), 3f, "the celebration recording to end naturally");
+            Assert.AreEqual(1f, source.volume, 0.001f, "natural completion must not apply a separate fade out");
+        }
+
         private AudioClip CreateClip(string name, float duration)
         {
             const int sampleRate = 22050;

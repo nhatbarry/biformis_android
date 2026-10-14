@@ -5,10 +5,10 @@
 // Mỗi cảnh là một knot. Trong chế độ cốt truyện, knot được gọi theo thứ tự trong "Story Data".
 //
 // Speaker (tag #speaker, tên hiển thị nằm ở Resources/Localization/Strings.txt, key "speaker.<id>"):
-//   A        - người em (hình thái Xanh)
-//   B        - người anh (hình thái Đỏ)
-//   Villain  - Phản diện (nhân cách thứ hai của B) - khi không đứng trên sân khấu thì màn hình ửng đỏ khi nói
-//   AB       - A&B, hai anh em còn dính làm một (cảnh kết thúc)
+//   A        - David, người em (hình thái Xanh)
+//   B        - Adam, người anh (hình thái Đỏ); lời riêng của Adam vẫn dùng B khi hai anh em dính làm một
+//   Villain  - Bishop (nhân cách thứ hai của Adam) - khi không đứng trên sân khấu thì màn hình ửng đỏ khi nói
+//   AB       - tên chung của hai anh em khi cả hai cùng nói
 //   Teen     - Thiếu niên (chính là A, dùng hình Blue Character)
 //   Mom      - Mẹ
 //   Doctor   - Bác sĩ
@@ -83,16 +83,16 @@ VAR corridorBarkIndex = 0
 #music:mo_dau
 Khốn kiếp! Lại quay lại rồi à? #speaker:B #bg:black #cast:Room,Lever,Trapdoor,Captives,CageFront #wait:0.8 #struggle:Captives:6 #hold #wait:0.5
 Em nhớ là bọn mình đã chạy xa lắm rồi mà. #speaker:A
-Xin chào! Chúng ta lại gặp nhau rồi! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #wait:0.8
+Xin chào! Chúng ta lại gặp nhau rồi! #speaker:Villain #fx:flash #cast:Room,Lever,Trapdoor,Captives,CageFront,Spotlight,Villain_Op #anim:Villain_Op:appear_remote #sfx:appear #wait:0.8
 Biến bọn tôi trở lại! Tôi không muốn làm nữa! #speaker:B
 Bọn tôi sẽ trả tiền lại cho ông mà! Làm ơn thả bọn tôi ra! #speaker:A
 Xin lỗi nhé! Ta e rằng hiện tại ta không thể thả hai người ra được. Với cả, ta làm gì có cách nào để tách hai người ra. #speaker:Villain
 Hả? #speaker:B
 Ta có ý này. Sao hai người không chấp nhận chuyện này đi nhỉ? Cứ đau khổ mãi về nó có được lợi gì đâu. #speaker:Villain
 Đồ điên! Mấy chuyện này là do ông gây ra chứ ai. Đừng có rao giảng đạo lý nữa! #speaker:B
-Đúng là nông cạn. Nói cho hai người biết, nghe lời ta thì được nhiều hơn là mất đấy. #speaker:Villain #anim:Villain_Op:press_remote #wait:0.7 #anim:Captives:merge #wait:1.2
+Đúng là nông cạn. Nói cho hai người biết, nghe lời ta thì được nhiều hơn là mất đấy. #speaker:Villain #anim:Villain_Op:press_remote #sfx:remote:0.12 #wait:0.7 #anim:Captives:merge #sfx:merge #wait:1.2
 Thôi được rồi, ta sẽ cho hai người thêm một cơ hội. Đừng coi đây là hình phạt mà hãy xem như là một bài học ta dành cho hai người đi.
-#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-152:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #anim:Trapdoor:open:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #wait:1.6 #cast:Level1,B_Fall #wait:4.8
+#anim:Captives:merged_red #anim:Villain_Op:walk_remote #move:Villain_Op:-180:1 #wait:1 #anim:Villain_Op:pull_lever #anim:Lever:open:0.25 #sfx:lever:0.25 #anim:Trapdoor:open:0.34 #sfx:trapdoor:0.34 #wait:0.6 #move:Captives:156,-260:0.6 #sfx:fall #wait:0.9 #fx:fade_black #wait:1 #cast:Level1,Shaft,B_Fall #move:B_Fall:0,228 #anim:B_Fall:fall #fx:fade_in #move:B_Fall:0,-8:0.5 #wait:0.5 #anim:B_Fall:land #sfx:thud #wait:1.6 #cast:Level1,B_Fall #wait:4.8
 -> DONE
 
 
@@ -129,7 +129,7 @@ Em không biết tại sao em lại ở đây sao? #speaker:B
 Vâng. Nhưng ở đây ấm áp và dễ chịu quá. #speaker:Teen
 Em cảm thấy mình có thể chạy nhanh như bay ở đây.
 Giá như ở ngoài kia cũng được như vậy thì hay biết mấy anh nhỉ?
-Bị đạn bắn vào chắc đau lắm nhỉ? #speaker:Villain #anim:Teen:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
+Bị đạn bắn vào chắc đau lắm nhỉ? #speaker:Villain #anim:Teen:vanish #sfx:vanish #wait:0.7 #cast:B_Bed,Villain #bg:F4D6D6:1 #wait:0.6
 Rốt cuộc ông muốn gì? #speaker:B
 Chịu thôi. Ta chỉ mong ngươi nhanh chóng ngộ ra sự thật. #speaker:Villain
 Đi theo ta là không có thiệt đâu.
@@ -142,7 +142,7 @@ Như vậy sẽ không còn sự bất lực, không còn sự nuối tiếc, kh
 Lúc đó kể cả có bị đạn bắn chắc cũng chẳng sợ nhỉ? #bg:641621:1.5
 Nói tóm lại, sứ mệnh của ta là đưa ngày đó đến gần hơn với loài người.
 Ngươi có tin là chỉ cần một công tắc, ta có thể ban cho ngươi cuộc sống mơ ước đó không?
-Ông ta đang nói gì vậy chứ... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
+Ông ta đang nói gì vậy chứ... #speaker:B #anim:Villain:walk #move:Villain:60:2 #wait:2 #anim:Villain:stab #sfx:stab:0.35 #wait:1.1 #fx:fade_black #wait:1 #cast:Level3,B_Floor #bg:131823:0 #fx:fade_in #wait:1.8 #anim:B_Floor:wake #wait:2.6
 // -> Tỉnh dậy, BẮT ĐẦU MÀN 3.
 -> DONE
 
@@ -169,13 +169,13 @@ Vậy anh thấy sao? #speaker:TeenB
 Anh không biết mình nên có cảm xúc gì. Anh chỉ thấy mệt thôi. #speaker:B
 Anh sẽ quên em sao? #speaker:TeenB
 Anh không biết. #speaker:B
-Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
+Đừng lăn tăn nữa. Cậu muốn trở lại làm kẻ cô đơn và thất bại đó sao? #speaker:Villain #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D #anim:Villain_D:appear #sfx:appear #wait:0.36 #music:sau_man_3_bs_xuat_hien
 Đừng nói nữa. #speaker:B
 Chỉ cần một nút ấn thôi mà. Mau đi theo ta đi rồi. #speaker:Villain
 Anh ơi. Anh có ở đó không? #speaker:A #banging:Door:on #cast:Dungeon,DRoom,Door,Bed_D,Vent,Villain_D,Gap #anim:Gap:glow
 David? #speaker:B
 Anh ơi. Đừng có nghe hắn. Xin anh đấy. #speaker:A
-Cút đi! Ngươi muốn nhìn hắn đau khổ sao? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open
+Cút đi! Ngươi muốn nhìn hắn đau khổ sao? #speaker:Villain #flip:Villain_D:on #anim:Villain_D:walk #move:Villain_D:-408:2.6 #move:Dungeon:320:2.6 #wait:2.6 #anim:Villain_D:idle #cast:Dungeon,DRoom,Door,Gap,Bed_Empty,Vent,Villain_D #anim:Vent:open #sfx:vent
 Mở cửa ra cho ta. #speaker:A
 Vẫn còn cố chấp à? Vậy thì chết đi. #speaker:Villain #anim:Villain_D:walk #move:Villain_D:-480:0.7 #wait:0.7 #banging:Door:off #anim:Villain_D:touch_door
 #knock:Door:0.9 #wait:0.9 #knock:Door:0.6 #wait:1.3 #knock:Door:0.3 #wait:1.8 #anim:Gap:glow_fade #wait:1.8 #anim:Gap:blood_seep #wait:3.85 #anim:Villain_D:idle #wait:0.5 #flip:Villain_D:off #anim:Villain_D:walk #move:Villain_D:128:2.4 #wait:0.3 #move:Dungeon:-320:2.1 #wait:2.1 #anim:Villain_D:idle #wait:1.5 #fade:060103:1.2 #wait:1.2 #cast:Caption #sfx:beep #wait:2.2
@@ -195,12 +195,12 @@ Với tình hình này, tôi không thể nói trước rằng David có xâm nh
 // ---------------------------------------------------------------------
 === Level4_End ===
 #music:stop
-#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #wait:1.2 #fade:08060A:0.9 #wait:0.9
+#bg:black:0 #fade:08060A:0 #flip:B4:off #move:A4:-576 #cast:DarkDungeon,DarkRoom,B4 #fade:in:0.7 #wait:1.2 #music:dua_hop #entrance:A4 #hold #cast:DarkDungeon,DarkRoom,B4,A4,Box #attach:Box:A4:34,8 #anim:A4:idle #wait:0.3 #flip:B4:on #wait:0.7 #reach:B4:A4:-56 #hold #attach:Box:B4:-18,4 #sfx:box_pickup #wait:1.2 #fade:08060A:0.9 #wait:0.9
 -> Past
 
 === Past ===
 #music:hoi_tuong_2
-Anh ơi! Ra ăn cơm đi! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #wait:0.45 #anim:Bedroom:bang #wait:0.45
+Anh ơi! Ra ăn cơm đi! #speaker:A #cast:Bedroom,WallShadow,BSit #alpha:WallShadow:0 #fade:in:0.9 #wait:1.5 #anim:Bedroom:bang #sfx:door_knock #wait:0.45 #anim:Bedroom:bang #sfx:door_knock #wait:0.45
 Anh... #speaker:A
 Cậu nghĩ tại sao chúng ta từ khi sinh ra đã như vậy rồi nhỉ? Kiểu có thể bị thương bất cứ lúc nào ấy. #speaker:B #anim:BSit:up #alpha:WallShadow:1:0.5 #wait:0.5
 Anh đang nói chuyện với ai thế? #speaker:A #alpha:WallShadow:0.5
@@ -208,7 +208,7 @@ Nếu như không có cơ thể này thì tốt quá ha. #speaker:B #alpha:WallS
 Anh bị sao thế? Anh đừng doạ em! #speaker:A #banging:Bedroom:on
 Bọn ở trường lại nói mình nữa rồi. Ôi mình muốn bổ đầu ra để chứng minh mình đã khổ sở chừng nào với bọn nó quá. #speaker:B #anim:BSit:shiver
 Sao thế giới này lại đông người vậy chứ? Sao tất cả mọi người đều khác nhau? Thật không công bằng! Tại sao ai cũng nhắm vào tôi. Cút đi! Cút đi! #speaker:B #anim:BSit:rock
-Anh! Anh ơi! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
+Anh! Anh ơi! #speaker:A #alpha:WallShadow:0 #anim:BSit:up #wait:0.28 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:4:0.22 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.24 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:6:0.28 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:up #wait:0.2 #anim:BSit:slam #sfx:thud:0.15:0.7 #shake:8:0.34 #fade:FFFFFF:0 #wait:0.05 #fade:in:0 #wait:0.26 #anim:BSit:down #shake:6:0.2 #wait:0.9
 #fade:08060A:1 #wait:1 #banging:Bedroom:off #cast:Caption #sfx:beep #wait:1.8
 -> Hospital_2
 
@@ -228,7 +228,7 @@ Nhân cách thứ hai này có thể khiến mong muốn của cậu ấy trở 
 // -> A bước lại, chìa tay; B cúi nhìn, rụt tay hai lần -> người chơi đưa B tới và bấm Space / E / nút ! -> cận cảnh nắm tay.
 #layout:top #sfx:stop #pixel:08060A:0 #fade:in:0 #bg:F6F0E4:0 #flip:B_FB:off #flip:A_FB:on #move:B_FB:-76 #move:A_FB:68 #cast:Track,B_FB,A_FB,Vignette #pixel:in:0.7 #wait:1.3
 Anh còn nhớ mùa hè năm đó không? Cái lần em suýt chết đuối ấy. #speaker:A
-#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #wait:1.2
+#layout:bottom #pixel:cut:0.7 #cast:Drown #anim:Drown:intro #sfx:splash:0:0.6 #wait:1.2
 Em chìm dần, nước tràn vào mũi, chẳng thấy gì nữa. #speaker:A
 Rồi anh lao xuống. Anh kéo em lên. #speaker:A
 #layout:top #pixel:cut:0.56 #cast:Track,B_FB,A_FB,Vignette #wait:1.06
@@ -240,7 +240,7 @@ Lớn rồi mà em vẫn thế. Vẫn cứ bám theo anh. #speaker:A
 Anh chẳng còn là người anh hồi đó nữa đâu. #speaker:B
 Không sao. Hồi đó anh kéo em lên rồi. #speaker:A
 Giờ đến lượt em. #speaker:A
-#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
+#anim:A_FB:run #move:A_FB:40:0.9 #wait:0.9 #anim:A_FB:idle #wait:0.4 #anim:A_FB:reach #wait:1 #anim:B_FB:hesitate #wait:2.2 #reach:B_FB:A_FB:-120:stage.hold #hold #flip:B_FB:off #anim:B_FB:run #move:B_FB:-8:0.2 #wait:0.2 #anim:B_FB:reach #wait:0.51 #anim:B_FB:touch #sfx:cloth #wait:0.3 #cast:CloseUp #wait:3.2 #pixel:08060A:1.4 #wait:1.6
 -> DONE
 
 
@@ -264,15 +264,13 @@ Giờ đến lượt em. #speaker:A
 // MÀN 5 - đếm ngược. Trước trận boss Màn 6: A&B chạy trong đường ống,
 // phản diện xuất hiện, nói chuyện rồi phẩy tay triệu hồi sàn đấu.
 // BossEntranceSequence dựng cảnh ngay trong Màn 6; không chuyển scene/loading khi triệu hồi.
-// THOẠI TẠM: thay sáu dòng dưới đây, giữ speaker và layout.
+// Adam nhận ra Bishop là do mình tạo ra và xin rời đi; Bishop chặn đường.
 // ---------------------------------------------------------------------
 === BeforeBoss ===
-...... #speaker:Villain #layout:bottom
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
+Cậu là... #speaker:B #layout:bottom
+Nhận ra rồi hả? Tôi là do cậu tạo ra mà #speaker:Villain
+Đến lúc tôi phải đi rồi! Xin hãy để tôi đi đi #speaker:B
+Không dễ thế đâu! #speaker:Villain
 -> DONE
 
 // ---------------------------------------------------------------------
@@ -280,27 +278,27 @@ Giờ đến lượt em. #speaker:A
 // trong bóng tối, A&B (nháy đỏ / xanh) nói chuyện với hắn, rồi tách thành A và B; boss tan thành bụi; A gọi anh về;
 // hai anh em chạy qua Màn 5 - 4 - 3 - 2 về phòng giam của cảnh mở đầu; người chơi đi B tới chỗ A đứng chờ ở cánh cửa
 // ánh sáng và bấm ! (Space / E). Sau đó là scene "Story Ending" (bệnh viện).
-// THOẠI TẠM: 10 dòng "......" (5 của boss, 5 của A&B) chờ thoại chính thức - chỉ cần thay chữ, giữ nguyên tag.
+// Adam chọn giữ những kỷ niệm và cuộc đời mình, cảm ơn Bishop đã bảo vệ mình rồi chào tạm biệt.
 // EndWorld (ảnh dài: phòng giam | Màn 2 | 3 | 4 | 5 | khoảng tối): x = 0 khi phòng giam nằm giữa màn hình, -4304 khi
 // khoảng tối nằm giữa. A_End / B_End nằm trong EndWorld: toạ độ của họ = toạ độ trên màn hình - x của EndWorld.
 // Vị trí boss (-150,-58) và A&B (150,-22) khớp với GlassShatter.BossStagePosition / PlayerStagePosition.
 // ---------------------------------------------------------------------
 === Ending ===
 #music:ending:0:12.85 #bg:black:0 #fade:000000:0 #move:BossEnd:-150,-58 #move:ABMerged:150,-22 #flip:ABMerged:on #cast:EndGlow,BossEnd,ABMerged #fade:in:0.8 #wait:1
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-...... #speaker:Villain
-...... #speaker:AB
-#anim:ABMerged:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
+Cơ thể tôi đang yếu dần... #speaker:Villain
+Điều này nghĩa là cậu thật sự nhất quyết muốn đi nhỉ? #speaker:Villain
+Đúng vậy! #speaker:B
+Cuộc đời tôi có chứa đầy những kỷ niệm tốt đẹp, những bài học cay đắng, niềm vui và cả nỗi buồn. #speaker:B
+Đó là những thứ đã dẫn lối cho tôi đi tìm ý nghĩa của cuộc đời mình. #speaker:B
+Nếu tôi vì biến cố này quên đi những thứ đó, chẳng khác nào tôi đang từ bỏ chính mình và tương lai hứa hẹn phía trước đúng ko? #speaker:B
+... #speaker:Villain
+Cảm ơn vì đã bảo vệ tôi suốt thời gian qua! #speaker:B
+Tạm biệt nhé! #speaker:B
+Tạm biệt! #speaker:Villain
+#anim:ABMerged:split #sfx:split #wait:1.8 #fx:flash #move:EndWorld:-4304,0 #move:A_End:4434,-22 #move:B_End:4474,-22 #flip:A_End:on #flip:B_End:on #cast:EndGlow,EndWorld,A_End,B_End,BossEnd #move:A_End:4424:0.6 #move:B_End:4494:0.6 #wait:1.4 #anim:BossEnd:dust #sfx:dust #wait:2.3 #cast:EndGlow,EndWorld,A_End,B_End #wait:0.6 #flip:A_End:off #wait:0.5
 Anh ơi! Về thôi! #speaker:A
 #flip:A_End:on #anim:A_End:run #anim:B_End:run #music:ending:0:12.85 #alpha:EndGlow:0:0.8 #move:EndWorld:0:8 #move:A_End:-24:8 #move:B_End:24:8 #wait:8 #anim:B_End:idle #move:A_End:-200:0.9 #wait:0.9 #anim:A_End:idle #flip:A_End:off #wait:0.4 #follow:EndWorld:B_End:0,240 #reach:B_End:A_End:290:stage.enter #hold
-#follow:none #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
+#follow:none #sfx:portal #flip:A_End:on #anim:A_End:run #anim:B_End:run #move:A_End:-272:0.45 #move:B_End:-272:0.9 #alpha:A_End:0:0.5 #alpha:B_End:0:1 #fade:FFFFFF:1.4 #wait:1.8
 -> DONE
 
 
@@ -339,7 +337,7 @@ chúc mừng #speaker:TeenB #layout:top
 -> DONE
 
 === RedFinal_Pink ===
-*fart* #speaker:CaptainPinkTurd #layout:top
+\*fart\* #speaker:CaptainPinkTurd #layout:top
 -> DONE
 
 === RedFinal_Thanks ===

@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.InkDialogue;
 using CaptainPinkTurd.Scene;
@@ -338,7 +339,7 @@ namespace CaptainPinkTurd.Story.Tests
                 {
                     ("blue", "A", "chúc mừng"), ("mom", "Mom", "chúc mừng"), ("doctor", "Doctor", "chúc mừng"),
                     ("green_bunny", "Zoro", "chúc mừng"), ("green_bunny", "Usagi", "Unaa~"),
-                    ("reaper", "Reaper", "grrr"), ("teen", "TeenB", "chúc mừng"), ("pink", "CaptainPinkTurd", "prrfffff")
+                    ("reaper", "Reaper", "grrr"), ("teen", "TeenB", "chúc mừng"), ("pink", "CaptainPinkTurd", "*fart*")
                 };
                 foreach (var cue in cues)
                 {
@@ -365,6 +366,10 @@ namespace CaptainPinkTurd.Story.Tests
                 AssertStandardPanel(panel, true);
                 Assert.IsFalse(hospital.gameObject.activeSelf);
                 Capture(ending, cutscene, "03-red-thanks");
+                var celebration = MusicManager.Instance.GetComponents<AudioSource>()
+                    .Single(source => source.clip == Field<AudioClip>(ending, "music") && source.isPlaying);
+                Assert.IsFalse(celebration.loop, "the celebration must play the complete recording once");
+                Assert.AreEqual(1f, celebration.volume, 0.001f, "the celebration faded before its recording finished");
 
                 yield return StoryTestLoading.WaitFor(() => !cutscene.IsPlaying, 5f, "the montage to finish");
                 CollectionAssert.AreEqual(new[] { "blue", "mom", "doctor", "green", "bunny", "reaper", "teen", "pink", null, "red", null }, speakers);
@@ -379,7 +384,12 @@ namespace CaptainPinkTurd.Story.Tests
                 bool sawPartialWhite = false;
                 while (!hospital.gameObject.activeSelf)
                 {
-                    Assert.Less(Time.realtimeSinceStartup - fadeStarted, 3f, "the white fade never reveals the hospital");
+                    Assert.Less(Time.realtimeSinceStartup - fadeStarted, 15f, "the full celebration never hands over to the hospital");
+                    if (celebration.isPlaying)
+                    {
+                        Assert.AreEqual(1f, celebration.volume, 0.001f, "the final pose faded the recording before it finished");
+                        Assert.AreEqual(0f, whiteFade.color.a, 0.001f, "the hospital transition began before the recording finished");
+                    }
                     Assert.GreaterOrEqual(whiteFade.color.a, previousAlpha - 0.001f);
                     previousAlpha = whiteFade.color.a;
                     sawPartialWhite |= previousAlpha > 0.05f && previousAlpha < 0.95f;
@@ -388,6 +398,7 @@ namespace CaptainPinkTurd.Story.Tests
                     yield return null;
                 }
                 Assert.IsTrue(sawPartialWhite, "the transition must fade gradually to white");
+                Assert.IsFalse(celebration.isPlaying, "the celebration must finish before the hospital");
                 Assert.AreEqual(1f, whiteFade.color.a, 0.001f, "hospital appears before the screen is fully white");
                 Assert.GreaterOrEqual(Time.realtimeSinceStartup - fadeStarted, 1.45f);
                 Assert.IsTrue(!cutsceneRoot || !cutsceneRoot.gameObject.activeSelf);
@@ -521,9 +532,10 @@ namespace CaptainPinkTurd.Story.Tests
                 var pixels = image.GetPixels32();
                 var sampledColors = new HashSet<Color32>();
                 for (int i = 0; i < pixels.Length; i += 31) sampledColors.Add(pixels[i]);
-                Assert.Greater(sampledColors.Count, 32, "the QA camera did not render the runtime artwork");
                 Directory.CreateDirectory(directory);
                 File.WriteAllBytes(Path.Combine(directory, name + ".png"), image.EncodeToPNG());
+                if (cutscene) Assert.Greater(sampledColors.Count, 32, "the QA camera did not render the runtime artwork");
+                else AssertHospitalArtwork(ending, camera, image);
             }
             finally
             {
@@ -544,6 +556,36 @@ namespace CaptainPinkTurd.Story.Tests
                 Object.DestroyImmediate(image);
                 Object.DestroyImmediate(camera.gameObject);
             }
+        }
+
+        private static void AssertHospitalArtwork(EndingSequence ending, Camera camera, Texture2D capture)
+        {
+            // The hospital's native frame has only 29 colours. Check visible artwork landmarks rather than
+            // requiring a larger palette, which would also allow a blank room with colourful dialogue to pass.
+            var room = Field<Image>(ending, "hospitalRoom");
+            Assert.IsTrue(room.gameObject.activeInHierarchy, "the hospital room is hidden in the QA capture");
+            var source = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+            try
+            {
+                Assert.IsTrue(source.LoadImage(File.ReadAllBytes(AssetDatabase.GetAssetPath(room.sprite.texture))));
+                var rect = room.sprite.rect;
+                var corners = new Vector3[4];
+                room.rectTransform.GetWorldCorners(corners);
+                // Window, monitor and wall are above the bottom dialogue panel and away from the actors.
+                foreach (var point in new[] { new Vector2Int(20, 70), new Vector2Int(152, 73), new Vector2Int(50, 50) })
+                {
+                    Color32 expected = source.GetPixel((int)rect.x + point.x, (int)rect.y + point.y);
+                    Vector3 world = Vector3.Lerp(corners[0], corners[3], (point.x + 0.5f) / rect.width) +
+                                    (corners[1] - corners[0]) * ((point.y + 0.5f) / rect.height);
+                    Vector3 viewport = camera.WorldToViewportPoint(world);
+                    Color32 actual = capture.GetPixel(Mathf.Clamp((int)(viewport.x * capture.width), 0, capture.width - 1),
+                        Mathf.Clamp((int)(viewport.y * capture.height), 0, capture.height - 1));
+                    Assert.That(actual.r, Is.EqualTo(expected.r).Within(2), $"hospital artwork at {point}: red");
+                    Assert.That(actual.g, Is.EqualTo(expected.g).Within(2), $"hospital artwork at {point}: green");
+                    Assert.That(actual.b, Is.EqualTo(expected.b).Within(2), $"hospital artwork at {point}: blue");
+                }
+            }
+            finally { Object.DestroyImmediate(source); }
         }
 
         private static string BackupSaveDirectory()

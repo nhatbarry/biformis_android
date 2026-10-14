@@ -151,12 +151,19 @@ namespace CaptainPinkTurd.Story.Cutscene
         private float[] pixelOrder;
         private Tween pixelCoverTween, pixelCutTween;
         private Level4CutscenePresentation level4Presentation;
+        private AudioSource footstepSource;
+        private readonly Dictionary<StageActor, Vector2> footstepPositions = new();
+        private readonly object soundTweenId = new();
+        private float nextFootstep, nextStruggleSound;
 
         private void Awake()
         {
             SetCast(Array.Empty<string>());
             level4Presentation = gameObject.AddComponent<Level4CutscenePresentation>();
             level4Presentation.Initialize(actors, Shake);
+            footstepSource = StorySfx.CreateSource(gameObject, "Stage Footsteps");
+            StorySfx.Route(oneShotSource);
+            StorySfx.Route(loopSource);
             if (villainOverlay) SetAlpha(villainOverlay, 0f);
             if (fadeOverlay) SetAlpha(fadeOverlay, 0f);
             if (struggleMeter) struggleMeter.gameObject.SetActive(false);
@@ -179,11 +186,14 @@ namespace CaptainPinkTurd.Story.Cutscene
             dialogueManager.OnDisplayDialogue.Subscribe(OnDisplayDialogue);
             dialogueManager.OnStageInput.Subscribe(OnStageInput);
             dialogueManager.OnStagePause.Subscribe(OnStagePause);
+            dialogueManager.OnDialogueEnd.Subscribe(StopSounds);
         }
 
         private void OnDestroy()
         {
             DOTween.Kill(this);
+            DOTween.Kill(soundTweenId);
+            if (monitorBeepClip) Destroy(monitorBeepClip);
             if (reachWalker) EndReach();
             if (pixelCoverTexture) Destroy(pixelCoverTexture);
             if (pixelCutTexture) Destroy(pixelCutTexture);
@@ -193,6 +203,21 @@ namespace CaptainPinkTurd.Story.Cutscene
             DialogueManager.Instance.OnDisplayDialogue.Unsubscribe(OnDisplayDialogue);
             DialogueManager.Instance.OnStageInput.Unsubscribe(OnStageInput);
             DialogueManager.Instance.OnStagePause.Unsubscribe(OnStagePause);
+            DialogueManager.Instance.OnDialogueEnd.Unsubscribe(StopSounds);
+        }
+
+        private void OnDisable()
+        {
+            StopSounds();
+        }
+
+        private void StopSounds()
+        {
+            DOTween.Kill(soundTweenId);
+            bangingDoor = null;
+            if (oneShotSource) oneShotSource.Stop();
+            if (loopSource) loopSource.Stop();
+            if (footstepSource) footstepSource.Stop();
         }
 
         private void HandleStageTag(string tag)
@@ -215,7 +240,7 @@ namespace CaptainPinkTurd.Story.Cutscene
                     PlayEffect(value.ToLowerInvariant());
                     break;
                 case "sfx":
-                    PlaySound(value.ToLowerInvariant());
+                    PlaySoundTag(value.ToLowerInvariant());
                     break;
                 case "anim":
                     PlayAnimation(value);
@@ -365,6 +390,11 @@ namespace CaptainPinkTurd.Story.Cutscene
 
             strugglePresses++;
             struggler.Play("struggle");
+            if (Time.unscaledTime >= nextStruggleSound)
+            {
+                StorySfx.Play(oneShotSource, "cage_struggle");
+                nextStruggleSound = Time.unscaledTime + 0.1f;
+            }
             UpdateStruggleMeter();
             if (strugglePresses < struggleTarget) return;
 
@@ -574,15 +604,16 @@ namespace CaptainPinkTurd.Story.Cutscene
         {
             var parts = value.Split(':');
             var door = FindActor(parts[0]);
-            if (door) PlayBang(door);
             knockLevel = 1f;
             if (parts.Length > 1) TryParse(parts[1], out knockLevel);
+            if (door) PlayBang(door, true);
             knockLeft = 0.6f;
         }
 
-        private void PlayBang(StageActor door)
+        private void PlayBang(StageActor door, bool weak = false)
         {
             if (door.TryGetComponent(out StageActorAnimation animation)) animation.Play("bang");
+            StorySfx.Play(oneShotSource, weak ? "door_knock" : "door_bang", weak ? knockLevel : 1f);
         }
 
         private void UpdateDoor(float dt)
@@ -659,6 +690,27 @@ namespace CaptainPinkTurd.Story.Cutscene
                 position.x = Mathf.Clamp(followScreenX - followWalker.anchoredPosition.x, followMin, followMax);
                 followWorld.anchoredPosition = position;
             }
+            UpdateFootsteps();
+        }
+
+        private void UpdateFootsteps()
+        {
+            if (!DialogueManager.HasInstance || !DialogueManager.Instance.DialogueIsPlaying) return;
+            bool moving = false;
+            foreach (var actor in actors)
+            {
+                if (!actor) continue;
+                var position = ((RectTransform)actor.transform).anchoredPosition;
+                bool changed = footstepPositions.TryGetValue(actor, out var previous) &&
+                    (position - previous).sqrMagnitude > 0.1f;
+                footstepPositions[actor] = position;
+                if (changed && actor.gameObject.activeInHierarchy && actor.TryGetComponent(out StageActorAnimation animation) &&
+                    animation.CurrentClip is "walk" or "walk_remote" or "run") moving = true;
+            }
+            // One cadence for A&B together; world/camera pans and standing actors make no steps.
+            if (!moving || Time.unscaledTime < nextFootstep) return;
+            StorySfx.Play(footstepSource, castOnStage.Contains("Track") ? "footsteps_soft" : "footsteps_metal", 0.65f);
+            nextFootstep = Time.unscaledTime + 0.28f;
         }
 
         //"World:Walker:minX,maxX" or "none"; the walker keeps the place on screen it has when this starts
@@ -1011,12 +1063,29 @@ namespace CaptainPinkTurd.Story.Cutscene
             fadeOverlay.DOFade(alpha, fadeTime).SetUpdate(true).SetId(this);
         }
 
-        private void PlaySound(string soundName)
+        // #sfx:name[:delaySeconds[:gain]] keeps each cue beside its action in both Ink scripts.
+        private void PlaySoundTag(string value)
+        {
+            var parts = value.Split(':');
+            float delay = 0f, gain = 1f;
+            if (parts.Length > 3 || (parts.Length > 1 && (!TryParse(parts[1], out delay) || delay < 0f)) ||
+                (parts.Length > 2 && (!TryParse(parts[2], out gain) || gain < 0f || gain > 1f)))
+            {
+                Debug.LogWarning($"Invalid cutscene sound: {value}");
+                return;
+            }
+            if (delay > 0f)
+                DOVirtual.DelayedCall(delay, () => PlaySound(parts[0], gain), true).SetId(soundTweenId);
+            else PlaySound(parts[0], gain);
+        }
+
+        private void PlaySound(string soundName, float gain = 1f)
         {
             switch (soundName)
             {
                 case "beep":
                     if (!loopSource) return;
+                    StorySfx.Route(loopSource);
                     monitorBeepClip ??= CreateMonitorBeepClip();
                     loopSource.clip = monitorBeepClip;
                     loopSource.loop = true;
@@ -1027,9 +1096,11 @@ namespace CaptainPinkTurd.Story.Cutscene
                     return;
             }
 
+            if (StorySfx.Play(oneShotSource, soundName, gain)) return;
             if (oneShotSource && sounds.TryGetValue(soundName, out AudioClip clip) && clip)
             {
-                oneShotSource.PlayOneShot(clip);
+                StorySfx.Route(oneShotSource);
+                oneShotSource.PlayOneShot(clip, gain);
             }
             else
             {

@@ -58,7 +58,8 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private IEnumerator Start()
         {
-            if (music) MusicManager.Instance.Play(music);
+            var musicManager = music ? MusicManager.Instance : null;
+            if (musicManager) musicManager.Play(music);
             SoundManager.Instance.CreateSoundBuilder().Play(crowdCheeringSfx);
             LoadArt();
             BuildStage();
@@ -87,6 +88,10 @@ namespace CaptainPinkTurd.Story.Presentation
                 redFinal.SpeakerChanged -= ShowRedFinalDialogue;
                 RestoreDialogueControl();
             }
+
+            // Hold Red's last picture until the entire celebration recording has played.
+            // Do not cut or fade its ending just because the animation finishes first.
+            while (musicManager && musicManager.IsPlaying(music)) yield return null;
 
             //Keep the last Red picture behind the white dissolve. The hospital appears only under full white.
             yield return Fade(whiteOverlay, 1f, 1.6f);
@@ -195,7 +200,6 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private IEnumerator HospitalEnding()
         {
-            if (MusicManager.HasInstance) MusicManager.Instance.StopCurrentTrack();
             hospitalRoom.gameObject.SetActive(true);
             SetAtlasFrame(hospitalRoom, hospitalFrames, 0);
             kneelingA.gameObject.SetActive(true);

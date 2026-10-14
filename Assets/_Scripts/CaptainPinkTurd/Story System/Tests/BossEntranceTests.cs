@@ -92,7 +92,7 @@ namespace CaptainPinkTurd.Story.Tests
 
         [TestCase("Assets/Ink Dialogue/Biformis_Story.json")]
         [TestCase("Assets/Ink Dialogue/Biformis_Story_EN.json")]
-        public void BeforeBossHasSixAlternatingDialogueLines(string inkPath)
+        public void BeforeBossHasFourDialogueLinesBetweenBAndTheVillain(string inkPath)
         {
             var json = AssetDatabase.LoadAssetAtPath<TextAsset>(inkPath);
             Assert.IsNotNull(json, inkPath);
@@ -108,7 +108,7 @@ namespace CaptainPinkTurd.Story.Tests
                 Assert.IsFalse(story.currentTags.Any(tag => tag.StartsWith("cast:") || tag.StartsWith("move:")),
                     "the embedded entrance owns its stage; its dialogue must not move the standalone cutscene cast");
             }
-            CollectionAssert.AreEqual(new[] { "Villain", "AB", "Villain", "AB", "Villain", "AB" }, speakers);
+            CollectionAssert.AreEqual(new[] { "B", "Villain", "B", "Villain" }, speakers);
             Assert.IsEmpty(story.currentChoices);
         }
 

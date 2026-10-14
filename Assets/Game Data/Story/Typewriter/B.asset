@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.TypewriterAudioInfo
   speaker: B
   typingSoundClips:
-  - {fileID: 8300000, guid: a514d42bbc83b2c4db22d345dd9b106e, type: 3}
-  minPitch: 0.95
-  maxPitch: 1.05
-  stopAudioSource: 1
+  - {fileID: 8300000, guid: e010733bd4155208b70cddc59077cff2, type: 3}
+  - {fileID: 8300000, guid: 697b639eab4b5f96a29d40ac31e34dd6, type: 3}
+  minPitch: 0.97
+  maxPitch: 1.03
+  stopAudioSource: 0
   soundFrequency:
     serializedVersion: 2
     m_Curve:

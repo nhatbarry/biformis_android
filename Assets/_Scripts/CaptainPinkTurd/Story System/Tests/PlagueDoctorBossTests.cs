@@ -95,8 +95,9 @@ namespace CaptainPinkTurd.Story.Tests
                 Assert.AreEqual(new Vector2(192f, 93f), sprite.pivot);
                 total += timing.GetArrayElementAtIndex(i).intValue;
             }
-            Assert.AreEqual(2440, total);
-            Assert.AreEqual(100, timing.GetArrayElementAtIndex(7).intValue, "aura lasts exactly 100 ms");
+            // The shipped prefab has authored, slower timing than the original 2440 ms source sheet.
+            Assert.AreEqual(4370, total, "preserve the polished in-game transformation timing");
+            Assert.AreEqual(600, timing.GetArrayElementAtIndex(7).intValue, "preserve the authored aura hold");
             Assert.AreEqual(transformation.GetArrayElementAtIndex(11).objectReferenceValue,
                 boss.FindProperty("phaseTwoRestingPose").objectReferenceValue, "rest at the aura-free knife pose");
         }

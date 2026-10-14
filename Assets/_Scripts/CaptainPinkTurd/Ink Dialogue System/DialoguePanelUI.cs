@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.CustomDataStructure;
 using CaptainPinkTurd.Core.Extensions;
 using CaptainPinkTurd.Core.Localization;
@@ -67,6 +68,7 @@ namespace CaptainPinkTurd.InkDialogue
 
         private void OnDisable()
         {
+            if (typewriterText) typewriterText.StopTyping();
             if (!DialogueManager.HasInstance) return;
             
             DialogueManager.Instance.OnDialogueStart.Unsubscribe(DialogueStarted);
@@ -93,6 +95,7 @@ namespace CaptainPinkTurd.InkDialogue
         {
             if (paused)
             {
+                if (typewriterText && typewriterText.IsTyping) typewriterText.SkipTyping();
                 dialogueText.text = "";
                 SetSpeakerName(DialogueManager.DEFAULT_SPEAKER);
             }
@@ -122,12 +125,16 @@ namespace CaptainPinkTurd.InkDialogue
             SetLayout(dialogueInfo.layout);
             SetHiddenObjectsActive(false);
             SetSpeakerName(dialogueInfo.speaker);
+            // Core's TypewriterText cannot depend on AudioSystem (AudioSystem already depends on Core).
+            // Route its local source here so the same SFX slider also controls dialogue blips.
+            if (AudioManager.HasInstance)
+                typewriterText.GetComponent<AudioSource>().outputAudioMixerGroup = AudioManager.Instance.SfxMixerGroup;
             typewriterText.StartTyping(dialogueInfo.speaker, dialogueInfo.line, dialogueText.alignment, () =>
             {
                 DialogueManager.Instance.DialogueIsTyping = false;
                 SetHiddenObjectsActive(true);
                 DisplayChoices(dialogueInfo.choices);
-            });
+            }, playTypingAudio: !DialogueManager.Instance.IsTimelineControlled);
         }
         
         private void DisplayChoices(List<Choice> dialogueChoices)

@@ -1,10 +1,10 @@
 # Cảnh đường ống trước trận boss
 
-Màn 5 → tải `Level Story 6` → A&B chồng cùng vị trí chạy từ cạnh trái sang phải, nhấp nháy đỏ/xanh → phản diện đeo mặt nạ xuất hiện → sáu câu thoại tạm → boss phẩy tay bằng clip Cast của phase 1 → sàn đấu thật lan từ vị trí boss ra toàn màn hình → bật trận đấu.
+Màn 5 → tải `Level Story 6` → A&B chồng cùng vị trí chạy từ cạnh trái sang phải, nhấp nháy đỏ/xanh → phản diện đeo mặt nạ xuất hiện → bốn câu thoại → boss phẩy tay bằng clip Cast của phase 1 → sàn đấu thật lan từ vị trí boss ra toàn màn hình → bật trận đấu.
 
 Cảnh được dựng trong màn 6 đã tải sẵn, nên đoạn triệu hồi không có scene transition hoặc loading overlay. Khi chết và chơi lại màn 6, bỏ qua cảnh này. Vào bằng cốt truyện, tiếp tục save hoặc chọn màn 6 sẽ xem cảnh; các test tải riêng arena ngoài StoryFlow giữ hành vi trực tiếp vào trận.
 
-Thoại tạm nằm trong knot `BeforeBoss` của cả hai file `Assets/Ink Dialogue/Biformis_Story*.ink`. Thay sáu dòng `......`, giữ tag speaker và layout.
+Thoại nằm trong knot `BeforeBoss` của cả hai file `Assets/Ink Dialogue/Biformis_Story*.ink`: Adam nhận ra Bishop là do mình tạo ra, xin rời đi nhưng bị chặn lại. Bốn lượt nói theo thứ tự Adam → Bishop → Adam → Bishop (`speaker:B` / `speaker:Villain`). Sau trận, knot `Ending` cho Bishop yếu dần, Adam chọn giữ những kỷ niệm và cuộc đời mình, cảm ơn Bishop rồi cả hai chào tạm biệt. Đoạn độc thoại được chia thành các lượt hiển thị; tiếp theo hai anh em tách ra, Bishop tan thành bụi và David gọi anh về.
 
 Nền dùng built-in ImageGen, lưu tại `Assets/Sprites/Story/Boss Entrance/Pipe Interior.png`. Giữ ảnh nguồn, import Point, không mipmap, không nén và giới hạn texture 256 để phù hợp mật độ pixel của game.
 

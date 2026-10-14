@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.TypewriterAudioInfo
   speaker: Teen
   typingSoundClips:
-  - {fileID: 8300000, guid: a514d42bbc83b2c4db22d345dd9b106e, type: 3}
-  minPitch: 1.1
-  maxPitch: 1.2
-  stopAudioSource: 1
+  - {fileID: 8300000, guid: 9d7753b1ba4154189930f14581ab82de, type: 3}
+  - {fileID: 8300000, guid: 2951226865d35172a90f5bb4139587f0, type: 3}
+  minPitch: 1.07
+  maxPitch: 1.13
+  stopAudioSource: 0
   soundFrequency:
     serializedVersion: 2
     m_Curve:

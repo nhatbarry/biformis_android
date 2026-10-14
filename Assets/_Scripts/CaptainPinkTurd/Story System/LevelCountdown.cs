@@ -1,4 +1,5 @@
 using TMPro;
+using CaptainPinkTurd.AudioSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -26,6 +27,7 @@ namespace CaptainPinkTurd.Story
         private float delayRemaining;
         private bool warned;
         private bool expired;
+        private AudioSource warningSource;
 
         public float Remaining => remaining;
 
@@ -33,6 +35,7 @@ namespace CaptainPinkTurd.Story
         {
             remaining = durationSeconds;
             delayRemaining = startDelay;
+            warningSource = StorySfx.CreateSource(gameObject, "Collapse Warning SFX");
             UpdateDisplay();
         }
 
@@ -51,6 +54,7 @@ namespace CaptainPinkTurd.Story
             if (!warned && remaining <= warningSeconds)
             {
                 warned = true;
+                StorySfx.Play(warningSource, "warning");
                 onWarning?.Invoke();
             }
 
@@ -59,6 +63,7 @@ namespace CaptainPinkTurd.Story
             if (remaining > 0f) return;
 
             expired = true;
+            StorySfx.Play(warningSource, "collapse");
             onExpired?.Invoke();
         }
 

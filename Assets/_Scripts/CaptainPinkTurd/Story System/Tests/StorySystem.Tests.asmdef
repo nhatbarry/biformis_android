@@ -21,6 +21,7 @@
         "GUID:680f8f5813c77b443bd9b7eba9b16533",
         "GUID:cd2c26228baaf6a4090a2ca00964e501",
         "Unity.InputSystem",
+        "Unity.TextMeshPro",
         "GUID:626070ea3273cb844a310aa4f53b31fa",
         "GUID:68095ea3c6785fb4b8d30267c6aa893e"
     ],

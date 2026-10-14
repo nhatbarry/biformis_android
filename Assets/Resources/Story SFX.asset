@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc957120f9c6b3429a81875e0fcda8f, type: 3}
+  m_Name: Story SFX
+  m_EditorClassIdentifier: AudioSystem::CaptainPinkTurd.AudioSystem.StorySfxCatalog
+  mixerGroup: {fileID: 2493981848458888186, guid: 2b7c51abda386944e9a6d3e078a24d71, type: 2}
+  cues:
+  - id: door_bang
+    clips:
+    - {fileID: 8300000, guid: 8424174d53b95a81a00a14930fd4e567, type: 3}
+    volume: 0.6
+  - id: door_knock
+    clips:
+    - {fileID: 8300000, guid: e75692aa16fd52d58fc36e6859197fdf, type: 3}
+    volume: 0.45
+  - id: door_break
+    clips:
+    - {fileID: 8300000, guid: 36279a8f4d3d55e59944f6846e119667, type: 3}
+    volume: 0.75
+  - id: door_slam
+    clips:
+    - {fileID: 8300000, guid: e9f377df5b1d5c6d83afedd8b9f17bfa, type: 3}
+    volume: 0.6
+  - id: lever
+    clips:
+    - {fileID: 8300000, guid: 633b6aaa80055698a0c147e10d7d023d, type: 3}
+    volume: 0.5
+  - id: trapdoor
+    clips:
+    - {fileID: 8300000, guid: 9494b8b7e1e55ec394c555aa67196eae, type: 3}
+    volume: 0.55
+  - id: vent
+    clips:
+    - {fileID: 8300000, guid: 633b6aaa80055698a0c147e10d7d023d, type: 3}
+    volume: 0.35
+  - id: cage_struggle
+    clips:
+    - {fileID: 8300000, guid: d22f6d3f718852aa8b6e9cf9c18f2bb8, type: 3}
+    volume: 0.38
+  - id: cloth
+    clips:
+    - {fileID: 8300000, guid: 21d2401fafe15ea89ade417ef8f6936f, type: 3}
+    volume: 0.3
+  - id: stab
+    clips:
+    - {fileID: 8300000, guid: 6d7981b6e2c051a3b9779d8666bd59d6, type: 3}
+    volume: 0.5
+  - id: box_pickup
+    clips:
+    - {fileID: 8300000, guid: a51a386e63ac5f7f97c9c41022278470, type: 3}
+    volume: 0.35
+  - id: footsteps_soft
+    clips:
+    - {fileID: 8300000, guid: 467c42591eee5903a56aaa9abe5e7cd0, type: 3}
+    volume: 0.33
+  - id: footsteps_metal
+    clips:
+    - {fileID: 8300000, guid: 66c0c4c709e256d6ab4e5377b67a82de, type: 3}
+    volume: 0.33
+  - id: thud
+    clips:
+    - {fileID: 8300000, guid: 952a1dd91fed565c9dde0220e8c8e9e1, type: 3}
+    volume: 0.6
+  - id: appear
+    clips:
+    - {fileID: 8300000, guid: 2ba092582a155c1ca9570a3d779478f0, type: 3}
+    volume: 0.33
+  - id: vanish
+    clips:
+    - {fileID: 8300000, guid: b3b611ee89b75e18a74bc17503f7b491, type: 3}
+    volume: 0.3
+  - id: merge
+    clips:
+    - {fileID: 8300000, guid: 91a889a422e35371975001745efe3bd3, type: 3}
+    volume: 0.4
+  - id: split
+    clips:
+    - {fileID: 8300000, guid: 91a889a422e35371975001745efe3bd3, type: 3}
+    volume: 0.4
+  - id: summon
+    clips:
+    - {fileID: 8300000, guid: bdb2c5bc3a4d5d66bd0a924f5113339a, type: 3}
+    volume: 0.5
+  - id: portal
+    clips:
+    - {fileID: 8300000, guid: b3b611ee89b75e18a74bc17503f7b491, type: 3}
+    volume: 0.3
+  - id: reveal
+    clips:
+    - {fileID: 8300000, guid: 2ba092582a155c1ca9570a3d779478f0, type: 3}
+    volume: 0.4
+  - id: ice_freeze
+    clips:
+    - {fileID: 8300000, guid: 91a889a422e35371975001745efe3bd3, type: 3}
+    volume: 0.4
+  - id: ice_crack
+    clips:
+    - {fileID: 8300000, guid: 48c31d6dc5c85fbbb9b597cfbd2a1348, type: 3}
+    volume: 0.5
+  - id: ice_break
+    clips:
+    - {fileID: 8300000, guid: 398d9e1ed08fe3b4891ac9a8ab7f3614, type: 3}
+    volume: 0.55
+  - id: glass_break
+    clips:
+    - {fileID: 8300000, guid: 398d9e1ed08fe3b4891ac9a8ab7f3614, type: 3}
+    volume: 0.7
+  - id: dust
+    clips:
+    - {fileID: 8300000, guid: d60ddf9cac3b248c4953a4ba37dd6c59, type: 3}
+    volume: 0.4
+  - id: splash
+    clips:
+    - {fileID: 8300000, guid: 6d55888e6190b4ecd9d69a9120fbc7a3, type: 3}
+    volume: 0.4
+  - id: collapse
+    clips:
+    - {fileID: 8300000, guid: d60ddf9cac3b248c4953a4ba37dd6c59, type: 3}
+    volume: 0.6
+  - id: warning
+    clips:
+    - {fileID: 8300000, guid: 1883c6eb5bc12ae4fa75360ab186aaa7, type: 3}
+    volume: 0.4
+  - id: remote
+    clips:
+    - {fileID: 8300000, guid: df6fa4d947d9377458ccbeb711d3c4d7, type: 3}
+    volume: 0.3
+  - id: fall
+    clips:
+    - {fileID: 8300000, guid: 8e9580cb8531abe498e173a556f67e84, type: 3}
+    volume: 0.4
+  - id: volley
+    clips:
+    - {fileID: 8300000, guid: 589e8fdd6e9b5487aac481177254ca10, type: 3}
+    volume: 0.25
+  - id: lightning
+    clips:
+    - {fileID: 8300000, guid: c6f721ecf24ce4145b8c7e919a8ba3d2, type: 3}
+    volume: 0.45
+  - id: charge
+    clips:
+    - {fileID: 8300000, guid: bdb2c5bc3a4d5d66bd0a924f5113339a, type: 3}
+    volume: 0.3
+  - id: slash
+    clips:
+    - {fileID: 8300000, guid: 6d7981b6e2c051a3b9779d8666bd59d6, type: 3}
+    volume: 0.5
+  - id: dash
+    clips:
+    - {fileID: 8300000, guid: 8e9580cb8531abe498e173a556f67e84, type: 3}
+    volume: 0.5
+  - id: cleave
+    clips:
+    - {fileID: 8300000, guid: 48c31d6dc5c85fbbb9b597cfbd2a1348, type: 3}
+    volume: 0.6

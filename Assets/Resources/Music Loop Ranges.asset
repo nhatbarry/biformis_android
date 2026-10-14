@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d34a6ef8bd594da2917db456ac91a9c3, type: 3}
+  m_Name: Music Loop Ranges
+  m_EditorClassIdentifier: AudioSystem::CaptainPinkTurd.AudioSystem.MusicLoopCatalog
+  ranges:
+  - clip: {fileID: 8300000, guid: c15cbe1ed0642904198d3dcf7097962c, type: 3}
+    startTime: 0.033
+    endTime: 35.18
+  - clip: {fileID: 8300000, guid: 600e9ab2303b68e4c8ae64ebd2f15e88, type: 3}
+    startTime: 1.1
+    endTime: 90
+  - clip: {fileID: 8300000, guid: 06bdde59b0c552a4f8ccf3e6be1dad1b, type: 3}
+    startTime: 0
+    endTime: 132.46
+  - clip: {fileID: 8300000, guid: 6e89979fc28e8434f955edf8fa659d28, type: 3}
+    startTime: 0.01
+    endTime: 12.985
+  - clip: {fileID: 8300000, guid: 8129ebcd19fe8674db5b73ae748b7b46, type: 3}
+    startTime: 0.034
+    endTime: 67.02
+  - clip: {fileID: 8300000, guid: 98e9b0905b073c34787fb65c8c1d1cc6, type: 3}
+    startTime: 0.021
+    endTime: 33.94
+  - clip: {fileID: 8300000, guid: 2cf3b2e20096153479745cf7672b2d3a, type: 3}
+    startTime: 5.9
+    endTime: 267.38
+  - clip: {fileID: 8300000, guid: fc29d87cd41dc4847807804293e7120f, type: 3}
+    startTime: 0.049
+    endTime: 41.78
+  - clip: {fileID: 8300000, guid: 09b5d83f1f06b2447b47a4a4667729f6, type: 3}
+    startTime: 0.032
+    endTime: 58.94

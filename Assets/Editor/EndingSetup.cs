@@ -92,7 +92,7 @@ public static class EndingSetup
         Animate(boss, GlassShatterUnitsPerPixel, BreathePpu, "breathe",
             ("breathe", breathe, BreatheMs.Select(ms => ms / 1000f).ToArray(), true, null),
             ("dust", dust, DustMs.Select(ms => ms / 1000f).ToArray(), false, null));
-        var merged = NewActor("ABMerged", "AB", parent, index++, redIdle[0], Vector2.zero, new Vector2(0.5f, 0.5f));
+        var merged = NewActor("ABMerged", "B", parent, index++, redIdle[0], Vector2.zero, new Vector2(0.5f, 0.5f));
         //B and A take turns, every 0.14 s (the old ending's flicker), then faster and faster until they come apart
         var split = new List<Sprite>();
         var splitSeconds = new List<float>();

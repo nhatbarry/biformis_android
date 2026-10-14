@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using CaptainPinkTurd.AudioSystem;
 using CaptainPinkTurd.Core.Localization;
 using CaptainPinkTurd.Scene.Story;
 using NUnit.Framework;
@@ -31,7 +32,6 @@ namespace CaptainPinkTurd.Story.Tests
         {
             ["bg"] = new[] { "white", "black", "hospital", "past" },
             ["fx"] = new[] { "shake", "flash", "red", "fade_black", "fade_white", "fade_in" },
-            ["sfx"] = new[] { "beep", "stop", "thud" },
             ["layout"] = new[] { "top", "bottom" },
             ["music"] = new[] { "mo_dau", "phong_trang", "hoi_tuong_1", "sau_man_3_bs_xuat_hien", "benh_vien", "dua_hop", "hoi_tuong_2", "ending", "stop" },
         };
@@ -121,7 +121,7 @@ namespace CaptainPinkTurd.Story.Tests
             Assert.Contains(FormattableString.Invariant($"move:BossEnd:{boss.x},{boss.y}"), tags, $"{inkPath}: {string.Join(" ", tags)}");
             Assert.Contains(FormattableString.Invariant($"move:ABMerged:{player.x},{player.y}"), tags, $"{inkPath}: {string.Join(" ", tags)}");
 
-            //five lines each for the boss and A&B, taking turns, then A calls B home
+            //the boss and B finish their conversation, then A calls B home
             var speakers = new List<string> { tags.First(tag => tag.StartsWith("speaker:"))["speaker:".Length..] };
             Assert.IsNotEmpty(first.Trim());
             while (story.canContinue)
@@ -129,7 +129,7 @@ namespace CaptainPinkTurd.Story.Tests
                 if (story.Continue().Trim().Length > 0)
                     speakers.Add(story.currentTags.First(tag => tag.StartsWith("speaker:"))["speaker:".Length..]);
             }
-            var expected = Enumerable.Range(0, 10).Select(i => i % 2 == 0 ? "Villain" : "AB").Append("A");
+            var expected = new[] { "Villain", "Villain", "B", "B", "B", "B", "Villain", "B", "B", "Villain", "A" };
             CollectionAssert.AreEqual(expected, speakers, $"{inkPath}: speakers {string.Join(", ", speakers)}");
         }
 
@@ -269,7 +269,7 @@ namespace CaptainPinkTurd.Story.Tests
             var expected = new (string speaker, string text)[]
             {
                 ("A", congratulations), ("Mom", congratulations), ("Doctor", congratulations), ("Zoro", congratulations),
-                ("Usagi", "Unaa~"), ("Reaper", "grrr"), ("TeenB", congratulations), ("CaptainPinkTurd", "prrfffff"),
+                ("Usagi", "Unaa~"), ("Reaper", "grrr"), ("TeenB", congratulations), ("CaptainPinkTurd", "*fart*"),
                 ("B", english ? "Thank you, everyone" : "cảm ơn mọi người"),
                 ("A", english ? "Brother...?" : "Anh...?"), ("B", english ? "Yeah. I'm home." : "Ừ. Anh về rồi.")
             };
@@ -458,6 +458,14 @@ namespace CaptainPinkTurd.Story.Tests
                     Assert.That(music.Length is >= 1 and <= 3 && music.Skip(1).All(IsNumber),
                         $"{knot}: music tag '{tag}' is not music:name[:start[:end]]");
                     Assert.Contains(music[0], StageTagValues["music"], $"{knot}: unknown music value {music[0]}");
+                    break;
+                case "sfx":
+                    var sound = value.Split(':');
+                    Assert.That(sound.Length is >= 1 and <= 3 && sound.Skip(1).All(IsNumber),
+                        $"{knot}: sound tag '{tag}' is not sfx:name[:delay[:gain]]");
+                    Assert.IsTrue(sound[0] is "beep" or "stop" ||
+                        (StorySfx.Catalog && StorySfx.Catalog.Find(sound[0]) != null),
+                        $"{knot}: unknown sound cue {sound[0]}");
                     break;
                 default:
                     Assert.IsTrue(StageTagValues.ContainsKey(key), $"{knot}: unknown tag {tag}");

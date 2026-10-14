@@ -100,6 +100,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private MaterialPropertyBlock flash;
         private static readonly int HitEffectAmount = Shader.PropertyToID("_HitEffectAmount");
         private BossHazards hazards;
+        private AudioSource actionSfxSource;
         private Coroutine live;
         private float nextDamageTime;
         private readonly List<GameObject> minions = new(5);
@@ -148,6 +149,7 @@ namespace CaptainPinkTurd.Game.Enemy
             body = GetComponent<Rigidbody2D>();
             flash = new MaterialPropertyBlock();
             hazards = GetComponent<BossHazards>();
+            actionSfxSource = StorySfx.CreateSource(gameObject, "Boss Action SFX");
             gameObject.layer = LayerMask.NameToLayer("Enemy");
             hitbox.isTrigger = true;
             // Like Luneblade: a broad damage trigger plus a solid feet collider. The trigger reaches beyond
@@ -183,6 +185,7 @@ namespace CaptainPinkTurd.Game.Enemy
         private void OnDisable()
         {
             StopAllCoroutines();
+            if (actionSfxSource) actionSfxSource.Stop();
             shakeTween?.Kill();
             flashTween?.Kill();
             SetFlash(0f);
@@ -207,6 +210,7 @@ namespace CaptainPinkTurd.Game.Enemy
                 if (CurrentHealth > 0) return;
                 Phase = EPhase.Dead;
                 if (live != null) StopCoroutine(live);
+                if (actionSfxSource) actionSfxSource.Stop();
                 hazards.ClearHazards();
                 hitbox.enabled = false;
                 feet.enabled = false;
@@ -340,6 +344,7 @@ namespace CaptainPinkTurd.Game.Enemy
             do { CurrentPattern = (EPattern)Random.Range(0, 3); } while (previousPattern == CurrentPattern);
             previousPattern = CurrentPattern;
             Clip clip = walking ? walkThrow : cast;
+            if (!walking) StorySfx.Play(actionSfxSource, "summon", 0.55f);
             int loops = Random.Range(walkLoops.x, walkLoops.y + 1);
             FacePlayer();
             float nextShot = Time.time + 0.25f;
@@ -368,6 +373,7 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private void FireVolley(Vector2 aim, int volley)
         {
+            int emittedBefore = hazards.TotalProjectilesEmitted;
             EColor color = volley % 2 == 0 ? EColor.Red : EColor.Blue;
             Vector2 origin = (Vector2)transform.position + Vector2.up * 0.25f;
             if (CurrentPattern == EPattern.LongStream)
@@ -388,6 +394,9 @@ namespace CaptainPinkTurd.Game.Enemy
                         hazards.FireProjectile(origin, Rotate(aim, group * 72f + spoke * 5.5f + volley * 6f),
                             group % 2 == 0 ? color : color == EColor.Red ? EColor.Blue : EColor.Red, projectileSpeed * 0.9f);
             }
+            // A dense barrage is one release cue, even when it creates dozens of bullets.
+            if (hazards.TotalProjectilesEmitted > emittedBefore)
+                StorySfx.Play(actionSfxSource, "volley", 0.45f);
         }
 
         private static Vector2 Rotate(Vector2 vector, float degrees)
@@ -399,6 +408,7 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private IEnumerator Levitate()
         {
+            StorySfx.Play(actionSfxSource, "charge", 0.55f);
             for (int frame = 0; frame < levitate.frames.Length; frame++)
             {
                 SetLift(frame);
@@ -449,10 +459,13 @@ namespace CaptainPinkTurd.Game.Enemy
 
         private IEnumerator IceIntermission()
         {
+            if (actionSfxSource) actionSfxSource.Stop();
+            StorySfx.Play(actionSfxSource, "ice_freeze");
             FacePlayer();
             int hold = Mathf.Clamp(frozenFrame, 0, iceShatter.frames.Length - 2);
             for (int frame = 0; frame <= hold; frame++) yield return Show(iceShatter, frame);
             Phase = EPhase.Frozen;
+            StorySfx.Play(actionSfxSource, "summon", 0.7f);
             // Siblings, never children: projectile hierarchy damage lookups must not reach the boss.
             for (int i = 0; i < summonPrefabs.Length; i++)
             {
@@ -485,6 +498,10 @@ namespace CaptainPinkTurd.Game.Enemy
             int first = skipIce ? 0 : Mathf.Clamp(frozenFrame, 0, iceShatter.frames.Length - 2) + 1;
             for (int frame = first; frame < iceShatter.frames.Length; frame++)
             {
+                if (frame == 0) StorySfx.Play(actionSfxSource, "ice_freeze"); // editor preview plays the whole clip
+                if (frame == 3) StorySfx.Play(actionSfxSource, "ice_crack");
+                if (frame == 5) StorySfx.Play(actionSfxSource, "ice_break");
+                if (frame == 6) StorySfx.Play(actionSfxSource, "reveal", 0.85f);
                 if (frame == 6) Phase = EPhase.Revealing; //pack's ChangeBossPhase: frame 7 (1240 ms)
                 yield return Show(iceShatter, frame);
             }

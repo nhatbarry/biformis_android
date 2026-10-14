@@ -1522,7 +1522,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184, y: 24}
+  m_AnchoredPosition: {x: -212, y: 24}
   m_SizeDelta: {x: 100, y: 116}
   m_Pivot: {x: 0.6400001, y: 0.6551724}
 --- !u!114 &262170599
@@ -2969,7 +2969,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 28, y: 52}
   m_Pivot: {x: 5.142857, y: 0.46153843}
 --- !u!114 &484307718
@@ -10057,7 +10057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: StorySystem::CaptainPinkTurd.Story.Cutscene.StageActor
   actorId: ABMerged
-  speakerId: AB
+  speakerId: B
   tintedGraphics:
   - {fileID: 2028879184}
 --- !u!1 &2038824557

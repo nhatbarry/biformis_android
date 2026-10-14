@@ -637,7 +637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Core::CaptainPinkTurd.Core.Utilities.TypewriterText
   textUI: {fileID: 5577952809515232217}
   typingSpeed: 0.03
-  defaultAudioInfo: {fileID: 11400000, guid: 606e1355d6150d14f83fed8b798dc08c, type: 2}
+  defaultAudioInfo: {fileID: 11400000, guid: bf8878396882d73418014f8ae478e562, type: 2}
   audioInfos:
   - {fileID: 11400000, guid: 672c945b369c8604bb18c8d1426a6925, type: 2}
   - {fileID: 11400000, guid: 5e3384ca01afaf64fbf2d198e477a131, type: 2}

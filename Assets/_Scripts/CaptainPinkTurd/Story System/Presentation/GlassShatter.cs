@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CaptainPinkTurd.AudioSystem;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
@@ -314,12 +315,13 @@ namespace CaptainPinkTurd.Story.Presentation
 
         private IEnumerator Break(Image bossCopy)
         {
+            var source = StorySfx.CreateSource(gameObject, "Glass Break SFX");
+            source.ignoreListenerPause = true;
             if (settings.breakSfx)
             {
-                var source = gameObject.AddComponent<AudioSource>();
-                source.ignoreListenerPause = true;
                 source.PlayOneShot(settings.breakSfx);
             }
+            else StorySfx.Play(source, "glass_break");
             flash.color = new Color(1f, 1f, 1f, 0.85f);
             //the flash hides the boss taking its defeated pose
             ShowBossPose(bossCopy, 0);
